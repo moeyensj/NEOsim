@@ -4,15 +4,5 @@ neosim.sublime-project
 neosim.sublime-workspace
 fullsky5year.db
 .ipynb_checkpoints/
-nightly_noErr
-obshist_noErr
-tracklets_v0.5_noErr
-tracks_v0.5_noErr
-tracklets_v2.0_noErr
-tracks_v2.0_noErr
-nightly_withErr
-obshist_withErr
-tracklets_v0.5_withErr
-tracks_v0.5_withErr
-tracklets_v2.0_withErr
-tracks_v2.0_withErr
+nightly*/
+obshist*/
