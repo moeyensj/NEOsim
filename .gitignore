@@ -6,3 +6,4 @@ fullsky5year.db
 .ipynb_checkpoints/
 nightly*/
 obshist*/
+*.pyc
