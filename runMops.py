@@ -4,72 +4,100 @@ import os
 import sys
 import subprocess
 
-WORKDIR = '/Users/joachim/repos/neosim/test/'
-
-# Variables
-vmax = 2.0
-vmin = 0.0
-raTol = 0.002
-decTol = 0.002
-angTol = 5
-velTol = 0.05
+from MopsParameters import MopsParameters
+from MopsTracker import MopsTracker
 
 # File suffixes
 diaSourceSuffix = '.dias'
 trackletSuffix = '.tracklet'
+trackletByIndSuffix = trackletSuffix + '.byInd'
 collapsedSuffix = trackletSuffix + '.collapsed'
 purifiedSuffix = collapsedSuffix + '.purified'
 trackSuffix = '.tracks'
 
+# Directories
+trackletsDir = 'tracklets' 
+collapsedDir = 'trackletsCollapsed'
+purifyDir = 'trackletsPurified' 
+tracksDir = 'tracks'
 
-def directoryBuilder(insideGitRepo=False):
-    
-    trackletsDir = 'tracklets_v%s/' % (str(vmax))
-    collapsedDir = 'trackletsCollapsed_v%s/' % (str(vmax))
-    purifyDir = 'trackletsPurified_v%s/' % (str(vmax))
-    tracksDir = 'tracks_v%s/' % (str(vmax))
-    
+def directoryBuilder(name):
+
+    runDir = name + '/'
+
+    try:
+        os.stat(runDir)
+        print runDir + ' already exists.'
+    except:
+        os.mkdir(runDir)
+        print 'Created %s directory.' % (runDir)
+
     dirs = [trackletsDir, collapsedDir, purifyDir, tracksDir]
-    
+   
     for d in dirs:
         try:
-            os.stat(WORKDIR + d)
-            print d + ' already exists'
+            os.stat(runDir +  d)
+            print d + ' already exists.'
         except:
-            os.mkdir(WORKDIR + d)
-            print 'Created %s directory.' % (d)
+            os.mkdir(runDir + d)
+            print '\tCreated %s directory.' % (d)
             
-    return dirs
+    return runDir, dirs
 
-def runFindTracklets(diaSources,  nightlyDir, trackletsDir):
+def runFindTracklets(diaSourceDir, runDir):
 
-	for diaSource in diaSources:
+    diaSources = os.listdir(diaSourceDir)
 
-		trackletsOut = WORKDIR + trackletsDir + diaSource + trackletSuffix
-		diaSourceIn = WORKDIR + nightlyDir + diaSource
-		call = ['findTracklets', '-i', diaSourceIn, '-o', trackletsOut, '-v', str(vmax), '-m', str(vmin)]
-		subprocess.call(call)
+    for diaSource in diaSources:
 
-	tracklets = os.listdir(WORKDIR + trackletsDir)
+        trackletsOut = runDir + trackletsDir + diaSource + trackletSuffix
+        diaSourceIn = diaSourceDir + diaSource
 
-	return tracklets
+        call = ['findTracklets', '-i', diaSourceIn, '-o', trackletsOut, '-v', str(MopsParameters.vmax), '-m', str(MopsParameters.vmin)]
+        subprocess.call(call)
+
+    return 
+
 
 if __name__=="__main__":
 
-	nightlyDir = sys.argv[1]
+    import argparse
 
-	diaSources = os.listdir(nightlyDir)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("diaSourcesDir", help="Directory containing nightly diasources (.dias)")
+    parser.add_argument("name", help="Name of this MOPS run")
+    #parser.add_argument("-p", "--parameters", type=list, help="array of mops parameters, defaults to values set in MopsParameters.py")
+    args = parser.parse_args()
 
-	print diaSources
+    name = args.name
+    diaSourceDir = args.diaSourcesDir
 
-	dirs = directoryBuilder()
+    # Initialize MopsParameters and MopsTracker
+    parameters = MopsParameters(velocity_max=None, 
+                velocity_min=None, 
+                ra_tolerance=None,
+                dec_tolerance=None,
+                angular_tolerance=None,
+                velocity_tolerance=None)
+    tracker = MopsTracker(name, parameters)
 
-	tracklets = runFindTracklets(diaSources, nightlyDir, dirs[0])
+    # Build directory structure
+    runDir, dirs = directoryBuilder(name)
+
+    # Run findTracklets
+    tracklets = runFindTracklets(diaSourceDir, runDir)
+    tracker.ranFindTracklets = True
 
 
 
 
 
-		
-		
+
+
+
+
+
+
+        
+        
 
