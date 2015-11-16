@@ -129,12 +129,12 @@ class MopsTracker(object):
         self._ranCollapseTracklets = value
 
     @property
-    def ranPurifiedTracklets(self):
+    def ranPurifyTracklets(self):
         return self._ranPurifyTracklets
 
-    @ranPurifiedTracklets.setter
-    def ranPurifiedTracklets(self, value):
-        self._ranPurifiedTracklets = value
+    @ranPurifyTracklets.setter
+    def ranPurifyTracklets(self, value):
+        self._ranPurifyTracklets = value
 
     @property
     def ranLinkTracks(self):
