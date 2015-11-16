@@ -7,7 +7,7 @@ class DefaultMopsParameters:
     ra_tolerance = 0.002
     dec_tolerance = 0.002
     angular_tolerance = 5
-    velocity_tolerance= 0.05
+    velocity_tolerance = 0.05
 
 class MopsParameters(object):
     def __init__(self, velocity_max=None, 
@@ -91,4 +91,14 @@ class MopsParameters(object):
     @vTol.setter
     def vTol(self, value):
         self._vTol = value
+
+    def summary(self):
+        print 'Current Parameter Values:'
+
+        print '\tMaximum velocity:          %s' % (self._vmax)
+        print '\tMinimum velocity:          %s' % (self._vmin)
+        print '\tRight Ascension tolerance: %s' % (self._raTol)
+        print '\tDeclination tolerance:     %s' % (self._decTol)
+        print '\tAngular tolerance:         %s' % (self._angTol)
+        print '\tVelocity tolerance:        %s' % (self._vTol)
     
