@@ -4,7 +4,7 @@ __all__ = ["MopsTracker"]
 
 class MopsTracker(object):
 
-    def __init__(self, name):
+    def __init__(self, name, parameters):
 
         self._diaSources = None
         self._tracklets = None
@@ -20,9 +20,24 @@ class MopsTracker(object):
         self._tracksDir = None
 
         self._ranFindTracklets = False
+        self._ranIdsToIndices = False
         self._ranCollapseTracklets = False
         self._ranPurifyTracklets = False
-        self._ranLinkTracks = False
+        self._ranIndiciesToIds = False
+        self._ranMakeLinkTrackletsInputByNight = False
+        self._ranLinkTracklets = False
+
+        self._vmax = None
+        self._vmin = None
+        self._raTol = None
+        self._decTol = None
+        self._angTol = None
+        self._vTol = None
+
+        print '------- MOPS Tracker --------'
+        print 'Tracker initialized...'
+
+        self.readParameters(parameters)
 
     @property
     def diaSources(self):
@@ -121,6 +136,15 @@ class MopsTracker(object):
         self._ranFindTracklets = value
 
     @property
+    def ranIdsToIndices(self):
+        return self._ranIdsToIndices
+
+    @ranIdsToIndices.setter
+    def ranIdsToIndices(self, value):
+        self._ranIdsToIndices = value
+    
+
+    @property
     def ranCollapseTracklets(self):
         return self._ranCollapseTracklets
 
@@ -137,9 +161,102 @@ class MopsTracker(object):
         self._ranPurifyTracklets = value
 
     @property
-    def ranLinkTracks(self):
-        return self._ranLinkTracks
+    def ranIndicesToIds(self):
+        return self._ranIndicesToIds
+    
+    @ranIndicesToIds.setter
+    def ranIndicesToIds(self, value):
+        self._ranIndicesToIds = value
 
-    @ranLinkTracks.setter
-    def ranLinkTracks(self, value):
-        self._ranLinkTracks = value
+    @property
+    def ranMakeLinkTrackletsInputsByNight(self):
+        return self._ranMakeLinkTrackletsInputsByNight
+
+    @ranMakeLinkTrackletsInputsByNight.setter
+    def ranMakeLinktTrackletsInputsByNight(self, value):
+        self._ranMakeLinkTrackletsInputsByNight = value
+    
+    @property
+    def ranLinkTracklets(self):
+        return self._ranLinkTracklets
+
+    @ranLinkTracklets.setter
+    def ranLinkTracklets(self, value):
+        self._ranLinkTracklets = value
+
+    @property
+    def vmax(self):
+        return self._vmax
+    
+    @vmax.setter
+    def vmax(self, value):
+        self._vmax = value
+
+    @property
+    def vmin(self):
+        return self._vmin
+
+    @vmin.setter
+    def vmin(self, value):
+        self._vmin = value 
+
+    @property
+    def raTol(self):
+        return self._raTol
+
+    @raTol.setter
+    def raTol(self, value):
+        self._raTol = value
+
+    @property
+    def decTol(self):
+        return self._decTol
+
+    @decTol.setter
+    def decTol(self, value):
+        self._decTol = value
+
+    @property
+    def angTol(self):
+        return self._angTol
+
+    @angTol.setter
+    def angTol(self, value):
+        self._angTol = value
+
+    @property
+    def vTol(self):
+        return self._vTol
+
+    @vTol.setter
+    def vTol(self, value):
+        self._vTol = value
+    
+    def readParameters(self, parameters):
+        print 'Reading Parameter Values...'
+
+        self.vmax = parameters.vmax
+        print '\tMaximum velocity:          %s' % (parameters._vmax)
+        self.vmin = parameters.vmin
+        print '\tMinimum velocity:          %s' % (parameters._vmin)
+        self.raTol = parameters.raTol
+        print '\tRight Ascension tolerance: %s' % (parameters._raTol)
+        self.decTol = parameters.decTol
+        print '\tDeclination tolerance:     %s' % (parameters._decTol)
+        self.angTol = parameters.angTol
+        print '\tAngular tolerance:         %s' % (parameters._angTol)
+        self.vTol = parameters.vTol
+        print '\tVelocity tolerance:        %s' % (parameters._vTol)
+
+    def status(self):
+
+        print "Current status:"
+        print "\tfindTracklets:      %s" % (self._ranFindTracklets)
+        print "\tcollapseTracklets:  %s" % (self._ranCollapseTracklets)
+        print "\tpurifyTracklets:    %s" % (self._ranPurifyTracklets)
+        print "\tlinkTracklets:      %s" % (self._ranLinkTracklets)
+
+        return
+
+
+
