@@ -92,7 +92,7 @@ class MopsParameters(object):
     def vTol(self, value):
         self._vTol = value
 
-    def summary(self):
+    def info(self):
         print 'Current Parameter Values:'
 
         print '\tMaximum velocity:          %s' % (self._vmax)
