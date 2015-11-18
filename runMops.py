@@ -14,14 +14,19 @@ trackletByIndSuffix = trackletSuffix + '.byInd'
 collapsedSuffix = trackletSuffix + '.collapsed'
 purifiedSuffix = collapsedSuffix + '.purified'
 trackSuffix = '.tracks'
+byIndexSuffix = '.byIndices'
+byIdSuffix = '.byIds'
 
 # Directories
-trackletsDir = 'tracklets' 
-collapsedDir = 'trackletsCollapsed'
-purifyDir = 'trackletsPurified' 
-tracksDir = 'tracks'
+trackletsDir = 'tracklets/' 
+collapsedDir = 'trackletsCollapsed/'
+purifyDir = 'trackletsPurified/' 
+trackletsByNightDir = 'trackletsByNight/'
+tracksDir = 'tracks/'
 
 def directoryBuilder(name):
+
+    print '---- directoryBuilder ----'
 
     runDir = name + '/'
 
@@ -32,7 +37,8 @@ def directoryBuilder(name):
         os.mkdir(runDir)
         print 'Created %s directory.' % (runDir)
 
-    dirs = [trackletsDir, collapsedDir, purifyDir, tracksDir]
+    dirs = [trackletsDir, collapsedDir, purifyDir, trackletsByNightDir, tracksDir]
+    dirsOut = []
    
     for d in dirs:
         try:
@@ -41,22 +47,96 @@ def directoryBuilder(name):
         except:
             os.mkdir(runDir + d)
             print '\tCreated %s directory.' % (d)
+
+        dirsOut.append(runDir +  d)
+
+    print ''
             
-    return runDir, dirs
+    return dirsOut
 
-def runFindTracklets(diaSourceDir, runDir):
+def runFindTracklets(diaSources, parameters, outDir):
 
-    diaSources = os.listdir(diaSourceDir)
+    print '---- findTracklets ----'
+
+    tracklets = []
 
     for diaSource in diaSources:
 
-        trackletsOut = runDir + trackletsDir + diaSource + trackletSuffix
-        diaSourceIn = diaSourceDir + diaSource
+        trackletsOut = outDir + diaSource + trackletSuffix
 
-        call = ['findTracklets', '-i', diaSourceIn, '-o', trackletsOut, '-v', str(MopsParameters.vmax), '-m', str(MopsParameters.vmin)]
+        call = ['findTracklets', '-i', diaSource, '-o', trackletsOut, '-v', str(parameters.vmax), '-m', str(parameters.vmin)]
         subprocess.call(call)
 
+        tracklets.append(trackletsOut)
+
+    print ''
+
+    return tracklets
+
+def runIdsToIndices(tracklets, diaSources, diaSourceDir):
+
+    print '---- idsToIndices.py ----'
+
+    byIndex = []
+
+    for tracklet, diaSource in zip(tracklets, diaSources):
+        diaSource = diaSourceDir + '/' + diaSource
+        byIndexOut = tracklet + byIndexSuffix
+
+        script = str(os.getenv('MOPS_DIR')) + '/idsToIndices.py'
+        call = ['python', script, tracklet, diaSource, byIndexOut]
+        subprocess.call(call)
+
+        byIndex.append(byIndexOut)
+
+    print ''
+
+    return byIndex
+
+def runCollapseTracklets():
+
     return 
+
+def runPurifyCollapseTracklets():
+
+    return
+
+def runIndicesToIds(tracklets, diaSources, diaSourceDir):
+
+    print '---- indicesToIds.py ----'
+
+    byId = []
+
+    for tracklet, diaSource in zip(tracklets, diaSources):
+
+        diaSource = diaSourceDir + '/' + diaSource
+        byIdOut = tracklet + byIdSuffix
+
+        script = str(os.getenv('MOPS_DIR')) + '/indicesToIds.py'
+        call = ['python', script, tracklet, diaSource, byIdOut]
+        subprocess.call(call)
+
+        byId.append(byIdOut)
+
+    print ''
+
+    return byId
+
+def runMakeLinkTrackletsInputByNight(windowsize, diaSourcesDir, trackletsDir, outDir):
+
+    print '---- makeLinkTrackletsInput_byNight.py ----'
+    
+    script = str(os.getenv('MOPS_DIR')) + '/makeLinkTrackletsInput_byNight.py'
+    call = ['python', script, str(windowsize), diaSourcesDir, trackletsDir, outDir]
+    subprocess.call(call)
+
+    print ''
+
+    return
+
+def runLinkTracklets():
+
+    return
 
 
 if __name__=="__main__":
@@ -82,14 +162,28 @@ if __name__=="__main__":
     tracker = MopsTracker(name, parameters)
 
     # Build directory structure
-    runDir, dirs = directoryBuilder(name)
+    dirs = directoryBuilder(name)
+
+    # Find DIASources
+    diaSources = os.listdir(diaSourceDir)
 
     # Run findTracklets
-    tracklets = runFindTracklets(diaSourceDir, runDir)
+    tracklets = runFindTracklets(diaSources, parameters, dirs[0])
     tracker.ranFindTracklets = True
 
+    # Run idsToIndices
+    trackletsByIndex = runIdsToIndices(tracklets, diaSources, diaSourceDir)
+    tracker.ranIdsToIndices = True
 
+    # Run indicesToIds
+    trackletsById = runIndicesToIds(trackletsByIndex, diaSources, diaSourceDir)
+    tracker.ranIndicesToIds = True
 
+    # Run makeLinkTrackletsInputByNight
+    runMakeLinkTrackletsInputByNight(15, diaSourceDir, dirs[0], dirs[3])
+    tracker.ranMakeLinkTrackletsInputByNight = True
+
+    tracker.status()
 
 
 
