@@ -135,9 +135,6 @@ def runMakeLinkTrackletsInputByNight(windowsize, diaSourcesDir, trackletsDir, ou
     ids = glob.glob(outDir + '*.ids')
     dets = glob.glob(outDir + '*.dets')
 
-    print ids
-    print dets
-
     print ''
 
     return dets, ids
@@ -150,11 +147,7 @@ def runLinkTracklets(dets, ids, outDir):
 
     for detIn, idIn in zip(dets,ids):
 
-        print detIn
-        print idIn
-
-        outFile = outDir + detIn + trackSuffix
-        print outFile
+        outFile = outDir + 'tracks'
         call = ['linkTracklets', '-d', detIn, '-t', idIn,'-o', outFile]
         subprocess.call(call)
 
