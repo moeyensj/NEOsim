@@ -23,6 +23,7 @@ class MopsTracker(object):
         self._ranIdsToIndices = False
         self._ranCollapseTracklets = False
         self._ranPurifyTracklets = False
+        self._ranIdsToIndices = False
         self._ranIndiciesToIds = False
         self._ranMakeLinkTrackletsInputByNight = False
         self._ranLinkTracklets = False
@@ -38,6 +39,8 @@ class MopsTracker(object):
         print 'Tracker initialized...'
 
         self.readParameters(parameters)
+
+        print ''
 
     @property
     def diaSources(self):
@@ -143,7 +146,6 @@ class MopsTracker(object):
     def ranIdsToIndices(self, value):
         self._ranIdsToIndices = value
     
-
     @property
     def ranCollapseTracklets(self):
         return self._ranCollapseTracklets
@@ -161,6 +163,14 @@ class MopsTracker(object):
         self._ranPurifyTracklets = value
 
     @property
+    def ranIdsToIndices(self):
+        return self._ranIdsToIndices
+
+    @ranIdsToIndices.setter
+    def ranIdsToIndices(self, value):
+        self._ranIdsToIndices = value    
+
+    @property
     def ranIndicesToIds(self):
         return self._ranIndicesToIds
     
@@ -169,12 +179,12 @@ class MopsTracker(object):
         self._ranIndicesToIds = value
 
     @property
-    def ranMakeLinkTrackletsInputsByNight(self):
-        return self._ranMakeLinkTrackletsInputsByNight
+    def ranMakeLinkTrackletsInputByNight(self):
+        return self._ranMakeLinkTrackletsInputByNight
 
-    @ranMakeLinkTrackletsInputsByNight.setter
-    def ranMakeLinktTrackletsInputsByNight(self, value):
-        self._ranMakeLinkTrackletsInputsByNight = value
+    @ranMakeLinkTrackletsInputByNight.setter
+    def ranMakeLinkTrackletsInputByNight(self, value):
+        self._ranMakeLinkTrackletsInputByNight = value
     
     @property
     def ranLinkTracklets(self):
@@ -251,10 +261,13 @@ class MopsTracker(object):
     def status(self):
 
         print "Current status:"
-        print "\tfindTracklets:      %s" % (self._ranFindTracklets)
-        print "\tcollapseTracklets:  %s" % (self._ranCollapseTracklets)
-        print "\tpurifyTracklets:    %s" % (self._ranPurifyTracklets)
-        print "\tlinkTracklets:      %s" % (self._ranLinkTracklets)
+        print "\tfindTracklets:                     %s" % (self._ranFindTracklets)
+        print "\tidsToIndices.py:                   %s" % (self._ranIdsToIndices)
+        print "\tcollapseTracklets:                 %s" % (self._ranCollapseTracklets)
+        print "\tpurifyTracklets:                   %s" % (self._ranPurifyTracklets)
+        print "\tindicesToIds.py:                   %s" % (self._ranIndicesToIds)        
+        print "\tmakeLinkTrackletsInputByNight.py:  %s" % (self._ranMakeLinkTrackletsInputByNight)
+        print "\tlinkTracklets:                     %s" % (self._ranLinkTracklets)
 
         return
 
