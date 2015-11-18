@@ -157,27 +157,49 @@ def runLinkTracklets(dets, ids, outDir):
 
     return tracks
 
-
-if __name__=="__main__":
+def runArgs():
 
     import argparse
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("diaSourcesDir", help="Directory containing nightly diasources (.dias)")
-    parser.add_argument("name", help="Name of this MOPS run")
-    #parser.add_argument("-p", "--parameters", type=list, help="array of mops parameters, defaults to values set in MopsParameters.py")
+    defaultParameters = MopsParameters()
+
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    parser.add_argument("diaSourcesDir", help="directory containing nightly diasources (.dias)")
+    parser.add_argument("name", help="name of this MOPS run, used as top directory folder")
+    parser.add_argument("-vmax", "--velocity_max", metavar="maximum velocity", default=defaultParameters.vmax, 
+        help="Maximum velocity (used in findTracklets)")
+    parser.add_argument("-vmin", "--velocity_min", metavar="minimum velocity", default=defaultParameters.vmin, 
+        help="Minimum velocity (used in findTracklets)")
+    parser.add_argument("-raTol", "--ra_tolerance", metavar="ra tolerance", default=defaultParameters.raTol, 
+        help="RA tolerance (used in collapseTracklets)")
+    parser.add_argument("-decTol", "--dec_tolerance", metavar="dec tolerance", default=defaultParameters.decTol, 
+        help="Dec tolerance (used in collapseTracklets)")
+    parser.add_argument("-angTol", "--angular_tolerance", metavar="angular tolerance", default=defaultParameters.angTol,
+        help="Angular tolerance (used in collapseTracklets)")
+    parser.add_argument("-vTol", "--velocity_tolerance", metavar="velocity tolerance", default=defaultParameters.vTol, 
+        help="Velocity tolerance (used in collapseTracklets)")
+
     args = parser.parse_args()
+
+    return args
+
+if __name__=="__main__":
+
+    # Run command line arg parser and retrieve args
+    args = runArgs()
 
     name = args.name
     diaSourceDir = args.diaSourcesDir
 
     # Initialize MopsParameters and MopsTracker
-    parameters = MopsParameters(velocity_max=None, 
-                velocity_min=None, 
-                ra_tolerance=None,
-                dec_tolerance=None,
-                angular_tolerance=None,
-                velocity_tolerance=None)
+    parameters = MopsParameters(velocity_max=args.velocity_max, 
+                velocity_min=args.velocity_min, 
+                ra_tolerance=args.ra_tolerance,
+                dec_tolerance=args.dec_tolerance,
+                angular_tolerance=args.angular_tolerance,
+                velocity_tolerance=args.velocity_tolerance)
+
     tracker = MopsTracker(name, parameters)
 
     # Build directory structure
@@ -206,7 +228,7 @@ if __name__=="__main__":
     tracks = runLinkTracklets(dets, ids, dirs[4])
     tracker.ranLinkTracklets = True
 
-    #tracker.status()
+    tracker.status()
 
 
 
