@@ -3,6 +3,7 @@
 import os
 import sys
 import subprocess
+import glob
 
 from MopsParameters import MopsParameters
 from MopsTracker import MopsTracker
@@ -54,7 +55,7 @@ def directoryBuilder(name):
             
     return dirsOut
 
-def runFindTracklets(diaSources, parameters, outDir):
+def runFindTracklets(diaSources, diaSourceDir, parameters, outDir):
 
     print '---- findTracklets ----'
 
@@ -63,9 +64,10 @@ def runFindTracklets(diaSources, parameters, outDir):
     for diaSource in diaSources:
 
         trackletsOut = outDir + diaSource + trackletSuffix
+        diaSourceIn = diaSourceDir + diaSource
 
-        call = ['findTracklets', '-i', diaSource, '-o', trackletsOut, '-v', str(parameters.vmax), '-m', str(parameters.vmin)]
-        subprocess.call(call)
+        call = ['findTracklets', '-i', diaSourceIn, '-o', trackletsOut, '-v', str(parameters.vmax), '-m', str(parameters.vmin)]
+        subprocess.call(call, stdin=None, stdout=None, stderr=None, shell=False)
 
         tracklets.append(trackletsOut)
 
@@ -130,13 +132,37 @@ def runMakeLinkTrackletsInputByNight(windowsize, diaSourcesDir, trackletsDir, ou
     call = ['python', script, str(windowsize), diaSourcesDir, trackletsDir, outDir]
     subprocess.call(call)
 
+    ids = glob.glob(outDir + '*.ids')
+    dets = glob.glob(outDir + '*.dets')
+
+    print ids
+    print dets
+
     print ''
 
-    return
+    return dets, ids
 
-def runLinkTracklets():
+def runLinkTracklets(dets, ids, outDir):
 
-    return
+    print '---- linkTracklets ----'
+
+    tracks = []
+
+    for detIn, idIn in zip(dets,ids):
+
+        print detIn
+        print idIn
+
+        outFile = outDir + detIn + trackSuffix
+        print outFile
+        call = ['linkTracklets', '-d', detIn, '-t', idIn,'-o', outFile]
+        subprocess.call(call)
+
+        tracks.append(outFile)
+
+    print ''
+
+    return tracks
 
 
 if __name__=="__main__":
@@ -168,7 +194,7 @@ if __name__=="__main__":
     diaSources = os.listdir(diaSourceDir)
 
     # Run findTracklets
-    tracklets = runFindTracklets(diaSources, parameters, dirs[0])
+    tracklets = runFindTracklets(diaSources, diaSourceDir, parameters, dirs[0])
     tracker.ranFindTracklets = True
 
     # Run idsToIndices
@@ -180,13 +206,14 @@ if __name__=="__main__":
     tracker.ranIndicesToIds = True
 
     # Run makeLinkTrackletsInputByNight
-    runMakeLinkTrackletsInputByNight(15, diaSourceDir, dirs[0], dirs[3])
+    dets, ids = runMakeLinkTrackletsInputByNight(15, diaSourceDir, dirs[0], dirs[3])
     tracker.ranMakeLinkTrackletsInputByNight = True
 
-    tracker.status()
+    # Run linkTracklets
+    tracks = runLinkTracklets(dets, ids, dirs[4])
+    tracker.ranLinkTracklets = True
 
-
-
+    #tracker.status()
 
 
 
