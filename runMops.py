@@ -14,7 +14,7 @@ trackletSuffix = '.tracklet'
 trackletByIndSuffix = trackletSuffix + '.byInd'
 collapsedSuffix = trackletSuffix + '.collapsed'
 purifiedSuffix = collapsedSuffix + '.purified'
-trackSuffix = '.tracks'
+trackSuffix = '.track'
 byIndexSuffix = '.byIndices'
 byIdSuffix = '.byIds'
 
@@ -147,7 +147,10 @@ def runLinkTracklets(dets, ids, outDir):
 
     for detIn, idIn in zip(dets,ids):
 
-        outFile = outDir + 'tracks'
+        trackName = detIn.split('/')[2].split('.')[0]
+        outFile = outDir +  trackName + trackSuffix
+
+        print outFile
         call = ['linkTracklets', '-d', detIn, '-t', idIn,'-o', outFile]
         subprocess.call(call)
 
