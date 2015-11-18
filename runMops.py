@@ -82,7 +82,7 @@ def runIdsToIndices(tracklets, diaSources, diaSourceDir):
     byIndex = []
 
     for tracklet, diaSource in zip(tracklets, diaSources):
-        diaSource = diaSourceDir + '/' + diaSource
+        diaSource = diaSourceDir + diaSource
         byIndexOut = tracklet + byIndexSuffix
 
         script = str(os.getenv('MOPS_DIR')) + '/idsToIndices.py'
@@ -111,7 +111,7 @@ def runIndicesToIds(tracklets, diaSources, diaSourceDir):
 
     for tracklet, diaSource in zip(tracklets, diaSources):
 
-        diaSource = diaSourceDir + '/' + diaSource
+        diaSource = diaSourceDir + diaSource
         byIdOut = tracklet + byIdSuffix
 
         script = str(os.getenv('MOPS_DIR')) + '/indicesToIds.py'
