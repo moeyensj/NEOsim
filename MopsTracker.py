@@ -260,7 +260,7 @@ class MopsTracker(object):
 
     def status(self):
 
-        print "Current status:"
+        print "Current run status:"
         print "\tfindTracklets:                     %s" % (self._ranFindTracklets)
         print "\tidsToIndices.py:                   %s" % (self._ranIdsToIndices)
         print "\tcollapseTracklets:                 %s" % (self._ranCollapseTracklets)
