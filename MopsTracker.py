@@ -155,7 +155,7 @@ class MopsTracker(object):
         return self._purifiedTrackletsDir
     
     @purifiedTrackletsDir.setter
-    def purifedTrackletsDir(self, value):
+    def purifiedTrackletsDir(self, value):
         self._purifiedTrackletsDir = value
 
     @property
