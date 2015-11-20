@@ -23,7 +23,6 @@ class MopsTracker(object):
         self._ranIdsToIndices = False
         self._ranCollapseTracklets = False
         self._ranPurifyTracklets = False
-        self._ranIdsToIndices = False
         self._ranIndiciesToIds = False
         self._ranMakeLinkTrackletsInputByNight = False
         self._ranLinkTracklets = False
@@ -257,6 +256,8 @@ class MopsTracker(object):
         print '\tAngular tolerance:         %s' % (parameters._angTol)
         self.vTol = parameters.vTol
         print '\tVelocity tolerance:        %s' % (parameters._vTol)
+
+        return
 
     def status(self):
 
