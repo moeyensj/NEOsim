@@ -32,8 +32,8 @@ class MopsTracker(object):
         self._ranMakeLinkTrackletsInputByNight = False
         self._ranLinkTracklets = False
 
-        self._vmax = None
-        self._vmin = None
+        self._vMax = None
+        self._vMin = None
         self._raTol = None
         self._decTol = None
         self._angTol = None
@@ -239,20 +239,20 @@ class MopsTracker(object):
         self._ranLinkTracklets = value
 
     @property
-    def vmax(self):
-        return self._vmax
+    def vMax(self):
+        return self._vMax
     
-    @vmax.setter
-    def vmax(self, value):
-        self._vmax = value
+    @vMax.setter
+    def vMax(self, value):
+        self._vMax = value
 
     @property
-    def vmin(self):
-        return self._vmin
+    def vMin(self):
+        return self._vMin
 
-    @vmin.setter
-    def vmin(self, value):
-        self._vmin = value 
+    @vMin.setter
+    def vMin(self, value):
+        self._vMin = value 
 
     @property
     def raTol(self):
@@ -289,10 +289,10 @@ class MopsTracker(object):
     def readParameters(self, parameters):
         print 'Reading parameter values...'
 
-        self.vmax = parameters.vmax
-        print '\tMaximum velocity:          %s' % (parameters._vmax)
-        self.vmin = parameters.vmin
-        print '\tMinimum velocity:          %s' % (parameters._vmin)
+        self.vMax = parameters.vMax
+        print '\tMaximum velocity:          %s' % (parameters._vMax)
+        self.vMin = parameters.vMin
+        print '\tMinimum velocity:          %s' % (parameters._vMin)
         self.raTol = parameters.raTol
         print '\tRight Ascension tolerance: %s' % (parameters._raTol)
         self.decTol = parameters.decTol
@@ -316,6 +316,3 @@ class MopsTracker(object):
         print "\tlinkTracklets:                     %s" % (self._ranLinkTracklets)
 
         return
-
-
-

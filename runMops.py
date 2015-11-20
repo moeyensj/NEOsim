@@ -65,7 +65,7 @@ def runFindTracklets(diaSources, diaSourceDir, parameters, outDir):
         trackletsOut = outDir + diaSource + trackletSuffix
         diaSourceIn = diaSourceDir + diaSource
 
-        call = ['findTracklets', '-i', diaSourceIn, '-o', trackletsOut, '-v', str(parameters.vmax), '-m', str(parameters.vmin)]
+        call = ['findTracklets', '-i', diaSourceIn, '-o', trackletsOut, '-v', str(parameters.vMax), '-m', str(parameters.vMin)]
         subprocess.call(call, stdin=None, stdout=None, stderr=None, shell=False)
 
         tracklets.append(trackletsOut)
@@ -128,7 +128,8 @@ def runPurifyTracklets(collapsedTracklets, diaSources, diaSourceDir, parameters,
         trackletName = tracklet.split('/')[2]
         purifiedTracklet = outDir + trackletName + purifiedSuffix
 
-        call = ['purifyTracklets', '--detsFile', diaSource, '--pairsFile', tracklet, '--outFile', purifiedTracklet]
+        call = ['purifyTracklets', '--detsFile', diaSource, '--pairsFile', tracklet, 
+        '--maxRMS', str(parameters.rmsMax),'--outFile', purifiedTracklet]
         subprocess.call(call)
 
         purifiedTracklets.append(purifiedTracklet)
@@ -200,13 +201,16 @@ def runArgs():
 
     defaultParameters = MopsParameters()
 
-    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(
+        prog="runMops",
+        description="Given a set of nightly or obshist DIA sources, will run LSST's Moving Object Pipeline (MOPs)",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument("diaSourcesDir", help="directory containing nightly diasources (.dias)")
     parser.add_argument("name", help="name of this MOPS run, used as top directory folder")
-    parser.add_argument("-vmax", "--velocity_max", metavar="maximum velocity", default=defaultParameters.vmax, 
+    parser.add_argument("-vMax", "--velocity_max", metavar="maximum velocity", default=defaultParameters.vMax, 
         help="Maximum velocity (used in findTracklets)")
-    parser.add_argument("-vmin", "--velocity_min", metavar="minimum velocity", default=defaultParameters.vmin, 
+    parser.add_argument("-vMin", "--velocity_min", metavar="minimum velocity", default=defaultParameters.vMin, 
         help="Minimum velocity (used in findTracklets)")
     parser.add_argument("-raTol", "--ra_tolerance", metavar="ra tolerance", default=defaultParameters.raTol, 
         help="RA tolerance (used in collapseTracklets)")
@@ -216,6 +220,8 @@ def runArgs():
         help="Angular tolerance (used in collapseTracklets)")
     parser.add_argument("-vTol", "--velocity_tolerance", metavar="velocity tolerance", default=defaultParameters.vTol, 
         help="Velocity tolerance (used in collapseTracklets)")
+    parser.add_argument("-rmsMax", "--rms_max", metavar='maximum RMS', default=defaultParameters.rmsMax,
+        help="Maximum RMS (used in purifyTracklets")
 
     args = parser.parse_args()
 
@@ -264,7 +270,7 @@ if __name__=="__main__":
     tracker.collapsedTracklets = collapsedTracklets
     tracker.collapsedTrackletsDir = dirs[1]
 
-    # Run PurifyTracklets
+    # Run purifyTracklets
     purifiedTracklets = runPurifyTracklets(collapsedTracklets, diaSources, diaSourceDir, parameters, dirs[2])
     tracker.ranPurifyTracklets = True
     tracker.purifiedTracklets = purifiedTracklets
