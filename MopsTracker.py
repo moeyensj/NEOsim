@@ -8,8 +8,12 @@ class MopsTracker(object):
 
         self._diaSources = None
         self._tracklets = None
+        self._trackletsByIndex = None
         self._collapsedTracklets = None
         self._purifiedTracklets = None
+        self._trackletsById = None
+        self._trackletsByNightDets = None
+        self._trackletsByNightIds = None
         self._tracks = None
         self._name = name
 
@@ -17,6 +21,7 @@ class MopsTracker(object):
         self._trackletsDir = None 
         self._collapsedTrackletsDir = None
         self._purifiedTrackletsDir = None
+        self._trackletsByNightDir = None
         self._tracksDir = None
 
         self._ranFindTracklets = False
@@ -58,6 +63,14 @@ class MopsTracker(object):
         self._tracklets = value
 
     @property
+    def trackletsByIndex(self):
+        return self._trackletsByIndex
+    
+    @trackletsByIndex.setter
+    def trackletsByIndex(self, value):
+        self._trackletsByIndex = value
+
+    @property
     def collapsedTracklets(self):
         return self._collapsedTracklets
 
@@ -72,6 +85,30 @@ class MopsTracker(object):
     @purifiedTracklets.setter
     def purifiedTracklets(self, value):
         self._purifiedTracklets = value
+
+    @property
+    def trackletsById(self):
+        return self._trackletsById
+
+    @trackletsById.setter
+    def trackletsById(self, value):
+        self._trackletsById = value
+
+    @property
+    def trackletsByNightDets(self):
+        return self._trackletsByNightDets
+    
+    @trackletsByNightDets.setter
+    def trackletsByNightDets(self, value):
+        self._trackletsByNightDets = value
+
+    @property
+    def trackletsByNightIds(self):
+        return self._trackletsByNightIds
+    
+    @trackletsByNightIds.setter
+    def trackletsByNightIds(self, value):
+        self._trackletsByNightIds = value
 
     @property
     def tracks(self):
@@ -120,6 +157,14 @@ class MopsTracker(object):
     @purifiedTrackletsDir.setter
     def purifedTrackletsDir(self, value):
         self._purifiedTrackletsDir = value
+
+    @property
+    def trackletsByNightDir(self):
+        return self._trackletsByNightDir
+
+    @trackletsByNightDir.setter
+    def trackletsByNightDir(self, value):
+        self._trackletsByNightDir = value
 
     @property
     def tracksDir(self):
@@ -242,7 +287,7 @@ class MopsTracker(object):
         self._vTol = value
     
     def readParameters(self, parameters):
-        print 'Reading Parameter Values...'
+        print 'Reading parameter values...'
 
         self.vmax = parameters.vmax
         print '\tMaximum velocity:          %s' % (parameters._vmax)
