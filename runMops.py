@@ -208,19 +208,19 @@ def runArgs():
 
     parser.add_argument("diaSourcesDir", help="directory containing nightly diasources (.dias)")
     parser.add_argument("name", help="name of this MOPS run, used as top directory folder")
-    parser.add_argument("-vMax", "--velocity_max", metavar="maximum velocity", default=defaultParameters.vMax, 
+    parser.add_argument("-vMax", "--velocity_max", metavar="", default=defaultParameters.vMax, 
         help="Maximum velocity (used in findTracklets)")
-    parser.add_argument("-vMin", "--velocity_min", metavar="minimum velocity", default=defaultParameters.vMin, 
+    parser.add_argument("-vMin", "--velocity_min", metavar="", default=defaultParameters.vMin, 
         help="Minimum velocity (used in findTracklets)")
-    parser.add_argument("-raTol", "--ra_tolerance", metavar="ra tolerance", default=defaultParameters.raTol, 
+    parser.add_argument("-raTol", "--ra_tolerance", metavar="", default=defaultParameters.raTol, 
         help="RA tolerance (used in collapseTracklets)")
-    parser.add_argument("-decTol", "--dec_tolerance", metavar="dec tolerance", default=defaultParameters.decTol, 
+    parser.add_argument("-decTol", "--dec_tolerance", metavar="", default=defaultParameters.decTol, 
         help="Dec tolerance (used in collapseTracklets)")
-    parser.add_argument("-angTol", "--angular_tolerance", metavar="angular tolerance", default=defaultParameters.angTol,
+    parser.add_argument("-angTol", "--angular_tolerance", metavar="", default=defaultParameters.angTol,
         help="Angular tolerance (used in collapseTracklets)")
-    parser.add_argument("-vTol", "--velocity_tolerance", metavar="velocity tolerance", default=defaultParameters.vTol, 
+    parser.add_argument("-vTol", "--velocity_tolerance", metavar="", default=defaultParameters.vTol, 
         help="Velocity tolerance (used in collapseTracklets)")
-    parser.add_argument("-rmsMax", "--rms_max", metavar='maximum RMS', default=defaultParameters.rmsMax,
+    parser.add_argument("-rmsMax", "--rms_max", metavar="", default=defaultParameters.rmsMax,
         help="Maximum RMS (used in purifyTracklets")
 
     args = parser.parse_args()
@@ -241,7 +241,7 @@ if __name__=="__main__":
                 ra_tolerance=args.ra_tolerance,
                 dec_tolerance=args.dec_tolerance,
                 angular_tolerance=args.angular_tolerance,
-                velocity_tolerance=args.velocity_tolerance
+                velocity_tolerance=args.velocity_tolerance,
                 rms_max=args.rms_max)
 
     tracker = MopsTracker(name, parameters)
