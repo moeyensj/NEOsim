@@ -245,11 +245,13 @@ if __name__=="__main__":
     # Find DIASources
     diaSources = os.listdir(diaSourceDir)
     tracker.diaSources = diaSources
+    tracker.diaSourceDir = diaSourceDir
 
     # Run findTracklets
     tracklets = runFindTracklets(diaSources, diaSourceDir, parameters, dirs[0])
     tracker.ranFindTracklets = True
     tracker.tracklets = tracklets
+    tracker.trackletsDir = dirs[0]
 
     # Run idsToIndices
     trackletsByIndex = runIdsToIndices(tracklets, diaSources, diaSourceDir)
@@ -260,11 +262,13 @@ if __name__=="__main__":
     collapsedTracklets = runCollapseTracklets(trackletsByIndex, diaSources, diaSourceDir, parameters, dirs[1])
     tracker.ranCollapseTracklets = True
     tracker.collapsedTracklets = collapsedTracklets
+    tracker.collapsedTrackletsDir = dirs[1]
 
     # Run PurifyTracklets
     purifiedTracklets = runPurifyTracklets(collapsedTracklets, diaSources, diaSourceDir, parameters, dirs[2])
     tracker.ranPurifyTracklets = True
     tracker.purifiedTracklets = purifiedTracklets
+    tracker.purifiedTrackletsDir = dirs[2]
 
     # Run indicesToIds
     trackletsById = runIndicesToIds(purifiedTracklets, diaSources, diaSourceDir)
@@ -276,11 +280,13 @@ if __name__=="__main__":
     tracker.ranMakeLinkTrackletsInputByNight = True
     tracker.trackletsByNightDets = dets
     tracker.trackletsByNightIds = ids
+    tracker.trackletsByNightDir = dirs[3]
 
     # Run linkTracklets
     tracks = runLinkTracklets(dets, ids, dirs[4])
     tracker.ranLinkTracklets = True
     tracker.tracks = tracks
+    tracker.tracksDir = dirs[4]
 
     tracker.status()
 
