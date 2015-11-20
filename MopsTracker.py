@@ -301,6 +301,8 @@ class MopsTracker(object):
         print '\tAngular tolerance:         %s' % (parameters._angTol)
         self.vTol = parameters.vTol
         print '\tVelocity tolerance:        %s' % (parameters._vTol)
+        self.rmsMax = parameters.rmsMax
+        print '\tMaximum RMS:               %s' % (parameters._rmsMax)
 
         return
 
