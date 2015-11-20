@@ -11,9 +11,8 @@ from MopsTracker import MopsTracker
 # File suffixes
 diaSourceSuffix = '.dias'
 trackletSuffix = '.tracklet'
-trackletByIndSuffix = trackletSuffix + '.byInd'
-collapsedSuffix = trackletSuffix + '.collapsed'
-purifiedSuffix = collapsedSuffix + '.purified'
+collapsedSuffix = '.collapsed'
+purifiedSuffix = '.purified'
 trackSuffix = '.track'
 byIndexSuffix = '.byIndices'
 byIdSuffix = '.byIds'
@@ -95,13 +94,48 @@ def runIdsToIndices(tracklets, diaSources, diaSourceDir):
 
     return byIndex
 
-def runCollapseTracklets():
+def runCollapseTracklets(trackletsByIndex, diaSources, diaSourceDir, parameters, outDir):
 
-    return 
+    print '---- collapseTracklets ----'
 
-def runPurifyCollapseTracklets():
+    collapsedTracklets = []
 
-    return
+    for tracklet, diaSource in zip(trackletsByIndex, diaSources):
+        diaSource = diaSourceDir + diaSource
+
+        trackletName = tracklet.split('/')[2]
+        collapsedTracklet = outDir + trackletName + collapsedSuffix
+
+        call = ['collapseTracklets', diaSource, tracklet, str(parameters.raTol), 
+        str(parameters.decTol), str(parameters.angTol), str(parameters.vTol), collapsedTracklet]
+        subprocess.call(call)
+
+        collapsedTracklets.append(collapsedTracklet)
+
+    print ''
+
+    return collapsedTracklets
+
+def runPurifyTracklets(collapsedTracklets, diaSources, diaSourceDir, parameters, outDir):
+
+    print '---- purifyTracklets ----'
+
+    purifiedTracklets = []
+
+    for tracklet, diaSource in zip(collapsedTracklets, diaSources):
+        diaSource = diaSourceDir + diaSource
+
+        trackletName = tracklet.split('/')[2]
+        purifiedTracklet = outDir + trackletName + purifiedSuffix
+
+        call = ['purifyTracklets', '--detsFile', diaSource, '--pairsFile', tracklet, '--outFile', purifiedTracklet]
+        subprocess.call(call)
+
+        purifiedTracklets.append(purifiedTracklet)
+
+    print ''
+
+    return purifiedTracklets
 
 def runIndicesToIds(tracklets, diaSources, diaSourceDir):
 
@@ -219,12 +253,20 @@ if __name__=="__main__":
     trackletsByIndex = runIdsToIndices(tracklets, diaSources, diaSourceDir)
     tracker.ranIdsToIndices = True
 
+    # Run collapseTracklets
+    collapsedTracklets = runCollapseTracklets(trackletsByIndex, diaSources, diaSourceDir, parameters, dirs[1])
+    tracker.ranCollapseTracklets = True
+
+    # Run PurifyTracklets
+    purifiedTracklets = runPurifyTracklets(collapsedTracklets, diaSources, diaSourceDir, parameters, dirs[2])
+    tracker.ranPurifyTracklets = True
+
     # Run indicesToIds
-    trackletsById = runIndicesToIds(trackletsByIndex, diaSources, diaSourceDir)
+    trackletsById = runIndicesToIds(purifiedTracklets, diaSources, diaSourceDir)
     tracker.ranIndicesToIds = True
 
     # Run makeLinkTrackletsInputByNight
-    dets, ids = runMakeLinkTrackletsInputByNight(15, diaSourceDir, dirs[0], dirs[3])
+    dets, ids = runMakeLinkTrackletsInputByNight(15, diaSourceDir, dirs[2], dirs[3])
     tracker.ranMakeLinkTrackletsInputByNight = True
 
     # Run linkTracklets
