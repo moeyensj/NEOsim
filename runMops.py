@@ -241,7 +241,8 @@ if __name__=="__main__":
                 ra_tolerance=args.ra_tolerance,
                 dec_tolerance=args.dec_tolerance,
                 angular_tolerance=args.angular_tolerance,
-                velocity_tolerance=args.velocity_tolerance)
+                velocity_tolerance=args.velocity_tolerance
+                rms_max=args.rms_max)
 
     tracker = MopsTracker(name, parameters)
 
