@@ -282,7 +282,7 @@ def runMops(diaSourceDir, name, parameters, tracker):
 
     tracker.status()
 
-    return tracker
+    return
 
 if __name__=="__main__":
 
