@@ -54,7 +54,7 @@ def directoryBuilder(name):
             
     return dirsOut
 
-def runFindTracklets(diaSources, diaSourceDir, parameters, outDir):
+def runFindTracklets(parameters, diaSources, diaSourceDir, outDir):
 
     print '---- findTracklets ----'
 
@@ -94,7 +94,7 @@ def runIdsToIndices(tracklets, diaSources, diaSourceDir):
 
     return byIndex
 
-def runCollapseTracklets(trackletsByIndex, diaSources, diaSourceDir, parameters, outDir):
+def runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir, outDir):
 
     print '---- collapseTracklets ----'
 
@@ -116,7 +116,7 @@ def runCollapseTracklets(trackletsByIndex, diaSources, diaSourceDir, parameters,
 
     return collapsedTracklets
 
-def runPurifyTracklets(collapsedTracklets, diaSources, diaSourceDir, parameters, outDir):
+def runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir, outDir):
 
     print '---- purifyTracklets ----'
 
@@ -159,7 +159,7 @@ def runIndicesToIds(tracklets, diaSources, diaSourceDir):
 
     return byId
 
-def runMakeLinkTrackletsInputByNight(diaSourcesDir, trackletsDir, outDir, parameters):
+def runMakeLinkTrackletsInputByNight(parameters, diaSourcesDir, trackletsDir, outDir):
 
     print '---- makeLinkTrackletsInput_byNight.py ----'
     
@@ -229,7 +229,7 @@ def runArgs():
 
     return args
 
-def runMops(diaSourceDir, name, parameters, tracker):
+def runMops(parameters, tracker, diaSourceDir, name):
 
     # Build directory structure
     dirs = directoryBuilder(name)
@@ -240,7 +240,7 @@ def runMops(diaSourceDir, name, parameters, tracker):
     tracker.diaSourceDir = diaSourceDir
 
     # Run findTracklets
-    tracklets = runFindTracklets(diaSources, diaSourceDir, parameters, dirs[0])
+    tracklets = runFindTracklets(parameters, diaSources, diaSourceDir, dirs[0])
     tracker.ranFindTracklets = True
     tracker.tracklets = tracklets
     tracker.trackletsDir = dirs[0]
@@ -251,13 +251,13 @@ def runMops(diaSourceDir, name, parameters, tracker):
     tracker.trackletsByIndex = trackletsByIndex
 
     # Run collapseTracklets
-    collapsedTracklets = runCollapseTracklets(trackletsByIndex, diaSources, diaSourceDir, parameters, dirs[1])
+    collapsedTracklets = runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir, dirs[1])
     tracker.ranCollapseTracklets = True
     tracker.collapsedTracklets = collapsedTracklets
     tracker.collapsedTrackletsDir = dirs[1]
 
     # Run purifyTracklets
-    purifiedTracklets = runPurifyTracklets(collapsedTracklets, diaSources, diaSourceDir, parameters, dirs[2])
+    purifiedTracklets = runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir, dirs[2])
     tracker.ranPurifyTracklets = True
     tracker.purifiedTracklets = purifiedTracklets
     tracker.purifiedTrackletsDir = dirs[2]
@@ -268,7 +268,7 @@ def runMops(diaSourceDir, name, parameters, tracker):
     tracker.trackletsById = trackletsById
 
     # Run makeLinkTrackletsInputByNight
-    dets, ids = runMakeLinkTrackletsInputByNight(diaSourceDir, dirs[2], dirs[3], parameters)
+    dets, ids = runMakeLinkTrackletsInputByNight(parameters, diaSourceDir, dirs[2], dirs[3])
     tracker.ranMakeLinkTrackletsInputByNight = True
     tracker.trackletsByNightDets = dets
     tracker.trackletsByNightIds = ids
@@ -308,6 +308,6 @@ if __name__=="__main__":
     tracker = MopsTracker(name, parameters)
 
     # Run MOPs
-    runMops(diaSourceDir, name, parameters, tracker)
+    runMops(parameters, tracker, diaSourceDir, name)
 
     
