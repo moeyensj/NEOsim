@@ -4,7 +4,7 @@ __all__ = ["MopsTracker"]
 
 class MopsTracker(object):
 
-    def __init__(self, name, parameters):
+    def __init__(self, name):
 
         self._diaSources = None
         self._tracklets = None

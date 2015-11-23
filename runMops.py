@@ -305,7 +305,7 @@ if __name__=="__main__":
                 window_size=args.window_size)
 
      # Initialize tracker
-    tracker = MopsTracker(name, parameters)
+    tracker = MopsTracker(name)
 
     # Run MOPs
     runMops(parameters, tracker, diaSourceDir, name)
