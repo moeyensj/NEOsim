@@ -9,6 +9,7 @@ class DefaultMopsParameters:
     angular_tolerance = 5
     velocity_tolerance = 0.05
     rms_max = 0.001
+    window_size = 15
 
 class MopsParameters(object):
     def __init__(self, velocity_max=None, 
@@ -17,7 +18,8 @@ class MopsParameters(object):
                 dec_tolerance=None,
                 angular_tolerance=None,
                 velocity_tolerance=None,
-                rms_max=None):
+                rms_max=None,
+                window_size=None):
 
         self._vMax = velocity_max
         self._vMin = velocity_min
@@ -26,6 +28,7 @@ class MopsParameters(object):
         self._angTol = angular_tolerance
         self._vTol = velocity_tolerance
         self._rmsMax = rms_max
+        self._windowSize = window_size
 
         defaults = DefaultMopsParameters()
 
@@ -49,6 +52,13 @@ class MopsParameters(object):
 
         if rms_max == None:
             self._rmsMax = defaults.rms_max
+
+        if window_size == None:
+            self._windowSize = defaults.window_size
+
+        print '------- MOPS Parameters --------'
+        self.info()
+        print ''
 
     @property
     def vMax(self):
@@ -106,6 +116,14 @@ class MopsParameters(object):
     def rmsMax(self, value):
         self._rmsMax = value
 
+    @property
+    def windowSize(self):
+        return self._windowSize
+    
+    @windowSize.setter
+    def windowSize(self, value):
+        self._windowSize = value
+
     def info(self):
         print 'Current Parameter Values:'
         print ''
@@ -119,6 +137,8 @@ class MopsParameters(object):
         print '\tVelocity tolerance:        %s' % (self._vTol)
         print '---- purifyTracklets ----'
         print '\tMaximum RMS:               %s' % (self._rmsMax)
+        print '---- makeLinkTrackletsInput_byNight.py ----'
+        print '\tWindow size:               %s' % (self._windowSize)
 
         return
     

@@ -159,12 +159,12 @@ def runIndicesToIds(tracklets, diaSources, diaSourceDir):
 
     return byId
 
-def runMakeLinkTrackletsInputByNight(windowsize, diaSourcesDir, trackletsDir, outDir):
+def runMakeLinkTrackletsInputByNight(diaSourcesDir, trackletsDir, outDir, parameters):
 
     print '---- makeLinkTrackletsInput_byNight.py ----'
     
     script = str(os.getenv('MOPS_DIR')) + '/makeLinkTrackletsInput_byNight.py'
-    call = ['python', script, str(windowsize), diaSourcesDir, trackletsDir, outDir]
+    call = ['python', script, str(parameters.windowSize), diaSourcesDir, trackletsDir, outDir]
     subprocess.call(call)
 
     ids = glob.glob(outDir + '*.ids')
@@ -222,29 +222,14 @@ def runArgs():
         help="Velocity tolerance (used in collapseTracklets)")
     parser.add_argument("-rmsMax", "--rms_max", metavar="", default=defaultParameters.rmsMax,
         help="Maximum RMS (used in purifyTracklets")
+    parser.add_argument("-windowSize", "--window_size", metavar="", default=defaultParameters.windowSize,
+        help="Windows size (used in makeLinkTrackletsInput_byNight.py")
 
     args = parser.parse_args()
 
     return args
 
-if __name__=="__main__":
-
-    # Run command line arg parser and retrieve args
-    args = runArgs()
-
-    name = args.name
-    diaSourceDir = args.diaSourcesDir
-
-    # Initialize MopsParameters and MopsTracker
-    parameters = MopsParameters(velocity_max=args.velocity_max, 
-                velocity_min=args.velocity_min, 
-                ra_tolerance=args.ra_tolerance,
-                dec_tolerance=args.dec_tolerance,
-                angular_tolerance=args.angular_tolerance,
-                velocity_tolerance=args.velocity_tolerance,
-                rms_max=args.rms_max)
-
-    tracker = MopsTracker(name, parameters)
+def runMops(diaSourceDir, name, parameters, tracker):
 
     # Build directory structure
     dirs = directoryBuilder(name)
@@ -283,7 +268,7 @@ if __name__=="__main__":
     tracker.trackletsById = trackletsById
 
     # Run makeLinkTrackletsInputByNight
-    dets, ids = runMakeLinkTrackletsInputByNight(15, diaSourceDir, dirs[2], dirs[3])
+    dets, ids = runMakeLinkTrackletsInputByNight(diaSourceDir, dirs[2], dirs[3], parameters)
     tracker.ranMakeLinkTrackletsInputByNight = True
     tracker.trackletsByNightDets = dets
     tracker.trackletsByNightIds = ids
@@ -297,10 +282,32 @@ if __name__=="__main__":
 
     tracker.status()
 
+    return tracker
 
+if __name__=="__main__":
 
+    # Run command line arg parser and retrieve args
+    args = runArgs()
 
+    # Retrieve name and nightly DIA Sources directory
+    name = args.name
+    diaSourceDir = args.diaSourcesDir
 
-        
-        
+    # Initialize MopsParameters and MopsTracker
+    parameters = MopsParameters(
+                velocity_max=args.velocity_max, 
+                velocity_min=args.velocity_min, 
+                ra_tolerance=args.ra_tolerance,
+                dec_tolerance=args.dec_tolerance,
+                angular_tolerance=args.angular_tolerance,
+                velocity_tolerance=args.velocity_tolerance,
+                rms_max=args.rms_max,
+                window_size=args.window_size)
 
+     # Initialize tracker
+    tracker = MopsTracker(name, parameters)
+
+    # Run MOPs
+    runMops(diaSourceDir, name, parameters, tracker)
+
+    
