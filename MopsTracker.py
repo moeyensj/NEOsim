@@ -32,18 +32,8 @@ class MopsTracker(object):
         self._ranMakeLinkTrackletsInputByNight = False
         self._ranLinkTracklets = False
 
-        self._vMax = None
-        self._vMin = None
-        self._raTol = None
-        self._decTol = None
-        self._angTol = None
-        self._vTol = None
-
         print '------- MOPS Tracker --------'
         print 'Tracker initialized...'
-
-        self.readParameters(parameters)
-
         print ''
 
     @property
@@ -285,26 +275,6 @@ class MopsTracker(object):
     @vTol.setter
     def vTol(self, value):
         self._vTol = value
-    
-    def readParameters(self, parameters):
-        print 'Reading parameter values...'
-
-        self.vMax = parameters.vMax
-        print '\tMaximum velocity:          %s' % (parameters._vMax)
-        self.vMin = parameters.vMin
-        print '\tMinimum velocity:          %s' % (parameters._vMin)
-        self.raTol = parameters.raTol
-        print '\tRight Ascension tolerance: %s' % (parameters._raTol)
-        self.decTol = parameters.decTol
-        print '\tDeclination tolerance:     %s' % (parameters._decTol)
-        self.angTol = parameters.angTol
-        print '\tAngular tolerance:         %s' % (parameters._angTol)
-        self.vTol = parameters.vTol
-        print '\tVelocity tolerance:        %s' % (parameters._vTol)
-        self.rmsMax = parameters.rmsMax
-        print '\tMaximum RMS:               %s' % (parameters._rmsMax)
-
-        return
 
     def status(self):
 
