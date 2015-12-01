@@ -54,7 +54,7 @@ def directoryBuilder(name):
 
     print ''
             
-    return dirsOut
+    return runDir, dirsOut
 
 def runFindTracklets(parameters, diaSources, diaSourceDir, outDir):
 
@@ -248,10 +248,10 @@ def runArgs():
 def runMops(parameters, tracker, diaSourceDir, name):
 
     # Build directory structure
-    dirs = directoryBuilder(name)
+    runDir, dirs = directoryBuilder(name)
 
     # Save parameters
-    parameters.save(outDir=name)
+    parameters.save(outDir=runDir)
 
     # Find DIASources
     diaSources = os.listdir(diaSourceDir)
@@ -310,7 +310,7 @@ def runMops(parameters, tracker, diaSourceDir, name):
     tracker.status()
 
     # Save tracker
-    tracker.save(outDir=name)
+    tracker.save(outDir=runDir)
 
     return
 

@@ -340,7 +340,7 @@ class MopsTracker(object):
         if outDir == None:
             outname = 'tracker.yaml'
         else:
-            outname = outDir + '/tracker.yaml'
+            outname = outDir + 'tracker.yaml'
 
         print 'Saving MopsTracker to %s' % (outname)
 

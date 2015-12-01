@@ -125,7 +125,7 @@ class MopsParameters(object):
         self._windowSize = value
 
     def info(self):
-        
+
         print 'Current Parameter Values:'
         print ''
         print '---- findTracklets ----'
@@ -150,7 +150,7 @@ class MopsParameters(object):
         if outDir == None:
             outname = 'parameters.yaml'
         else:
-            outname = outDir + '/parameters.yaml'
+            outname = outDir + 'parameters.yaml'
 
         print 'Saving MopsParameters to %s' % (outname)
 
