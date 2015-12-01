@@ -20,9 +20,11 @@ class MopsTracker(object):
 
         self._diaSourcesDir = None 
         self._trackletsDir = None 
+        self._trackletsByIndexDir = None
         self._collapsedTrackletsDir = None
         self._purifiedTrackletsDir = None
         self._finalTrackletsDir = None
+        self._trackletsByIdDir = None
         self._trackletsByNightDir = None
         self._tracksDir = None
 
@@ -144,6 +146,14 @@ class MopsTracker(object):
         self._trackletsDir = value
 
     @property
+    def trackletsByIndexDir(self):
+        return self._trackletsByIndexDir
+
+    @trackletsByIndexDir.setter
+    def trackletsByIndexDir(self, value):
+        self._trackletsByIndexDir = value
+
+    @property
     def collapsedTrackletsDir(self):
         return self._collapsedTrackletsDir
     
@@ -166,6 +176,14 @@ class MopsTracker(object):
     @finalTrackletsDir.setter
     def finalTrackletsDir(self, value):
         self._finalTrackletsDir = value
+
+    @property
+    def trackletsByIdDir(self):
+        return self._trackletsByIdDir
+
+    @trackletsByIdDir.setter
+    def trackletsByIdDir(self, value):
+        self._trackletsByIdDir = value
 
     @property
     def trackletsByNightDir(self):

@@ -265,6 +265,7 @@ def runMops(parameters, tracker, diaSourceDir, name):
     trackletsByIndex = runIdsToIndices(tracklets, diaSources, diaSourceDir, dirs[0])
     tracker.ranIdsToIndices = True
     tracker.trackletsByIndex = trackletsByIndex
+    tracker.trackletsByIndexDir = dirs[0]
 
     # Run collapseTracklets
     collapsedTracklets = runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir, dirs[1])
@@ -288,6 +289,7 @@ def runMops(parameters, tracker, diaSourceDir, name):
     trackletsById = runIndicesToIds(finalTracklets, diaSources, diaSourceDir, dirs[3])
     tracker.ranIndicesToIds = True
     tracker.trackletsById = trackletsById
+    tracker.trackletsByIdDir = dirs[3]
 
     # Run makeLinkTrackletsInputByNight
     dets, ids = runMakeLinkTrackletsInputByNight(parameters, diaSourceDir, dirs[3], dirs[4])
