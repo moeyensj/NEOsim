@@ -11,6 +11,7 @@ class MopsTracker(object):
         self._trackletsByIndex = None
         self._collapsedTracklets = None
         self._purifiedTracklets = None
+        self._finalTracklets = None
         self._trackletsById = None
         self._trackletsByNightDets = None
         self._trackletsByNightIds = None
@@ -21,6 +22,7 @@ class MopsTracker(object):
         self._trackletsDir = None 
         self._collapsedTrackletsDir = None
         self._purifiedTrackletsDir = None
+        self._finalTrackletsDir = None
         self._trackletsByNightDir = None
         self._tracksDir = None
 
@@ -28,6 +30,7 @@ class MopsTracker(object):
         self._ranIdsToIndices = False
         self._ranCollapseTracklets = False
         self._ranPurifyTracklets = False
+        self._ranRemoveSubsets = False
         self._ranIndiciesToIds = False
         self._ranMakeLinkTrackletsInputByNight = False
         self._ranLinkTracklets = False
@@ -75,6 +78,14 @@ class MopsTracker(object):
     @purifiedTracklets.setter
     def purifiedTracklets(self, value):
         self._purifiedTracklets = value
+
+    @property
+    def finalTracklets(self):
+        return self._finalTracklets
+    
+    @finalTracklets.setter
+    def finalTracklets(self, value):
+        self._finalTracklets = value
 
     @property
     def trackletsById(self):
@@ -149,6 +160,14 @@ class MopsTracker(object):
         self._purifiedTrackletsDir = value
 
     @property
+    def finalTrackletsDir(self):
+        return self._finalTrackletsDir
+    
+    @finalTrackletsDir.setter
+    def finalTrackletsDir(self, value):
+        self._finalTrackletsDir = value
+
+    @property
     def trackletsByNightDir(self):
         return self._trackletsByNightDir
 
@@ -195,6 +214,14 @@ class MopsTracker(object):
     @ranPurifyTracklets.setter
     def ranPurifyTracklets(self, value):
         self._ranPurifyTracklets = value
+
+    @property
+    def ranRemoveSubsets(self):
+        return self._ranRemoveSubsets
+
+    @ranRemoveSubsets.setter
+    def ranRemoveSubsets(self, value):
+        self._ranRemoveSubsets = value
 
     @property
     def ranIdsToIndices(self):
@@ -283,6 +310,7 @@ class MopsTracker(object):
         print "\tidsToIndices.py:                   %s" % (self._ranIdsToIndices)
         print "\tcollapseTracklets:                 %s" % (self._ranCollapseTracklets)
         print "\tpurifyTracklets:                   %s" % (self._ranPurifyTracklets)
+        print "\tremoveSubsets                      %s" % (self._ranRemoveSubsets)
         print "\tindicesToIds.py:                   %s" % (self._ranIndicesToIds)        
         print "\tmakeLinkTrackletsInputByNight.py:  %s" % (self._ranMakeLinkTrackletsInputByNight)
         print "\tlinkTracklets:                     %s" % (self._ranLinkTracklets)
