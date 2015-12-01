@@ -1,0 +1,36 @@
+!!python/object:MopsTracker.MopsTracker
+_collapsedTracklets: [testRun/trackletsCollapsed/54466.tracklet.collapsed, testRun/trackletsCollapsed/54467.tracklet.collapsed,
+  testRun/trackletsCollapsed/54468.tracklet.collapsed]
+_collapsedTrackletsDir: testRun/trackletsCollapsed/
+_diaSources: [54466.dias, 54467.dias, 54468.dias]
+_diaSourcesDir: null
+_finalTracklets: [testRun/trackletsFinal/54466.tracklet.final, testRun/trackletsFinal/54467.tracklet.final,
+  testRun/trackletsFinal/54468.tracklet.final]
+_finalTrackletsDir: testRun/trackletsFinal/
+_name: testRun
+_purifiedTracklets: [testRun/trackletsPurified/54466.tracklet.purified, testRun/trackletsPurified/54467.tracklet.purified,
+  testRun/trackletsPurified/54468.tracklet.purified]
+_purifiedTrackletsDir: testRun/trackletsPurified/
+_ranCollapseTracklets: true
+_ranFindTracklets: true
+_ranIdsToIndices: true
+_ranIndicesToIds: true
+_ranIndiciesToIds: false
+_ranLinkTracklets: true
+_ranMakeLinkTrackletsInputByNight: true
+_ranPurifyTracklets: true
+_ranRemoveSubsets: true
+_tracklets: [testRun/tracklets/54466.tracklet, testRun/tracklets/54467.tracklet, testRun/tracklets/54468.tracklet]
+_trackletsById: [testRun/trackletsFinal/54466.tracklet.final.byIds, testRun/trackletsFinal/54467.tracklet.final.byIds,
+  testRun/trackletsFinal/54468.tracklet.final.byIds]
+_trackletsByIdDir: testRun/trackletsFinal/
+_trackletsByIndex: [testRun/tracklets/54466.tracklet.byIndices, testRun/tracklets/54467.tracklet.byIndices,
+  testRun/tracklets/54468.tracklet.byIndices]
+_trackletsByIndexDir: testRun/tracklets/
+_trackletsByNightDets: [testRun/trackletsByNight/linkTracklets_input_54468.dets]
+_trackletsByNightDir: testRun/trackletsByNight/
+_trackletsByNightIds: [testRun/trackletsByNight/linkTracklets_input_54468.ids]
+_trackletsDir: testRun/tracklets/
+_tracks: [testRun/tracks/linkTracklets_input_54468.track]
+_tracksDir: testRun/tracks/
+diaSourceDir: nightly/

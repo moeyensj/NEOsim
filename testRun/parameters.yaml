@@ -1,0 +1,2 @@
+!!python/object:MopsParameters.MopsParameters {_angTol: 5, _decTol: 0.002, _raTol: 0.002,
+  _rmsMax: 0.001, _vMax: 2.0, _vMin: 0.0, _vTol: 0.05, _windowSize: 15}
