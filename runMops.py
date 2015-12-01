@@ -250,6 +250,9 @@ def runMops(parameters, tracker, diaSourceDir, name):
     # Build directory structure
     dirs = directoryBuilder(name)
 
+    # Save parameters
+    parameters.save(outDir=name)
+
     # Find DIASources
     diaSources = os.listdir(diaSourceDir)
     tracker.diaSources = diaSources
@@ -305,6 +308,9 @@ def runMops(parameters, tracker, diaSourceDir, name):
     tracker.tracksDir = dirs[5]
 
     tracker.status()
+
+    # Save tracker
+    tracker.save(outDir=name)
 
     return
 

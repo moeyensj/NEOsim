@@ -1,5 +1,3 @@
-import numpy as np
-
 __all__ = ["MopsTracker"]
 
 class MopsTracker(object):
@@ -47,7 +45,7 @@ class MopsTracker(object):
 
     @diaSources.setter
     def diaSources(self, value):
-        self._diaSources = np.array(value)
+        self._diaSources = value
 
     @property
     def tracklets(self):
@@ -332,5 +330,22 @@ class MopsTracker(object):
         print "\tindicesToIds.py:                   %s" % (self._ranIndicesToIds)        
         print "\tmakeLinkTrackletsInputByNight.py:  %s" % (self._ranMakeLinkTrackletsInputByNight)
         print "\tlinkTracklets:                     %s" % (self._ranLinkTracklets)
+
+        return
+
+    def save(self, outDir=None):
+
+        import yaml
+
+        if outDir == None:
+            outname = 'tracker.yaml'
+        else:
+            outname = outDir + '/tracker.yaml'
+
+        print 'Saving MopsTracker to %s' % (outname)
+
+        stream = file(outname, 'w')
+        yaml.dump(self, stream)   
+        stream.close()
 
         return

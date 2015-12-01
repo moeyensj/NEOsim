@@ -125,6 +125,7 @@ class MopsParameters(object):
         self._windowSize = value
 
     def info(self):
+        
         print 'Current Parameter Values:'
         print ''
         print '---- findTracklets ----'
@@ -141,4 +142,20 @@ class MopsParameters(object):
         print '\tWindow size:               %s' % (self._windowSize)
 
         return
-    
+
+    def save(self, outDir=None):
+
+        import yaml
+
+        if outDir == None:
+            outname = 'parameters.yaml'
+        else:
+            outname = outDir + '/parameters.yaml'
+
+        print 'Saving MopsParameters to %s' % (outname)
+
+        stream = file(outname, 'w')
+        yaml.dump(self, stream)   
+        stream.close()
+
+        return
