@@ -31,7 +31,7 @@ class MopsTracker(object):
         self._ranCollapseTracklets = False
         self._ranPurifyTracklets = False
         self._ranRemoveSubsets = False
-        self._ranIndiciesToIds = False
+        self._ranIndicesToIds = False
         self._ranMakeLinkTrackletsInputByNight = False
         self._ranLinkTracklets = False
 

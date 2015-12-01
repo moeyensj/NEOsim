@@ -256,7 +256,7 @@ def runMops(parameters, tracker, diaSourceDir, name):
     # Find DIASources
     diaSources = os.listdir(diaSourceDir)
     tracker.diaSources = diaSources
-    tracker.diaSourceDir = diaSourceDir
+    tracker.diaSourcesDir = diaSourceDir
 
     # Run findTracklets
     tracklets = runFindTracklets(parameters, diaSources, diaSourceDir, dirs[0])

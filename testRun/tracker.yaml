@@ -3,7 +3,7 @@ _collapsedTracklets: [testRun/trackletsCollapsed/54466.tracklet.collapsed, testR
   testRun/trackletsCollapsed/54468.tracklet.collapsed]
 _collapsedTrackletsDir: testRun/trackletsCollapsed/
 _diaSources: [54466.dias, 54467.dias, 54468.dias]
-_diaSourcesDir: null
+_diaSourcesDir: nightly/
 _finalTracklets: [testRun/trackletsFinal/54466.tracklet.final, testRun/trackletsFinal/54467.tracklet.final,
   testRun/trackletsFinal/54468.tracklet.final]
 _finalTrackletsDir: testRun/trackletsFinal/
@@ -15,7 +15,6 @@ _ranCollapseTracklets: true
 _ranFindTracklets: true
 _ranIdsToIndices: true
 _ranIndicesToIds: true
-_ranIndiciesToIds: false
 _ranLinkTracklets: true
 _ranMakeLinkTrackletsInputByNight: true
 _ranPurifyTracklets: true
@@ -33,4 +32,3 @@ _trackletsByNightIds: [testRun/trackletsByNight/linkTracklets_input_54468.ids]
 _trackletsDir: testRun/tracklets/
 _tracks: [testRun/tracks/linkTracklets_input_54468.track]
 _tracksDir: testRun/tracks/
-diaSourceDir: nightly/
