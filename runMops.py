@@ -1,5 +1,19 @@
 #!/usr/bin/env python
 
+"""
+
+A simple script to run MOPS. (Work in progress)
+
+Command-line call:
+python runMops.py {nightly DIA source directory ending with '/'} {run name} 
+
+Requirements:
+MOPS setup (with MOPS_DIR path variable pointing to bin mops_daymops)
+
+Contact moeyensj@uw.edu with questions and / or concerns.
+
+"""
+
 import os
 import sys
 import subprocess
@@ -28,6 +42,16 @@ trackletsByNightDir = 'trackletsByNight/'
 tracksDir = 'tracks/'
 
 def directoryBuilder(name):
+    """
+    Builds the directory structure for MOPS output files.
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    name: (string), name of the top folder (same as run name)
+    ----------------------
+    """
 
     runDir = name + '/'
 
@@ -50,6 +74,21 @@ def directoryBuilder(name):
     return runDir, dirsOut
 
 def runFindTracklets(parameters, diaSources, diaSourceDir, outDir):
+    """
+    Runs findTracklets. 
+
+    Generates tracklets given a set of DIA sources.
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    parameters: (MopsParameters object), user or default defined MOPS parameter object
+    diaSources: (list), list of diaSources
+    diaSourceDir: (string), directory containing diaSources
+    outDir: (string), tracklet output directory
+    ----------------------
+    """
 
     tracklets = []
 
@@ -68,6 +107,22 @@ def runFindTracklets(parameters, diaSources, diaSourceDir, outDir):
     return tracklets
 
 def runIdsToIndices(tracklets, diaSources, diaSourceDir, outDir):
+    """
+    Runs idsToIndices.py.
+
+    Rearranges tracklets by index as opposed to id. This format is required 
+    by collapseTracklets, purifyTracklets and removeSubsets.
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    tracklets: (list), list of tracklets
+    diaSources: (list), list of diaSources
+    diaSourceDir: (string), directory containing diaSources
+    outDir: (string), tracklet by index output directory
+    ----------------------
+    """
 
     byIndex = []
 
@@ -87,6 +142,20 @@ def runIdsToIndices(tracklets, diaSources, diaSourceDir, outDir):
     return byIndex
 
 def runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir, outDir):
+    """
+    Runs collapseTracklets.
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    parameters: (MopsParameters object), user or default defined MOPS parameter object
+    trackletsByIndex: (list), list of tracklets
+    diaSources: (list), list of diaSources
+    diaSourceDir: (string), directory containing diaSources
+    outDir: (string), collapsed tracklet output directory
+    ----------------------
+    """
 
     collapsedTracklets = []
 
@@ -107,6 +176,20 @@ def runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir,
     return collapsedTracklets
 
 def runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir, outDir):
+    """
+    Runs purifyTracklets.
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    parameters: (MopsParameters object), user or default defined MOPS parameter object
+    collapsedTrackets: (list), list of collapsed tracklets
+    diaSources: (list), list of diaSources
+    diaSourceDir: (string), directory containing diaSources
+    outDir: (string), purified tracklet output directory
+    ----------------------
+    """
 
     purifiedTracklets = []
 
@@ -127,6 +210,20 @@ def runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir,
     return purifiedTracklets
 
 def runRemoveSubsets(parameters, purifiedTracklets, diaSources, diaSourceDir, outDir):
+    """
+    Runs removeSubsets.
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    parameters: (MopsParameters object), user or default defined MOPS parameter object
+    purifiedTracklets: (list), list of purified tracklets
+    diaSources: (list), list of diaSources
+    diaSourceDir: (string), directory containing diaSources
+    outDir: (string), final tracklet output directory
+    ----------------------
+    """
 
     finalTracklets = []
 
@@ -144,14 +241,29 @@ def runRemoveSubsets(parameters, purifiedTracklets, diaSources, diaSourceDir, ou
 
     return finalTracklets
 
-def runIndicesToIds(tracklets, diaSources, diaSourceDir, outDir):
+def runIndicesToIds(finalTracklets, diaSources, diaSourceDir, outDir):
+    """
+    Runs indicesToIds.py.
+
+    Convert back to original tracklet format. 
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    finalTracklets: (list), list of final (subset removed) tracklets
+    diaSources: (list), list of diaSources
+    diaSourceDir: (string), directory containing diaSources
+    outDir: (string), tracklet by ID output directory
+    ----------------------
+    """
 
     byId = []
 
     outfile = file(outDir + '/indicesToIds.out', 'w')
     outerr = file(outDir + '/indicesToIds.err', 'w')
 
-    for tracklet, diaSource in zip(tracklets, diaSources):
+    for tracklet, diaSource in zip(finalTracklets, diaSources):
         diaSourceIn = diaSourceDir + diaSource
         byIdOut = outDir + diaSource.split('.')[0] + byIdSuffix
 
@@ -164,6 +276,21 @@ def runIndicesToIds(tracklets, diaSources, diaSourceDir, outDir):
     return byId
 
 def runMakeLinkTrackletsInputByNight(parameters, diaSourcesDir, trackletsDir, outDir):
+    """
+    Runs makeLinkTrackletsInput_byNight.py.
+
+    Reads tracklet files into dets and ids as required by linkTracklets.
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    parameters: (MopsParameters object), user or default defined MOPS parameter object
+    diaSourceDir: (string), directory containing diaSources
+    trackletsDir: (string), directory containing final (subset removed) tracklets
+    outDir: (string), dets and ids file output directory
+    ----------------------
+    """
 
     outfile = file(outDir + '/makeLinkTrackletsInput_byNight.out', 'w')
     outerr = file(outDir + '/makeLinkTrackletsInput_byNight.err', 'w')
@@ -177,6 +304,18 @@ def runMakeLinkTrackletsInputByNight(parameters, diaSourcesDir, trackletsDir, ou
     return dets, ids
 
 def runLinkTracklets(dets, ids, outDir):
+    """
+    Runs linkTracklets.
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    dets: (list), list of dets files
+    ids: (list), list of ids files
+    outDir: (string), tracks output directory
+    ----------------------
+    """
 
     tracks = []
 
@@ -227,7 +366,19 @@ def runArgs():
     return args
 
 def runMops(parameters, tracker, diaSourceDir, name):
+    """
+    Runs Moving Object Pipeline.
 
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    parameters: (MopsParameters object), user or default defined MOPS parameter object
+    tracker: (MopsTracker object), object keeps track of output files and directories
+    diaSourceDir: (string), directory containing diaSources
+    name: (string), run name
+    ----------------------
+    """
     # Build directory structure
     runDir, dirs = directoryBuilder(name)
 
