@@ -4,6 +4,7 @@ import os
 import sys
 import subprocess
 import glob
+import argparse
 
 from MopsParameters import MopsParameters
 from MopsTracker import MopsTracker
@@ -43,7 +44,7 @@ def directoryBuilder(name):
             os.stat(runDir +  d)
         except:
             os.mkdir(runDir + d)
-            
+
         dirsOut.append(runDir +  d)
             
     return runDir, dirsOut
@@ -143,7 +144,6 @@ def runRemoveSubsets(parameters, purifiedTracklets, diaSources, diaSourceDir, ou
 
     return finalTracklets
 
-
 def runIndicesToIds(tracklets, diaSources, diaSourceDir, outDir):
 
     byId = []
@@ -195,8 +195,6 @@ def runLinkTracklets(dets, ids, outDir):
     return tracks
 
 def runArgs():
-
-    import argparse
 
     defaultParameters = MopsParameters()
 
