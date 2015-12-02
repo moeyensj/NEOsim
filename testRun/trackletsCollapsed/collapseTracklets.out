@@ -1,0 +1,54 @@
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+Dets File:         nightly/54466.dias
+Pairs File         testRun/tracklets/54466.tracklet.byIndices
+Output File:       testRun/trackletsCollapsed/54466.tracklet.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (7374) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+Dets File:         nightly/54467.dias
+Pairs File         testRun/tracklets/54467.tracklet.byIndices
+Output File:       testRun/trackletsCollapsed/54467.tracklet.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (7376) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+Dets File:         nightly/54468.dias
+Pairs File         testRun/tracklets/54468.tracklet.byIndices
+Output File:       testRun/trackletsCollapsed/54468.tracklet.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (7378) memory usage: 
+------------------------------------------
+------------------------------------------
+

@@ -62,12 +62,15 @@ def runFindTracklets(parameters, diaSources, diaSourceDir, outDir):
 
     tracklets = []
 
+    outfile = file(outDir + '/findTracklets.out', 'w')
+    outerr = file(outDir + '/findTracklets.err', 'w')
+
     for diaSource in diaSources:
         diaSourceIn = diaSourceDir + diaSource
         trackletsOut = outDir + diaSource.split('.')[0] + trackletSuffix
 
         call = ['findTracklets', '-i', diaSourceIn, '-o', trackletsOut, '-v', str(parameters.vMax), '-m', str(parameters.vMin)]
-        subprocess.call(call, stdin=None, stdout=None, stderr=None, shell=False)
+        subprocess.call(call, stdout=outfile, stderr=outerr)
 
         tracklets.append(trackletsOut)
 
@@ -81,13 +84,16 @@ def runIdsToIndices(tracklets, diaSources, diaSourceDir, outDir):
 
     byIndex = []
 
+    outfile = file(outDir + '/idsToIndices.out', 'w')
+    outerr = file(outDir + '/idsToIndices.err', 'w')
+
     for tracklet, diaSource in zip(tracklets, diaSources):
         diaSourceIn = diaSourceDir + diaSource
         byIndexOut = outDir + diaSource.split('.')[0] + byIndexSuffix
 
         script = str(os.getenv('MOPS_DIR')) + '/idsToIndices.py'
         call = ['python', script, tracklet, diaSourceIn, byIndexOut]
-        subprocess.call(call)
+        subprocess.call(call, stdout=outfile, stderr=outerr)
 
         byIndex.append(byIndexOut)
 
@@ -101,6 +107,9 @@ def runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir,
 
     collapsedTracklets = []
 
+    outfile = file(outDir + '/collapseTracklets.out', 'w')
+    outerr = file(outDir + '/collapseTracklets.err', 'w')
+
     for tracklet, diaSource in zip(trackletsByIndex, diaSources):
         diaSourceIn = diaSourceDir + diaSource
         trackletName = diaSource.split('.')[0]
@@ -108,7 +117,7 @@ def runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir,
 
         call = ['collapseTracklets', diaSourceIn, tracklet, str(parameters.raTol), 
         str(parameters.decTol), str(parameters.angTol), str(parameters.vTol), collapsedTracklet]
-        subprocess.call(call)
+        subprocess.call(call, stdout=outfile, stderr=outerr)
 
         collapsedTracklets.append(collapsedTracklet)
 
@@ -122,6 +131,9 @@ def runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir,
 
     purifiedTracklets = []
 
+    outfile = file(outDir + '/purifyTracklets.out', 'w')
+    outerr = file(outDir + '/purifyTracklets.err', 'w')
+
     for tracklet, diaSource in zip(collapsedTracklets, diaSources):
         diaSourceIn = diaSourceDir + diaSource
         trackletName = diaSource.split('.')[0]
@@ -129,7 +141,7 @@ def runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir,
 
         call = ['purifyTracklets', '--detsFile', diaSourceIn, '--pairsFile', tracklet, 
         '--maxRMS', str(parameters.rmsMax),'--outFile', purifiedTracklet]
-        subprocess.call(call)
+        subprocess.call(call, stdout=outfile, stderr=outerr)
 
         purifiedTracklets.append(purifiedTracklet)
 
@@ -143,12 +155,15 @@ def runRemoveSubsets(parameters, purifiedTracklets, diaSources, diaSourceDir, ou
 
     finalTracklets = []
 
+    outfile = file(outDir + '/removeSubsets.out', 'w')
+    outerr = file(outDir + '/removeSubsets.err', 'w')
+
     for tracklet, diaSource in zip(purifiedTracklets, diaSources):
         trackletName = diaSource.split('.')[0]
         finalTracklet = outDir + trackletName + finalSuffix
 
         call = ['removeSubsets', '--inFile', tracklet, '--outFile', finalTracklet]
-        subprocess.call(call)
+        subprocess.call(call, stdout=outfile, stderr=outerr)
 
         finalTracklets.append(finalTracklet)
 
@@ -163,13 +178,16 @@ def runIndicesToIds(tracklets, diaSources, diaSourceDir, outDir):
 
     byId = []
 
+    outfile = file(outDir + '/indicesToIds.out', 'w')
+    outerr = file(outDir + '/indicesToIds.err', 'w')
+
     for tracklet, diaSource in zip(tracklets, diaSources):
         diaSourceIn = diaSourceDir + diaSource
         byIdOut = outDir + diaSource.split('.')[0] + byIdSuffix
 
         script = str(os.getenv('MOPS_DIR')) + '/indicesToIds.py'
         call = ['python', script, tracklet, diaSourceIn, byIdOut]
-        subprocess.call(call)
+        subprocess.call(call, stdout=outfile, stderr=outerr)
 
         byId.append(byIdOut)
 
@@ -181,9 +199,11 @@ def runMakeLinkTrackletsInputByNight(parameters, diaSourcesDir, trackletsDir, ou
 
     print '---- makeLinkTrackletsInput_byNight.py ----'
     
+    outfile = file(outDir + '/makeLinkTrackletsInput_byNight.out', 'w')
+    outerr = file(outDir + '/makeLinkTrackletsInput_byNight.err', 'w')
     script = str(os.getenv('MOPS_DIR')) + '/makeLinkTrackletsInput_byNight.py'
     call = ['python', script, str(parameters.windowSize), diaSourcesDir, trackletsDir, outDir]
-    subprocess.call(call)
+    subprocess.call(call, stdout=outfile, stderr=outerr)
 
     ids = glob.glob(outDir + '*.ids')
     dets = glob.glob(outDir + '*.dets')
@@ -198,14 +218,17 @@ def runLinkTracklets(dets, ids, outDir):
 
     tracks = []
 
+    outfile = file(outDir + '/linkTracklets.out', 'w')
+    outerr = file(outDir + '/linkTracklets.err', 'w')
+
     for detIn, idIn in zip(dets,ids):
         trackName = detIn.split('/')[2].split('.')[0]
-        outFile = outDir +  trackName + trackSuffix
+        trackOut = outDir +  trackName + trackSuffix
 
-        call = ['linkTracklets', '-d', detIn, '-t', idIn,'-o', outFile]
-        subprocess.call(call)
+        call = ['linkTracklets', '-d', detIn, '-t', idIn,'-o', trackOut]
+        subprocess.call(call, stdout=outfile, stderr=outerr)
 
-        tracks.append(outFile)
+        tracks.append(trackOut)
 
     print ''
 
