@@ -28,16 +28,12 @@ tracksDir = 'tracks/'
 
 def directoryBuilder(name):
 
-    print '---- directoryBuilder ----'
-
     runDir = name + '/'
 
     try:
         os.stat(runDir)
-        print runDir + ' already exists.'
     except:
         os.mkdir(runDir)
-        print 'Created %s directory.' % (runDir)
 
     dirs = [trackletsDir, collapsedDir, purifyDir, finalDir, trackletsByNightDir, tracksDir]
     dirsOut = []
@@ -45,20 +41,14 @@ def directoryBuilder(name):
     for d in dirs:
         try:
             os.stat(runDir +  d)
-            print d + ' already exists.'
         except:
             os.mkdir(runDir + d)
-            print '\tCreated %s directory.' % (d)
-
+            
         dirsOut.append(runDir +  d)
-
-    print ''
             
     return runDir, dirsOut
 
 def runFindTracklets(parameters, diaSources, diaSourceDir, outDir):
-
-    print '---- findTracklets ----'
 
     tracklets = []
 
@@ -74,13 +64,9 @@ def runFindTracklets(parameters, diaSources, diaSourceDir, outDir):
 
         tracklets.append(trackletsOut)
 
-    print ''
-
     return tracklets
 
 def runIdsToIndices(tracklets, diaSources, diaSourceDir, outDir):
-
-    print '---- idsToIndices.py ----'
 
     byIndex = []
 
@@ -97,13 +83,9 @@ def runIdsToIndices(tracklets, diaSources, diaSourceDir, outDir):
 
         byIndex.append(byIndexOut)
 
-    print ''
-
     return byIndex
 
 def runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir, outDir):
-
-    print '---- collapseTracklets ----'
 
     collapsedTracklets = []
 
@@ -121,13 +103,9 @@ def runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir,
 
         collapsedTracklets.append(collapsedTracklet)
 
-    print ''
-
     return collapsedTracklets
 
 def runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir, outDir):
-
-    print '---- purifyTracklets ----'
 
     purifiedTracklets = []
 
@@ -145,13 +123,9 @@ def runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir,
 
         purifiedTracklets.append(purifiedTracklet)
 
-    print ''
-
     return purifiedTracklets
 
 def runRemoveSubsets(parameters, purifiedTracklets, diaSources, diaSourceDir, outDir):
-
-    print '---- removeSubsets ----'
 
     finalTracklets = []
 
@@ -167,14 +141,10 @@ def runRemoveSubsets(parameters, purifiedTracklets, diaSources, diaSourceDir, ou
 
         finalTracklets.append(finalTracklet)
 
-    print ''
-
     return finalTracklets
 
 
 def runIndicesToIds(tracklets, diaSources, diaSourceDir, outDir):
-
-    print '---- indicesToIds.py ----'
 
     byId = []
 
@@ -191,14 +161,10 @@ def runIndicesToIds(tracklets, diaSources, diaSourceDir, outDir):
 
         byId.append(byIdOut)
 
-    print ''
-
     return byId
 
 def runMakeLinkTrackletsInputByNight(parameters, diaSourcesDir, trackletsDir, outDir):
 
-    print '---- makeLinkTrackletsInput_byNight.py ----'
-    
     outfile = file(outDir + '/makeLinkTrackletsInput_byNight.out', 'w')
     outerr = file(outDir + '/makeLinkTrackletsInput_byNight.err', 'w')
     script = str(os.getenv('MOPS_DIR')) + '/makeLinkTrackletsInput_byNight.py'
@@ -208,13 +174,9 @@ def runMakeLinkTrackletsInputByNight(parameters, diaSourcesDir, trackletsDir, ou
     ids = glob.glob(outDir + '*.ids')
     dets = glob.glob(outDir + '*.dets')
 
-    print ''
-
     return dets, ids
 
 def runLinkTracklets(dets, ids, outDir):
-
-    print '---- linkTracklets ----'
 
     tracks = []
 
@@ -229,8 +191,6 @@ def runLinkTracklets(dets, ids, outDir):
         subprocess.call(call, stdout=outfile, stderr=outerr)
 
         tracks.append(trackOut)
-
-    print ''
 
     return tracks
 
@@ -362,5 +322,3 @@ if __name__=="__main__":
 
     # Run MOPs
     runMops(parameters, tracker, diaSourceDir, name)
-
-    
