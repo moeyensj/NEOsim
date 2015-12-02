@@ -335,7 +335,7 @@ def runLinkTracklets(dets, ids, outDir):
 
 def runArgs():
 
-    defaultParameters = MopsParameters()
+    defaultParameters = MopsParameters(verbose=False)
 
     parser = argparse.ArgumentParser(
         prog="runMops",
@@ -439,9 +439,8 @@ def runMops(parameters, tracker, diaSourceDir, name):
     tracker.tracks = tracks
     tracker.tracksDir = dirs[5]
 
+    # Print status and save tracker
     tracker.status()
-
-    # Save tracker
     tracker.save(outDir=runDir)
 
     return

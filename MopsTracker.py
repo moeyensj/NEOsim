@@ -330,7 +330,8 @@ class MopsTracker(object):
         print "\tindicesToIds.py:                   %s" % (self._ranIndicesToIds)        
         print "\tmakeLinkTrackletsInputByNight.py:  %s" % (self._ranMakeLinkTrackletsInputByNight)
         print "\tlinkTracklets:                     %s" % (self._ranLinkTracklets)
-
+        print ''
+        
         return
 
     def save(self, outDir=None):
@@ -347,5 +348,7 @@ class MopsTracker(object):
         stream = file(outname, 'w')
         yaml.dump(self, stream)   
         stream.close()
+
+        print ''
 
         return

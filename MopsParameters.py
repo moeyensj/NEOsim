@@ -19,7 +19,8 @@ class MopsParameters(object):
                 angular_tolerance=None,
                 velocity_tolerance=None,
                 rms_max=None,
-                window_size=None):
+                window_size=None,
+                verbose=True):
 
         self._vMax = velocity_max
         self._vMin = velocity_min
@@ -56,9 +57,10 @@ class MopsParameters(object):
         if window_size == None:
             self._windowSize = defaults.window_size
 
-        print '------- MOPS Parameters --------'
-        self.info()
-        print ''
+        if verbose:
+            print '------- MOPS Parameters --------'
+            self.info()
+            print ''
 
     @property
     def vMax(self):
@@ -157,5 +159,7 @@ class MopsParameters(object):
         stream = file(outname, 'w')
         yaml.dump(self, stream)   
         stream.close()
+
+        print ''
 
         return
