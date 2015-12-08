@@ -335,8 +335,8 @@ class MopsParameters(object):
         print "---- purifyTracklets ----"
         print "\tMaximum RMS:                              %s" % (self._rmsMax)
         print "---- removeSubsets ----"
-        print "\tRemove subsets                            %s" % (self._rmSubsets)
-        print "\tKeep only longest                         %s" % (self._keepOnlyLongest)
+        print "\tRemove subsets:                           %s" % (self._rmSubsets)
+        print "\tKeep only longest:                        %s" % (self._keepOnlyLongest)
         print "---- makeLinkTrackletsInput_byNight.py ----"
         print "\tWindow size:                              %s" % (self._windowSize)
         print "---- linkTracklets ----"
