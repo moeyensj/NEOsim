@@ -99,7 +99,7 @@ def runFindTracklets(parameters, diaSources, diaSourceDir, outDir):
         diaSourceIn = diaSourceDir + diaSource
         trackletsOut = outDir + diaSource.split('.')[0] + trackletSuffix
 
-        call = ['findTracklets', '-i', diaSourceIn, '-o', trackletsOut, '-v', str(parameters.vMax), '-m', str(parameters.vMin)]
+        call = ['findTracklets', '-i', diaSourceIn, '-o', trackletsOut, '-v', parameters.vMax, '-m', parameters.vMin]
         subprocess.call(call, stdout=outfile, stderr=outerr)
 
         tracklets.append(trackletsOut)
@@ -167,8 +167,11 @@ def runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir,
         trackletName = diaSource.split('.')[0]
         collapsedTracklet = outDir + trackletName + collapsedSuffix
 
-        call = ['collapseTracklets', diaSourceIn, tracklet, str(parameters.raTol), 
-        str(parameters.decTol), str(parameters.angTol), str(parameters.vTol), collapsedTracklet]
+        call = ['collapseTracklets', diaSourceIn, tracklet, parameters.raTol, 
+            parameters.decTol, parameters.angTol, parameters.vTol, collapsedTracklet,
+            '--method', parameters.method,
+            '--useRMSFilt', parameters.useRMSfilt,
+            '--maxRMS', parameters.rmsMax]
         subprocess.call(call, stdout=outfile, stderr=outerr)
 
         collapsedTracklets.append(collapsedTracklet)
@@ -202,7 +205,7 @@ def runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir,
         purifiedTracklet = outDir + trackletName + purifiedSuffix
 
         call = ['purifyTracklets', '--detsFile', diaSourceIn, '--pairsFile', tracklet, 
-        '--maxRMS', str(parameters.rmsMax),'--outFile', purifiedTracklet]
+        '--maxRMS', parameters.rmsMax,'--outFile', purifiedTracklet]
         subprocess.call(call, stdout=outfile, stderr=outerr)
 
         purifiedTracklets.append(purifiedTracklet)
@@ -234,7 +237,9 @@ def runRemoveSubsets(parameters, purifiedTracklets, diaSources, diaSourceDir, ou
         trackletName = diaSource.split('.')[0]
         finalTracklet = outDir + trackletName + finalSuffix
 
-        call = ['removeSubsets', '--inFile', tracklet, '--outFile', finalTracklet]
+        call = ['removeSubsets', '--inFile', tracklet, '--outFile', finalTracklet,
+            '--removeSubsets', parameters.rmSubsets,
+            '--keepOnlyLongest', parameters.keepOnlyLongest]
         subprocess.call(call, stdout=outfile, stderr=outerr)
 
         finalTracklets.append(finalTracklet)
@@ -295,7 +300,7 @@ def runMakeLinkTrackletsInputByNight(parameters, diaSourcesDir, trackletsDir, ou
     outfile = file(outDir + '/makeLinkTrackletsInput_byNight.out', 'w')
     outerr = file(outDir + '/makeLinkTrackletsInput_byNight.err', 'w')
     script = str(os.getenv('MOPS_DIR')) + '/makeLinkTrackletsInput_byNight.py'
-    call = ['python', script, str(parameters.windowSize), diaSourcesDir, trackletsDir, outDir]
+    call = ['python', script, parameters.windowSize, diaSourcesDir, trackletsDir, outDir]
     subprocess.call(call, stdout=outfile, stderr=outerr)
 
     ids = glob.glob(outDir + '*.ids')
@@ -326,7 +331,24 @@ def runLinkTracklets(dets, ids, outDir):
         trackName = detIn.split('/')[2].split('.')[0]
         trackOut = outDir +  trackName + trackSuffix
 
-        call = ['linkTracklets', '-d', detIn, '-t', idIn,'-o', trackOut]
+        call = ['linkTracklets', 
+            '-e', parameters.detErrThresh, 
+            '-D', parameters.decAccelMax,
+            '-R', parameters.raAccelMax,
+            '-u', parameters.nightMin,
+            '-s', parameters.detectMin,
+            '-b', parameters.bufferSize,
+            '-d', detIn, 
+            '-t', idIn,
+            '-o', trackOut]
+
+        if parameters.latestFirstEnd != None:
+            call.extend(['-F', parameters.latestFirstEnd])
+        if parameters.earliestLastEnd != None:
+            call.extend(['-L', parameters.earliestLastEnd])
+        if parameters.leafNodeSizeMax != None:
+            call.extend(['-n', parameters.leafNodeSizeMax])
+
         subprocess.call(call, stdout=outfile, stderr=outerr)
 
         tracks.append(trackOut)
