@@ -19,6 +19,7 @@ import sys
 import subprocess
 import glob
 import argparse
+import yaml
 
 from MopsParameters import MopsParameters
 from MopsTracker import MopsTracker
@@ -367,6 +368,11 @@ def runArgs():
     parser.add_argument("diaSourcesDir", help="directory containing nightly diasources (.dias)")
     parser.add_argument("name", help="name of this MOPS run, used as top directory folder")
 
+    # Config file, load parameters from config file if given
+    parser.add_argument("-cfg", "--config_file", default=None,
+        help="""If given, will read parameter values from file to overwrite default values defined in MopsParameters. 
+        Parameter values not-defined in config file will be set to default. See default.cfg for sample config file.""")
+
     # findTracklets
     parser.add_argument("-vM", "--velocity_max", default=default.vMax, 
         help="Maximum velocity (used in findTracklets)")
@@ -520,27 +526,31 @@ if __name__=="__main__":
     diaSourceDir = args.diaSourcesDir
 
     # Initialize MopsParameters and MopsTracker
-    parameters = MopsParameters(velocity_max=args.velocity_max, 
-                velocity_min=args.velocity_min, 
-                ra_tolerance=args.ra_tolerance,
-                dec_tolerance=args.dec_tolerance,
-                angular_tolerance=args.angular_tolerance,
-                velocity_tolerance=args.velocity_tolerance,
-                method=args.method,
-                use_rms_filter=args.use_rms_filter,
-                rms_max=args.rms_max,
-                remove_subsets=args.remove_subsets,
-                keep_only_longest=args.keep_only_longest,
-                window_size=args.window_size,
-                detection_error_threshold=args.detection_error_threshold,
-                dec_acceleration_max=args.dec_acceleration_max,
-                ra_acceleration_max=args.ra_acceleration_max,
-                latest_first_endpoint=args.latest_first_endpoint,
-                earliest_last_endpoint=args.earliest_last_endpoint,
-                nights_min=args.nights_min,
-                detections_min=args.detections_min,
-                output_buffer_size=args.output_buffer_size,
-                leaf_node_size_max=args.leaf_node_size_max)
+    if args.config_file == None:
+        parameters = MopsParameters(velocity_max=args.velocity_max, 
+                    velocity_min=args.velocity_min, 
+                    ra_tolerance=args.ra_tolerance,
+                    dec_tolerance=args.dec_tolerance,
+                    angular_tolerance=args.angular_tolerance,
+                    velocity_tolerance=args.velocity_tolerance,
+                    method=args.method,
+                    use_rms_filter=args.use_rms_filter,
+                    rms_max=args.rms_max,
+                    remove_subsets=args.remove_subsets,
+                    keep_only_longest=args.keep_only_longest,
+                    window_size=args.window_size,
+                    detection_error_threshold=args.detection_error_threshold,
+                    dec_acceleration_max=args.dec_acceleration_max,
+                    ra_acceleration_max=args.ra_acceleration_max,
+                    latest_first_endpoint=args.latest_first_endpoint,
+                    earliest_last_endpoint=args.earliest_last_endpoint,
+                    nights_min=args.nights_min,
+                    detections_min=args.detections_min,
+                    output_buffer_size=args.output_buffer_size,
+                    leaf_node_size_max=args.leaf_node_size_max)
+    else:
+        cfg = yaml.load(file(args.config_file,'r'))
+        parameters = MopsParameters(**cfg)
 
      # Initialize tracker
     tracker = MopsTracker(name)
