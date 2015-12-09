@@ -357,7 +357,7 @@ def runLinkTracklets(dets, ids, outDir):
 
 def runArgs():
 
-    defaultParameters = MopsParameters(verbose=False)
+    default = MopsParameters(verbose=False)
 
     parser = argparse.ArgumentParser(
         prog="runMops",
@@ -366,22 +366,65 @@ def runArgs():
 
     parser.add_argument("diaSourcesDir", help="directory containing nightly diasources (.dias)")
     parser.add_argument("name", help="name of this MOPS run, used as top directory folder")
-    parser.add_argument("-vMax", "--velocity_max", metavar="", default=defaultParameters.vMax, 
+
+    # findTracklets
+    parser.add_argument("-vM", "--velocity_max", default=default.vMax, 
         help="Maximum velocity (used in findTracklets)")
-    parser.add_argument("-vMin", "--velocity_min", metavar="", default=defaultParameters.vMin, 
+    parser.add_argument("-vm", "--velocity_min", default=default.vMin, 
         help="Minimum velocity (used in findTracklets)")
-    parser.add_argument("-raTol", "--ra_tolerance", metavar="", default=defaultParameters.raTol, 
+
+    # collapseTracklets, purifyTracklets
+    parser.add_argument("-rT", "--ra_tolerance", default=default.raTol, 
         help="RA tolerance (used in collapseTracklets)")
-    parser.add_argument("-decTol", "--dec_tolerance", metavar="", default=defaultParameters.decTol, 
+    parser.add_argument("-dT", "--dec_tolerance", default=default.decTol, 
         help="Dec tolerance (used in collapseTracklets)")
-    parser.add_argument("-angTol", "--angular_tolerance", metavar="", default=defaultParameters.angTol,
+    parser.add_argument("-aT", "--angular_tolerance", default=default.angTol,
         help="Angular tolerance (used in collapseTracklets)")
-    parser.add_argument("-vTol", "--velocity_tolerance", metavar="", default=defaultParameters.vTol, 
+    parser.add_argument("-vT", "--velocity_tolerance", default=default.vTol, 
         help="Velocity tolerance (used in collapseTracklets)")
-    parser.add_argument("-rmsMax", "--rms_max", metavar="", default=defaultParameters.rmsMax,
-        help="Maximum RMS (used in purifyTracklets")
-    parser.add_argument("-windowSize", "--window_size", metavar="", default=defaultParameters.windowSize,
-        help="Windows size (used in makeLinkTrackletsInput_byNight.py")
+    parser.add_argument("-m","--method", default=default.method,
+        help="""Method to collapse tracklets, can be one of: greedy | minimumRMS | bestFit.
+        If greedy, then we choose as many compatible tracklets as possible, as returned by the tree search. 
+        If minimumRMS, we take the results of the tree search and repeatedly find the tracklet which would 
+        have the lowest resulting RMS value if added, then add it. If bestFit, we repeatedly choose the tracklet 
+        which is closest to the current approximate line first, rather than re-calculating best-fit line for 
+        each possible tracklet. (used in collapseTracklets)""")
+    parser.add_argument("-rF","--use_rms_filter", default=default.useRMSfilt,
+        help="Enforce a maximum RMS distance for any tracklet which is the product of collapsing (used in collapseTracklets)")
+    parser.add_argument("-rM", "--rms_max", default=default.rmsMax,
+        help="""Only used if useRMSfilt == true. Describes the function for RMS filtering.  
+        Tracklets will not be collapsed unless the resulting tracklet would have RMS <= maxRMSm * average magnitude + maxRMSb 
+        (used in collapseTracklets and purifyTracklets""")
+
+    # removeSubsets
+    parser.add_argument("-S","--remove_subsets", default=default.rmSubsets,
+        help="Remove subsets (used in removeSubsets)")
+    parser.add_argument("-k","--keep_only_longest", default=default.keepOnlyLongest,
+        help="Keep only the longest collinear tracklets in a set (used in removeSubsets)")
+
+    # makeLinkTrackletsInput_byNight
+    parser.add_argument("-w", "--window_size", default=default.windowSize,
+        help="Number of nights in sliding window (used in makeLinkTrackletsInput_byNight.py")
+
+    # linkTracklets
+    parser.add_argument("-e", "--detection_error_threshold", default=default.detErrThresh,
+        help="Maximum allowed observational error (used in linkTracklets)")
+    parser.add_argument("-D", "--dec_acceleration_max", default=default.decAccelMax,
+        help="Maximum sky-plane acceleration in Dec (used in linkTracklets)")
+    parser.add_argument("-R", "--ra_acceleration_max", default=default.raAccelMax,
+        help="Maximum sky-plane acceleration in RA (used in linkTracklets)")
+    parser.add_argument("-u", "--nights_min", default=default.nightMin,
+        help="Require tracks to contain detections from at least this many nights (used in linkTracklets)")
+    parser.add_argument("-s", "--detections_min", default=default.detectMin,
+        help="Require tracks to contain at least this many detections (used in linkTracklets)")
+    parser.add_argument("-b", "--output_buffer_size", default=default.bufferSize,
+        help="Number of tracks to buffer in memory before flushing output (used in linkTracklets)")
+    parser.add_argument("-F", "--latest_first_endpoint", default=default.latestFirstEnd,
+        help="If specified, only search for tracks with first endpoint before time specified (used in linkTracklets)")
+    parser.add_argument("-L", "--earliest_last_endpoint", default=default.earliestLastEnd,
+        help="If specified, only search for tracks with last endpoint after time specified (used in linkTracklets)")
+    parser.add_argument("-n", "--leaf_node_size_max", default=default.leafNodeSizeMax,
+        help="Set max leaf node size for nodes in KDTree (used in linkTracklets)")
 
     args = parser.parse_args()
 
@@ -477,15 +520,27 @@ if __name__=="__main__":
     diaSourceDir = args.diaSourcesDir
 
     # Initialize MopsParameters and MopsTracker
-    parameters = MopsParameters(
-                velocity_max=args.velocity_max, 
+    parameters = MopsParameters(velocity_max=args.velocity_max, 
                 velocity_min=args.velocity_min, 
                 ra_tolerance=args.ra_tolerance,
                 dec_tolerance=args.dec_tolerance,
                 angular_tolerance=args.angular_tolerance,
                 velocity_tolerance=args.velocity_tolerance,
+                method=args.method,
+                use_rms_filter=args.use_rms_filter,
                 rms_max=args.rms_max,
-                window_size=args.window_size)
+                remove_subsets=args.remove_subsets,
+                keep_only_longest=args.keep_only_longest,
+                window_size=args.window_size,
+                detection_error_threshold=args.detection_error_threshold,
+                dec_acceleration_max=args.dec_acceleration_max,
+                ra_acceleration_max=args.ra_acceleration_max,
+                latest_first_endpoint=args.latest_first_endpoint,
+                earliest_last_endpoint=args.earliest_last_endpoint,
+                nights_min=args.nights_min,
+                detections_min=args.detections_min,
+                output_buffer_size=args.output_buffer_size,
+                leaf_node_size_max=args.leaf_node_size_max)
 
      # Initialize tracker
     tracker = MopsTracker(name)
