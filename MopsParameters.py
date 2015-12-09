@@ -3,7 +3,7 @@ __all__ = ["MopsParameters"]
 class DefaultMopsParameters:
 
     # findTracklets
-    velocity_max = "2.0"
+    velocity_max = "0.5"
     velocity_min = "0.0"
 
     # collapseTracklets, purifyTracklets
