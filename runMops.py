@@ -511,7 +511,7 @@ def runMops(parameters, tracker, diaSourceDir, name, verbose=VERBOSE):
     runDir, dirs = directoryBuilder(name, verbose=verbose)
 
     # Save parameters
-    parameters.save(outDir=runDir)
+    _save(parameters, 'parameters', outDir=runDir)
 
     # Find DIASources
     diaSources = os.listdir(diaSourceDir)
@@ -568,18 +568,39 @@ def runMops(parameters, tracker, diaSourceDir, name, verbose=VERBOSE):
     tracker.tracksDir = dirs[5]
 
     # Print status and save tracker
-    tracker.status()
-    tracker.save(outDir=runDir)
+    tracker.info()
+    _save(tracker, 'tracker', outDir=runDir)
 
     return
 
 def _status(function, current):
+
     if current:
         print "------- Run MOPS -------"
         print "Running %s..." % (function)
     else:
         print "Completed running %s." % (function)
         print ""
+    return
+
+
+def _save(mopsObject, objectName, outDir=None):
+
+    print "------- Run MOPS -------"
+
+    if outDir == None:
+        outname = "%s.yaml" % (objectName)
+    else:
+        outname = outDir + "%s.yaml" % (objectName)
+
+    print "Saving %s to %s" % (objectName, outname)
+
+    stream = file(outname, "w")
+    yaml.dump(mopsObject, stream)   
+    stream.close()
+
+    print ""
+
     return
 
 if __name__=="__main__":

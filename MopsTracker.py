@@ -36,7 +36,7 @@ class MopsTracker(object):
         self._ranLinkTracklets = False
 
         if verbose:
-            self.status()
+            self.info()
 
     @property
     def diaSources(self):
@@ -318,7 +318,7 @@ class MopsTracker(object):
     def vTol(self, value):
         self._vTol = value
 
-    def status(self):
+    def info(self):
         print "------- MOPS Tracker --------"
         print "Current run status:"
         print ""
@@ -332,23 +332,4 @@ class MopsTracker(object):
         print "\tlinkTracklets:                     %s" % (self._ranLinkTracklets)
         print ""
         
-        return
-
-    def save(self, outDir=None):
-
-        import yaml
-
-        if outDir == None:
-            outname = "tracker.yaml"
-        else:
-            outname = outDir + "tracker.yaml"
-
-        print "Saving MopsTracker to %s" % (outname)
-
-        stream = file(outname, "w")
-        yaml.dump(self, stream)   
-        stream.close()
-
-        print ''
-
         return

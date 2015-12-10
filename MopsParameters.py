@@ -348,24 +348,5 @@ class MopsParameters(object):
         print "\t Output buffer size:                      %s" % (self._bufferSize)
         print "\t Maximum leaf node size:                  %s" % (self._leafNodeSizeMax)
         print ""
-        
-        return
-
-    def save(self, outDir=None):
-
-        import yaml
-
-        if outDir == None:
-            outname = "parameters.yaml"
-        else:
-            outname = outDir + "parameters.yaml"
-
-        print "Saving MopsParameters to %s" % (outname)
-
-        stream = file(outname, "w")
-        yaml.dump(self, stream)   
-        stream.close()
-
-        print ""
 
         return
