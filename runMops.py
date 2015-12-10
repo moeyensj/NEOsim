@@ -59,19 +59,15 @@ def directoryBuilder(name, verbose=VERBOSE):
     runDir = name + '/'
 
     try:
-        os.stat(runDir)
-    except:
         os.mkdir(runDir)
+    except:
+        raise NameError("Directory exists! Cannot continue!")
 
     dirs = [trackletsDir, collapsedDir, purifyDir, finalDir, trackletsByNightDir, tracksDir]
     dirsOut = []
    
     for d in dirs:
-        try:
-            os.stat(runDir +  d)
-        except:
-            os.mkdir(runDir + d)
-
+        os.mkdir(runDir + d)
         dirsOut.append(runDir +  d)
             
     return runDir, dirsOut
