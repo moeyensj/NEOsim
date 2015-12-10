@@ -2,7 +2,7 @@ __all__ = ["MopsTracker"]
 
 class MopsTracker(object):
 
-    def __init__(self, name):
+    def __init__(self, name, verbose=True):
 
         self._diaSources = None
         self._tracklets = None
@@ -35,9 +35,8 @@ class MopsTracker(object):
         self._ranMakeLinkTrackletsInputByNight = False
         self._ranLinkTracklets = False
 
-        print '------- MOPS Tracker --------'
-        print 'Tracker initialized...'
-        print ''
+        if verbose:
+            self.status()
 
     @property
     def diaSources(self):
@@ -320,8 +319,9 @@ class MopsTracker(object):
         self._vTol = value
 
     def status(self):
-
+        print "------- MOPS Tracker --------"
         print "Current run status:"
+        print ""
         print "\tfindTracklets:                     %s" % (self._ranFindTracklets)
         print "\tidsToIndices.py:                   %s" % (self._ranIdsToIndices)
         print "\tcollapseTracklets:                 %s" % (self._ranCollapseTracklets)
@@ -330,7 +330,7 @@ class MopsTracker(object):
         print "\tindicesToIds.py:                   %s" % (self._ranIndicesToIds)        
         print "\tmakeLinkTrackletsInputByNight.py:  %s" % (self._ranMakeLinkTrackletsInputByNight)
         print "\tlinkTracklets:                     %s" % (self._ranLinkTracklets)
-        print ''
+        print ""
         
         return
 
@@ -339,13 +339,13 @@ class MopsTracker(object):
         import yaml
 
         if outDir == None:
-            outname = 'tracker.yaml'
+            outname = "tracker.yaml"
         else:
-            outname = outDir + 'tracker.yaml'
+            outname = outDir + "tracker.yaml"
 
-        print 'Saving MopsTracker to %s' % (outname)
+        print "Saving MopsTracker to %s" % (outname)
 
-        stream = file(outname, 'w')
+        stream = file(outname, "w")
         yaml.dump(self, stream)   
         stream.close()
 

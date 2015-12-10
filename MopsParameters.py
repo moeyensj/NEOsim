@@ -145,9 +145,7 @@ class MopsParameters(object):
             self._leafNodeSizeMax = defaults.leaf_node_size_max
 
         if verbose:
-            print "------- MOPS Parameters --------"
             self.info()
-            print ""
 
     @property
     def vMax(self):
@@ -318,7 +316,7 @@ class MopsParameters(object):
         self._leafNodeSizeMax = value
 
     def info(self):
-
+        print "------- MOPS Parameters --------"
         print "Current Parameter Values:"
         print ""
         print "---- findTracklets ----"
@@ -349,7 +347,8 @@ class MopsParameters(object):
         print "\t Minimum detections:                      %s" % (self._detectMin)
         print "\t Output buffer size:                      %s" % (self._bufferSize)
         print "\t Maximum leaf node size:                  %s" % (self._leafNodeSizeMax)
-
+        print ""
+        
         return
 
     def save(self, outDir=None):
