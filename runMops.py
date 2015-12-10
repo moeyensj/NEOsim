@@ -44,7 +44,7 @@ tracksDir = 'tracks/'
 
 VERBOSE = True
 
-def directoryBuilder(name, verbose=VERBOSE):
+def directoryBuilder(runDir, verbose=VERBOSE):
     """
     Builds the directory structure for MOPS output files.
 
@@ -52,11 +52,9 @@ def directoryBuilder(name, verbose=VERBOSE):
     ----------------------
     parameter: (dtype) [default (if optional)], information
 
-    name: (string), name of the top folder (same as run name)
+    runDir: (string), name of the top folder (same as run name)
     ----------------------
     """
-
-    runDir = name + '/'
 
     try:
         os.mkdir(runDir)
@@ -67,8 +65,9 @@ def directoryBuilder(name, verbose=VERBOSE):
     dirsOut = []
    
     for d in dirs:
-        os.mkdir(runDir + d)
-        dirsOut.append(runDir +  d)
+        newDir = os.path.join(name, d)
+        os.mkdir(newDir)
+        dirsOut.append(newDir)
             
     return runDir, dirsOut
 
@@ -91,18 +90,17 @@ def runFindTracklets(parameters, diaSources, diaSourceDir, outDir, verbose=VERBO
     function = "findTracklets"
     tracklets = []
 
-    outfile = file(outDir + '/findTracklets.out', 'w')
-    outerr = file(outDir + '/findTracklets.err', 'w')
+    outfile, errfile = _log(function, outDir)
 
     if verbose:
         _status(function, True)
 
     for diaSource in diaSources:
-        diaSourceIn = diaSourceDir + diaSource
-        trackletsOut = outDir + diaSource.split('.')[0] + trackletSuffix
+        diaSourceIn = os.path.join(diaSourceDir, diaSource)
+        trackletsOut = _out(outDir, diaSource, trackletSuffix)
 
         call = ['findTracklets', '-i', diaSourceIn, '-o', trackletsOut, '-v', parameters.vMax, '-m', parameters.vMin]
-        subprocess.call(call, stdout=outfile, stderr=outerr)
+        subprocess.call(call, stdout=outfile, stderr=errfile)
 
         tracklets.append(trackletsOut)
 
@@ -131,19 +129,18 @@ def runIdsToIndices(tracklets, diaSources, diaSourceDir, outDir, verbose=VERBOSE
     function = "idsToIndices.py"
     byIndex = []
 
-    outfile = file(outDir + '/idsToIndices.out', 'w')
-    outerr = file(outDir + '/idsToIndices.err', 'w')
+    outfile, errfile = _log(function, outDir)
 
     if verbose:
         _status(function, True)
 
     for tracklet, diaSource in zip(tracklets, diaSources):
-        diaSourceIn = diaSourceDir + diaSource
-        byIndexOut = outDir + diaSource.split('.')[0] + byIndexSuffix
+        diaSourceIn = os.path.join(diaSourceDir, diaSource)
+        byIndexOut = _out(outDir, diaSource, byIndexSuffix)
 
         script = str(os.getenv('MOPS_DIR')) + '/idsToIndices.py'
         call = ['python', script, tracklet, diaSourceIn, byIndexOut]
-        subprocess.call(call, stdout=outfile, stderr=outerr)
+        subprocess.call(call, stdout=outfile, stderr=errfile)
 
         byIndex.append(byIndexOut)
 
@@ -170,23 +167,21 @@ def runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir,
     function = "collapseTracklets"
     collapsedTracklets = []
 
-    outfile = file(outDir + '/collapseTracklets.out', 'w')
-    outerr = file(outDir + '/collapseTracklets.err', 'w')
+    outfile, errfile = _log(function, outDir)
 
     if verbose:
         _status(function, True)
 
     for tracklet, diaSource in zip(trackletsByIndex, diaSources):
-        diaSourceIn = diaSourceDir + diaSource
-        trackletName = diaSource.split('.')[0]
-        collapsedTracklet = outDir + trackletName + collapsedSuffix
+        diaSourceIn = os.path.join(diaSourceDir, diaSource)
+        collapsedTracklet = _out(outDir, diaSource, collapsedSuffix)
 
         call = ['collapseTracklets', diaSourceIn, tracklet, parameters.raTol, 
             parameters.decTol, parameters.angTol, parameters.vTol, collapsedTracklet,
             '--method', parameters.method,
             '--useRMSFilt', parameters.useRMSfilt,
             '--maxRMS', parameters.rmsMax]
-        subprocess.call(call, stdout=outfile, stderr=outerr)
+        subprocess.call(call, stdout=outfile, stderr=errfile)
 
         collapsedTracklets.append(collapsedTracklet)
 
@@ -213,20 +208,18 @@ def runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir,
     function = "purifyTracklets"
     purifiedTracklets = []
 
-    outfile = file(outDir + '/purifyTracklets.out', 'w')
-    outerr = file(outDir + '/purifyTracklets.err', 'w')
+    outfile, errfile = _log(function, outDir)
 
     if verbose:
         _status(function, True)
 
     for tracklet, diaSource in zip(collapsedTracklets, diaSources):
-        diaSourceIn = diaSourceDir + diaSource
-        trackletName = diaSource.split('.')[0]
-        purifiedTracklet = outDir + trackletName + purifiedSuffix
+        diaSourceIn = os.path.join(diaSourceDir, diaSource)
+        purifiedTracklet = _out(outDir, diaSource, purifiedSuffix)
 
         call = ['purifyTracklets', '--detsFile', diaSourceIn, '--pairsFile', tracklet, 
         '--maxRMS', parameters.rmsMax,'--outFile', purifiedTracklet]
-        subprocess.call(call, stdout=outfile, stderr=outerr)
+        subprocess.call(call, stdout=outfile, stderr=errfile)
 
         purifiedTracklets.append(purifiedTracklet)
 
@@ -253,20 +246,18 @@ def runRemoveSubsets(parameters, purifiedTracklets, diaSources, diaSourceDir, ou
     function = "removeSubsets"
     finalTracklets = []
 
-    outfile = file(outDir + '/removeSubsets.out', 'w')
-    outerr = file(outDir + '/removeSubsets.err', 'w')
+    outfile, errfile = _log(function, outDir)
 
     if verbose:
         _status(function, True)
 
     for tracklet, diaSource in zip(purifiedTracklets, diaSources):
-        trackletName = diaSource.split('.')[0]
-        finalTracklet = outDir + trackletName + finalSuffix
+        finalTracklet = _out(outDir, diaSource, finalSuffix)
 
         call = ['removeSubsets', '--inFile', tracklet, '--outFile', finalTracklet,
             '--removeSubsets', parameters.rmSubsets,
             '--keepOnlyLongest', parameters.keepOnlyLongest]
-        subprocess.call(call, stdout=outfile, stderr=outerr)
+        subprocess.call(call, stdout=outfile, stderr=errfile)
 
         finalTracklets.append(finalTracklet)
 
@@ -295,18 +286,18 @@ def runIndicesToIds(finalTracklets, diaSources, diaSourceDir, outDir, verbose=VE
     byId = []
 
     outfile = file(outDir + '/indicesToIds.out', 'w')
-    outerr = file(outDir + '/indicesToIds.err', 'w')
+    errfile = file(outDir + '/indicesToIds.err', 'w')
 
     if verbose:
         _status(function, True)
 
     for tracklet, diaSource in zip(finalTracklets, diaSources):
-        diaSourceIn = diaSourceDir + diaSource
-        byIdOut = outDir + diaSource.split('.')[0] + byIdSuffix
+        diaSourceIn = os.path.join(diaSourceDir, diaSource)
+        byIdOut = _out(outDir, diaSource, byIdSuffix)
 
         script = str(os.getenv('MOPS_DIR')) + '/indicesToIds.py'
         call = ['python', script, tracklet, diaSourceIn, byIdOut]
-        subprocess.call(call, stdout=outfile, stderr=outerr)
+        subprocess.call(call, stdout=outfile, stderr=errfile)
 
         byId.append(byIdOut)
 
@@ -333,15 +324,14 @@ def runMakeLinkTrackletsInputByNight(parameters, diaSourcesDir, trackletsDir, ou
     """
     function = "makeLinkTrackletsInput_byNight.py"
 
-    outfile = file(outDir + '/makeLinkTrackletsInput_byNight.out', 'w')
-    outerr = file(outDir + '/makeLinkTrackletsInput_byNight.err', 'w')
+    outfile, errfile = _log(function, outDir)
 
     if verbose:
         _status(function, True)
 
     script = str(os.getenv('MOPS_DIR')) + '/makeLinkTrackletsInput_byNight.py'
     call = ['python', script, parameters.windowSize, diaSourcesDir, trackletsDir, outDir]
-    subprocess.call(call, stdout=outfile, stderr=outerr)
+    subprocess.call(call, stdout=outfile, stderr=errfile)
 
     ids = glob.glob(outDir + '*.ids')
     dets = glob.glob(outDir + '*.dets')
@@ -367,15 +357,13 @@ def runLinkTracklets(dets, ids, outDir, verbose=VERBOSE):
     function = "linkTracklets"
     tracks = []
 
-    outfile = file(outDir + '/linkTracklets.out', 'w')
-    outerr = file(outDir + '/linkTracklets.err', 'w')
+    outfile, errfile = _log(function, outDir)
 
     if verbose:
         _status(function, True)
 
     for detIn, idIn in zip(dets,ids):
-        trackName = detIn.split('/')[2].split('.')[0]
-        trackOut = outDir +  trackName + trackSuffix
+        trackOut = _out(outDir, detIn, trackSuffix)
 
         call = ['linkTracklets', 
             '-e', parameters.detErrThresh, 
@@ -395,7 +383,7 @@ def runLinkTracklets(dets, ids, outDir, verbose=VERBOSE):
         if parameters.leafNodeSizeMax != None:
             call.extend(['-n', parameters.leafNodeSizeMax])
 
-        subprocess.call(call, stdout=outfile, stderr=outerr)
+        subprocess.call(call, stdout=outfile, stderr=errfile)
 
         tracks.append(trackOut)
 
@@ -587,7 +575,7 @@ def _save(mopsObject, objectName, outDir=None):
     if outDir == None:
         outname = "%s.yaml" % (objectName)
     else:
-        outname = outDir + "%s.yaml" % (objectName)
+        outname = os.path.join(outDir, "%s.yaml" % (objectName))
 
     print "Saving %s to %s" % (objectName, outname)
 
@@ -598,6 +586,25 @@ def _save(mopsObject, objectName, outDir=None):
     print ""
 
     return
+
+def _log(function, outDir):
+    # Split function name to get rid of possible .py
+    function = os.path.splitext(function)[0]
+
+    # Create outfile and errfile streams
+    outfile = file(os.path.join(outDir, function + '.out'), 'w')
+    errfile = file(os.path.join(outDir, function + '.err'), 'w')
+
+    return outfile, errfile
+
+def _out(outDir, filename, suffix):
+    # Retrieve base file name
+    base = os.path.basename(filename)
+    # Remove all suffixes from filename and add new
+    outName = base.split('.')[0] + suffix
+    # Create path 
+    outFile = os.path.join(outDir, outName)
+    return outFile
 
 if __name__=="__main__":
 
