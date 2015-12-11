@@ -2,7 +2,7 @@ __all__ = ["MopsTracker"]
 
 class MopsTracker(object):
 
-    def __init__(self, name, verbose=True):
+    def __init__(self, runDir, verbose=True):
 
         self._diaSources = None
         self._tracklets = None
@@ -14,7 +14,7 @@ class MopsTracker(object):
         self._trackletsByNightDets = None
         self._trackletsByNightIds = None
         self._tracks = None
-        self._name = name
+        self._runDir = runDir
 
         self._diaSourcesDir = None 
         self._trackletsDir = None 
@@ -119,12 +119,12 @@ class MopsTracker(object):
         self._tracks = value
 
     @property
-    def name(self):
-        return self._name
+    def runDir(self):
+        return self._runDir
 
-    @name.setter
-    def name(self, value):
-        self._name = value
+    @runDir.setter
+    def runDir(self, value):
+        self._runDir = value
 
     @property
     def diaSourcesDir(self):

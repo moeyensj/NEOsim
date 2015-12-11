@@ -5,7 +5,7 @@
 A simple script to run MOPS. (Work in progress)
 
 Command-line call:
-python runMops.py {nightly DIA source directory ending with '/'} {run name} 
+python runMops.py {nightly DIA source directory} {output directory} 
 
 Requirements:
 MOPS setup (with MOPS_DIR path variable pointing to bin mops_daymops)
@@ -52,7 +52,7 @@ def directoryBuilder(runDir, verbose=VERBOSE):
     ----------------------
     parameter: (dtype) [default (if optional)], information
 
-    runDir: (string), name of the top folder (same as run name)
+    runDir: (string), name of the top folder
     ----------------------
     """
 
@@ -65,11 +65,11 @@ def directoryBuilder(runDir, verbose=VERBOSE):
     dirsOut = []
    
     for d in dirs:
-        newDir = os.path.join(name, d)
+        newDir = os.path.join(runDir, d)
         os.mkdir(newDir)
         dirsOut.append(newDir)
             
-    return runDir, dirsOut
+    return dirsOut
 
 def runFindTracklets(parameters, diaSources, diaSourceDir, outDir, verbose=VERBOSE):
     """
@@ -401,8 +401,8 @@ def runArgs():
         description="Given a set of nightly or obshist DIA sources, will run LSST's Moving Object Pipeline (MOPs)",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument("diaSourcesDir", help="directory containing nightly diasources (.dias)")
-    parser.add_argument("name", help="name of this MOPS run, used as top directory folder")
+    parser.add_argument("diaSourcesDir", help="Directory containing nightly diasources (.dias)")
+    parser.add_argument("outputDir", help="Output directory to be created for file output (must not exist)")
 
     # Config file, load parameters from config file if given
     parser.add_argument("-cfg", "--config_file", default=None,
@@ -476,7 +476,7 @@ def runArgs():
 
     return args
 
-def runMops(parameters, tracker, diaSourceDir, name, verbose=VERBOSE):
+def runMops(parameters, tracker, diaSourceDir, runDir, verbose=VERBOSE):
     """
     Runs Moving Object Pipeline.
 
@@ -487,12 +487,12 @@ def runMops(parameters, tracker, diaSourceDir, name, verbose=VERBOSE):
     parameters: (MopsParameters object), user or default defined MOPS parameter object
     tracker: (MopsTracker object), object keeps track of output files and directories
     diaSourceDir: (string), directory containing diaSources
-    name: (string), run name
+    runDir: (string), run directory
     ----------------------
     """
 
     # Build directory structure
-    runDir, dirs = directoryBuilder(name, verbose=verbose)
+    dirs = directoryBuilder(runDir, verbose=verbose)
 
     # Save parameters
     _save(parameters, 'parameters', outDir=runDir)
@@ -612,9 +612,9 @@ if __name__=="__main__":
     args = runArgs()
     verbose = args.verbose
 
-    # Retrieve name and nightly DIA Sources directory
-    name = args.name
-    diaSourceDir = args.diaSourcesDir
+    # Retrieve output directory and nightly DIA Sources directory
+    runDir = os.path.abspath(args.outputDir)
+    diaSourceDir = os.path.join(args.diaSourcesDir, "")
 
     if verbose:
         print "------- Run MOPS -------"
@@ -653,7 +653,7 @@ if __name__=="__main__":
         parameters = MopsParameters(**cfg)
 
      # Initialize tracker
-    tracker = MopsTracker(name, verbose=verbose)
+    tracker = MopsTracker(runDir, verbose=verbose)
 
     # Run MOPs
-    runMops(parameters, tracker, diaSourceDir, name, verbose=verbose)
+    runMops(parameters, tracker, diaSourceDir, runDir, verbose=verbose)
