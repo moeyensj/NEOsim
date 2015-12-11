@@ -341,7 +341,7 @@ def runMakeLinkTrackletsInputByNight(parameters, diaSourcesDir, trackletsDir, ou
 
     return dets, ids
 
-def runLinkTracklets(dets, ids, outDir, verbose=VERBOSE):
+def runLinkTracklets(parameters, dets, ids, outDir, verbose=VERBOSE):
     """
     Runs linkTracklets.
 
@@ -546,7 +546,7 @@ def runMops(parameters, tracker, diaSourceDir, runDir, verbose=VERBOSE):
     tracker.trackletsByNightDir = dirs[4]
 
     # Run linkTracklets
-    tracks = runLinkTracklets(dets, ids, dirs[5], verbose=verbose)
+    tracks = runLinkTracklets(parameters, dets, ids, dirs[5], verbose=verbose)
     tracker.ranLinkTracklets = True
     tracker.tracks = tracks
     tracker.tracksDir = dirs[5]
