@@ -138,7 +138,7 @@ def runIdsToIndices(tracklets, diaSources, diaSourceDir, outDir, verbose=VERBOSE
         diaSourceIn = os.path.join(diaSourceDir, diaSource)
         byIndexOut = _out(outDir, diaSource, byIndexSuffix)
 
-        script = str(os.getenv('MOPS_DIR')) + '/idsToIndices.py'
+        script = str(os.getenv('MOPS_DIR')) + '/bin/idsToIndices.py'
         call = ['python', script, tracklet, diaSourceIn, byIndexOut]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
@@ -295,7 +295,7 @@ def runIndicesToIds(finalTracklets, diaSources, diaSourceDir, outDir, verbose=VE
         diaSourceIn = os.path.join(diaSourceDir, diaSource)
         byIdOut = _out(outDir, diaSource, byIdSuffix)
 
-        script = str(os.getenv('MOPS_DIR')) + '/indicesToIds.py'
+        script = str(os.getenv('MOPS_DIR')) + '/bin/indicesToIds.py'
         call = ['python', script, tracklet, diaSourceIn, byIdOut]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
@@ -329,7 +329,7 @@ def runMakeLinkTrackletsInputByNight(parameters, diaSourcesDir, trackletsDir, ou
     if verbose:
         _status(function, True)
 
-    script = str(os.getenv('MOPS_DIR')) + '/makeLinkTrackletsInput_byNight.py'
+    script = str(os.getenv('MOPS_DIR')) + '/bin/makeLinkTrackletsInput_byNight.py'
     call = ['python', script, parameters.windowSize, diaSourcesDir, trackletsDir, outDir]
     subprocess.call(call, stdout=outfile, stderr=errfile)
 
