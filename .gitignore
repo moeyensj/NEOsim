@@ -4,7 +4,5 @@ neosim.sublime-project
 neosim.sublime-workspace
 fullsky5year.db
 .ipynb_checkpoints/
-nightly*/
-obshist*/
 *.pyc
 ldm156*/
