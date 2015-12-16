@@ -1,0 +1,78 @@
+RemoveSubsets:
+---------------
+Input file:                                  unittest/controlRun/trackletsPurified/54466.tracklet.purified
+Output file:                                 unittest/controlRun/trackletsFinal/54466.tracklet.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Fri Dec 11 13:39:45 2015
+
+Finished reading infile at Fri Dec 11 13:39:45 2015
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Dec 11 13:39:45 2015
+
+Finished detection-to-track map, filtering tracks starting at Fri Dec 11 13:39:45 2015
+
+Finished filtering, writing output starting at Fri Dec 11 13:39:45 2015
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Dec 11 13:39:45 2015
+
+This process (18923) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  unittest/controlRun/trackletsPurified/54467.tracklet.purified
+Output file:                                 unittest/controlRun/trackletsFinal/54467.tracklet.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Fri Dec 11 13:39:45 2015
+
+Finished reading infile at Fri Dec 11 13:39:45 2015
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Dec 11 13:39:45 2015
+
+Finished detection-to-track map, filtering tracks starting at Fri Dec 11 13:39:45 2015
+
+Finished filtering, writing output starting at Fri Dec 11 13:39:45 2015
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Dec 11 13:39:45 2015
+
+This process (18925) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  unittest/controlRun/trackletsPurified/54468.tracklet.purified
+Output file:                                 unittest/controlRun/trackletsFinal/54468.tracklet.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Fri Dec 11 13:39:45 2015
+
+Finished reading infile at Fri Dec 11 13:39:45 2015
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Dec 11 13:39:45 2015
+
+Finished detection-to-track map, filtering tracks starting at Fri Dec 11 13:39:45 2015
+
+Finished filtering, writing output starting at Fri Dec 11 13:39:45 2015
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Dec 11 13:39:45 2015
+
+This process (18927) memory usage: 
+------------------------------------------
+------------------------------------------
+

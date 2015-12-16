@@ -1,0 +1,12 @@
+Reading tracks-by-indices from:  unittest/controlRun/trackletsFinal/54466.tracklet.final
+Reading diaIds from:  nightly/54466.dias
+Writing outFile:  unittest/controlRun/trackletsFinal/54466.tracklet.final.byIds
+FINISHED successfully.
+Reading tracks-by-indices from:  unittest/controlRun/trackletsFinal/54467.tracklet.final
+Reading diaIds from:  nightly/54467.dias
+Writing outFile:  unittest/controlRun/trackletsFinal/54467.tracklet.final.byIds
+FINISHED successfully.
+Reading tracks-by-indices from:  unittest/controlRun/trackletsFinal/54468.tracklet.final
+Reading diaIds from:  nightly/54468.dias
+Writing outFile:  unittest/controlRun/trackletsFinal/54468.tracklet.final.byIds
+FINISHED successfully.

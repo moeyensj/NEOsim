@@ -1,0 +1,35 @@
+!!python/object:MopsTracker.MopsTracker
+_collapsedTracklets: [unittest/controlRun/trackletsCollapsed/54466.tracklet.collapsed,
+  unittest/controlRun/trackletsCollapsed/54467.tracklet.collapsed, unittest/controlRun/trackletsCollapsed/54468.tracklet.collapsed]
+_collapsedTrackletsDir: unittest/controlRun/trackletsCollapsed/
+_diaSources: [54466.dias, 54467.dias, 54468.dias]
+_diaSourcesDir: nightly/
+_finalTracklets: [unittest/controlRun/trackletsFinal/54466.tracklet.final, unittest/controlRun/trackletsFinal/54467.tracklet.final,
+  unittest/controlRun/trackletsFinal/54468.tracklet.final]
+_finalTrackletsDir: unittest/controlRun/trackletsFinal/
+_purifiedTracklets: [unittest/controlRun/trackletsPurified/54466.tracklet.purified,
+  unittest/controlRun/trackletsPurified/54467.tracklet.purified, unittest/controlRun/trackletsPurified/54468.tracklet.purified]
+_purifiedTrackletsDir: unittest/controlRun/trackletsPurified/
+_ranCollapseTracklets: true
+_ranFindTracklets: true
+_ranIdsToIndices: true
+_ranIndicesToIds: true
+_ranLinkTracklets: true
+_ranMakeLinkTrackletsInputByNight: true
+_ranPurifyTracklets: true
+_ranRemoveSubsets: true
+_runDir: unittest/controlRun
+_tracklets: [unittest/controlRun/tracklets/54466.tracklet, unittest/controlRun/tracklets/54467.tracklet,
+  unittest/controlRun/tracklets/54468.tracklet]
+_trackletsById: [unittest/controlRun/trackletsFinal/54466.tracklet.final.byIds, unittest/controlRun/trackletsFinal/54467.tracklet.final.byIds,
+  unittest/controlRun/trackletsFinal/54468.tracklet.final.byIds]
+_trackletsByIdDir: unittest/controlRun/trackletsFinal/
+_trackletsByIndex: [unittest/controlRun/tracklets/54466.tracklet.byIndices, unittest/controlRun/tracklets/54467.tracklet.byIndices,
+  unittest/controlRun/tracklets/54468.tracklet.byIndices]
+_trackletsByIndexDir: unittest/controlRun/tracklets/
+_trackletsByNightDets: [unittest/controlRun/trackletsByNight/linkTracklets_input_54468.dets]
+_trackletsByNightDir: unittest/controlRun/trackletsByNight/
+_trackletsByNightIds: [unittest/controlRun/trackletsByNight/linkTracklets_input_54468.ids]
+_trackletsDir: unittest/controlRun/tracklets/
+_tracks: [unittest/controlRun/tracks/linkTracklets_input_54468.track]
+_tracksDir: unittest/controlRun/tracks/
