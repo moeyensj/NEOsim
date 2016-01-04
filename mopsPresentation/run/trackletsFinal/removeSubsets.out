@@ -1,0 +1,208 @@
+RemoveSubsets:
+---------------
+Input file:                                  /Users/joachim/repos/neosim/mopsPresentation/run/trackletsPurified/51030.tracklet.purified
+Output file:                                 /Users/joachim/repos/neosim/mopsPresentation/run/trackletsFinal/51030.tracklet.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Mon Jan  4 12:19:29 2016
+
+Finished reading infile at Mon Jan  4 12:19:29 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Mon Jan  4 12:19:29 2016
+
+Finished detection-to-track map, filtering tracks starting at Mon Jan  4 12:19:29 2016
+
+Finished filtering, writing output starting at Mon Jan  4 12:19:29 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Mon Jan  4 12:19:29 2016
+
+This process (15638) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  /Users/joachim/repos/neosim/mopsPresentation/run/trackletsPurified/51031.tracklet.purified
+Output file:                                 /Users/joachim/repos/neosim/mopsPresentation/run/trackletsFinal/51031.tracklet.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Mon Jan  4 12:19:29 2016
+
+Finished reading infile at Mon Jan  4 12:19:29 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Mon Jan  4 12:19:29 2016
+
+Finished detection-to-track map, filtering tracks starting at Mon Jan  4 12:19:29 2016
+
+Finished filtering, writing output starting at Mon Jan  4 12:19:29 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Mon Jan  4 12:19:29 2016
+
+This process (15640) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  /Users/joachim/repos/neosim/mopsPresentation/run/trackletsPurified/51032.tracklet.purified
+Output file:                                 /Users/joachim/repos/neosim/mopsPresentation/run/trackletsFinal/51032.tracklet.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Mon Jan  4 12:19:29 2016
+
+Finished reading infile at Mon Jan  4 12:19:29 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Mon Jan  4 12:19:29 2016
+
+Finished detection-to-track map, filtering tracks starting at Mon Jan  4 12:19:29 2016
+
+Finished filtering, writing output starting at Mon Jan  4 12:19:29 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Mon Jan  4 12:19:29 2016
+
+This process (15642) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  /Users/joachim/repos/neosim/mopsPresentation/run/trackletsPurified/51033.tracklet.purified
+Output file:                                 /Users/joachim/repos/neosim/mopsPresentation/run/trackletsFinal/51033.tracklet.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Mon Jan  4 12:19:29 2016
+
+Finished reading infile at Mon Jan  4 12:19:29 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Mon Jan  4 12:19:29 2016
+
+Finished detection-to-track map, filtering tracks starting at Mon Jan  4 12:19:29 2016
+
+Finished filtering, writing output starting at Mon Jan  4 12:19:29 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Mon Jan  4 12:19:29 2016
+
+This process (15644) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  /Users/joachim/repos/neosim/mopsPresentation/run/trackletsPurified/51034.tracklet.purified
+Output file:                                 /Users/joachim/repos/neosim/mopsPresentation/run/trackletsFinal/51034.tracklet.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Mon Jan  4 12:19:29 2016
+
+Finished reading infile at Mon Jan  4 12:19:29 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Mon Jan  4 12:19:29 2016
+
+Finished detection-to-track map, filtering tracks starting at Mon Jan  4 12:19:29 2016
+
+Finished filtering, writing output starting at Mon Jan  4 12:19:29 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Mon Jan  4 12:19:29 2016
+
+This process (15646) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  /Users/joachim/repos/neosim/mopsPresentation/run/trackletsPurified/51035.tracklet.purified
+Output file:                                 /Users/joachim/repos/neosim/mopsPresentation/run/trackletsFinal/51035.tracklet.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Mon Jan  4 12:19:29 2016
+
+Finished reading infile at Mon Jan  4 12:19:29 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Mon Jan  4 12:19:29 2016
+
+Finished detection-to-track map, filtering tracks starting at Mon Jan  4 12:19:29 2016
+
+Finished filtering, writing output starting at Mon Jan  4 12:19:29 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Mon Jan  4 12:19:29 2016
+
+This process (15648) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  /Users/joachim/repos/neosim/mopsPresentation/run/trackletsPurified/51036.tracklet.purified
+Output file:                                 /Users/joachim/repos/neosim/mopsPresentation/run/trackletsFinal/51036.tracklet.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Mon Jan  4 12:19:29 2016
+
+Finished reading infile at Mon Jan  4 12:19:29 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Mon Jan  4 12:19:29 2016
+
+Finished detection-to-track map, filtering tracks starting at Mon Jan  4 12:19:29 2016
+
+Finished filtering, writing output starting at Mon Jan  4 12:19:29 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Mon Jan  4 12:19:29 2016
+
+This process (15650) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  /Users/joachim/repos/neosim/mopsPresentation/run/trackletsPurified/51038.tracklet.purified
+Output file:                                 /Users/joachim/repos/neosim/mopsPresentation/run/trackletsFinal/51038.tracklet.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Mon Jan  4 12:19:29 2016
+
+Finished reading infile at Mon Jan  4 12:19:29 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Mon Jan  4 12:19:29 2016
+
+Finished detection-to-track map, filtering tracks starting at Mon Jan  4 12:19:29 2016
+
+Finished filtering, writing output starting at Mon Jan  4 12:19:29 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Mon Jan  4 12:19:29 2016
+
+This process (15652) memory usage: 
+------------------------------------------
+------------------------------------------
+

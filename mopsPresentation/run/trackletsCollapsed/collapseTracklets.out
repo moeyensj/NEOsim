@@ -1,0 +1,175 @@
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.0005
+Dets File:         mopsPresentation/nightly/51030.dias
+Pairs File         /Users/joachim/repos/neosim/mopsPresentation/run/tracklets/51030.tracklet.byIndices
+Output File:       /Users/joachim/repos/neosim/mopsPresentation/run/trackletsCollapsed/51030.tracklet.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 1435 detections
+Found 2980 pairs.
+Doing the collapsing...
+
+Done!
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (15606) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.0005
+Dets File:         mopsPresentation/nightly/51031.dias
+Pairs File         /Users/joachim/repos/neosim/mopsPresentation/run/tracklets/51031.tracklet.byIndices
+Output File:       /Users/joachim/repos/neosim/mopsPresentation/run/trackletsCollapsed/51031.tracklet.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 208 detections
+Found 160 pairs.
+Doing the collapsing...
+
+Done!
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (15608) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.0005
+Dets File:         mopsPresentation/nightly/51032.dias
+Pairs File         /Users/joachim/repos/neosim/mopsPresentation/run/tracklets/51032.tracklet.byIndices
+Output File:       /Users/joachim/repos/neosim/mopsPresentation/run/trackletsCollapsed/51032.tracklet.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 90 detections
+Found 0 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (15610) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.0005
+Dets File:         mopsPresentation/nightly/51033.dias
+Pairs File         /Users/joachim/repos/neosim/mopsPresentation/run/tracklets/51033.tracklet.byIndices
+Output File:       /Users/joachim/repos/neosim/mopsPresentation/run/trackletsCollapsed/51033.tracklet.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 86 detections
+Found 0 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (15612) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.0005
+Dets File:         mopsPresentation/nightly/51034.dias
+Pairs File         /Users/joachim/repos/neosim/mopsPresentation/run/tracklets/51034.tracklet.byIndices
+Output File:       /Users/joachim/repos/neosim/mopsPresentation/run/trackletsCollapsed/51034.tracklet.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 388 detections
+Found 77 pairs.
+Doing the collapsing...
+
+Done!
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (15614) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.0005
+Dets File:         mopsPresentation/nightly/51035.dias
+Pairs File         /Users/joachim/repos/neosim/mopsPresentation/run/tracklets/51035.tracklet.byIndices
+Output File:       /Users/joachim/repos/neosim/mopsPresentation/run/trackletsCollapsed/51035.tracklet.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 77 detections
+Found 44 pairs.
+Doing the collapsing...
+
+Done!
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (15616) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.0005
+Dets File:         mopsPresentation/nightly/51036.dias
+Pairs File         /Users/joachim/repos/neosim/mopsPresentation/run/tracklets/51036.tracklet.byIndices
+Output File:       /Users/joachim/repos/neosim/mopsPresentation/run/trackletsCollapsed/51036.tracklet.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 4585 detections
+Found 11081 pairs.
+Doing the collapsing...
+
+Done!
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (15618) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.0005
+Dets File:         mopsPresentation/nightly/51038.dias
+Pairs File         /Users/joachim/repos/neosim/mopsPresentation/run/tracklets/51038.tracklet.byIndices
+Output File:       /Users/joachim/repos/neosim/mopsPresentation/run/trackletsCollapsed/51038.tracklet.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 244 detections
+Found 0 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (15620) memory usage: 
+------------------------------------------
+------------------------------------------
+
