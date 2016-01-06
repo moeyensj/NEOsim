@@ -31,7 +31,7 @@ byIndexSuffix = trackletSuffix + '.byIndices'
 collapsedSuffix = trackletSuffix + '.collapsed'
 purifiedSuffix = trackletSuffix + '.purified'
 finalSuffix = trackletSuffix + '.final'
-byIdSuffix = finalSuffix + '.byIds'
+byIdSuffix = '.byIds'
 trackSuffix = '.track'
 
 # Directories
@@ -266,7 +266,7 @@ def runRemoveSubsets(parameters, purifiedTracklets, diaSources, diaSourceDir, ou
 
     return finalTracklets
 
-def runIndicesToIds(finalTracklets, diaSources, diaSourceDir, outDir, verbose=VERBOSE):
+def runIndicesToIds(finalTracklets, diaSources, diaSourceDir, outDir, suffix, verbose=VERBOSE):
     """
     Runs indicesToIds.py.
 
@@ -293,7 +293,7 @@ def runIndicesToIds(finalTracklets, diaSources, diaSourceDir, outDir, verbose=VE
 
     for tracklet, diaSource in zip(finalTracklets, diaSources):
         diaSourceIn = os.path.join(diaSourceDir, diaSource)
-        byIdOut = _out(outDir, diaSource, byIdSuffix)
+        byIdOut = _out(outDir, diaSource, suffix + byIdSuffix)
 
         script = str(os.getenv('MOPS_DIR')) + '/bin/indicesToIds.py'
         call = ['python', script, tracklet, diaSourceIn, byIdOut]
@@ -516,27 +516,33 @@ def runMops(parameters, tracker, diaSourceDir, runDir, verbose=VERBOSE):
 
     # Run collapseTracklets
     collapsedTracklets = runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir, dirs[1], verbose=verbose)
+    collapsedTrackletsById = runIndicesToIds(collapsedTracklets, diaSources, diaSourceDir, dirs[1], collapsedSuffix, verbose=verbose)
     tracker.ranCollapseTracklets = True
     tracker.collapsedTracklets = collapsedTracklets
     tracker.collapsedTrackletsDir = dirs[1]
+    tracker.collapsedTrackletsById = collapsedTrackletsById
+    tracker.collapsedTrackletsByIdDir = dirs[1]
 
     # Run purifyTracklets
     purifiedTracklets = runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir, dirs[2], verbose=verbose)
+    purifiedTrackletsById = runIndicesToIds(purifiedTracklets, diaSources, diaSourceDir, dirs[2], purifiedSuffix, verbose=verbose)
     tracker.ranPurifyTracklets = True
     tracker.purifiedTracklets = purifiedTracklets
     tracker.purifiedTrackletsDir = dirs[2]
+    tracker.purifiedTrackletsById =  purifiedTrackletsById
+    tracker.purifiedTrackletsByIdDir =  dirs[2]
 
     # Run removeSubsets
     finalTracklets = runRemoveSubsets(parameters, purifiedTracklets, diaSources, diaSourceDir, dirs[3], verbose=verbose)
+    finalTrackletsById = runIndicesToIds(finalTracklets, diaSources, diaSourceDir, dirs[3], finalSuffix, verbose=verbose)
     tracker.ranRemoveSubsets = True
     tracker.finalTracklets = finalTracklets
     tracker.finalTrackletsDir = dirs[3]
 
     # Run indicesToIds
-    trackletsById = runIndicesToIds(finalTracklets, diaSources, diaSourceDir, dirs[3], verbose=verbose)
     tracker.ranIndicesToIds = True
-    tracker.trackletsById = trackletsById
-    tracker.trackletsByIdDir = dirs[3]
+    tracker.finalTrackletsById = finalTrackletsById
+    tracker.finalTrackletsByIdDir = dirs[3]
 
     # Run makeLinkTrackletsInputByNight
     dets, ids = runMakeLinkTrackletsInputByNight(parameters, diaSourceDir, dirs[3], dirs[4], verbose=verbose)

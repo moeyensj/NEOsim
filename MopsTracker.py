@@ -8,9 +8,11 @@ class MopsTracker(object):
         self._tracklets = None
         self._trackletsByIndex = None
         self._collapsedTracklets = None
+        self._collapsedTrackletsById = None
         self._purifiedTracklets = None
+        self._purifiedTrackletsById = None
         self._finalTracklets = None
-        self._trackletsById = None
+        self._finalTrackletsById = None
         self._trackletsByNightDets = None
         self._trackletsByNightIds = None
         self._tracks = None
@@ -20,9 +22,11 @@ class MopsTracker(object):
         self._trackletsDir = None 
         self._trackletsByIndexDir = None
         self._collapsedTrackletsDir = None
+        self._collapsedTrackletsByIdDir = None
         self._purifiedTrackletsDir = None
+        self._purifiedTrackletsByIdDir = None
         self._finalTrackletsDir = None
-        self._trackletsByIdDir = None
+        self._finalTrackletsByIdDir = None
         self._trackletsByNightDir = None
         self._tracksDir = None
 
@@ -71,12 +75,28 @@ class MopsTracker(object):
         self._collapsedTracklets = value
 
     @property
+    def collapsedTrackletsById(self):
+        return self._collapsedTrackletsById
+
+    @collapsedTrackletsById.setter
+    def collapsedTrackletsById(self, value):
+        self._collapsedTrackletsById = value
+
+    @property
     def purifiedTracklets(self):
         return self._purifiedTracklets
 
     @purifiedTracklets.setter
     def purifiedTracklets(self, value):
         self._purifiedTracklets = value
+
+    @property
+    def purifiedTrackletsById(self):
+        return self._purifiedTrackletsById
+
+    @purifiedTrackletsById.setter
+    def purifiedTrackletsById(self, value):
+        self._purifiedTrackletsById = value
 
     @property
     def finalTracklets(self):
@@ -87,12 +107,12 @@ class MopsTracker(object):
         self._finalTracklets = value
 
     @property
-    def trackletsById(self):
-        return self._trackletsById
+    def finalTrackletsById(self):
+        return self._finalTrackletsById
 
-    @trackletsById.setter
-    def trackletsById(self, value):
-        self._trackletsById = value
+    @finalTrackletsById.setter
+    def finalTrackletsById(self, value):
+        self._finalTrackletsById = value
 
     @property
     def trackletsByNightDets(self):
@@ -159,12 +179,28 @@ class MopsTracker(object):
         self._collapsedTrackletsDir = value
 
     @property
+    def collapsedTrackletsByIdDir(self):
+        return self._collapsedTrackletsByIdDir
+    
+    @collapsedTrackletsByIdDir.setter
+    def collapsedTrackletsByIdDir(self, value):
+        self._collapsedTrackletsByIdDir = value
+
+    @property
     def purifiedTrackletsDir(self):
         return self._purifiedTrackletsDir
     
     @purifiedTrackletsDir.setter
     def purifiedTrackletsDir(self, value):
         self._purifiedTrackletsDir = value
+
+    @property
+    def purifiedTrackletsByIdDir(self):
+        return self._purifiedTrackletsByIdDir
+    
+    @purifiedTrackletsByIdDir.setter
+    def purifiedTrackletsByIdDir(self, value):
+        self._purifiedTrackletsByIdDir = value
 
     @property
     def finalTrackletsDir(self):
@@ -175,12 +211,12 @@ class MopsTracker(object):
         self._finalTrackletsDir = value
 
     @property
-    def trackletsByIdDir(self):
-        return self._trackletsByIdDir
+    def finalTrackletsByIdDir(self):
+        return self._finalTrackletsByIdDir
 
-    @trackletsByIdDir.setter
-    def trackletsByIdDir(self, value):
-        self._trackletsByIdDir = value
+    @finalTrackletsByIdDir.setter
+    def finalTrackletsByIdDir(self, value):
+        self._finalTrackletsByIdDir = value
 
     @property
     def trackletsByNightDir(self):
