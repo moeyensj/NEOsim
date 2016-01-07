@@ -26,12 +26,12 @@ from MopsTracker import MopsTracker
 
 # File suffixes
 diaSourceSuffix = '.dias'
-trackletSuffix = '.tracklet'
+trackletSuffix = '.tracklets'
 byIndexSuffix = trackletSuffix + '.byIndices'
 collapsedSuffix = trackletSuffix + '.collapsed'
 purifiedSuffix = trackletSuffix + '.purified'
 finalSuffix = trackletSuffix + '.final'
-byIdSuffix = '.byIds'
+byIdSuffix = '.byDiaIds'
 trackSuffix = '.track'
 
 # Directories
