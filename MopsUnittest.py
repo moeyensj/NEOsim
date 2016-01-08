@@ -67,7 +67,7 @@ class MopsTest(unittest.TestCase):
         for tt, ct in zip(testCollapsedTracklets, controlCollapsedTracklets):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
-    def test_collapseTrackletsById(self):
+    def test_collapsedTrackletsById(self):
         testCollapsedTrackletsById = self.testTracker.collapsedTrackletsById
         controlCollapsedTrackletsById = self.controlTracker.collapsedTrackletsById
 
@@ -81,7 +81,7 @@ class MopsTest(unittest.TestCase):
         for tt, ct in zip(testPurifiedTracklets, controlPurifiedTracklets):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
-    def test_purifyTracketsById(self):
+    def test_purifiedTracketsById(self):
         testPurifiedTrackletsById = self.testTracker.purifiedTrackletsById
         controlPurifiedTrackletsById = self.controlTracker.purifiedTrackletsById
 
@@ -95,11 +95,24 @@ class MopsTest(unittest.TestCase):
         for tt, ct in zip(testFinalTracklets, controlFinalTracklets):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
-    def test_removeSubsetsById(self):
+    def test_finalTrackletsById(self):
         testFinalTrackletsById = self.testTracker.finalTrackletsById
         controlFinalTrackletsById = self.controlTracker.finalTrackletsById
 
         for tt, ct in zip(testFinalTrackletsById, controlFinalTrackletsById):
+            self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
+
+    def test_makeLinkTrackletsInput_byNight(self):
+        testTrackletsByNightDets = self.testTracker.trackletsByNightDets
+        controlTrackletsByNightDets = self.controlTracker.trackletsByNightDets
+
+        for tt, ct in zip(testTrackletsByNightDets, controlTrackletsByNightDets):
+            self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
+
+        testTrackletsByNightIds = self.testTracker.trackletsByNightIds
+        controlTrackletsByNightIds = self.controlTracker.trackletsByNightIds
+
+        for tt, ct in zip(testTrackletsByNightIds, controlTrackletsByNightIds):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_linkTracklets(self):
