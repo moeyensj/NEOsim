@@ -31,12 +31,16 @@ class MopsTest(unittest.TestCase):
 
     def test_directoryBuilder(self):
         controlDirs = [self.controlTracker.trackletsDir, self.controlTracker.trackletsByIndexDir,
-        self.controlTracker.collapsedTrackletsDir, self.controlTracker.purifiedTrackletsDir, 
-        self.controlTracker.finalTrackletsDir, self.controlTracker.tracksDir]
+        self.controlTracker.collapsedTrackletsDir, self.controlTracker.collapsedTrackletsByIdDir,
+        self.controlTracker.purifiedTrackletsDir, self.controlTracker.purifiedTrackletsByIdDir, 
+        self.controlTracker.finalTrackletsDir, self.controlTracker.finalTrackletsByIdDir,
+        self.controlTracker.trackletsByNightDir, self.controlTracker.tracksDir]
 
         testDirs = [self.testTracker.trackletsDir, self.testTracker.trackletsByIndexDir,
-        self.testTracker.collapsedTrackletsDir, self.testTracker.purifiedTrackletsDir, 
-        self.testTracker.finalTrackletsDir, self.testTracker.tracksDir]
+        self.testTracker.collapsedTrackletsDir, self.testTracker.collapsedTrackletsByIdDir,
+        self.testTracker.purifiedTrackletsDir, self.testTracker.purifiedTrackletsByIdDir, 
+        self.testTracker.finalTrackletsDir, self.testTracker.finalTrackletsByIdDir,
+        self.testTracker.trackletsByNightDir, self.testTracker.tracksDir]
 
         for td, cd in zip(testDirs, controlDirs):
             self.assertEqual(os.path.basename(td), os.path.basename(cd))
@@ -63,11 +67,25 @@ class MopsTest(unittest.TestCase):
         for tt, ct in zip(testCollapsedTracklets, controlCollapsedTracklets):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
+    def test_collapseTrackletsById(self):
+        testCollapsedTrackletsById = self.testTracker.collapsedTrackletsById
+        controlCollapsedTrackletsById = self.controlTracker.collapsedTrackletsById
+
+        for tt, ct in zip(testCollapsedTrackletsById, controlCollapsedTrackletsById):
+            self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
+
     def test_purifyTrackets(self):
         testPurifiedTracklets = self.testTracker.purifiedTracklets
         controlPurifiedTracklets = self.controlTracker.purifiedTracklets
 
         for tt, ct in zip(testPurifiedTracklets, controlPurifiedTracklets):
+            self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
+
+    def test_purifyTracketsById(self):
+        testPurifiedTrackletsById = self.testTracker.purifiedTrackletsById
+        controlPurifiedTrackletsById = self.controlTracker.purifiedTrackletsById
+
+        for tt, ct in zip(testPurifiedTrackletsById, controlPurifiedTrackletsById):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_removeSubsets(self):
@@ -77,11 +95,11 @@ class MopsTest(unittest.TestCase):
         for tt, ct in zip(testFinalTracklets, controlFinalTracklets):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
-    def test_indicesToIds(self):
-        testTrackletsByIndex = self.testTracker.trackletsByIndex
-        controlTrackletsByIndex = self.controlTracker.trackletsByIndex
+    def test_removeSubsetsById(self):
+        testFinalTrackletsById = self.testTracker.finalTrackletsById
+        controlFinalTrackletsById = self.controlTracker.finalTrackletsById
 
-        for tt, ct in zip(testTrackletsByIndex, controlTrackletsByIndex):
+        for tt, ct in zip(testFinalTrackletsById, controlFinalTrackletsById):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_linkTracklets(self):
