@@ -66,7 +66,7 @@ _diaSources: [59580.dias, 59581.dias, 59582.dias, 59583.dias, 59584.dias, 59585.
   59593.dias, 59594.dias, 59595.dias, 59596.dias, 59597.dias, 59598.dias, 59599.dias,
   59600.dias, 59601.dias, 59602.dias, 59603.dias, 59604.dias, 59605.dias, 59606.dias,
   59607.dias, 59608.dias, 59609.dias]
-_diaSourcesDir: nightly/
+_diaSourcesDir: unittest/nightly/
 _finalTracklets: [unittest/controlRun/trackletsFinal/59580.tracklets.final,
   unittest/controlRun/trackletsFinal/59581.tracklets.final,
   unittest/controlRun/trackletsFinal/59582.tracklets.final,

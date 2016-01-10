@@ -3,7 +3,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59580.dias
+Dets File:         unittest/nightly/59580.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59580.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59580.tracklets.collapsed
 Tolerances: 
@@ -14,7 +14,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24673) memory usage: 
+This process (11947) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -23,7 +23,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59581.dias
+Dets File:         unittest/nightly/59581.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59581.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59581.tracklets.collapsed
 Tolerances: 
@@ -34,7 +34,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24675) memory usage: 
+This process (11949) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -43,7 +43,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59582.dias
+Dets File:         unittest/nightly/59582.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59582.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59582.tracklets.collapsed
 Tolerances: 
@@ -54,7 +54,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24677) memory usage: 
+This process (11951) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -63,7 +63,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59583.dias
+Dets File:         unittest/nightly/59583.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59583.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59583.tracklets.collapsed
 Tolerances: 
@@ -74,7 +74,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24679) memory usage: 
+This process (11953) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -83,7 +83,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59584.dias
+Dets File:         unittest/nightly/59584.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59584.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59584.tracklets.collapsed
 Tolerances: 
@@ -94,7 +94,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24681) memory usage: 
+This process (11955) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -103,7 +103,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59585.dias
+Dets File:         unittest/nightly/59585.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59585.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59585.tracklets.collapsed
 Tolerances: 
@@ -114,7 +114,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24683) memory usage: 
+This process (11957) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -123,7 +123,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59586.dias
+Dets File:         unittest/nightly/59586.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59586.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59586.tracklets.collapsed
 Tolerances: 
@@ -134,7 +134,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24685) memory usage: 
+This process (11959) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -143,7 +143,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59587.dias
+Dets File:         unittest/nightly/59587.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59587.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59587.tracklets.collapsed
 Tolerances: 
@@ -154,7 +154,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24687) memory usage: 
+This process (11961) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -163,7 +163,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59588.dias
+Dets File:         unittest/nightly/59588.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59588.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59588.tracklets.collapsed
 Tolerances: 
@@ -174,7 +174,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24689) memory usage: 
+This process (11963) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -183,7 +183,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59589.dias
+Dets File:         unittest/nightly/59589.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59589.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59589.tracklets.collapsed
 Tolerances: 
@@ -194,7 +194,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24691) memory usage: 
+This process (11965) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -203,7 +203,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59590.dias
+Dets File:         unittest/nightly/59590.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59590.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59590.tracklets.collapsed
 Tolerances: 
@@ -214,7 +214,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24693) memory usage: 
+This process (11967) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -223,7 +223,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59591.dias
+Dets File:         unittest/nightly/59591.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59591.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59591.tracklets.collapsed
 Tolerances: 
@@ -234,7 +234,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24695) memory usage: 
+This process (11969) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -243,7 +243,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59592.dias
+Dets File:         unittest/nightly/59592.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59592.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59592.tracklets.collapsed
 Tolerances: 
@@ -254,7 +254,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24697) memory usage: 
+This process (11971) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -263,7 +263,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59593.dias
+Dets File:         unittest/nightly/59593.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59593.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59593.tracklets.collapsed
 Tolerances: 
@@ -274,7 +274,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24699) memory usage: 
+This process (11973) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -283,7 +283,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59594.dias
+Dets File:         unittest/nightly/59594.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59594.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59594.tracklets.collapsed
 Tolerances: 
@@ -294,7 +294,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24701) memory usage: 
+This process (11975) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -303,7 +303,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59595.dias
+Dets File:         unittest/nightly/59595.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59595.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59595.tracklets.collapsed
 Tolerances: 
@@ -314,7 +314,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24703) memory usage: 
+This process (11977) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -323,7 +323,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59596.dias
+Dets File:         unittest/nightly/59596.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59596.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59596.tracklets.collapsed
 Tolerances: 
@@ -334,7 +334,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24705) memory usage: 
+This process (11979) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -343,7 +343,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59597.dias
+Dets File:         unittest/nightly/59597.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59597.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59597.tracklets.collapsed
 Tolerances: 
@@ -354,7 +354,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24707) memory usage: 
+This process (11981) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -363,7 +363,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59598.dias
+Dets File:         unittest/nightly/59598.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59598.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59598.tracklets.collapsed
 Tolerances: 
@@ -374,7 +374,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24709) memory usage: 
+This process (11983) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -383,7 +383,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59599.dias
+Dets File:         unittest/nightly/59599.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59599.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59599.tracklets.collapsed
 Tolerances: 
@@ -394,7 +394,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24711) memory usage: 
+This process (11985) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -403,7 +403,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59600.dias
+Dets File:         unittest/nightly/59600.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59600.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59600.tracklets.collapsed
 Tolerances: 
@@ -414,7 +414,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24713) memory usage: 
+This process (11987) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -423,7 +423,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59601.dias
+Dets File:         unittest/nightly/59601.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59601.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59601.tracklets.collapsed
 Tolerances: 
@@ -434,7 +434,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24715) memory usage: 
+This process (11989) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -443,7 +443,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59602.dias
+Dets File:         unittest/nightly/59602.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59602.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59602.tracklets.collapsed
 Tolerances: 
@@ -454,7 +454,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24717) memory usage: 
+This process (11991) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -463,7 +463,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59603.dias
+Dets File:         unittest/nightly/59603.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59603.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59603.tracklets.collapsed
 Tolerances: 
@@ -474,7 +474,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24719) memory usage: 
+This process (11993) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -483,7 +483,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59604.dias
+Dets File:         unittest/nightly/59604.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59604.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59604.tracklets.collapsed
 Tolerances: 
@@ -494,7 +494,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24721) memory usage: 
+This process (11995) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -503,7 +503,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59605.dias
+Dets File:         unittest/nightly/59605.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59605.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59605.tracklets.collapsed
 Tolerances: 
@@ -514,7 +514,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24723) memory usage: 
+This process (11997) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -523,7 +523,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59606.dias
+Dets File:         unittest/nightly/59606.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59606.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59606.tracklets.collapsed
 Tolerances: 
@@ -534,7 +534,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24725) memory usage: 
+This process (11999) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -543,7 +543,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59607.dias
+Dets File:         unittest/nightly/59607.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59607.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59607.tracklets.collapsed
 Tolerances: 
@@ -554,7 +554,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24727) memory usage: 
+This process (12001) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -563,7 +563,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59608.dias
+Dets File:         unittest/nightly/59608.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59608.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59608.tracklets.collapsed
 Tolerances: 
@@ -574,7 +574,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24729) memory usage: 
+This process (12003) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -583,7 +583,7 @@ collapseTracklets:
 Method:            greedy
 enforce min. RMS:  true
 maximum RMS:       0.001
-Dets File:         nightly/59609.dias
+Dets File:         unittest/nightly/59609.dias
 Pairs File         /Users/joachim/repos/neosim/unittest/controlRun/tracklets/59609.tracklets.byIndices
 Output File:       /Users/joachim/repos/neosim/unittest/controlRun/trackletsCollapsed/59609.tracklets.collapsed
 Tolerances: 
@@ -594,7 +594,7 @@ Found 1 pairs.
 Writing the output to file...
 Done!
 Completed after 0.0000000000 seconds.
-This process (24731) memory usage: 
+This process (12005) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
