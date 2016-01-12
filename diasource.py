@@ -1,4 +1,4 @@
-__all__ = ["MopsObjects"]
+__all__ = ["diasource"]
 
 class diasource(object):
     def __init__(self, diaid, ssmid, obshistid, ra, dec, mjd, mag, snr):
