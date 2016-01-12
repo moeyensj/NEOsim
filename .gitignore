@@ -1,3 +1,4 @@
+__init__.py
 fullSky_year5_withinMagLimits_noAstromErr.txt
 fullSky_year5_withinMagLimits_withAstromError.txt
 neosim.sublime-project
@@ -6,3 +7,4 @@ fullsky5year.db
 .ipynb_checkpoints/
 *.pyc
 ldm156*/
+debug/*
