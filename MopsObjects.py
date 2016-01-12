@@ -88,3 +88,16 @@ class tracklet(object):
     @diasources.setter
     def diasources(self, value):
         self._diasources = value
+
+class track(object):
+    def __init__(self, diasources):
+
+        self._diasources = diasources
+        
+    @property
+    def diasources(self):
+        return self._diasources
+
+    @diasources.setter
+    def diasources(self, value):
+        self._diasources = value
