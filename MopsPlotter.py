@@ -27,7 +27,7 @@ def plotData(dataframe):
     ax.scatter(np.array(dataframe['ra']), np.array(dataframe['dec']));
     #fig.savefig("data.jpg")
 
-def plotTracklets(trackletFiles, dataframe):
+def plotTracklets(dataframe, trackletFiles):
 
     fig, ax = plt.subplots(1,1)
     _plotprettymaker(fig, ax)
@@ -55,7 +55,7 @@ def plotTracklets(trackletFiles, dataframe):
     ax.text(_textLocation(ax)[0], _textLocation(ax)[1], 'Tracklets: ' + str(tracklet_num), size=18, color='r')
     #fig.savefig("tracklets.jpg")
 
-def plotTracks(trackFiles, dataframe):
+def plotTracks(dataframe, trackFiles):
 
     fig, ax = plt.subplots(1,1)
     _plotprettymaker(fig, ax)
