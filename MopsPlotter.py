@@ -62,7 +62,7 @@ def plotTracks(dataframe, trackFiles):
 
     for filein in trackFiles:
         for line in open(filein, 'r'):
-            track = np.fromstring(line, sep=" ", dtype=int)
+            track = MopsReader.readTrack(line)
             track_num += 1
             ra = []
             dec = []
@@ -74,4 +74,3 @@ def plotTracks(dataframe, trackFiles):
             ax.plot(ra, dec, color='k',alpha=0.7)
             
     ax.text(_textLocation(ax)[0], _textLocation(ax)[1], 'Tracks: ' + str(track_num), size=16, color='r')
-    
