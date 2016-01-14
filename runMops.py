@@ -547,8 +547,8 @@ def runMops(parameters, tracker, diaSourceDir, runDir, verbose=VERBOSE):
     # Run makeLinkTrackletsInputByNight
     dets, ids = runMakeLinkTrackletsInputByNight(parameters, diaSourceDir, dirs[3], dirs[4], verbose=verbose)
     tracker.ranMakeLinkTrackletsInputByNight = True
-    tracker.trackletsByNightDets = dets
-    tracker.trackletsByNightIds = ids
+    tracker.dets = dets
+    tracker.ids = ids
     tracker.trackletsByNightDir = dirs[4]
 
     # Run linkTracklets

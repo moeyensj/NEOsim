@@ -13,8 +13,8 @@ class MopsTracker(object):
         self._purifiedTrackletsById = None
         self._finalTracklets = None
         self._finalTrackletsById = None
-        self._trackletsByNightDets = None
-        self._trackletsByNightIds = None
+        self._dets = None
+        self._ids = None
         self._tracks = None
         self._runDir = runDir
 
@@ -115,20 +115,20 @@ class MopsTracker(object):
         self._finalTrackletsById = value
 
     @property
-    def trackletsByNightDets(self):
-        return self._trackletsByNightDets
+    def dets(self):
+        return self._dets
     
-    @trackletsByNightDets.setter
-    def trackletsByNightDets(self, value):
-        self._trackletsByNightDets = value
+    @dets.setter
+    def dets(self, value):
+        self._dets = value
 
     @property
-    def trackletsByNightIds(self):
-        return self._trackletsByNightIds
+    def ids(self):
+        return self._ids
     
-    @trackletsByNightIds.setter
-    def trackletsByNightIds(self, value):
-        self._trackletsByNightIds = value
+    @ids.setter
+    def ids(self, value):
+        self._ids = value
 
     @property
     def tracks(self):
