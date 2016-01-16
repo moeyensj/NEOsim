@@ -124,10 +124,49 @@ def getRmsForTrack(dets, lineNum):
         print "Unexpected weirdness at line number %i, RMS error was %f " % (lineNum, rms)
     return rms, raRes, decRes, dists
 
-def analyzeTrackFile(trackFile):
+def analyzeTracks(trackFile, detFile, idsFile, verbose=True):
+    
+    # Read detections into a dataframe
+    dets_df = MopsReader.readDetections(detFile)
+    
+    # Count number of unique ssmids
+    unique_ssmids = countSSMIDs(dets_df)
+    if verbose:
+        print "Unique ssmids in %s: %s" % (os.path.basename(detFile), unique_ssmids)
+
     trackFileIn = open(trackFile, "r")
-    for line in TrackFileIn:
-        track(*MopsReader.readTrack(line))
+    tracks = []
+    diasource_dict = {}
+    
+    # Examine each line in trackFile and read in every line
+    #  as a track object. If track contains new detections (diasource)
+    #  then add new source to diasource_dict. 
+    for line in trackFileIn:
+        new_track_diaids = MopsReader.readTrack(line)
+        new_track = []
+        for diaid in new_track_diaids:
+            ssmids = []
+            if diaid in diasource_dict:
+                ssmids.append(diasource_dict[diaid].ssmid)
+                new_track.append(diasource_dict[diaid])
+                
+            else:
+                new_diasource = dets_df.loc[diaid]
+                new_diasource_obj = diasource(int(diaid), new_diasource['ssmid'],
+                             new_diasource['obshistid'], new_diasource['ra'],
+                             new_diasource['dec'], new_diasource['mjd'],
+                             new_diasource['mag'], new_diasource['snr'])
+                diasource_dict[diaid] = new_diasource_obj
+                
+                ssmids.append(diasource_dict[diaid].ssmid)
+                new_track.append(new_diasource_obj)
+                
+        isTrue = checkSSMIDs(ssmids)        
+        final_track = track(new_track) 
+        final_track.isTrue = isTrue
+        tracks.append(final_track)
+         
+    return np.array(tracks), diasource_dict
 
 class runAnalysis(object):
 
