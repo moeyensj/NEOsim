@@ -26,7 +26,7 @@ def checkSSMIDs(ssmids):
         return False
 
 def countSSMIDs(dataframe):
-    return dataframe['ssmid'].nunique())
+    return dataframe['ssmid'].nunique()
 
 def calcAngularDistance(a, b):
     """ return distance between a and b, where a and b are angles in degrees. """
