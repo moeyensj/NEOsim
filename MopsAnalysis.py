@@ -1,3 +1,4 @@
+import time
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -10,6 +11,92 @@ from MopsObjects import track
 from MopsParameters import MopsParameters
 from MopsTracker import MopsTracker
 
+class runAnalysis(object):
+
+    def __init__(self, parameters, tracker):
+
+        self._parameters = parameters
+        self._tracker = tracker
+        self._uniqueObjects = 0
+        self._foundObjects = {}
+        self._missedObjects = 0
+        self._totalTracks = 0
+        self._trueTracks = 0
+        self._falseTracks = 0
+
+    @property
+    def parameters(self):
+        return self._parameters
+
+    @parameters.setter
+    def parameters(self, value):
+        self._parameters = value
+
+    @property
+    def tracker(self):
+        return self._tracker
+
+    @tracker.setter
+    def tracker(self, value):
+        self._tracker = value
+
+    @property
+    def uniqueObjects(self):
+        return self._uniqueObjects
+
+    @uniqueObjects.setter
+    def uniqueObjects(self, value):
+        self._uniqueObjects = value
+
+    @property
+    def foundObjects(self):
+        return self._foundObjects
+
+    @foundObjects.setter
+    def foundObjects(self, value):
+        self._foundObjects = value
+
+    @property
+    def missedObjects(self):
+        return self._missedObjects
+
+    @missedObjects.setter
+    def missedObjects(self, value):
+        self._missedObjects = value
+
+    @property
+    def missedObjects(self):
+        return self._missedObjects
+
+    @missedObjects.setter
+    def missedObjects(self, value):
+        self._missedObjects = value
+
+    @property
+    def totalTracks(self):
+        return self._totalTracks
+
+    @totalTracks.setter
+    def totalTracks(self, value):
+        self._totalTracks = value
+
+    @property
+    def trueTracks(self):
+        return self._trueTracks
+
+    @trueTracks.setter
+    def trueTracks(self, value):
+        self._trueTracks = value
+
+    @property
+    def falseTracks(self):
+        return self._falseTracks
+
+    @falseTracks.setter
+    def falseTracks(self, value):
+        self._falseTracks = value
+
+    
 def findSSMIDs(dataframe, diaids):
     ssmids = []
     for i in diaids:
@@ -205,20 +292,3 @@ def analyzeTracks(trackFile, detFile, idsFile, verbose=True):
     outFileOut.write("End time: %s\n" % (endTime))
 
     return true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids
-
-class runAnalysis(object):
-
-    def __init__(self, parameters, tracker):
-
-        self._parameters = parameters
-        self._tracker = tracker
-              
-        self._uniqueObjects = 0
-        self._foundObjects = {}
-        self._missedObjects = 0
-        self._totalTracklets = 0
-        self._trueTracklets = 0
-        self._falseTracklets = 0
-        self._totalTracks = 0
-        self._trueTracks = 0
-        self._falseTracks = 0
