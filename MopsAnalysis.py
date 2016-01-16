@@ -1,5 +1,6 @@
 import os
 import time
+import yaml
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -107,6 +108,8 @@ class runAnalysis(object):
             self._totalTracks += total_tracks
             self._trueTracks += true_tracks
             self._falseTracks += false_tracks
+            
+            print ""
         return
 
 def findSSMIDs(dataframe, diaids):
