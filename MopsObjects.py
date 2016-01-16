@@ -96,6 +96,7 @@ class track(object):
 
         self._diasources = diasources
         self._isTrue = None
+        self._isSubset = None
         
     @property
     def diasources(self):
@@ -112,3 +113,11 @@ class track(object):
     @isTrue.setter
     def isTrue(self, value):
         self._isTrue = value
+
+    @property
+    def isSubset(self):
+        return self._isSubset
+
+    @isSubset.setter
+    def isSubset(self, value):
+        self._isSubset = value
