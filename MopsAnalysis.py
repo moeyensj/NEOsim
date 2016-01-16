@@ -1,3 +1,4 @@
+import os
 import time
 import numpy as np
 import pandas as pd
@@ -18,11 +19,13 @@ class runAnalysis(object):
         self._parameters = parameters
         self._tracker = tracker
         self._uniqueObjects = 0
-        self._foundObjects = {}
+        self._foundObjects = 0
         self._missedObjects = 0
         self._totalTracks = 0
         self._trueTracks = 0
         self._falseTracks = 0
+
+        self.analyze()
 
     @property
     def parameters(self):
@@ -96,7 +99,16 @@ class runAnalysis(object):
     def falseTracks(self, value):
         self._falseTracks = value
 
-    
+    def analyze(self):
+
+        for trackFile, detFile, idsFile in zip(self.tracker.tracks, self.tracker.dets, self.tracker.ids):
+            true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids = analyzeTracks(trackFile, detFile, idsFile)
+
+            self._totalTracks += total_tracks
+            self._trueTracks += true_tracks
+            self._falseTracks += false_tracks
+        return
+
 def findSSMIDs(dataframe, diaids):
     ssmids = []
     for i in diaids:
