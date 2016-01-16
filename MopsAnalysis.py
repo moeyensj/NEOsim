@@ -125,31 +125,51 @@ def getRmsForTrack(dets, lineNum):
     return rms, raRes, decRes, dists
 
 def analyzeTracks(trackFile, detFile, idsFile, verbose=True):
+    startTime = time.ctime()
+    print "Starting analysis for %s at %s" % (os.path.basename(trackFile), startTime)
+    
+    # Create outfile to store results
+    outFile = trackFile + ".results"
+    outFileOut = open(outFile, "w")
+    print "Writing results to %s" % (outFile)
     
     # Read detections into a dataframe
     dets_df = MopsReader.readDetections(detFile)
     
-    # Count number of unique ssmids
-    unique_ssmids = countSSMIDs(dets_df)
-    if verbose:
-        print "Unique ssmids in %s: %s" % (os.path.basename(detFile), unique_ssmids)
-
     trackFileIn = open(trackFile, "r")
     tracks = []
     diasource_dict = {}
+    
+    # Initalize success (or failure) counters
+    total_tracks = 0
+    true_tracks = 0
+    false_tracks = 0
+    unique_ssmids = countSSMIDs(dets_df)
+    found_ssmids = {}
     
     # Examine each line in trackFile and read in every line
     #  as a track object. If track contains new detections (diasource)
     #  then add new source to diasource_dict. 
     for line in trackFileIn:
+        # Found a track!
+        total_tracks += 1
         new_track_diaids = MopsReader.readTrack(line)
         new_track = []
+        
+        # Look up each diaid in the track, check if diasource object exists.
+        #  If it does exist then add it to the new track object, if not then create the object
+        #  and update the diasource object dictionary.
         for diaid in new_track_diaids:
             ssmids = []
             if diaid in diasource_dict:
                 ssmids.append(diasource_dict[diaid].ssmid)
                 new_track.append(diasource_dict[diaid])
                 
+                if diasource_dict[diaid].ssmid in found_ssmids:
+                    found_ssmids[diasource_dict[diaid].ssmid] += 1
+                else:
+                    found_ssmids[diasource_dict[diaid].ssmid] = 1
+            
             else:
                 new_diasource = dets_df.loc[diaid]
                 new_diasource_obj = diasource(int(diaid), new_diasource['ssmid'],
@@ -161,12 +181,30 @@ def analyzeTracks(trackFile, detFile, idsFile, verbose=True):
                 ssmids.append(diasource_dict[diaid].ssmid)
                 new_track.append(new_diasource_obj)
                 
-        isTrue = checkSSMIDs(ssmids)        
+        isTrue = checkSSMIDs(ssmids)  
+        if isTrue:
+            # Track is true! 
+            true_tracks += 1
+        else:
+            # Track is false. 
+            false_tracks += 1
+            
         final_track = track(new_track) 
         final_track.isTrue = isTrue
         tracks.append(final_track)
-         
-    return np.array(tracks), diasource_dict
+        
+    endTime = time.ctime()
+    print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
+
+    outFileOut.write("Start time: %s\n" % (startTime))
+    outFileOut.write("True tracks: %s\n" % (true_tracks))
+    outFileOut.write("False tracks: %s\n" % (false_tracks))
+    outFileOut.write("Total tracks: %s\n" % (total_tracks))
+    outFileOut.write("Findable objects: %s\n" % (unique_ssmids))
+    outFileOut.write("Found objects: %s\n" % (len(found_ssmids)))
+    outFileOut.write("End time: %s\n" % (endTime))
+
+    return true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids
 
 class runAnalysis(object):
 
@@ -175,14 +213,12 @@ class runAnalysis(object):
         self._parameters = parameters
         self._tracker = tracker
               
-        self._foundObjects = None
-        self._missedObjects = None
-        self._totalTracklets = None
-        self._trueTracklets = None
-        self._falseTracklets = None
-        self._totalTracks = None
-        self._trueTracks = None
-        self._falseTracks = None
-
-
-
+        self._uniqueObjects = 0
+        self._foundObjects = {}
+        self._missedObjects = 0
+        self._totalTracklets = 0
+        self._trueTracklets = 0
+        self._falseTracklets = 0
+        self._totalTracks = 0
+        self._trueTracks = 0
+        self._falseTracks = 0
