@@ -12,18 +12,18 @@ class DefaultMopsParameters:
     angular_tolerance = "5"
     velocity_tolerance = "0.05"
     method = "greedy"
-    use_rms_filter = "False"
+    use_rms_filter = "True"
     rms_max = "0.001"
 
     # removeSubsets
-    remove_subsets = "True"
+    remove_subsets = "False"
     keep_only_longest = "False"
     
     # makeLinkTrackletsInput_byNight
     window_size = "15"
 
     # linkTracklets
-    detection_error_threshold = "0.0002"
+    detection_error_threshold = "0.0004"
     dec_acceleration_max = "0.02"
     ra_acceleration_max = "0.02"
     latest_first_endpoint = None
