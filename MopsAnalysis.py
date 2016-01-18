@@ -185,23 +185,23 @@ def makeContiguous(angles):
         output.append(angle)
     return output
     
-def getRmsForTrack(dets, lineNum):
-    t0 = min(map(lambda x: x.mjd, dets))
+def calcRMS(diasources):
+    t0 = min(map(lambda x: x.mjd, diasources))
     ras = []
-    decls = []
+    decs = []
     mjds = []
-    for det in dets:
-        ras.append(det.ra)
-        decls.append(det.dec)
-        mjds.append(det.mjd - t0)
+    for diasource in diasources:
+        ras.append(diasource.ra)
+        decs.append(diasource.dec)
+        mjds.append(diasource.mjd - t0)
     ras = makeContiguous(ras)
-    decls = makeContiguous(decls)
+    decs = makeContiguous(decs)
     ras = np.array(ras)
-    decls = np.array(decls)
+    decs = np.array(decs)
     mjds = np.array(mjds)
 
     raFunc, raRes, rank, svd, rcond = np.polyfit(mjds, ras, 2, full=True)
-    decFunc, decRes, rank, svd, rcond = np.polyfit(mjds, decls, 2, full=True)
+    decFunc, decRes, rank, svd, rcond = np.polyfit(mjds, decs, 2, full=True)
     raFunc = np.poly1d(raFunc)
     decFunc = np.poly1d(decFunc)
 
@@ -211,22 +211,22 @@ def getRmsForTrack(dets, lineNum):
     for i in range(len(mjds)):
         predRa = raFunc(mjds[i])
         predDec = decFunc(mjds[i])
-        dist = greatCircleDistance(predRa, predDec, ras[i], decls[i])
+        dist = calcGreatCircleDistance(predRa, predDec, ras[i], decs[i])
         dists.append(dist)
         if (dist > .1):
-            print "Unexpected weirdness at line number %i, diasource had angular distance of %f from best-fit curve prediction" % (lineNum, dist)
+            print "Unexpected wierdness, diasource had angular distance of %f from best-fit curve prediction" % (dist)
             print "Predicted RA, Dec were ", predRa, predDec
-            print "observed RA, Dec were ", ras[i], decls[i]
+            print "observed RA, Dec were ", ras[i], decs[i]
             print "all RAs were ", ras
-            print "all decs were ", decls
+            print "all decs were ", decs
         sqDist = dist**2
         #print "got euclidean distance was ", sqDist
         netSqDist += sqDist
 
-    rms = np.sqrt(netSqDist / len(dets))
+    rms = np.sqrt(netSqDist / len(diasources))
     if (rms > .1):
-        print "Unexpected weirdness at line number %i, RMS error was %f " % (lineNum, rms)
-    return rms, raRes, decRes, dists
+        print "RMS error was %f " % (rms)
+    return rms, raRes[0], decRes[0], dists
 
 def analyzeTracks(trackFile, detFile, idsFile, verbose=True):
     startTime = time.ctime()
