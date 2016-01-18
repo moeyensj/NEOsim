@@ -146,25 +146,21 @@ def convertToStandardDegrees(angle):
         angle += 360.
     return angle
 
-def calcGreatCircleDistance(RA0, Dec0, RA1, Dec1):
+def calcGreatCircleDistance(ra0, dec0, ra1, dec1):
     """
     return the great-circle distance between two points on the sky,
     uses haversine formula
     """
-    deg_to_rad = numpy.pi / 180.
-    rad_to_deg = 180. / numpy.pi
-
-    RADist = angularDistance(RA0, RA1);
-    DecDist = angularDistance(Dec0, Dec1);    
-    #convert all factors to radians
-    RADist = deg_to_rad*convertToStandardDegrees(RADist);
-    DecDist = deg_to_rad*convertToStandardDegrees(DecDist);
-    Dec0 = deg_to_rad*convertToStandardDegrees(Dec0);
-    Dec1 = deg_to_rad*convertToStandardDegrees(Dec1);
-    r = 2*numpy.arcsin(numpy.sqrt( (numpy.sin(DecDist/2.))**2 + 
-                                 numpy.cos(Dec0)*numpy.cos(Dec1)*(numpy.sin(RADist/2))**2) );
-    #back to degrees
-    return rad_to_deg*r;
+    ra_dist = calcAngularDistance(ra0, ra1);
+    dec_dist = calcAngularDistance(dec0, dec1);    
+    # Convert all factors to radians
+    ra_dist = calcDegToRad(convertToStandardDegrees(ra_dist));
+    dec_dist = calcDegToRad(convertToStandardDegrees(dec_dist));
+    dec0 = calcDegToRad(convertToStandardDegrees(dec0));
+    dec1 = calcDegToRad(convertToStandardDegrees(dec1));
+    r = 2*np.arcsin(np.sqrt((np.sin(dec_dist/2.))**2 + np.cos(dec0)*np.cos(dec1)*(np.sin(ra_dist/2))**2));
+    # Back to degrees
+    return calcRadToDeg(r);
 
 def makeContiguous(angles):
     """ given a set of angles (say, RAs or Decs of observation) which
@@ -194,14 +190,14 @@ def getRmsForTrack(dets, lineNum):
         mjds.append(det.mjd - t0)
     ras = makeContiguous(ras)
     decls = makeContiguous(decls)
-    ras = numpy.array(ras)
-    decls = numpy.array(decls)
-    mjds = numpy.array(mjds)
+    ras = np.array(ras)
+    decls = np.array(decls)
+    mjds = np.array(mjds)
 
-    raFunc, raRes, rank, svd, rcond = numpy.polyfit(mjds, ras, 2, full=True)
-    decFunc, decRes, rank, svd, rcond = numpy.polyfit(mjds, decls, 2, full=True)
-    raFunc = numpy.poly1d(raFunc)
-    decFunc = numpy.poly1d(decFunc)
+    raFunc, raRes, rank, svd, rcond = np.polyfit(mjds, ras, 2, full=True)
+    decFunc, decRes, rank, svd, rcond = np.polyfit(mjds, decls, 2, full=True)
+    raFunc = np.poly1d(raFunc)
+    decFunc = np.poly1d(decFunc)
 
     #now get the euclidean distance between predicted and observed for each point
     netSqDist = 0.0
@@ -221,7 +217,7 @@ def getRmsForTrack(dets, lineNum):
         #print "got euclidean distance was ", sqDist
         netSqDist += sqDist
 
-    rms = numpy.sqrt(netSqDist / len(dets))
+    rms = np.sqrt(netSqDist / len(dets))
     if (rms > .1):
         print "Unexpected weirdness at line number %i, RMS error was %f " % (lineNum, rms)
     return rms, raRes, decRes, dists
