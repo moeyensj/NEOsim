@@ -95,6 +95,10 @@ class track(object):
     def __init__(self, diasources):
 
         self._diasources = diasources
+        self._rms = None
+        self._raRes = None
+        self._decRes = None
+        self._distances = None
         self._isTrue = None
         self._isSubset = None
         
@@ -105,6 +109,38 @@ class track(object):
     @diasources.setter
     def diasources(self, value):
         self._diasources = value
+
+    @property
+    def rms(self):
+        return self._rms
+
+    @rms.setter
+    def rms(self, value):
+        self._rms = value
+
+    @property
+    def raRes(self):
+        return self._raRes
+
+    @raRes.setter
+    def raRes(self, value):
+        self._raRes = value
+
+    @property
+    def decRes(self):
+        return self._decRes
+
+    @decRes.setter
+    def decRes(self, value):
+        self._decRes = value
+
+    @property
+    def distances(self):
+        return self._distances
+
+    @distances.setter
+    def distances(self, value):
+        self._distances = value
 
     @property
     def isTrue(self):
