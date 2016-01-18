@@ -130,6 +130,12 @@ def checkSSMIDs(ssmids):
 def countSSMIDs(dataframe):
     return dataframe['ssmid'].nunique()
 
+def calcDegToRad(angle):
+    return angle*(np.pi/180.0)
+
+def calcRadToDeg(angle):
+    return angle*(180.0/np.pi)
+
 def calcAngularDistance(a, b):
     """ return distance between a and b, where a and b are angles in degrees. """
     while abs(a - b) > 180:
