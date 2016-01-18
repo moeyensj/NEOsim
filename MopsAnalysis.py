@@ -25,6 +25,8 @@ class runAnalysis(object):
         self._totalTracks = 0
         self._trueTracks = 0
         self._falseTracks = 0
+        self._startTime = 0
+        self._endTime = 0
 
         self.analyze()
 
@@ -100,7 +102,25 @@ class runAnalysis(object):
     def falseTracks(self, value):
         self._falseTracks = value
 
+    @property
+    def startTime(self):
+        return self._startTime
+
+    @startTime.setter
+    def startTime(self, value):
+        print "Cannot edit analysis start time."
+
+    @property
+    def endTime(self):
+        return self._endTime
+
+    @endTime.setter
+    def endTime(self, value):
+        print "Cannot edit analysis end time."
+
     def analyze(self):
+
+        self._startTime = time.ctime()
 
         for trackFile, detFile, idsFile in zip(self.tracker.tracks, self.tracker.dets, self.tracker.ids):
             true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids = analyzeTracks(trackFile, detFile, idsFile)
@@ -110,6 +130,9 @@ class runAnalysis(object):
             self._falseTracks += false_tracks
             
             print ""
+
+        self._endTime = time.ctime()
+        
         return
 
 def findSSMIDs(dataframe, diaids):
@@ -295,6 +318,7 @@ def analyzeTracks(trackFile, detFile, idsFile, verbose=True):
             
         final_track = track(new_track) 
         final_track.isTrue = isTrue
+        final_track.rms, final_track.raRes, final_track.decRes, final_track.distances = calcRMS(final_track.diasources)
         tracks.append(final_track)
         
     endTime = time.ctime()
