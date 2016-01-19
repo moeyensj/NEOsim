@@ -10,13 +10,13 @@ def readTrack(track):
     return np.fromstring(track, sep=" ", dtype=int)
 
 def readDetections(detFile):
-    return pd.read_csv(detFile, sep=" ", header=None, names=['diaid', 'obshistid', 'ssmid', 'ra', 'dec', 'mjd', 'mag', 'snr'], index_col='diaid')
+    return pd.read_csv(detFile, header=None, names=['diaid', 'obshistid', 'ssmid', 'ra', 'dec', 'mjd', 'mag', 'snr'], index_col='diaid', delim_whitespace=True)
 
 def readIds(ids):
     return np.fromstring(track, sep=" ", dtype=int)
 
 def readDataIntoDataframe(dataFile):
-    return pd.read_csv(dataFile, sep=" ", header=None, names=['diaid', 'obshistid', 'ssmid', 'ra', 'dec', 'mjd', 'mag', 'snr'], index_col='diaid')
+    return pd.read_csv(dataFile, header=None, names=['diaid', 'obshistid', 'ssmid', 'ra', 'dec', 'mjd', 'mag', 'snr'], index_col='diaid', delim_whitespace=True)
 
 def readDataIntoDatabase(dataFile, database, table):
     con = sql.connect(database)
