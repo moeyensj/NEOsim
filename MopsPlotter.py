@@ -23,7 +23,15 @@ def _textLocation(ax):
 def plotData(detFile):
     fig, ax = plt.subplots(1,1)
     _plotprettymaker(fig, ax)
+    df = MopsReader.readDetectionsIntoDataframe(detFile)
+    ax.scatter(np.array(df['ra']), np.array(df['dec']));
+    return
+
+def plotDataframe(dataframe):
+    fig, ax = plt.subplots(1,1)
+    _plotprettymaker(fig, ax)
     ax.scatter(np.array(dataframe['ra']), np.array(dataframe['dec']));
+    return
 
 def plotTracklets(detFiles, trackletFiles):
 
