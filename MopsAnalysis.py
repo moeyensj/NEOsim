@@ -20,7 +20,7 @@ class runAnalysis(object):
         self._parameters = parameters
         self._tracker = tracker
         self._uniqueObjects = 0
-        self._foundObjects = 0
+        self._foundObjects = {}
         self._missedObjects = 0
         self._totalTracks = 0
         self._trueTracks = 0
@@ -123,7 +123,7 @@ class runAnalysis(object):
         self._startTime = time.ctime()
 
         for trackFile, detFile, idsFile in zip(self.tracker.tracks, self.tracker.dets, self.tracker.ids):
-            true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids = analyzeTracks(trackFile, detFile, idsFile)
+            true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids = analyzeTracks(trackFile, detFile, idsFile, found_ssmids=self._foundObjects)
 
             self._totalTracks += total_tracks
             self._trueTracks += true_tracks
@@ -132,7 +132,7 @@ class runAnalysis(object):
             print ""
 
         self._endTime = time.ctime()
-        
+
         return
 
 def findSSMIDs(dataframe, diaids):
@@ -153,44 +153,6 @@ def checkSSMIDs(ssmids):
 def countSSMIDs(dataframe):
     return dataframe['ssmid'].nunique()
 
-def calcDegToRad(angle):
-    return angle*(np.pi/180.0)
-
-def calcRadToDeg(angle):
-    return angle*(180.0/np.pi)
-
-def calcAngularDistance(a, b):
-    """ return distance between a and b, where a and b are angles in degrees. """
-    while abs(a - b) > 180:
-        if a > b:
-            b += 360.
-        else:
-            a += 360.
-    return a - b
-
-def convertToStandardDegrees(angle):
-    while angle > 360.:
-        angle -= 360.
-    while angle < 0.:
-        angle += 360.
-    return angle
-
-def calcGreatCircleDistance(ra0, dec0, ra1, dec1):
-    """
-    return the great-circle distance between two points on the sky,
-    uses haversine formula
-    """
-    ra_dist = calcAngularDistance(ra0, ra1);
-    dec_dist = calcAngularDistance(dec0, dec1);    
-    # Convert all factors to radians
-    ra_dist = calcDegToRad(convertToStandardDegrees(ra_dist));
-    dec_dist = calcDegToRad(convertToStandardDegrees(dec_dist));
-    dec0 = calcDegToRad(convertToStandardDegrees(dec0));
-    dec1 = calcDegToRad(convertToStandardDegrees(dec1));
-    r = 2*np.arcsin(np.sqrt((np.sin(dec_dist/2.))**2 + np.cos(dec0)*np.cos(dec1)*(np.sin(ra_dist/2))**2));
-    # Back to degrees
-    return calcRadToDeg(r);
-
 def makeContiguous(angles):
     """ given a set of angles (say, RAs or Decs of observation) which
     span a fairly short arc but may actually cross the 0/360 line,
@@ -207,6 +169,44 @@ def makeContiguous(angles):
                 angle += 360.
         output.append(angle)
     return output
+
+def convertToStandardDegrees(angle):
+    while angle > 360.:
+        angle -= 360.
+    while angle < 0.:
+        angle += 360.
+    return angle
+
+def calcDegToRad(angle):
+    return angle*(np.pi/180.0)
+
+def calcRadToDeg(angle):
+    return angle*(180.0/np.pi)
+
+def calcAngularDistance(a, b):
+    """ return distance between a and b, where a and b are angles in degrees. """
+    while abs(a - b) > 180:
+        if a > b:
+            b += 360.
+        else:
+            a += 360.
+    return a - b
+
+def calcGreatCircleDistance(ra0, dec0, ra1, dec1):
+    """
+    return the great-circle distance between two points on the sky,
+    uses haversine formula
+    """
+    ra_dist = calcAngularDistance(ra0, ra1);
+    dec_dist = calcAngularDistance(dec0, dec1);    
+    # Convert all factors to radians
+    ra_dist = calcDegToRad(convertToStandardDegrees(ra_dist));
+    dec_dist = calcDegToRad(convertToStandardDegrees(dec_dist));
+    dec0 = calcDegToRad(convertToStandardDegrees(dec0));
+    dec1 = calcDegToRad(convertToStandardDegrees(dec1));
+    r = 2*np.arcsin(np.sqrt((np.sin(dec_dist/2.))**2 + np.cos(dec0)*np.cos(dec1)*(np.sin(ra_dist/2))**2));
+    # Back to degrees
+    return calcRadToDeg(r);
     
 def calcRMS(diasources):
     t0 = min(map(lambda x: x.mjd, diasources))
@@ -251,7 +251,7 @@ def calcRMS(diasources):
         print "RMS error was %f " % (rms)
     return rms, raRes[0], decRes[0], dists
 
-def analyzeTracks(trackFile, detFile, idsFile, verbose=True):
+def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, verbose=True):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackFile), startTime)
     
@@ -272,8 +272,9 @@ def analyzeTracks(trackFile, detFile, idsFile, verbose=True):
     true_tracks = 0
     false_tracks = 0
     unique_ssmids = countSSMIDs(dets_df)
-    found_ssmids = {}
-    
+    if found_ssmids == None:
+        found_ssmids = {}
+
     # Examine each line in trackFile and read in every line
     #  as a track object. If track contains new detections (diasource)
     #  then add new source to diasource_dict. 
