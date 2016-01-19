@@ -9,16 +9,13 @@ def readTracklet(tracklet):
 def readTrack(track):
     return np.fromstring(track, sep=" ", dtype=int)
 
-def readDetections(detFile):
-    return pd.read_csv(detFile, header=None, names=['diaid', 'obshistid', 'ssmid', 'ra', 'dec', 'mjd', 'mag', 'snr'], index_col='diaid', delim_whitespace=True)
-
 def readIds(ids):
     return np.fromstring(track, sep=" ", dtype=int)
 
-def readDataIntoDataframe(dataFile):
-    return pd.read_csv(dataFile, header=None, names=['diaid', 'obshistid', 'ssmid', 'ra', 'dec', 'mjd', 'mag', 'snr'], index_col='diaid', delim_whitespace=True)
+def readDetectionsIntoDataframe(detsFile):
+    return pd.read_csv(detsFile, header=None, names=['diaid', 'obshistid', 'ssmid', 'ra', 'dec', 'mjd', 'mag', 'snr'], index_col='diaid', delim_whitespace=True)
 
-def readDataIntoDatabase(dataFile, database, table):
+def readDetectionsIntoDatabase(detsFile, database, table):
     con = sql.connect(database)
     con.execute("""
     CREATE TABLE %s (
@@ -33,7 +30,7 @@ def readDataIntoDatabase(dataFile, database, table):
     );
     """ % (table))
 
-    df = readDataIntoDataframe(dataFile)
+    df = readDetectionsIntoDataframe(detsFile)
     df.to_sql(table, con, if_exists="append")
 
     con.close()

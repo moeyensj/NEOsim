@@ -262,7 +262,7 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, verbose=True):
     print "Writing results to %s" % (outFile)
     
     # Read detections into a dataframe
-    dets_df = MopsReader.readDetections(detFile)
+    dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
     
     trackFileIn = open(trackFile, "r")
     tracks = []
