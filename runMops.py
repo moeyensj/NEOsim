@@ -71,7 +71,7 @@ def directoryBuilder(runDir, verbose=VERBOSE):
             
     return dirsOut
 
-def runFindTracklets(parameters, diaSources, diaSourceDir, outDir, verbose=VERBOSE):
+def runFindTracklets(parameters, diaSources, outDir, verbose=VERBOSE):
     """
     Runs findTracklets. 
 
@@ -83,7 +83,6 @@ def runFindTracklets(parameters, diaSources, diaSourceDir, outDir, verbose=VERBO
 
     parameters: (MopsParameters object), user or default defined MOPS parameter object
     diaSources: (list), list of diaSources
-    diaSourceDir: (string), directory containing diaSources
     outDir: (string), tracklet output directory
     ----------------------
     """
@@ -96,10 +95,9 @@ def runFindTracklets(parameters, diaSources, diaSourceDir, outDir, verbose=VERBO
         _status(function, True)
 
     for diaSource in diaSources:
-        diaSourceIn = os.path.join(diaSourceDir, diaSource)
         trackletsOut = _out(outDir, diaSource, trackletSuffix)
 
-        call = ['findTracklets', '-i', diaSourceIn, '-o', trackletsOut, '-v', parameters.vMax, '-m', parameters.vMin]
+        call = ['findTracklets', '-i', diaSource, '-o', trackletsOut, '-v', parameters.vMax, '-m', parameters.vMin]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         tracklets.append(trackletsOut)
@@ -109,7 +107,7 @@ def runFindTracklets(parameters, diaSources, diaSourceDir, outDir, verbose=VERBO
 
     return tracklets
 
-def runIdsToIndices(tracklets, diaSources, diaSourceDir, outDir, verbose=VERBOSE):
+def runIdsToIndices(tracklets, diaSources, outDir, verbose=VERBOSE):
     """
     Runs idsToIndices.py.
 
@@ -122,7 +120,6 @@ def runIdsToIndices(tracklets, diaSources, diaSourceDir, outDir, verbose=VERBOSE
 
     tracklets: (list), list of tracklets
     diaSources: (list), list of diaSources
-    diaSourceDir: (string), directory containing diaSources
     outDir: (string), tracklet by index output directory
     ----------------------
     """
@@ -135,11 +132,10 @@ def runIdsToIndices(tracklets, diaSources, diaSourceDir, outDir, verbose=VERBOSE
         _status(function, True)
 
     for tracklet, diaSource in zip(tracklets, diaSources):
-        diaSourceIn = os.path.join(diaSourceDir, diaSource)
         byIndexOut = _out(outDir, diaSource, byIndexSuffix)
 
         script = str(os.getenv('MOPS_DIR')) + '/bin/idsToIndices.py'
-        call = ['python', script, tracklet, diaSourceIn, byIndexOut]
+        call = ['python', script, tracklet, diaSource, byIndexOut]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         byIndex.append(byIndexOut)
@@ -149,7 +145,7 @@ def runIdsToIndices(tracklets, diaSources, diaSourceDir, outDir, verbose=VERBOSE
 
     return byIndex
 
-def runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir, outDir, verbose=VERBOSE):
+def runCollapseTracklets(parameters, trackletsByIndex, diaSources, outDir, verbose=VERBOSE):
     """
     Runs collapseTracklets.
 
@@ -160,7 +156,6 @@ def runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir,
     parameters: (MopsParameters object), user or default defined MOPS parameter object
     trackletsByIndex: (list), list of tracklets
     diaSources: (list), list of diaSources
-    diaSourceDir: (string), directory containing diaSources
     outDir: (string), collapsed tracklet output directory
     ----------------------
     """
@@ -173,10 +168,9 @@ def runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir,
         _status(function, True)
 
     for tracklet, diaSource in zip(trackletsByIndex, diaSources):
-        diaSourceIn = os.path.join(diaSourceDir, diaSource)
         collapsedTracklet = _out(outDir, diaSource, collapsedSuffix)
 
-        call = ['collapseTracklets', diaSourceIn, tracklet, parameters.raTol, 
+        call = ['collapseTracklets', diaSource, tracklet, parameters.raTol, 
             parameters.decTol, parameters.angTol, parameters.vTol, collapsedTracklet,
             '--method', parameters.method,
             '--useRMSFilt', parameters.useRMSfilt,
@@ -190,7 +184,7 @@ def runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir,
 
     return collapsedTracklets
 
-def runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir, outDir, verbose=VERBOSE):
+def runPurifyTracklets(parameters, collapsedTracklets, diaSources, outDir, verbose=VERBOSE):
     """
     Runs purifyTracklets.
 
@@ -201,7 +195,6 @@ def runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir,
     parameters: (MopsParameters object), user or default defined MOPS parameter object
     collapsedTrackets: (list), list of collapsed tracklets
     diaSources: (list), list of diaSources
-    diaSourceDir: (string), directory containing diaSources
     outDir: (string), purified tracklet output directory
     ----------------------
     """
@@ -214,10 +207,9 @@ def runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir,
         _status(function, True)
 
     for tracklet, diaSource in zip(collapsedTracklets, diaSources):
-        diaSourceIn = os.path.join(diaSourceDir, diaSource)
         purifiedTracklet = _out(outDir, diaSource, purifiedSuffix)
 
-        call = ['purifyTracklets', '--detsFile', diaSourceIn, '--pairsFile', tracklet, 
+        call = ['purifyTracklets', '--detsFile', diaSource, '--pairsFile', tracklet, 
         '--maxRMS', parameters.rmsMax,'--outFile', purifiedTracklet]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
@@ -228,7 +220,7 @@ def runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir,
 
     return purifiedTracklets
 
-def runRemoveSubsets(parameters, purifiedTracklets, diaSources, diaSourceDir, outDir, verbose=VERBOSE):
+def runRemoveSubsets(parameters, purifiedTracklets, diaSources, outDir, verbose=VERBOSE):
     """
     Runs removeSubsets.
 
@@ -266,7 +258,7 @@ def runRemoveSubsets(parameters, purifiedTracklets, diaSources, diaSourceDir, ou
 
     return finalTracklets
 
-def runIndicesToIds(finalTracklets, diaSources, diaSourceDir, outDir, suffix, verbose=VERBOSE):
+def runIndicesToIds(finalTracklets, diaSources, outDir, suffix, verbose=VERBOSE):
     """
     Runs indicesToIds.py.
 
@@ -278,7 +270,6 @@ def runIndicesToIds(finalTracklets, diaSources, diaSourceDir, outDir, suffix, ve
 
     finalTracklets: (list), list of final (subset removed) tracklets
     diaSources: (list), list of diaSources
-    diaSourceDir: (string), directory containing diaSources
     outDir: (string), tracklet by ID output directory
     ----------------------
     """
@@ -292,11 +283,10 @@ def runIndicesToIds(finalTracklets, diaSources, diaSourceDir, outDir, suffix, ve
         _status(function, True)
 
     for tracklet, diaSource in zip(finalTracklets, diaSources):
-        diaSourceIn = os.path.join(diaSourceDir, diaSource)
         byIdOut = _out(outDir, diaSource, suffix + byIdSuffix)
 
         script = str(os.getenv('MOPS_DIR')) + '/bin/indicesToIds.py'
-        call = ['python', script, tracklet, diaSourceIn, byIdOut]
+        call = ['python', script, tracklet, diaSource, byIdOut]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         byId.append(byIdOut)
@@ -498,25 +488,28 @@ def runMops(parameters, tracker, diaSourceDir, runDir, verbose=VERBOSE):
     _save(parameters, 'parameters', outDir=runDir)
 
     # Find DIASources
-    diaSources = os.listdir(diaSourceDir)
+    diaSourceList = os.listdir(diaSourceDir)
+    diaSources = []
+    for diaSource in diaSourceList:
+        diaSources.append(os.path.join(diaSourceDir, diaSource))
     tracker.diaSources = diaSources
     tracker.diaSourcesDir = diaSourceDir
 
     # Run findTracklets
-    tracklets = runFindTracklets(parameters, diaSources, diaSourceDir, dirs[0], verbose=verbose)
+    tracklets = runFindTracklets(parameters, diaSources, dirs[0], verbose=verbose)
     tracker.ranFindTracklets = True
     tracker.tracklets = tracklets
     tracker.trackletsDir = dirs[0]
 
     # Run idsToIndices
-    trackletsByIndex = runIdsToIndices(tracklets, diaSources, diaSourceDir, dirs[0], verbose=verbose)
+    trackletsByIndex = runIdsToIndices(tracklets, diaSources, dirs[0], verbose=verbose)
     tracker.ranIdsToIndices = True
     tracker.trackletsByIndex = trackletsByIndex
     tracker.trackletsByIndexDir = dirs[0]
 
     # Run collapseTracklets
-    collapsedTracklets = runCollapseTracklets(parameters, trackletsByIndex, diaSources, diaSourceDir, dirs[1], verbose=verbose)
-    collapsedTrackletsById = runIndicesToIds(collapsedTracklets, diaSources, diaSourceDir, dirs[1], collapsedSuffix, verbose=verbose)
+    collapsedTracklets = runCollapseTracklets(parameters, trackletsByIndex, diaSources, dirs[1], verbose=verbose)
+    collapsedTrackletsById = runIndicesToIds(collapsedTracklets, diaSources, dirs[1], collapsedSuffix, verbose=verbose)
     tracker.ranCollapseTracklets = True
     tracker.collapsedTracklets = collapsedTracklets
     tracker.collapsedTrackletsDir = dirs[1]
@@ -524,8 +517,8 @@ def runMops(parameters, tracker, diaSourceDir, runDir, verbose=VERBOSE):
     tracker.collapsedTrackletsByIdDir = dirs[1]
 
     # Run purifyTracklets
-    purifiedTracklets = runPurifyTracklets(parameters, collapsedTracklets, diaSources, diaSourceDir, dirs[2], verbose=verbose)
-    purifiedTrackletsById = runIndicesToIds(purifiedTracklets, diaSources, diaSourceDir, dirs[2], purifiedSuffix, verbose=verbose)
+    purifiedTracklets = runPurifyTracklets(parameters, collapsedTracklets, diaSources, dirs[2], verbose=verbose)
+    purifiedTrackletsById = runIndicesToIds(purifiedTracklets, diaSources, dirs[2], purifiedSuffix, verbose=verbose)
     tracker.ranPurifyTracklets = True
     tracker.purifiedTracklets = purifiedTracklets
     tracker.purifiedTrackletsDir = dirs[2]
@@ -533,8 +526,8 @@ def runMops(parameters, tracker, diaSourceDir, runDir, verbose=VERBOSE):
     tracker.purifiedTrackletsByIdDir =  dirs[2]
 
     # Run removeSubsets
-    finalTracklets = runRemoveSubsets(parameters, purifiedTracklets, diaSources, diaSourceDir, dirs[3], verbose=verbose)
-    finalTrackletsById = runIndicesToIds(finalTracklets, diaSources, diaSourceDir, dirs[3], finalSuffix, verbose=verbose)
+    finalTracklets = runRemoveSubsets(parameters, purifiedTracklets, diaSources, dirs[3], verbose=verbose)
+    finalTrackletsById = runIndicesToIds(finalTracklets, diaSources, dirs[3], finalSuffix, verbose=verbose)
     tracker.ranRemoveSubsets = True
     tracker.finalTracklets = finalTracklets
     tracker.finalTrackletsDir = dirs[3]
@@ -619,8 +612,8 @@ if __name__=="__main__":
     verbose = args.verbose
 
     # Retrieve output directory and nightly DIA Sources directory
-    runDir = os.path.abspath(args.outputDir)
-    diaSourceDir = os.path.join(args.diaSourcesDir, "")
+    runDir = os.path.join(os.path.abspath(args.outputDir), "")
+    diaSourceDir = os.path.join(os.path.abspath(args.diaSourcesDir), "")
 
     if verbose:
         print "------- Run MOPS -------"
