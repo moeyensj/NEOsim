@@ -258,6 +258,7 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, verbose=True):
     # Create outfile to store results
     outFile = trackFile + ".results"
     outFileOut = open(outFile, "w")
+    outFileOut.write("Start time: %s\n" % (startTime))
     print "Writing results to %s" % (outFile)
     
     # Read detections into a dataframe
@@ -323,14 +324,14 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, verbose=True):
         tracks.append(final_track)
         
     endTime = time.ctime()
-    print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
 
-    outFileOut.write("Start time: %s\n" % (startTime))
     outFileOut.write("True tracks: %s\n" % (true_tracks))
     outFileOut.write("False tracks: %s\n" % (false_tracks))
     outFileOut.write("Total tracks: %s\n" % (total_tracks))
     outFileOut.write("Findable objects: %s\n" % (unique_ssmids))
     outFileOut.write("Found objects: %s\n" % (len(found_ssmids)))
     outFileOut.write("End time: %s\n" % (endTime))
+
+    print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
 
     return true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids
