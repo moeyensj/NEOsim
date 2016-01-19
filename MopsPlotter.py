@@ -40,8 +40,8 @@ def plotTracklets(dataframe, trackletFiles):
             tracklets = MopsReader.readTracklet(line)
             tracklet_num += 1
         
-            p1 = dataframe[dataframe['diaid'] == tracklets[0]]
-            p2 = dataframe[dataframe['diaid'] == tracklets[-1]]
+            p1 = dataframe.iloc[tracklets[0]]
+            p2 = dataframe.iloc[tracklets[-1]]
             
             dRa = float(p2['ra'])-float(p1['ra'])
             dDec = float(p2['dec'])-float(p1['dec'])
@@ -68,8 +68,8 @@ def plotTracks(dataframe, trackFiles):
             dec = []
             
             for d in track:
-                ra.append(float(dataframe.loc[dataframe['diaid'] == d]['ra']))
-                dec.append(float(dataframe.loc[dataframe['diaid'] == d]['dec']))
+                ra.append(dataframe.iloc[d]['ra'])
+                dec.append(dataframe.iloc[d]['dec'])
                 
             ax.plot(ra, dec, color='k',alpha=0.7)
             
