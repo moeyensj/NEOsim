@@ -20,6 +20,7 @@ class runAnalysis(object):
         self._parameters = parameters
         self._tracker = tracker
         self._uniqueObjects = 0
+        self._findableObjects = 0
         self._foundObjects = {}
         self._missedObjects = 0
         self._totalTracks = 0
@@ -53,6 +54,14 @@ class runAnalysis(object):
     @uniqueObjects.setter
     def uniqueObjects(self, value):
         self._uniqueObjects = value
+
+    @property
+    def findableObjects(self):
+        return self._findableObjects
+
+    @findableObjects.setter
+    def findableObjects(self, value):
+        self._findableObjects = value
 
     @property
     def foundObjects(self):
@@ -123,7 +132,7 @@ class runAnalysis(object):
         self._startTime = time.ctime()
 
         for trackFile, detFile, idsFile in zip(self.tracker.tracks, self.tracker.dets, self.tracker.ids):
-            true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids = analyzeTracks(trackFile, detFile, idsFile, found_ssmids=self._foundObjects)
+            true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids, findable_ssmids = analyzeTracks(trackFile, detFile, idsFile, found_ssmids=self._foundObjects)
 
             self._totalTracks += total_tracks
             self._trueTracks += true_tracks
@@ -150,8 +159,11 @@ def checkSSMIDs(ssmids):
     else:
         return False
 
-def countSSMIDs(dataframe):
+def countUniqueSSMIDs(dataframe):
     return dataframe['ssmid'].nunique()
+
+def countFindableSSMIDs(dataframe, min_detections):
+    return np.sum(dataframe['ssmid'].value_counts() >= min_detections)
 
 def makeContiguous(angles):
     """ given a set of angles (say, RAs or Decs of observation) which
@@ -251,7 +263,7 @@ def calcRMS(diasources):
         print "RMS error was %f " % (rms)
     return rms, raRes[0], decRes[0], dists
 
-def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, verbose=True):
+def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, min_detections=6, verbose=True):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackFile), startTime)
     
@@ -272,7 +284,8 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, verbose=True):
     total_tracks = 0
     true_tracks = 0
     false_tracks = 0
-    unique_ssmids = countSSMIDs(dets_df)
+    unique_ssmids = countUniqueSSMIDs(dets_df)
+    findable_ssmids = countFindableSSMIDs(dets_df, min_detections)
     if found_ssmids == None:
         found_ssmids = {}
 
@@ -334,4 +347,4 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, verbose=True):
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
 
-    return true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids
+    return true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids, findable_ssmids
