@@ -288,8 +288,8 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, verbose=True):
         # Look up each diaid in the track, check if diasource object exists.
         #  If it does exist then add it to the new track object, if not then create the object
         #  and update the diasource object dictionary.
+        ssmids = []
         for diaid in new_track_diaids:
-            ssmids = []
             if diaid in diasource_dict:
                 ssmids.append(diasource_dict[diaid].ssmid)
                 new_track.append(diasource_dict[diaid])
