@@ -371,6 +371,80 @@ def calcRMS(diasources):
         print "RMS error was %f " % (rms)
     return rms, raRes[0], decRes[0], dists
 
+def analyzeTracklets(trackletFile, detFile, trackletType):
+    startTime = time.ctime()
+    print "Starting analysis for %s at %s" % (os.path.basename(trackletFile), startTime)
+    
+    # Create outfile to store results
+    outFile = trackletFile + ".results"
+    outFileOut = open(outFile, "w")
+    outFileOut.write("Start time: %s\n" % (startTime))
+    print "Writing results to %s" % (outFile)
+    
+    # Read detections into a dataframe
+    dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
+    
+    trackletFileIn = open(trackletFile, "r")
+    tracklets = []
+    diasource_dict = {}
+    
+    # Initalize success (or failure) counters
+    total_tracklets = 0
+    true_tracklets = 0
+    false_tracklets = 0
+
+    # Examine each line in trackletFile and read in every line
+    #  as a track object. If track contains new detections (diasource)
+    #  then add new source to diasource_dict. 
+    for line in trackletFileIn:
+        # Found a track!
+        total_tracklets += 1
+        new_tracklet_diaids = MopsReader.readTracklet(line)
+        new_tracklet = []
+        
+        # Look up each diaid in the track, check if diasource object exists.
+        #  If it does exist then add it to the new track object, if not then create the object
+        #  and update the diasource object dictionary.
+        ssmids = []
+        for diaid in new_tracklet_diaids:
+            if diaid in diasource_dict:
+                ssmids.append(diasource_dict[diaid].ssmid)
+                new_tracklet.append(diasource_dict[diaid])
+            
+            else:
+                new_diasource = dets_df.loc[diaid]
+                new_diasource_obj = diasource(int(diaid), new_diasource['ssmid'],
+                             new_diasource['obshistid'], new_diasource['ra'],
+                             new_diasource['dec'], new_diasource['mjd'],
+                             new_diasource['mag'], new_diasource['snr'])
+                diasource_dict[diaid] = new_diasource_obj
+                
+                ssmids.append(diasource_dict[diaid].ssmid)
+                new_tracklet.append(new_diasource_obj)
+                
+        isTrue = checkSSMIDs(ssmids)  
+        if isTrue:
+            # Track is true! 
+            true_tracklets += 1
+        else:
+            # Track is false. 
+            false_tracklets += 1
+            
+        final_tracklet = tracklet(new_tracklet) 
+        tracklets.append(final_tracklet)
+        
+    endTime = time.ctime()
+
+    outFileOut.write("True tracklets: %s\n" % (true_tracklets))
+    outFileOut.write("False tracklets: %s\n" % (false_tracklets))
+    outFileOut.write("Total tracklets: %s\n" % (total_tracklets))
+    outFileOut.write("End time: %s\n" % (endTime))
+
+    print "Finished analysis for %s at %s" % (os.path.basename(trackletFile), endTime)
+
+    return true_tracklets, false_tracklets, total_tracklets
+
+
 def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, min_detections=6, verbose=True):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackFile), startTime)
