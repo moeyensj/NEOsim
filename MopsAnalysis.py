@@ -26,6 +26,18 @@ class runAnalysis(object):
         self._totalTracks = 0
         self._trueTracks = 0
         self._falseTracks = 0
+        self._totalTracklets = 0
+        self._trueTracklets = 0
+        self._falseTracklets = 0
+        self._totalCollapsedTracklets = 0
+        self._trueCollapsedTracklets = 0
+        self._falseCollapsedTracklets = 0
+        self._totalPurifiedTracklets = 0
+        self._truePurifiedTracklets = 0
+        self._falsePurifiedTracklets = 0
+        self._totalFinalTracklets = 0
+        self._trueFinalTracklets = 0
+        self._falseFinalTracklets = 0
         self._startTime = 0
         self._endTime = 0
 
@@ -110,6 +122,102 @@ class runAnalysis(object):
     @falseTracks.setter
     def falseTracks(self, value):
         self._falseTracks = value
+
+    @property
+    def totalTracklets(self):
+        return self._totalTracklets
+
+    @totalTracklets.setter
+    def totalTracklets(self, value):
+        self._totalTracklets = value
+
+    @property
+    def trueTracklets(self):
+        return self._trueTracklets
+
+    @trueTracklets.setter
+    def trueTracklets(self, value):
+        self._trueTracklets = value
+
+    @property
+    def falseTracklets(self):
+        return self._falseTracklets
+
+    @falseTracklets.setter
+    def falseTracklets(self, value):
+        self._falseTracklets = value
+
+    @property
+    def totalCollapsedTracklets(self):
+        return self._totalCollapsedTracklets
+
+    @totalCollapsedTracklets.setter
+    def totalCollapsedTracklets(self, value):
+        self._totalCollapsedTracklets = value
+
+    @property
+    def trueCollapsedTracklets(self):
+        return self._trueCollapsedTracklets
+
+    @trueCollapsedTracklets.setter
+    def trueCollapsedTracklets(self, value):
+        self._trueCollapsedTracklets = value
+
+    @property
+    def falseCollapsedTracklets(self):
+        return self._falseCollapsedTracklets
+
+    @falseCollapsedTracklets.setter
+    def falseCollapsedTracklets(self, value):
+        self._falseCollapsedTracklets = value
+
+    @property
+    def totalPurifiedTracklets(self):
+        return self._totalPurifiedTracklets
+
+    @totalPurifiedTracklets.setter
+    def totalPurifiedTracklets(self, value):
+        self._totalPurifiedTracklets = value
+
+    @property
+    def truePurifiedTracklets(self):
+        return self._truePurifiedTracklets
+
+    @truePurifiedTracklets.setter
+    def truePurifiedTracklets(self, value):
+        self._truePurifiedTracklets = value
+
+    @property
+    def falsePurifiedTracklets(self):
+        return self._falsePurifiedTracklets
+
+    @falsePurifiedTracklets.setter
+    def falsePurifiedTracklets(self, value):
+        self._falsePurifiedTracklets = value
+
+    @property
+    def totalFinalTracklets(self):
+        return self._totalFinalTracklets
+
+    @totalFinalTracklets.setter
+    def totalFinalTracklets(self, value):
+        self._totalFinalTracklets = value
+
+    @property
+    def trueFinalTracklets(self):
+        return self._trueFinalTracklets
+
+    @trueFinalTracklets.setter
+    def trueFinalTracklets(self, value):
+        self._trueFinalTracklets = value
+
+    @property
+    def falseFinalTracklets(self):
+        return self._falseFinalTracklets
+
+    @falseFinalTracklets.setter
+    def falseFinalTracklets(self, value):
+        self._falsePurifiedTracklets = value
 
     @property
     def startTime(self):
