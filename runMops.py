@@ -347,13 +347,13 @@ def runLinkTracklets(parameters, dets, ids, outDir, verbose=VERBOSE):
     function = "linkTracklets"
     tracks = []
 
-    outfile, errfile = _log(function, outDir)
-
     if verbose:
         _status(function, True)
 
     for detIn, idIn in zip(dets,ids):
         trackOut = _out(outDir, detIn, trackSuffix)
+        outfile = file(trackOut + '.out', 'w')
+        errfile = file(trackOut + '.err', 'w')
 
         call = ['linkTracklets', 
             '-e', parameters.detErrThresh, 
