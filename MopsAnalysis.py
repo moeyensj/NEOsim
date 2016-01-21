@@ -19,25 +19,25 @@ class runAnalysis(object):
 
         self._parameters = parameters
         self._tracker = tracker
-        self._uniqueObjects = 0
-        self._findableObjects = 0
+        self._uniqueObjects = {}
+        self._findableObjects = {}
         self._foundObjects = {}
-        self._missedObjects = 0
-        self._totalTracks = 0
-        self._trueTracks = 0
-        self._falseTracks = 0
-        self._totalTracklets = 0
-        self._trueTracklets = 0
-        self._falseTracklets = 0
-        self._totalCollapsedTracklets = 0
-        self._trueCollapsedTracklets = 0
-        self._falseCollapsedTracklets = 0
-        self._totalPurifiedTracklets = 0
-        self._truePurifiedTracklets = 0
-        self._falsePurifiedTracklets = 0
-        self._totalFinalTracklets = 0
-        self._trueFinalTracklets = 0
-        self._falseFinalTracklets = 0
+        self._missedObjects = {}
+        self._totalTracks = {}
+        self._trueTracks = {}
+        self._falseTracks = {}
+        self._totalTracklets = {}
+        self._trueTracklets = {}
+        self._falseTracklets = {}
+        self._totalCollapsedTracklets = {}
+        self._trueCollapsedTracklets = {}
+        self._falseCollapsedTracklets = {}
+        self._totalPurifiedTracklets = {}
+        self._truePurifiedTracklets = {}
+        self._falsePurifiedTracklets = {}
+        self._totalFinalTracklets = {}
+        self._trueFinalTracklets = {}
+        self._falseFinalTracklets = {}
         self._startTime = 0
         self._endTime = 0
 
@@ -241,51 +241,56 @@ class runAnalysis(object):
 
         if tracklets:
             for trackletFile, detFile in zip(self.tracker.tracklets, self.tracker.diaSources):
+                night = os.path.basename(detFile).split(".")[0]
                 true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
 
-                self._totalTracklets += total_tracklets
-                self._trueTracklets += true_tracklets
-                self._falseTracklets += false_tracklets
+                self._totalTracklets[night] = total_tracklets
+                self._trueTracklets[night] = true_tracklets
+                self._falseTracklets[night] = false_tracklets
                 
                 print ""
 
         if collapsedTracklets:
             for trackletFile, detFile in zip(self.tracker.collapsedTrackletsById, self.tracker.diaSources):
+                night = os.path.basename(detFile).split(".")[0]
                 true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
 
-                self._totalCollapsedTracklets += total_tracklets
-                self._trueCollapsedTracklets += true_tracklets
-                self._falseCollapsedTracklets += false_tracklets
+                self._totalCollapsedTracklets[night] = total_tracklets
+                self._trueCollapsedTracklets[night] = true_tracklets
+                self._falseCollapsedTracklets[night] = false_tracklets
                 
                 print ""
 
         if purifiedTracklets:
             for trackletFile, detFile in zip(self.tracker.purifiedTrackletsById, self.tracker.diaSources):
+                night = os.path.basename(detFile).split(".")[0]
                 true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
 
-                self._totalPurifiedTracklets += total_tracklets
-                self._truePurifiedTracklets += true_tracklets
-                self._falsePurifiedTracklets += false_tracklets
+                self._totalPurifiedTracklets[night] = total_tracklets
+                self._truePurifiedTracklets[night] = true_tracklets
+                self._falsePurifiedTracklets[night] = false_tracklets
                 
                 print ""
 
         if finalTracklets:
             for trackletFile, detFile in zip(self.tracker.finalTrackletsById, self.tracker.diaSources):
                 true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
+                night = os.path.basename(detFile).split(".")[0]
 
-                self._totalFinalTracklets += total_tracklets
-                self._trueFinalTracklets += true_tracklets
-                self._falseFinalTracklets += false_tracklets
+                self._totalFinalTracklets[night] = total_tracklets
+                self._trueFinalTracklets[night] = true_tracklets
+                self._falseFinalTracklets[night] = false_tracklets
                 
                 print ""
 
         if tracks:
             for trackFile, detFile, idsFile in zip(self.tracker.tracks, self.tracker.dets, self.tracker.ids):
+                window = os.path.basename(trackFile).split(".")[0]
                 true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids, findable_ssmids = analyzeTracks(trackFile, detFile, idsFile, found_ssmids=self._foundObjects)
 
-                self._totalTracks += total_tracks
-                self._trueTracks += true_tracks
-                self._falseTracks += false_tracks
+                self._totalTracks[window] = total_tracks
+                self._trueTracks[window] = true_tracks
+                self._falseTracks[window] = false_tracks
                 
                 print ""
 
