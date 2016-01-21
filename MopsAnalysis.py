@@ -235,18 +235,59 @@ class runAnalysis(object):
     def endTime(self, value):
         print "Cannot edit analysis end time."
 
-    def analyze(self):
+    def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True):
 
         self._startTime = time.ctime()
 
-        for trackFile, detFile, idsFile in zip(self.tracker.tracks, self.tracker.dets, self.tracker.ids):
-            true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids, findable_ssmids = analyzeTracks(trackFile, detFile, idsFile, found_ssmids=self._foundObjects)
+        if tracklets:
+            for trackletFile, detFile in zip(self.tracker.tracklets, self.tracker.diaSources):
+                true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
 
-            self._totalTracks += total_tracks
-            self._trueTracks += true_tracks
-            self._falseTracks += false_tracks
-            
-            print ""
+                self._totalTracklets += total_tracklets
+                self._trueTracklets += true_tracklets
+                self._falseTracklets += false_tracklets
+                
+                print ""
+
+        if collapsedTracklets:
+            for trackletFile, detFile in zip(self.tracker.collapsedTrackletsById, self.tracker.diaSources):
+                true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
+
+                self._totalCollapsedTracklets += total_tracklets
+                self._trueCollapsedTracklets += true_tracklets
+                self._falseCollapsedTracklets += false_tracklets
+                
+                print ""
+
+        if purifiedTracklets:
+            for trackletFile, detFile in zip(self.tracker.purifiedTrackletsById, self.tracker.diaSources):
+                true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
+
+                self._totalPurifiedTracklets += total_tracklets
+                self._truePurifiedTracklets += true_tracklets
+                self._falsePurifiedTracklets += false_tracklets
+                
+                print ""
+
+        if finalTracklets:
+            for trackletFile, detFile in zip(self.tracker.finalTrackletsById, self.tracker.diaSources):
+                true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
+
+                self._totalFinalTracklets += total_tracklets
+                self._trueFinalTracklets += true_tracklets
+                self._falseFinalTracklets += false_tracklets
+                
+                print ""
+
+        if tracks:
+            for trackFile, detFile, idsFile in zip(self.tracker.tracks, self.tracker.dets, self.tracker.ids):
+                true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids, findable_ssmids = analyzeTracks(trackFile, detFile, idsFile, found_ssmids=self._foundObjects)
+
+                self._totalTracks += total_tracks
+                self._trueTracks += true_tracks
+                self._falseTracks += false_tracks
+                
+                print ""
 
         self._endTime = time.ctime()
 
@@ -371,7 +412,7 @@ def calcRMS(diasources):
         print "RMS error was %f " % (rms)
     return rms, raRes[0], decRes[0], dists
 
-def analyzeTracklets(trackletFile, detFile, trackletType):
+def analyzeTracklets(trackletFile, detFile):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackletFile), startTime)
     
