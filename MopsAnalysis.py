@@ -19,6 +19,8 @@ class runAnalysis(object):
 
         self._parameters = parameters
         self._tracker = tracker
+        self._nights = []
+        self._windows = []
         self._uniqueObjects = {}
         self._findableObjects = {}
         self._foundObjects = {}
@@ -58,6 +60,22 @@ class runAnalysis(object):
     @tracker.setter
     def tracker(self, value):
         self._tracker = value
+
+    @property
+    def nights(self):
+        return self._nights
+
+    @nights.setter
+    def nights(self, value):
+        self._nights = value
+
+    @property
+    def windows(self):
+        return self._windows
+
+    @windows.setter
+    def windows(self, value):
+        self._windows = value
 
     @property
     def uniqueObjects(self):
@@ -242,6 +260,7 @@ class runAnalysis(object):
         if tracklets:
             for trackletFile, detFile in zip(self.tracker.tracklets, self.tracker.diaSources):
                 night = os.path.basename(detFile).split(".")[0]
+                self._nights.append(night)
                 true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
 
                 self._totalTracklets[night] = total_tracklets
@@ -286,6 +305,7 @@ class runAnalysis(object):
         if tracks:
             for trackFile, detFile, idsFile in zip(self.tracker.tracks, self.tracker.dets, self.tracker.ids):
                 window = os.path.basename(trackFile).split(".")[0]
+                self._windows.append(window)
                 true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids, findable_ssmids = analyzeTracks(trackFile, detFile, idsFile, found_ssmids=self._foundObjects)
 
                 self._totalTracks[window] = total_tracks
