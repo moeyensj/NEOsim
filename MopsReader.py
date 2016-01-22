@@ -37,3 +37,10 @@ def readDetectionsIntoDatabase(detsFile, database, table):
     del df
 
     return
+
+def readNight(detFile):
+    return os.path.basename(detFile).split(".")[0]
+
+def readWindow(trackFile):
+    window = os.path.basename(trackFile).split(".")[0].split("_")
+    return window[1] + "-" + window[3]
