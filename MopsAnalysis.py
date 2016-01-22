@@ -43,6 +43,8 @@ class runAnalysis(object):
         self._startTime = 0
         self._endTime = 0
 
+        self.findNights()
+        self.findWindows()
         self.analyze()
 
     @property
@@ -253,14 +255,20 @@ class runAnalysis(object):
     def endTime(self, value):
         print "Cannot edit analysis end time."
 
+    def findNights(self):
+        for detFile in self.tracker.diaSources:
+            self._nights.append(MopsReader.readNight(detFile))
+
+    def findWindows(self):
+        for trackFile in self.tracker.tracks:
+            self._windows.append(MopsReader.readWindow(trackFile))
+
     def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True):
 
         self._startTime = time.ctime()
 
         if tracklets:
-            for trackletFile, detFile in zip(self.tracker.tracklets, self.tracker.diaSources):
-                night = os.path.basename(detFile).split(".")[0]
-                self._nights.append(night)
+            for night, trackletFile, detFile in zip(self.nights, self.tracker.tracklets, self.tracker.diaSources):
                 true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
 
                 self._totalTracklets[night] = total_tracklets
@@ -270,8 +278,7 @@ class runAnalysis(object):
                 print ""
 
         if collapsedTracklets:
-            for trackletFile, detFile in zip(self.tracker.collapsedTrackletsById, self.tracker.diaSources):
-                night = os.path.basename(detFile).split(".")[0]
+            for night, trackletFile, detFile in zip(self.nights, self.tracker.collapsedTrackletsById, self.tracker.diaSources):
                 true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
 
                 self._totalCollapsedTracklets[night] = total_tracklets
@@ -281,8 +288,7 @@ class runAnalysis(object):
                 print ""
 
         if purifiedTracklets:
-            for trackletFile, detFile in zip(self.tracker.purifiedTrackletsById, self.tracker.diaSources):
-                night = os.path.basename(detFile).split(".")[0]
+            for night, trackletFile, detFile in zip(self.nights, self.tracker.purifiedTrackletsById, self.tracker.diaSources):
                 true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
 
                 self._totalPurifiedTracklets[night] = total_tracklets
@@ -292,9 +298,8 @@ class runAnalysis(object):
                 print ""
 
         if finalTracklets:
-            for trackletFile, detFile in zip(self.tracker.finalTrackletsById, self.tracker.diaSources):
+            for night, trackletFile, detFile in zip(self.nights, self.tracker.finalTrackletsById, self.tracker.diaSources):
                 true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
-                night = os.path.basename(detFile).split(".")[0]
 
                 self._totalFinalTracklets[night] = total_tracklets
                 self._trueFinalTracklets[night] = true_tracklets
@@ -303,9 +308,7 @@ class runAnalysis(object):
                 print ""
 
         if tracks:
-            for trackFile, detFile, idsFile in zip(self.tracker.tracks, self.tracker.dets, self.tracker.ids):
-                window = os.path.basename(trackFile).split(".")[0]
-                self._windows.append(window)
+            for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
                 true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids, findable_ssmids = analyzeTracks(trackFile, detFile, idsFile, found_ssmids=self._foundObjects)
 
                 self._totalTracks[window] = total_tracks
