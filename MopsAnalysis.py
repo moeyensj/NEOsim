@@ -28,18 +28,28 @@ class runAnalysis(object):
         self._totalTracks = {}
         self._trueTracks = {}
         self._falseTracks = {}
+        self._trueTracksSample = {}
+        self._falseTracksSample = {}
         self._totalTracklets = {}
         self._trueTracklets = {}
         self._falseTracklets = {}
+        self._trueTrackletsSample = {}
+        self._falseTrackletsSample = {}
         self._totalCollapsedTracklets = {}
         self._trueCollapsedTracklets = {}
         self._falseCollapsedTracklets = {}
+        self._trueCollapsedTrackletsSample = {}
+        self._falseCollapsedTrackletsSample = {}
         self._totalPurifiedTracklets = {}
         self._truePurifiedTracklets = {}
         self._falsePurifiedTracklets = {}
+        self._truePurifiedTrackletsSample = {}
+        self._falsePurifiedTrackletsSample = {}
         self._totalFinalTracklets = {}
         self._trueFinalTracklets = {}
         self._falseFinalTracklets = {}
+        self._trueFinalTrackletsSample = {}
+        self._falseFinalTrackletsSample = {}
         self._startTime = 0
         self._endTime = 0
 
@@ -144,6 +154,22 @@ class runAnalysis(object):
         self._falseTracks = value
 
     @property
+    def trueTracksSample(self):
+        return self._trueTracksSample
+
+    @trueTracksSample.setter
+    def trueTracksSample(self, value):
+        self._trueTracksSample = value
+
+    @property
+    def falseTracksSample(self):
+        return self._falseTracksSample
+
+    @falseTracksSample.setter
+    def falseTracksSample(self, value):
+        self._falseTracksSample = value
+
+    @property
     def totalTracklets(self):
         return self._totalTracklets
 
@@ -166,6 +192,22 @@ class runAnalysis(object):
     @falseTracklets.setter
     def falseTracklets(self, value):
         self._falseTracklets = value
+
+    @property
+    def trueTrackletsSample(self):
+        return self._trueTrackletsSample
+
+    @trueTrackletsSample.setter
+    def trueTrackletsSample(self, value):
+        self._trueTrackletsSample = value
+
+    @property
+    def falseTrackletsSample(self):
+        return self._falseTrackletsSample
+
+    @falseTrackletsSample.setter
+    def falseTrackletsSample(self, value):
+        self._falseTrackletsSample = value
 
     @property
     def totalCollapsedTracklets(self):
@@ -192,6 +234,22 @@ class runAnalysis(object):
         self._falseCollapsedTracklets = value
 
     @property
+    def trueCollapsedTrackletsSample(self):
+        return self._trueCollapsedTrackletsSample
+
+    @trueCollapsedTrackletsSample.setter
+    def trueCollapsedTrackletsSample(self, value):
+        self._trueCollapsedTrackletsSample = value
+
+    @property
+    def falseCollapsedTrackletsSample(self):
+        return self._falseCollapsedTrackletsSample
+
+    @falseCollapsedTrackletsSample.setter
+    def falseCollapsedTrackletsSample(self, value):
+        self._falseCollapsedTrackletsSample = value
+
+    @property
     def totalPurifiedTracklets(self):
         return self._totalPurifiedTracklets
 
@@ -216,6 +274,22 @@ class runAnalysis(object):
         self._falsePurifiedTracklets = value
 
     @property
+    def truePurifiedTrackletsSample(self):
+        return self._truePurifiedTrackletsSample
+
+    @truePurifiedTrackletsSample.setter
+    def truePurifiedTrackletsSample(self, value):
+        self._truePurifiedTrackletsSample = value
+
+    @property
+    def falsePurifiedTrackletsSample(self):
+        return self._falsePurifiedTrackletsSample
+
+    @falsePurifiedTrackletsSample.setter
+    def falsePurifiedTrackletsSample(self, value):
+        self._falsePurifiedTrackletsSample = value
+
+    @property
     def totalFinalTracklets(self):
         return self._totalFinalTracklets
 
@@ -238,6 +312,22 @@ class runAnalysis(object):
     @falseFinalTracklets.setter
     def falseFinalTracklets(self, value):
         self._falsePurifiedTracklets = value
+
+    @property
+    def trueFinalTrackletsSample(self):
+        return self._trueFinalTrackletsSample
+
+    @trueFinalTrackletsSample.setter
+    def trueFinalTrackletsSample(self, value):
+        self._trueFinalTrackletsSample = value
+
+    @property
+    def falseFinalTrackletsSample(self):
+        return self._falseFinalTrackletsSample
+
+    @falseFinalTrackletsSample.setter
+    def falseFinalTrackletsSample(self, value):
+        self._falsePurifiedTrackletsSample = value
 
     @property
     def startTime(self):
