@@ -418,7 +418,7 @@ def findSSMIDs(dataframe, diaids):
         ssmids.append(ssmid)
 
     return np.array(ssmids)
-    
+
 def checkSSMIDs(ssmids):
     uniqueIds = np.unique(ssmids)
     if len(uniqueIds) == 1:
@@ -622,11 +622,16 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, min_detections
     diasource_dict = {}
     
     # Initalize success (or failure) counters
-    total_tracks = 0
-    true_tracks = 0
-    false_tracks = 0
+    total_tracks_num = 0
+    true_tracks_num = 0
+    false_tracks_num = 0
     unique_ssmids = countUniqueSSMIDs(dets_df)
     findable_ssmids = countFindableSSMIDs(dets_df, min_detections)
+
+    # Initialize track arrays
+    false_tracks = []
+    true_tracks = []
+
     if found_ssmids == None:
         found_ssmids = {}
 
@@ -635,7 +640,7 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, min_detections
     #  then add new source to diasource_dict. 
     for line in trackFileIn:
         # Found a track!
-        total_tracks += 1
+        total_tracks_num += 1
         new_track_diaids = MopsReader.readTrack(line)
         new_track = []
         
@@ -667,25 +672,28 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, min_detections
         isTrue = checkSSMIDs(ssmids)  
         if isTrue:
             # Track is true! 
-            true_tracks += 1
+            true_tracks_num += 1
+            final_track = track(new_track) 
+            final_track.isTrue = isTrue
+            final_track.rms, final_track.raRes, final_track.decRes, final_track.distances = calcRMS(final_track.diasources)
+            true_tracks.append(final_track)
         else:
             # Track is false. 
-            false_tracks += 1
-            
-        final_track = track(new_track) 
-        final_track.isTrue = isTrue
-        final_track.rms, final_track.raRes, final_track.decRes, final_track.distances = calcRMS(final_track.diasources)
-        tracks.append(final_track)
+            false_tracks_num += 1
+            final_track = track(new_track) 
+            final_track.isTrue = isTrue
+            final_track.rms, final_track.raRes, final_track.decRes, final_track.distances = calcRMS(final_track.diasources)
+            false_tracks.append(final_track)
         
     endTime = time.ctime()
 
-    outFileOut.write("True tracks: %s\n" % (true_tracks))
-    outFileOut.write("False tracks: %s\n" % (false_tracks))
-    outFileOut.write("Total tracks: %s\n" % (total_tracks))
+    outFileOut.write("True tracks: %s\n" % (true_tracks_num))
+    outFileOut.write("False tracks: %s\n" % (false_tracks_num))
+    outFileOut.write("Total tracks: %s\n" % (total_tracks_num))
     outFileOut.write("Findable objects: %s\n" % (unique_ssmids))
     outFileOut.write("Found objects: %s\n" % (len(found_ssmids)))
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
 
-    return true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids, findable_ssmids
+    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, unique_ssmids, found_ssmids, findable_ssmids
