@@ -1,6 +1,7 @@
 import os
 import time
 import yaml
+import random
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -12,6 +13,8 @@ from MopsObjects import tracklet
 from MopsObjects import track
 from MopsParameters import MopsParameters
 from MopsTracker import MopsTracker
+
+SAMPLE_SIZE_PER_NIGHT = 50
 
 class runAnalysis(object):
 
@@ -359,57 +362,73 @@ class runAnalysis(object):
 
         if tracklets:
             for night, trackletFile, detFile in zip(self.nights, self.tracker.tracklets, self.tracker.diaSources):
-                true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
+                true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num = analyzeTracklets(trackletFile, detFile)
 
-                self._totalTracklets[night] = total_tracklets
-                self._trueTracklets[night] = true_tracklets
-                self._falseTracklets[night] = false_tracklets
+                self._totalTracklets[night] = total_tracklets_num
+                self._trueTracklets[night] = true_tracklets_num
+                self._falseTracklets[night] = false_tracklets_num
+                self._trueTrackletsSample[night] = selectSample(true_tracklets)
+                self._falseTrackletsSample[night] = selectSample(false_tracklets)
                 
                 print ""
 
         if collapsedTracklets:
             for night, trackletFile, detFile in zip(self.nights, self.tracker.collapsedTrackletsById, self.tracker.diaSources):
-                true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
+                true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num = analyzeTracklets(trackletFile, detFile)
 
-                self._totalCollapsedTracklets[night] = total_tracklets
-                self._trueCollapsedTracklets[night] = true_tracklets
-                self._falseCollapsedTracklets[night] = false_tracklets
+                self._totalCollapsedTracklets[night] = total_tracklets_num
+                self._trueCollapsedTracklets[night] = true_tracklets_num
+                self._falseCollapsedTracklets[night] = false_tracklets_num
+                self._trueCollapsedTrackletsSample[night] = selectSample(true_tracklets)
+                self._falseCollapsedTrackletsSample[night] = selectSample(false_tracklets)
                 
                 print ""
 
         if purifiedTracklets:
             for night, trackletFile, detFile in zip(self.nights, self.tracker.purifiedTrackletsById, self.tracker.diaSources):
-                true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
+                true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num = analyzeTracklets(trackletFile, detFile)
 
-                self._totalPurifiedTracklets[night] = total_tracklets
-                self._truePurifiedTracklets[night] = true_tracklets
-                self._falsePurifiedTracklets[night] = false_tracklets
+                self._totalPurifiedTracklets[night] = total_tracklets_num
+                self._truePurifiedTracklets[night] = true_tracklets_num
+                self._falsePurifiedTracklets[night] = false_tracklets_num
+                self._truePurifiedTrackletsSample[night] = selectSample(true_tracklets)
+                self._falsePurifiedTrackletsSample[night] = selectSample(false_tracklets)
                 
                 print ""
 
         if finalTracklets:
             for night, trackletFile, detFile in zip(self.nights, self.tracker.finalTrackletsById, self.tracker.diaSources):
-                true_tracklets, false_tracklets, total_tracklets = analyzeTracklets(trackletFile, detFile)
+                true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num = analyzeTracklets(trackletFile, detFile)
 
-                self._totalFinalTracklets[night] = total_tracklets
-                self._trueFinalTracklets[night] = true_tracklets
-                self._falseFinalTracklets[night] = false_tracklets
+                self._totalFinalTracklets[night] = total_tracklets_num
+                self._trueFinalTracklets[night] = true_tracklets_num
+                self._falseFinalTracklets[night] = false_tracklets_num
+                self._trueFinalTrackletsSample[night] = selectSample(true_tracklets)
+                self._falseFinalTrackletsSample[night] = selectSample(false_tracklets)
                 
                 print ""
 
         if tracks:
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
-                true_tracks, false_tracks, total_tracks, unique_ssmids, found_ssmids, findable_ssmids = analyzeTracks(trackFile, detFile, idsFile, found_ssmids=self._foundObjects)
+                true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, unique_ssmids, found_ssmids, findable_ssmids = analyzeTracks(trackFile, detFile, idsFile, found_ssmids=self._foundObjects)
 
-                self._totalTracks[window] = total_tracks
-                self._trueTracks[window] = true_tracks
-                self._falseTracks[window] = false_tracks
+                self._totalTracks[window] = total_tracks_num
+                self._trueTracks[window] = true_tracks_num
+                self._falseTracks[window] = false_tracks_num
+                self._trueTracksSample[window] = selectSample(true_tracks)
+                self._falseTracksSample[window] = selectSample(false_tracks)
                 
                 print ""
 
         self._endTime = time.ctime()
 
         return
+
+def selectSample(objects):
+    if len(objects) < SAMPLE_SIZE_PER_NIGHT:
+        return objects
+    else:
+        return random.sample(objects, SAMPLE_SIZE_PER_NIGHT)
 
 def findSSMIDs(dataframe, diaids):
     ssmids = []
