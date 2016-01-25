@@ -101,7 +101,8 @@ class track(object):
         self._distances = None
         self._isTrue = None
         self._isSubset = None
-        
+        self._subsetTracks = []
+
     @property
     def diasources(self):
         return self._diasources
@@ -157,3 +158,11 @@ class track(object):
     @isSubset.setter
     def isSubset(self, value):
         self._isSubset = value
+
+    @property
+    def subsetTracks(self):
+        return self._subsetTracks
+
+    @subsetTracks.setter
+    def subsetTracks(self, value):
+        self._subsetTracks = value
