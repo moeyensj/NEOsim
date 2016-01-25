@@ -82,6 +82,7 @@ class tracklet(object):
     def __init__(self, diasources):
 
         self._diasources = diasources
+        self._isTrue = None
         
     @property
     def diasources(self):
@@ -90,6 +91,14 @@ class tracklet(object):
     @diasources.setter
     def diasources(self, value):
         self._diasources = value
+
+    @property
+    def isTrue(self):
+        return self._isTrue
+
+    @isTrue.setter
+    def isTrue(self, value):
+        self._isTrue = value
 
 class track(object):
     def __init__(self, diasources):
