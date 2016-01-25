@@ -548,16 +548,20 @@ def analyzeTracklets(trackletFile, detFile):
     diasource_dict = {}
     
     # Initalize success (or failure) counters
-    total_tracklets = 0
-    true_tracklets = 0
-    false_tracklets = 0
+    total_tracklets_num = 0
+    true_tracklets_num = 0
+    false_tracklets_num = 0
+
+    # Initialize tracklet arrays
+    true_tracklets = []
+    false_tracklets = []
 
     # Examine each line in trackletFile and read in every line
     #  as a track object. If track contains new detections (diasource)
     #  then add new source to diasource_dict. 
     for line in trackletFileIn:
         # Found a track!
-        total_tracklets += 1
+        total_tracklets_num += 1
         new_tracklet_diaids = MopsReader.readTracklet(line)
         new_tracklet = []
         
@@ -584,25 +588,25 @@ def analyzeTracklets(trackletFile, detFile):
         isTrue = checkSSMIDs(ssmids)  
         if isTrue:
             # Track is true! 
-            true_tracklets += 1
+            true_tracklets_num += 1
+            final_tracklet = tracklet(new_tracklet)
+            true_tracklets.append(final_tracklet)
         else:
             # Track is false. 
-            false_tracklets += 1
-            
-        final_tracklet = tracklet(new_tracklet) 
-        tracklets.append(final_tracklet)
+            false_tracklets_num += 1
+            final_tracklet = tracklet(new_tracklet)
+            false_tracklets.append(final_tracklet)
         
     endTime = time.ctime()
 
-    outFileOut.write("True tracklets: %s\n" % (true_tracklets))
-    outFileOut.write("False tracklets: %s\n" % (false_tracklets))
-    outFileOut.write("Total tracklets: %s\n" % (total_tracklets))
+    outFileOut.write("True tracklets: %s\n" % (true_tracklets_num))
+    outFileOut.write("False tracklets: %s\n" % (false_tracklets_num))
+    outFileOut.write("Total tracklets: %s\n" % (total_tracklets_num))
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackletFile), endTime)
 
-    return true_tracklets, false_tracklets, total_tracklets
-
+    return true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num
 
 def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, min_detections=6, verbose=True):
     startTime = time.ctime()
