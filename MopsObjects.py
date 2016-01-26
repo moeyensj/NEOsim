@@ -79,10 +79,10 @@ class diasource(object):
         self._snr = value
 
 class tracklet(object):
-    def __init__(self, diasources):
+    def __init__(self, diasources, isTrue=None):
 
         self._diasources = diasources
-        self._isTrue = None
+        self._isTrue = isTrue
         
     @property
     def diasources(self):
@@ -101,24 +101,32 @@ class tracklet(object):
         self._isTrue = value
 
 class track(object):
-    def __init__(self, diasources):
+    def __init__(self, tracklets, isTrue=None):
 
-        self._diasources = diasources
+        self._tracklets = tracklets
+        self._isTrue = isTrue
         self._rms = None
         self._raRes = None
         self._decRes = None
         self._distances = None
-        self._isTrue = None
         self._isSubset = None
         self._subsetTracks = []
 
     @property
-    def diasources(self):
-        return self._diasources
+    def tracklets(self):
+        return self._tracklets
 
-    @diasources.setter
-    def diasources(self, value):
-        self._diasources = value
+    @tracklets.setter
+    def tracklets(self, value):
+        self._tracklets = value
+
+    @property
+    def isTrue(self):
+        return self._isTrue
+
+    @isTrue.setter
+    def isTrue(self, value):
+        self._isTrue = value
 
     @property
     def rms(self):
@@ -151,14 +159,6 @@ class track(object):
     @distances.setter
     def distances(self, value):
         self._distances = value
-
-    @property
-    def isTrue(self):
-        return self._isTrue
-
-    @isTrue.setter
-    def isTrue(self, value):
-        self._isTrue = value
 
     @property
     def isSubset(self):
