@@ -42,7 +42,6 @@ def plotTracklets(detFiles, trackletFiles):
     tracklet_num = 0
 
     for detFile, trackletFile in zip(detFiles, trackletFiles):
-        print detFile
         df = MopsReader.readDetectionsIntoDataframe(detFile)
         ax.scatter(df['ra'], df['dec'], color='k', s=0.005);
 
