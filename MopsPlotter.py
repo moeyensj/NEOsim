@@ -42,8 +42,9 @@ def plotTracklets(detFiles, trackletFiles):
     tracklet_num = 0
 
     for detFile, trackletFile in zip(detFiles, trackletFiles):
+        print detFile
         df = MopsReader.readDetectionsIntoDataframe(detFile)
-        ax.scatter(np.array(df['ra']), np.array(df['dec']), color='k', s=0.005);
+        ax.scatter(df['ra'], df['dec'], color='k', s=0.005);
 
         for line in open(trackletFile, "r"):
             tracklets = MopsReader.readTracklet(line)
@@ -72,7 +73,7 @@ def plotTracks(detFiles, trackFiles):
 
     for detFile, trackFile in zip(detFiles, trackFiles):
         df = MopsReader.readDetectionsIntoDataframe(detFile)
-        ax.scatter(np.array(df['ra']), np.array(df['dec']), color='k', s=0.005);
+        ax.scatter(df['ra'], df['dec'], color='k', s=0.005);
 
         for line in open(trackFile, 'r'):
             track = MopsReader.readTrack(line)
@@ -89,3 +90,7 @@ def plotTracks(detFiles, trackFiles):
         del df
             
     ax.text(_textLocation(ax)[0], _textLocation(ax)[1], 'Tracks: ' + str(track_num), size=16, color='r')
+
+def addVelocityRange(ax, ra_center, dec_center, vmax):
+    vrange = plt.Circle((ra_center, dec_center), vmax, color='k', fill=False)
+    ax.add_artist(vrange)
