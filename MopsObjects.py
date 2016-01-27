@@ -101,10 +101,11 @@ class tracklet(object):
         self._isTrue = value
 
 class track(object):
-    def __init__(self, tracklets, isTrue=None):
+    def __init__(self, diasources, isTrue=None):
 
-        self._tracklets = tracklets
+        self._diasources = diasources
         self._isTrue = isTrue
+        self._tracklets = None
         self._rms = None
         self._raRes = None
         self._decRes = None
@@ -113,12 +114,12 @@ class track(object):
         self._subsetTracks = []
 
     @property
-    def tracklets(self):
-        return self._tracklets
+    def diasources(self):
+        return self._diasources
 
-    @tracklets.setter
-    def tracklets(self, value):
-        self._tracklets = value
+    @diasources.setter
+    def diasources(self, value):
+        self._diasources = value
 
     @property
     def isTrue(self):
@@ -127,6 +128,14 @@ class track(object):
     @isTrue.setter
     def isTrue(self, value):
         self._isTrue = value
+
+    @property
+    def tracklets(self):
+        return self._tracklets
+
+    @tracklets.setter
+    def tracklets(self, value):
+        self._tracklets = value
 
     @property
     def rms(self):
