@@ -90,6 +90,6 @@ def plotTracks(detFiles, trackFiles):
             
     ax.text(_textLocation(ax)[0], _textLocation(ax)[1], 'Tracks: ' + str(track_num), size=16, color='r')
 
-def addVelocityRange(ax, ra_center, dec_center, vmax):
-    vrange = plt.Circle((ra_center, dec_center), vmax, color='k', fill=False)
+def addVelocityRange(ax, ra_center, dec_center, vmax, dt=1.0):
+    vrange = plt.Circle((ra_center, dec_center), vmax*dt, color='k', fill=False)
     ax.add_artist(vrange)
