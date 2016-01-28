@@ -639,9 +639,14 @@ def analyzeTracklets(trackletFile, detFile):
     outFileOut = open(outFile, "w")
     outFileOut.write("Start time: %s\n" % (startTime))
     print "Writing results to %s" % (outFile)
-    
+
     # Read detections into a dataframe
     dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
+
+    # Count number of true tracklets and findable SSMIDs in dataframe
+    findable_true_tracklets_num, findable_ssmids = countFindableTrueTrackletsAndSSMIDs(dets_df, 2.0, vmax)
+    outFileOut.write("Findable objects: %s\n" % (len(findable_ssmids)))
+    outFileOut.write("Findable true tracklets: %s\n" % (findable_true_tracklets_num))
     
     trackletFileIn = open(trackletFile, "r")
     tracklets = []
@@ -705,7 +710,7 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, min_detections
     true_tracks_num = 0
     false_tracks_num = 0
     unique_ssmids = countUniqueSSMIDs(dets_df)
-    findable_ssmids = countFindableSSMIDs(dets_df, min_detections)
+    #findable_ssmids = countFindableSSMIDs(dets_df, min_detections)
 
     # Initialize track arrays
     false_tracks = []
