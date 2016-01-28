@@ -24,52 +24,35 @@ class runAnalysis(object):
         self._tracker = tracker
         self._nights = []
         self._windows = []
-
         self._uniqueObjects = {}
         self._findableObjects = {}
         self._foundObjects = {}
         self._missedObjects = {}
-        
-        # Tracks
         self._totalTracks = {}
         self._trueTracks = {}
         self._falseTracks = {}
         self._trueTracksSample = {}
         self._falseTracksSample = {}
-       
-        # Tracklets
         self._totalTracklets = {}
         self._trueTracklets = {}
         self._falseTracklets = {}
-        self._foundTrackletsSSMIDs = {}
         self._trueTrackletsSample = {}
         self._falseTrackletsSample = {}
-       
-        # Collapsed tracklets
         self._totalCollapsedTracklets = {}
         self._trueCollapsedTracklets = {}
         self._falseCollapsedTracklets = {}
-        self._foundCollapsedTrackletsSSMIDs = {}
         self._trueCollapsedTrackletsSample = {}
         self._falseCollapsedTrackletsSample = {}
-       
-        # Purified tracklets
         self._totalPurifiedTracklets = {}
         self._truePurifiedTracklets = {}
         self._falsePurifiedTracklets = {}
-        self._foundPurifiedTrackletsSSMIDs = {}
         self._truePurifiedTrackletsSample = {}
         self._falsePurifiedTrackletsSample = {}
-        
-        # Final tracklets
         self._totalFinalTracklets = {}
         self._trueFinalTracklets = {}
         self._falseFinalTracklets = {}
-        self._foundFinalTrackletsSSMIDs = {}
         self._trueFinalTrackletsSample = {}
         self._falseFinalTrackletsSample = {}
-
-        # Analysis duration
         self._startTime = 0
         self._endTime = 0
 
@@ -696,9 +679,9 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
         
     endTime = time.ctime()
 
-    outFileOut.write("Found true tracklets: %s\n" % (true_tracklets_num))
-    outFileOut.write("Found false tracklets: %s\n" % (false_tracklets_num))
-    outFileOut.write("Found total tracklets: %s\n" % (total_tracklets_num))
+    outFileOut.write("True tracklets: %s\n" % (true_tracklets_num))
+    outFileOut.write("False tracklets: %s\n" % (false_tracklets_num))
+    outFileOut.write("Total tracklets: %s\n" % (total_tracklets_num))
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackletFile), endTime)
