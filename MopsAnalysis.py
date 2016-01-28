@@ -410,7 +410,7 @@ class runAnalysis(object):
 
         if tracks:
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
-                true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, unique_ssmids, found_ssmids, findable_ssmids = analyzeTracks(trackFile, detFile, idsFile, found_ssmids=self._foundObjects)
+                true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, unique_ssmids, found_ssmids = analyzeTracks(trackFile, detFile, idsFile, found_ssmids=self._foundObjects)
 
                 self._totalTracks[window] = total_tracks_num
                 self._trueTracks[window] = true_tracks_num
@@ -630,7 +630,7 @@ def buildTrack(dataframe, diaids, diasource_dict, found_ssmids, calcRMS=False):
 
     return final_track
 
-def analyzeTracklets(trackletFile, detFile):
+def analyzeTracklets(trackletFile, detFile, vmax=0.5):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackletFile), startTime)
     
@@ -748,4 +748,4 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, min_detections
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
 
-    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, unique_ssmids, found_ssmids, findable_ssmids
+    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, unique_ssmids, found_ssmids
