@@ -448,8 +448,34 @@ def checkSSMIDs(ssmids):
 def countUniqueSSMIDs(dataframe):
     return dataframe['ssmid'].nunique()
 
-def countFindableSSMIDs(dataframe, min_detections):
-    return np.sum(dataframe['ssmid'].value_counts() >= min_detections)
+def countFindableTrueTrackletsAndSSMIDs(dataframe, min_detections, vmax):
+    findableTrueTracklets = 0
+    
+    possible_ssmids = dataframe.groupby("ssmid").filter(lambda x: len(x) >= min_detections)
+    unique_ssmids = possible_ssmids['ssmid'].unique()
+    findable_ssmids = []
+    
+    for unique_ssmid in unique_ssmids:
+        detections = possible_ssmids[possible_ssmids["ssmid"] == unique_ssmid]
+        detections.sort(columns="mjd")
+
+        start_mjd = min(detections['mjd'])
+        end_mjd = max(detections['mjd'])
+
+        dt = end_mjd - start_mjd
+        max_distance = dt*vmax
+
+        total_distance = 0.0
+        total_time = 0.0
+
+        for det0, det1 in zip(detections.iloc[:-1].itertuples(), detections.iloc[1:].itertuples()):
+            total_distance += calcGreatCircleDistance(det0[3], det0[4], det1[3], det1[4])
+
+        if max_distance > total_distance:
+             findableTrueTracklets += 1
+             findable_ssmids.append(unique_ssmid)
+                
+    return findableTrueTracklets, findable_ssmids
 
 def makeContiguous(angles):
     """ given a set of angles (say, RAs or Decs of observation) which
