@@ -679,9 +679,9 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
         
     endTime = time.ctime()
 
-    outFileOut.write("True tracklets: %s\n" % (true_tracklets_num))
-    outFileOut.write("False tracklets: %s\n" % (false_tracklets_num))
-    outFileOut.write("Total tracklets: %s\n" % (total_tracklets_num))
+    outFileOut.write("Found true tracklets: %s\n" % (true_tracklets_num))
+    outFileOut.write("Found false tracklets: %s\n" % (false_tracklets_num))
+    outFileOut.write("Found total tracklets: %s\n" % (total_tracklets_num))
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackletFile), endTime)
