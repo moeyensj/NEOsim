@@ -460,7 +460,7 @@ class runAnalysis(object):
 
         if tracks:
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
-                true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, unique_ssmids = analyzeTracks(trackFile, detFile, idsFile)
+                true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num = analyzeTracks(trackFile, detFile, idsFile)
 
                 self._totalTracks[window] = total_tracks_num
                 self._trueTracks[window] = true_tracks_num
@@ -638,13 +638,20 @@ def calcRMS(diasources):
         print "RMS error was %f " % (rms)
     return rms, raRes[0], decRes[0], dists
 
-def buildTracklet(dataframe, diaids, diasourceDict):
+def buildTracklet(dataframe, diaids, diasourceDict, ssmidDict):
     new_tracklet = []
     ssmids = []
 
     for diaid in diaids:
+
+        ssmid = dataframe.loc[diaid]['ssmid']
+        if ssmid in ssmidDict:
+            ssmidDict[ssmid] += 1
+        else:
+            ssmidDict[ssmid] = 1
+
         if diaid in diasourceDict:
-            ssmids.append(diasourceDict[diaid].ssmid)
+            ssmids.append(ssmid)
             new_tracklet.append(diasourceDict[diaid])
         else:
             new_diasource = dataframe.loc[diaid]
@@ -654,21 +661,30 @@ def buildTracklet(dataframe, diaids, diasourceDict):
                          new_diasource['mag'], new_diasource['snr'])
             diasourceDict[diaid] = new_diasource_obj
             
-            ssmids.append(diasourceDict[diaid].ssmid)
+            ssmids.append(ssmid)
             new_tracklet.append(new_diasource_obj)
+
+
             
     isTrue = checkSSMIDs(ssmids)  
     final_tracklet = tracklet(new_tracklet, isTrue=isTrue)
 
     return final_tracklet
 
-def buildTrack(dataframe, diaids, diasourceDict, calcRMS=False):
+def buildTrack(dataframe, diaids, diasourceDict, ssmidDict, calcRMS=False):
     new_track_diasources = []
     ssmids = []
 
     for diaid in diaids:
+
+        ssmid = dataframe.loc[diaid]['ssmid']
+        if ssmid in ssmidDict:
+            ssmidDict[ssmid] += 1
+        else:
+            ssmidDict[ssmid] = 1
+
         if diaid in diasourceDict:
-            ssmids.append(diasourceDict[diaid].ssmid)
+            ssmids.append(ssmid)
             new_track_diasources.append(diasourceDict[diaid])
         
         else:
@@ -679,11 +695,12 @@ def buildTrack(dataframe, diaids, diasourceDict, calcRMS=False):
                          new_diasource['mag'], new_diasource['snr'])
             diasourceDict[diaid] = new_diasource_obj
             
-            ssmids.append(diasourceDict[diaid].ssmid)
+            ssmids.append(ssmid)
             new_track_diasources.append(new_diasource_obj)
             
     isTrue = checkSSMIDs(ssmids)
     final_track = track(new_track_diasources, isTrue=isTrue)
+
     if calcRMS:
         final_track.rms, final_track.raRes, final_track.decRes, final_track.distances = calcRMS(final_track.diasources)
 
@@ -704,12 +721,13 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
 
     # Count number of true tracklets and findable SSMIDs in dataframe
     findable_true_tracklets_num, findable_ssmids = countFindableTrueTrackletsAndSSMIDs(dets_df, 2.0, vmax)
-    outFileOut.write("Findable objects: %s\n" % (len(findable_ssmids)))
-    outFileOut.write("Findable true tracklets: %s\n" % (findable_true_tracklets_num))
+    outFileOut.write("Unique objects: %s\n" % (len(findable_ssmids)))
+    outFileOut.write("True tracklets: %s\n" % (findable_true_tracklets_num))
     
     trackletFileIn = open(trackletFile, "r")
     tracklets = []
     diasource_dict = {}
+    ssmid_dict = {}
     
     # Initalize success (or failure) counters
     total_tracklets_num = 0
@@ -727,7 +745,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
         # Found a track!
         total_tracklets_num += 1
         new_tracklet_diaids = MopsReader.readTracklet(line)
-        new_tracklet = buildTracklet(dets_df, new_tracklet_diaids, diasource_dict)
+        new_tracklet = buildTracklet(dets_df, new_tracklet_diaids, diasource_dict, ssmid_dict)
 
         if new_tracklet.isTrue:
             true_tracklets_num += 1
@@ -738,9 +756,10 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
         
     endTime = time.ctime()
 
-    outFileOut.write("Found true tracklets: %s\n" % (true_tracklets_num))
-    outFileOut.write("Found false tracklets: %s\n" % (false_tracklets_num))
-    outFileOut.write("Found total tracklets: %s\n" % (total_tracklets_num))
+    outFileOut.write("Unique objects found: %s\n" % (len(ssmid_dict)))
+    outFileOut.write("True tracklets found: %s\n" % (true_tracklets_num))
+    outFileOut.write("False tracklets found: %s\n" % (false_tracklets_num))
+    outFileOut.write("Total tracklets found: %s\n" % (total_tracklets_num))
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackletFile), endTime)
@@ -763,13 +782,12 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, verbose=True):
     trackFileIn = open(trackFile, "r")
     tracks = []
     diasource_dict = {}
+    ssmid_dict = {}
     
     # Initalize success (or failure) counters
     total_tracks_num = 0
     true_tracks_num = 0
     false_tracks_num = 0
-    unique_ssmids = countUniqueSSMIDs(dets_df)
-    #findable_ssmids = countFindableSSMIDs(dets_df, min_detections)
 
     # Initialize track arrays
     false_tracks = []
@@ -782,7 +800,7 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, verbose=True):
         # Found a track!
         total_tracks_num += 1
         new_track_diaids = MopsReader.readTrack(line)
-        new_track = buildTrack(dets_df, new_track_diaids, diasource_dict)
+        new_track = buildTrack(dets_df, new_track_diaids, diasource_dict, ssmid_dict)
                  
         if new_track.isTrue:
             # Track is true! 
@@ -795,12 +813,12 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, verbose=True):
         
     endTime = time.ctime()
 
-    outFileOut.write("True tracks: %s\n" % (true_tracks_num))
-    outFileOut.write("False tracks: %s\n" % (false_tracks_num))
-    outFileOut.write("Total tracks: %s\n" % (total_tracks_num))
-    outFileOut.write("Findable objects: %s\n" % (unique_ssmids))
+    outFileOut.write("True tracks found: %s\n" % (true_tracks_num))
+    outFileOut.write("False tracks found: %s\n" % (false_tracks_num))
+    outFileOut.write("Total tracks found: %s\n" % (total_tracks_num))
+    outFileOut.write("Unique objects found: %s\n" % (len(ssmid_dict)))
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
 
-    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, unique_ssmids
+    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num
