@@ -7,9 +7,9 @@ import runMops
 from MopsTracker import MopsTracker
 from MopsParameters import MopsParameters
 
-TESTDIR = "unittest/testRun/"
-DATADIR = "unittest/testData/nightly/"
-CONTROLDIR = "unittest/controlRun/"
+TEST_DIR = "unittest/testRun/"
+DATA_DIR = "unittest/testData/nightly/"
+CONTROL_DIR = "unittest/controlRun/"
 
 VERBOSE = True
 
@@ -17,17 +17,17 @@ class MopsTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        self.testTracker = MopsTracker(TESTDIR)
+        self.testTracker = MopsTracker(TEST_DIR)
         self.testParameters = MopsParameters(verbose=VERBOSE)
 
         self.controlParameters = yaml.load(file("unittest/controlRun/parameters.yaml", "r"))
         self.controlTracker = yaml.load(file("unittest/controlRun/tracker.yaml", "r"))
 
-        runMops.runMops(self.testParameters, self.testTracker, DATADIR, TESTDIR, verbose=VERBOSE)
+        runMops.runMops(self.testParameters, self.testTracker, DATA_DIR, TEST_DIR, verbose=VERBOSE)
 
     @classmethod
     def tearDownClass(self):
-        shutil.rmtree(TESTDIR)
+        shutil.rmtree(TEST_DIR)
 
     def test_directoryBuilder(self):
         controlDirs = [self.controlTracker.trackletsDir, self.controlTracker.trackletsByIndexDir,
