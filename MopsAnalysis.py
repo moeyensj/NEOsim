@@ -18,7 +18,7 @@ SAMPLE_SIZE = 50
 
 class runAnalysis(object):
 
-    def __init__(self, parameters, tracker, ssmidsOfInterest=None, sampleSize=50):
+    def __init__(self, parameters, tracker, ssmidsOfInterest=None, sampleSize=10):
 
         self._parameters = parameters
         self._tracker = tracker
@@ -57,6 +57,10 @@ class runAnalysis(object):
         self._falseFinalTrackletsSample = {}
         self._startTime = 0
         self._endTime = 0
+
+        
+        if self._ssmidsOfInterest == None:
+            self._ssmidsOfInterest = selectSampleSSMIDs(tracker.dets, self._sampleSize)
 
         self.findNights()
         self.findWindows()
@@ -448,7 +452,7 @@ def selectSample(objects, number=SAMPLE_SIZE):
     else:
         return random.sample(objects, number)
 
-def selectSampleSSMIDs(detFiles):
+def selectSampleSSMIDs(detFiles, number):
     ssmids = []
     sizes = []
     for detFile in detFiles:
@@ -457,7 +461,7 @@ def selectSampleSSMIDs(detFiles):
     detFile = detFiles[np.where(sizes == np.max(sizes))[0][0]]
     
     dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
-    sample = selectSample(dets_df['ssmid'].unique(), number=2)
+    sample = selectSample(dets_df['ssmid'].unique(), number=number)
     
     return sample
 
