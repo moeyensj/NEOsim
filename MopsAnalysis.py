@@ -448,6 +448,19 @@ def selectSample(objects, number=SAMPLE_SIZE):
     else:
         return random.sample(objects, number)
 
+def selectSampleSSMIDs(detFiles):
+    ssmids = []
+    sizes = []
+    for detFile in detFiles:
+        sizes.append(os.path.getsize(detFile))
+        
+    detFile = detFiles[np.where(sizes == np.max(sizes))[0][0]]
+    
+    dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
+    sample = selectSample(dets_df['ssmid'].unique(), number=2)
+    
+    return sample
+
 def findSSMIDs(dataframe, diaids):
     ssmids = []
     for i in diaids:
