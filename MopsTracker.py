@@ -4,7 +4,7 @@ class MopsTracker(object):
 
     def __init__(self, runDir, verbose=True):
 
-        self._diaSources = None
+        self._diasources = None
         self._tracklets = None
         self._trackletsByIndex = None
         self._collapsedTracklets = None
@@ -18,7 +18,7 @@ class MopsTracker(object):
         self._tracks = None
         self._runDir = runDir
 
-        self._diaSourcesDir = None 
+        self._diasourcesDir = None 
         self._trackletsDir = None 
         self._trackletsByIndexDir = None
         self._collapsedTrackletsDir = None
@@ -43,12 +43,12 @@ class MopsTracker(object):
             self.info()
 
     @property
-    def diaSources(self):
-        return self._diaSources
+    def diasources(self):
+        return self._diasources
 
-    @diaSources.setter
-    def diaSources(self, value):
-        self._diaSources = value
+    @diasources.setter
+    def diasources(self, value):
+        self._diasources = value
 
     @property
     def tracklets(self):
@@ -147,12 +147,12 @@ class MopsTracker(object):
         self._runDir = value
 
     @property
-    def diaSourcesDir(self):
-        return self._diaSourcesDir
+    def diasourcesDir(self):
+        return self._diasourcesDir
 
-    @diaSourcesDir.setter
-    def diaSourcesDir(self, value):
-        self._diaSourcesDir = value
+    @diasourcesDir.setter
+    def diasourcesDir(self, value):
+        self._diasourcesDir = value
 
     @property
     def trackletsDir(self):
