@@ -25,37 +25,51 @@ class runAnalysis(object):
         self._tracker = tracker
         self._ssmidsOfInterest = ssmidsOfInterest
         self._sampleSize = sampleSize
+
+        # General run overview
         self._nights = []
         self._windows = []
         self._uniqueObjects = {}
         self._findableObjects = {}
         self._foundObjects = {}
         self._missedObjects = {}
+
+        # Tracks
         self._totalTracks = {}
         self._trueTracks = {}
         self._falseTracks = {}
         self._trueTracksSample = {}
         self._falseTracksSample = {}
+
+        # Tracklets (post findTracklets)
         self._totalTracklets = {}
         self._trueTracklets = {}
         self._falseTracklets = {}
         self._trueTrackletsSample = {}
         self._falseTrackletsSample = {}
+
+        # Collapsed tracklets
         self._totalCollapsedTracklets = {}
         self._trueCollapsedTracklets = {}
         self._falseCollapsedTracklets = {}
         self._trueCollapsedTrackletsSample = {}
         self._falseCollapsedTrackletsSample = {}
+
+        # Purified tracklets
         self._totalPurifiedTracklets = {}
         self._truePurifiedTracklets = {}
         self._falsePurifiedTracklets = {}
         self._truePurifiedTrackletsSample = {}
         self._falsePurifiedTrackletsSample = {}
+
+        # Final tracklets (post removeSubsets)
         self._totalFinalTracklets = {}
         self._trueFinalTracklets = {}
         self._falseFinalTracklets = {}
         self._trueFinalTrackletsSample = {}
         self._falseFinalTrackletsSample = {}
+        
+        # General analysis information
         self._startTime = 0
         self._endTime = 0
 
@@ -613,6 +627,7 @@ def calcRMS(diasources):
 def buildTracklet(dataframe, diaids, diasourceDict):
     new_tracklet = []
     ssmids = []
+
     for diaid in diaids:
         if diaid in diasourceDict:
             ssmids.append(diasourceDict[diaid].ssmid)
