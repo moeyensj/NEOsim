@@ -11,6 +11,7 @@ import MopsReader
 from MopsObjects import diasource
 from MopsObjects import tracklet
 from MopsObjects import track
+from MopsObjects import sso
 from MopsParameters import MopsParameters
 from MopsTracker import MopsTracker
 
@@ -58,7 +59,6 @@ class runAnalysis(object):
         self._startTime = 0
         self._endTime = 0
 
-        
         if self._ssmidsOfInterest == None:
             self._ssmidsOfInterest = selectSampleSSMIDs(tracker.dets, self._sampleSize)
 
@@ -432,7 +432,7 @@ class runAnalysis(object):
 
         if tracks:
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
-                true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, unique_ssmids, found_ssmids = analyzeTracks(trackFile, detFile, idsFile, found_ssmids=self._foundObjects)
+                true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, unique_ssmids = analyzeTracks(trackFile, detFile, idsFile)
 
                 self._totalTracks[window] = total_tracks_num
                 self._trueTracks[window] = true_tracks_num
@@ -633,7 +633,7 @@ def buildTracklet(dataframe, diaids, diasource_dict):
 
     return final_tracklet
 
-def buildTrack(dataframe, diaids, diasource_dict, found_ssmids, calcRMS=False):
+def buildTrack(dataframe, diaids, diasource_dict, calcRMS=False):
     new_track_diasources = []
     ssmids = []
 
@@ -641,11 +641,6 @@ def buildTrack(dataframe, diaids, diasource_dict, found_ssmids, calcRMS=False):
         if diaid in diasource_dict:
             ssmids.append(diasource_dict[diaid].ssmid)
             new_track_diasources.append(diasource_dict[diaid])
-
-            if diasource_dict[diaid].ssmid in found_ssmids:
-                found_ssmids[diasource_dict[diaid].ssmid] += 1
-            else:
-                found_ssmids[diasource_dict[diaid].ssmid] = 1
         
         else:
             new_diasource = dataframe.loc[diaid]
@@ -723,7 +718,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
 
     return true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num
 
-def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, min_detections=6, verbose=True):
+def analyzeTracks(trackFile, detFile, idsFile, min_detections=6, verbose=True):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackFile), startTime)
     
@@ -751,9 +746,6 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, min_detections
     false_tracks = []
     true_tracks = []
 
-    if found_ssmids == None:
-        found_ssmids = {}
-
     # Examine each line in trackFile and read in every line
     #  as a track object. If track contains new detections (diasource)
     #  then add new source to diasource_dict. 
@@ -761,7 +753,7 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, min_detections
         # Found a track!
         total_tracks_num += 1
         new_track_diaids = MopsReader.readTrack(line)
-        new_track = buildTrack(dets_df, new_track_diaids, diasource_dict, found_ssmids)
+        new_track = buildTrack(dets_df, new_track_diaids, diasource_dict)
                  
         if new_track.isTrue:
             # Track is true! 
@@ -778,9 +770,8 @@ def analyzeTracks(trackFile, detFile, idsFile, found_ssmids=None, min_detections
     outFileOut.write("False tracks: %s\n" % (false_tracks_num))
     outFileOut.write("Total tracks: %s\n" % (total_tracks_num))
     outFileOut.write("Findable objects: %s\n" % (unique_ssmids))
-    outFileOut.write("Found objects: %s\n" % (len(found_ssmids)))
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
 
-    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, unique_ssmids, found_ssmids
+    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, unique_ssmids
