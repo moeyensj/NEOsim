@@ -350,3 +350,9 @@ class MopsParameters(object):
         print ""
 
         return
+
+    @classmethod
+    def fromYaml(cls, yamlFile):
+        import yaml
+        cls = yaml.load(file(yamlFile, "r"))
+        return cls
