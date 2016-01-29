@@ -442,11 +442,11 @@ class runAnalysis(object):
 
         return
 
-def selectSample(objects):
-    if len(objects) < SAMPLE_SIZE_PER_NIGHT:
+def selectSample(objects, number=SAMPLE_SIZE_PER_NIGHT):
+    if len(objects) < number:
         return objects
     else:
-        return random.sample(objects, SAMPLE_SIZE_PER_NIGHT)
+        return random.sample(objects, number)
 
 def findSSMIDs(dataframe, diaids):
     ssmids = []
