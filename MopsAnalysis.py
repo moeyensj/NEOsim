@@ -483,10 +483,10 @@ def checkSSMIDs(ssmids):
 def countUniqueSSMIDs(dataframe):
     return dataframe['ssmid'].nunique()
 
-def countFindableTrueTrackletsAndSSMIDs(dataframe, min_detections, vmax):
+def countFindableTrueTrackletsAndSSMIDs(dataframe, minDetections, vmax):
     findableTrueTracklets = 0
     
-    possible_ssmids = dataframe.groupby("ssmid").filter(lambda x: len(x) >= min_detections)
+    possible_ssmids = dataframe.groupby("ssmid").filter(lambda x: len(x) >= minDetections)
     unique_ssmids = possible_ssmids['ssmid'].unique()
     findable_ssmids = []
     
@@ -718,7 +718,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
 
     return true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num
 
-def analyzeTracks(trackFile, detFile, idsFile, min_detections=6, verbose=True):
+def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, verbose=True):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackFile), startTime)
     
