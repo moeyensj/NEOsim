@@ -14,7 +14,7 @@ from MopsObjects import track
 from MopsParameters import MopsParameters
 from MopsTracker import MopsTracker
 
-SAMPLE_SIZE_PER_NIGHT = 2000
+SAMPLE_SIZE = 50
 
 class runAnalysis(object):
 
@@ -442,7 +442,7 @@ class runAnalysis(object):
 
         return
 
-def selectSample(objects, number=SAMPLE_SIZE_PER_NIGHT):
+def selectSample(objects, number=SAMPLE_SIZE):
     if len(objects) < number:
         return objects
     else:
