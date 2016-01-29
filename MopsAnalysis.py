@@ -24,6 +24,7 @@ class runAnalysis(object):
         self._parameters = parameters
         self._tracker = tracker
         self._ssmidsOfInterest = ssmidsOfInterest
+        self._ssmidsOfInterestObjects = {}
         self._sampleSize = sampleSize
 
         # General run overview
@@ -76,6 +77,7 @@ class runAnalysis(object):
         if self._ssmidsOfInterest == None:
             self._ssmidsOfInterest = selectSampleSSMIDs(tracker.dets, self._sampleSize)
 
+        self.initializeSSOs()
         self.findNights()
         self.findWindows()
         self.analyze()
@@ -103,7 +105,15 @@ class runAnalysis(object):
     @ssmidsOfInterest.setter
     def ssmidsOfInterest(self, value):
         self._ssmidsOfInterest = value
-        
+    
+    @property
+    def ssmidsOfInterestObjects(self):
+        return self._ssmidsOfInterestObjects
+
+    @ssmidsOfInterestObjects.setter
+    def ssmidsOfInterestObjects(self, value):
+        self._ssmidsOfInterestObjects = value
+
     @property
     def sampleSize(self):
         return self._sampleSize
@@ -391,6 +401,10 @@ class runAnalysis(object):
     def findWindows(self):
         for trackFile in self.tracker.tracks:
             self._windows.append(MopsReader.readWindow(trackFile))
+
+    def initializeSSOs(self):
+        for ssmid in self._ssmidsOfInterest:
+            self._ssmidsOfInterestObjects[ssmid] = sso(ssmid)
 
     def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True):
 
