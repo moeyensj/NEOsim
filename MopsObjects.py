@@ -184,3 +184,70 @@ class track(object):
     @subsetTracks.setter
     def subsetTracks(self, value):
         self._subsetTracks = value
+
+class sso(object):
+    def __init__(self, ssmid):
+
+        self._ssmid = ssmid
+        self._diasources = None
+        self._tracklets = None
+        self._collapsedTracklets = None
+        self._purifiedTracklets = None
+        self._finalTracklets = None
+        self._tracks = None
+
+    @property
+    def ssmid(self):
+        return self._ssmid
+
+    @ssmid.setter
+    def ssmid(self, value):
+        self._ssmid = value
+
+    @property
+    def diasources(self):
+        return self._diasources
+
+    @diasources.setter
+    def diasources(self, value):
+        self._diasources = value
+
+    @property
+    def tracklets(self):
+        return self._tracklets
+
+    @tracklets.setter
+    def tracklets(self, value):
+        self._tracklets = value  
+
+    @property
+    def collapsedTracklets(self):
+        return self._collapsedTracklets
+
+    @collapsedTracklets.setter
+    def collapsedTracklets(self, value):
+        self._collapsedTracklets = value
+
+    @property
+    def purifiedTracklets(self):
+        return self._purifiedTracklets
+
+    @purifiedTracklets.setter
+    def purifiedTracklets(self, value):
+        self._purifiedTracklets = value
+
+    @property
+    def finalTracklets(self):
+        return self._finalTracklets
+
+    @finalTracklets.setter
+    def finalTracklets(self, value):
+        self._finalTracklets = value  
+
+    @property
+    def tracks(self):
+        return self._tracks
+
+    @tracks.setter
+    def tracks(self, value):
+        self._tracks = value  
