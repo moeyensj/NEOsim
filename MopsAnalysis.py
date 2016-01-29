@@ -610,22 +610,22 @@ def calcRMS(diasources):
         print "RMS error was %f " % (rms)
     return rms, raRes[0], decRes[0], dists
 
-def buildTracklet(dataframe, diaids, diasource_dict):
+def buildTracklet(dataframe, diaids, diasourceDict):
     new_tracklet = []
     ssmids = []
     for diaid in diaids:
-        if diaid in diasource_dict:
-            ssmids.append(diasource_dict[diaid].ssmid)
-            new_tracklet.append(diasource_dict[diaid])
+        if diaid in diasourceDict:
+            ssmids.append(diasourceDict[diaid].ssmid)
+            new_tracklet.append(diasourceDict[diaid])
         else:
             new_diasource = dataframe.loc[diaid]
             new_diasource_obj = diasource(int(diaid), new_diasource['ssmid'],
                          new_diasource['obshistid'], new_diasource['ra'],
                          new_diasource['dec'], new_diasource['mjd'],
                          new_diasource['mag'], new_diasource['snr'])
-            diasource_dict[diaid] = new_diasource_obj
+            diasourceDict[diaid] = new_diasource_obj
             
-            ssmids.append(diasource_dict[diaid].ssmid)
+            ssmids.append(diasourceDict[diaid].ssmid)
             new_tracklet.append(new_diasource_obj)
             
     isTrue = checkSSMIDs(ssmids)  
@@ -633,14 +633,14 @@ def buildTracklet(dataframe, diaids, diasource_dict):
 
     return final_tracklet
 
-def buildTrack(dataframe, diaids, diasource_dict, calcRMS=False):
+def buildTrack(dataframe, diaids, diasourceDict, calcRMS=False):
     new_track_diasources = []
     ssmids = []
 
     for diaid in diaids:
-        if diaid in diasource_dict:
-            ssmids.append(diasource_dict[diaid].ssmid)
-            new_track_diasources.append(diasource_dict[diaid])
+        if diaid in diasourceDict:
+            ssmids.append(diasourceDict[diaid].ssmid)
+            new_track_diasources.append(diasourceDict[diaid])
         
         else:
             new_diasource = dataframe.loc[diaid]
@@ -648,9 +648,9 @@ def buildTrack(dataframe, diaids, diasource_dict, calcRMS=False):
                          new_diasource['obshistid'], new_diasource['ra'],
                          new_diasource['dec'], new_diasource['mjd'],
                          new_diasource['mag'], new_diasource['snr'])
-            diasource_dict[diaid] = new_diasource_obj
+            diasourceDict[diaid] = new_diasource_obj
             
-            ssmids.append(diasource_dict[diaid].ssmid)
+            ssmids.append(diasourceDict[diaid].ssmid)
             new_track_diasources.append(new_diasource_obj)
             
     isTrue = checkSSMIDs(ssmids)
