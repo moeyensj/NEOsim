@@ -18,10 +18,12 @@ SAMPLE_SIZE_PER_NIGHT = 2000
 
 class runAnalysis(object):
 
-    def __init__(self, parameters, tracker):
+    def __init__(self, parameters, tracker, ssmidsOfInterest=None, sampleSize=50):
 
         self._parameters = parameters
         self._tracker = tracker
+        self._ssmidsOfInterest = ssmidsOfInterest
+        self._sampleSize = sampleSize
         self._nights = []
         self._windows = []
         self._uniqueObjects = {}
@@ -75,6 +77,22 @@ class runAnalysis(object):
     @tracker.setter
     def tracker(self, value):
         self._tracker = value
+        
+    @property
+    def ssmidsOfInterest(self):
+        return self._ssmidsOfInterest
+
+    @ssmidsOfInterest.setter
+    def ssmidsOfInterest(self, value):
+        self._ssmidsOfInterest = value
+        
+    @property
+    def sampleSize(self):
+        return self._sampleSize
+
+    @sampleSize.setter
+    def sampleSize(self, value):
+        self._sampleSize = value
 
     @property
     def nights(self):
