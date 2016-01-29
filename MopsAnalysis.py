@@ -638,7 +638,7 @@ def calcRMS(diasources):
         print "RMS error was %f " % (rms)
     return rms, raRes[0], decRes[0], dists
 
-def buildTracklet(dataframe, diaids, diasourceDict, ssmidDict):
+def _buildTracklet(dataframe, diaids, diasourceDict, ssmidDict):
     new_tracklet = []
     ssmids = []
 
@@ -671,7 +671,7 @@ def buildTracklet(dataframe, diaids, diasourceDict, ssmidDict):
 
     return final_tracklet
 
-def buildTrack(dataframe, diaids, diasourceDict, ssmidDict, calcRMS=False):
+def _buildTrack(dataframe, diaids, diasourceDict, ssmidDict, calcRMS=False):
     new_track_diasources = []
     ssmids = []
 
@@ -745,7 +745,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
         # Found a track!
         total_tracklets_num += 1
         new_tracklet_diaids = MopsReader.readTracklet(line)
-        new_tracklet = buildTracklet(dets_df, new_tracklet_diaids, diasource_dict, ssmid_dict)
+        new_tracklet = _buildTracklet(dets_df, new_tracklet_diaids, diasource_dict, ssmid_dict)
 
         if new_tracklet.isTrue:
             true_tracklets_num += 1
@@ -800,7 +800,7 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, verbose=True):
         # Found a track!
         total_tracks_num += 1
         new_track_diaids = MopsReader.readTrack(line)
-        new_track = buildTrack(dets_df, new_track_diaids, diasource_dict, ssmid_dict)
+        new_track = _buildTrack(dets_df, new_track_diaids, diasource_dict, ssmid_dict)
                  
         if new_track.isTrue:
             # Track is true! 
