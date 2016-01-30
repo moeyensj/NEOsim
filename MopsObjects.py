@@ -189,12 +189,12 @@ class sso(object):
     def __init__(self, ssmid):
 
         self._ssmid = ssmid
-        self._diasources = None
-        self._tracklets = None
-        self._collapsedTracklets = None
-        self._purifiedTracklets = None
-        self._finalTracklets = None
-        self._tracks = None
+        self._diasources = []
+        self._tracklets = []
+        self._collapsedTracklets = []
+        self._purifiedTracklets = []
+        self._finalTracklets = []
+        self._tracks = []
 
     @property
     def ssmid(self):
