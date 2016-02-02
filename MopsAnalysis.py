@@ -412,61 +412,81 @@ class runAnalysis(object):
 
         if tracklets:
             for night, trackletFile, detFile in zip(self.nights, self.tracker.tracklets, self.tracker.diasources):
-                true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num = analyzeTracklets(trackletFile, detFile)
+                [true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num,
+                    tracklets_of_interest] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
 
                 self._totalTracklets[night] = total_tracklets_num
                 self._trueTracklets[night] = true_tracklets_num
                 self._falseTracklets[night] = false_tracklets_num
                 self._trueTrackletsSample[night] = selectSample(true_tracklets)
                 self._falseTrackletsSample[night] = selectSample(false_tracklets)
-                
+
+                for ssmid in tracklets_of_interest:
+                    self._ssmidsOfInterestObjects[ssmid].tracklets + tracklets_of_interest[ssmid]
+
                 print ""
 
         if collapsedTracklets:
             for night, trackletFile, detFile in zip(self.nights, self.tracker.collapsedTrackletsById, self.tracker.diasources):
-                true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num = analyzeTracklets(trackletFile, detFile)
+                [true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num,
+                    tracklets_of_interest] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
 
                 self._totalCollapsedTracklets[night] = total_tracklets_num
                 self._trueCollapsedTracklets[night] = true_tracklets_num
                 self._falseCollapsedTracklets[night] = false_tracklets_num
                 self._trueCollapsedTrackletsSample[night] = selectSample(true_tracklets)
                 self._falseCollapsedTrackletsSample[night] = selectSample(false_tracklets)
+
+                for ssmid in tracklets_of_interest:
+                    self._ssmidsOfInterestObjects[ssmid].collapsedTracklets + tracklets_of_interest[ssmid]
                 
                 print ""
 
         if purifiedTracklets:
             for night, trackletFile, detFile in zip(self.nights, self.tracker.purifiedTrackletsById, self.tracker.diasources):
-                true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num = analyzeTracklets(trackletFile, detFile)
+                [true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num,
+                    tracklets_of_interest] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
 
                 self._totalPurifiedTracklets[night] = total_tracklets_num
                 self._truePurifiedTracklets[night] = true_tracklets_num
                 self._falsePurifiedTracklets[night] = false_tracklets_num
                 self._truePurifiedTrackletsSample[night] = selectSample(true_tracklets)
                 self._falsePurifiedTrackletsSample[night] = selectSample(false_tracklets)
+
+                for ssmid in tracklets_of_interest:
+                    self._ssmidsOfInterestObjects[ssmid].purifiedTracklets + tracklets_of_interest[ssmid]
                 
                 print ""
 
         if finalTracklets:
             for night, trackletFile, detFile in zip(self.nights, self.tracker.finalTrackletsById, self.tracker.diasources):
-                true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num = analyzeTracklets(trackletFile, detFile)
+                [true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num,
+                    tracklets_of_interest] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
 
                 self._totalFinalTracklets[night] = total_tracklets_num
                 self._trueFinalTracklets[night] = true_tracklets_num
                 self._falseFinalTracklets[night] = false_tracklets_num
                 self._trueFinalTrackletsSample[night] = selectSample(true_tracklets)
                 self._falseFinalTrackletsSample[night] = selectSample(false_tracklets)
+
+                for ssmid in tracklets_of_interest:
+                    self._ssmidsOfInterestObjects[ssmid].finalTracklets + tracklets_of_interest[ssmid]
                 
                 print ""
 
         if tracks:
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
-                true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num = analyzeTracks(trackFile, detFile, idsFile)
+                [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
+                    tracks_of_interest] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
 
                 self._totalTracks[window] = total_tracks_num
                 self._trueTracks[window] = true_tracks_num
                 self._falseTracks[window] = false_tracks_num
                 self._trueTracksSample[window] = selectSample(true_tracks)
                 self._falseTracksSample[window] = selectSample(false_tracks)
+
+                for ssmid in tracks_of_interest:
+                    self._ssmidsOfInterestObjects[ssmid].tracks + tracks_of_interest[ssmid]
                 
                 print ""
 
@@ -507,6 +527,16 @@ def checkSSMIDs(ssmids):
         return True
     else:
         return False
+
+def checkIfInterested(diasources, ssmids):
+    if ssmids == None:
+        return False, 0
+    else: 
+        for diasource in diasources:
+            if diasource.ssmid in ssmids:
+                return True, diasource.ssmid
+        
+        return False, 0
 
 def countUniqueSSMIDs(dataframe):
     return dataframe['ssmid'].nunique()
@@ -655,7 +685,7 @@ def _buildTracklet(dataframe, diaids, diasourceDict, ssmidDict):
             new_tracklet.append(diasourceDict[diaid])
         else:
             new_diasource = dataframe.loc[diaid]
-            new_diasource_obj = diasource(int(diaid), new_diasource['ssmid'],
+            new_diasource_obj = diasource(int(diaid), int(new_diasource['ssmid']),
                          new_diasource['obshistid'], new_diasource['ra'],
                          new_diasource['dec'], new_diasource['mjd'],
                          new_diasource['mag'], new_diasource['snr'])
@@ -664,8 +694,6 @@ def _buildTracklet(dataframe, diaids, diasourceDict, ssmidDict):
             ssmids.append(ssmid)
             new_tracklet.append(new_diasource_obj)
 
-
-            
     isTrue = checkSSMIDs(ssmids)  
     final_tracklet = tracklet(new_tracklet, isTrue=isTrue)
 
@@ -689,7 +717,7 @@ def _buildTrack(dataframe, diaids, diasourceDict, ssmidDict, calcRMS=False):
         
         else:
             new_diasource = dataframe.loc[diaid]
-            new_diasource_obj = diasource(int(diaid), new_diasource['ssmid'],
+            new_diasource_obj = diasource(int(diaid), int(new_diasource['ssmid']),
                          new_diasource['obshistid'], new_diasource['ra'],
                          new_diasource['dec'], new_diasource['mjd'],
                          new_diasource['mag'], new_diasource['snr'])
@@ -706,7 +734,7 @@ def _buildTrack(dataframe, diaids, diasourceDict, ssmidDict, calcRMS=False):
 
     return final_track
 
-def analyzeTracklets(trackletFile, detFile, vmax=0.5):
+def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackletFile), startTime)
     
@@ -726,6 +754,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
     
     trackletFileIn = open(trackletFile, "r")
     tracklets = []
+    interested_tracklets = {}
     diasource_dict = {}
     ssmid_dict = {}
     
@@ -747,6 +776,14 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
         new_tracklet_diaids = MopsReader.readTracklet(line)
         new_tracklet = _buildTracklet(dets_df, new_tracklet_diaids, diasource_dict, ssmid_dict)
 
+        interested, ssmid = checkIfInterested(new_tracklet.diasources, ssmidsOfInterest)
+        if interested:
+            if ssmid in interested_tracklets:
+                interested_tracklets[ssmid].append(new_tracklet)
+            else:
+                interested_tracklets[ssmid] = []
+                interested_tracklets[ssmid].append(new_tracklet)
+
         if new_tracklet.isTrue:
             true_tracklets_num += 1
             true_tracklets.append(new_tracklet)
@@ -764,9 +801,9 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackletFile), endTime)
 
-    return true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num
+    return true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, interested_tracklets
 
-def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, verbose=True):
+def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, ssmidsOfInterest=None, verbose=True):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackFile), startTime)
     
@@ -781,6 +818,7 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, verbose=True):
     
     trackFileIn = open(trackFile, "r")
     tracks = []
+    interested_tracks = {}
     diasource_dict = {}
     ssmid_dict = {}
     
@@ -801,6 +839,14 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, verbose=True):
         total_tracks_num += 1
         new_track_diaids = MopsReader.readTrack(line)
         new_track = _buildTrack(dets_df, new_track_diaids, diasource_dict, ssmid_dict)
+
+        interested, ssmid = checkIfInterested(new_track.diasources, ssmidsOfInterest)
+        if interested:
+            if ssmid in interested_tracks:
+                interested_tracks[ssmid].append(new_track)
+            else:
+                interested_tracks[ssmid] = []
+                interested_tracks[ssmid].append(new_track)
                  
         if new_track.isTrue:
             # Track is true! 
@@ -821,4 +867,4 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, verbose=True):
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
 
-    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num
+    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, interested_tracks
