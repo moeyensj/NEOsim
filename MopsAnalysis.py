@@ -454,7 +454,7 @@ class runAnalysis(object):
                 self._falsePurifiedTrackletsSample[night] = selectSample(false_tracklets)
 
                 for ssmid in tracklets_of_interest:
-                    self._ssmidsOfInterestObjects[ssmid].purifiedTracklets + tracklets_of_interest[ssmid]
+                    self._ssmidsOfInterestObjects[ssmid].purifiedTracklets tracklets_of_interest[ssmid]
                 
                 print ""
 
@@ -571,11 +571,6 @@ def countFindableTrueTrackletsAndSSMIDs(dataframe, minDetections, vmax):
     return findableTrueTracklets, findable_ssmids
 
 def makeContiguous(angles):
-    """ given a set of angles (say, RAs or Decs of observation) which
-    span a fairly short arc but may actually cross the 0/360 line,
-    make these contiguous by using negative angles or whatever is
-    necessary.  if this set of angles does NOT span a short arc (>180
-    deg) expect all hell to break loose."""
     a0 = angles[0]
     output = [a0]
     for angle in angles[1:]:
@@ -601,7 +596,6 @@ def calcRadToDeg(angle):
     return angle*(180.0/np.pi)
 
 def calcAngularDistance(a, b):
-    """ return distance between a and b, where a and b are angles in degrees. """
     while abs(a - b) > 180:
         if a > b:
             b += 360.
@@ -610,10 +604,6 @@ def calcAngularDistance(a, b):
     return a - b
 
 def calcGreatCircleDistance(ra0, dec0, ra1, dec1):
-    """
-    return the great-circle distance between two points on the sky,
-    uses haversine formula
-    """
     ra_dist = calcAngularDistance(ra0, ra1);
     dec_dist = calcAngularDistance(dec0, dec1);    
     # Convert all factors to radians
