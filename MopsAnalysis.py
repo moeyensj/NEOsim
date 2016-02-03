@@ -538,6 +538,17 @@ def checkIfInterested(diasources, ssmids):
         
         return False, 0
 
+def checkSubsets(tracks, subsetCount):
+    for test_track in tracks:
+        for comparison_track in tracks:
+            if set(test_track.diasources) != set(comparison_track.diasources):
+                if set(test_track.diasources).issubset(set(comparison_track.diasources)):
+                    test_track.isSubset = True
+                    test_track.subsetTracks.append(comparison_track)
+                    subsetCount += 1
+
+    return subsetCount
+
 def countUniqueSSMIDs(dataframe):
     return dataframe['ssmid'].nunique()
 
@@ -816,10 +827,12 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, ssmidsOfInterest
     total_tracks_num = 0
     true_tracks_num = 0
     false_tracks_num = 0
+    subset_num = 0
 
     # Initialize track arrays
     false_tracks = []
     true_tracks = []
+    tracks = []
 
     # Examine each line in trackFile and read in every line
     #  as a track object. If track contains new detections (diasource)
@@ -846,7 +859,11 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, ssmidsOfInterest
             # Track is false. 
             false_tracks_num += 1
             false_tracks.append(new_track)
+
+        tracks.append(new_track)
         
+    subset_num = checkSubsets(tracks, subset_num)
+    print subset_num
     endTime = time.ctime()
 
     outFileOut.write("True tracks found: %s\n" % (true_tracks_num))
@@ -856,5 +873,6 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, ssmidsOfInterest
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
+    print subset_num    
 
     return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, interested_tracks
