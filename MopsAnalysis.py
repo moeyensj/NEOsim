@@ -422,7 +422,7 @@ class runAnalysis(object):
                 self._falseTrackletsSample[night] = selectSample(false_tracklets)
 
                 for ssmid in tracklets_of_interest:
-                    self._ssmidsOfInterestObjects[ssmid].tracklets.extend(tracklets_of_interest[ssmid])
+                    self._ssmidsOfInterestObjects[ssmid].tracklets[night] = tracklets_of_interest[ssmid]
 
                 print ""
 
@@ -438,7 +438,7 @@ class runAnalysis(object):
                 self._falseCollapsedTrackletsSample[night] = selectSample(false_tracklets)
 
                 for ssmid in tracklets_of_interest:
-                    self._ssmidsOfInterestObjects[ssmid].collapsedTracklets.extend(tracklets_of_interest[ssmid])
+                    self._ssmidsOfInterestObjects[ssmid].collapsedTracklets[night] = tracklets_of_interest[ssmid]
                 
                 print ""
 
@@ -454,7 +454,7 @@ class runAnalysis(object):
                 self._falsePurifiedTrackletsSample[night] = selectSample(false_tracklets)
 
                 for ssmid in tracklets_of_interest:
-                    self._ssmidsOfInterestObjects[ssmid].purifiedTracklets.extend(tracklets_of_interest[ssmid])
+                    self._ssmidsOfInterestObjects[ssmid].purifiedTracklets[night] = tracklets_of_interest[ssmid]
 
                 print ""
 
@@ -470,7 +470,7 @@ class runAnalysis(object):
                 self._falseFinalTrackletsSample[night] = selectSample(false_tracklets)
 
                 for ssmid in tracklets_of_interest:
-                    self._ssmidsOfInterestObjects[ssmid].finalTracklets.extend(tracklets_of_interest[ssmid])
+                    self._ssmidsOfInterestObjects[ssmid].finalTracklets[night] = tracklets_of_interest[ssmid]
                 
                 print ""
 
@@ -486,7 +486,7 @@ class runAnalysis(object):
                 self._falseTracksSample[window] = selectSample(false_tracks)
 
                 for ssmid in tracks_of_interest:
-                    self._ssmidsOfInterestObjects[ssmid].tracks.extend(tracks_of_interest[ssmid])
+                    self._ssmidsOfInterestObjects[ssmid].tracks[window] = tracks_of_interest[ssmid]
                 
                 print ""
 
