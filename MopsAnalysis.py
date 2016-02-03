@@ -39,6 +39,8 @@ class runAnalysis(object):
         self._totalTracks = {}
         self._trueTracks = {}
         self._falseTracks = {}
+        self._subsetTracks = {}
+        self._longestTracks = {}
         self._trueTracksSample = {}
         self._falseTracksSample = {}
 
@@ -201,6 +203,22 @@ class runAnalysis(object):
     @falseTracks.setter
     def falseTracks(self, value):
         self._falseTracks = value
+
+    @property
+    def subsetTracks(self):
+        return self._subsetTracks
+
+    @subsetTracks.setter
+    def subsetTracks(self, value):
+        self._subsetTracks = value
+
+    @property
+    def longestTracks(self):
+        return self._longestTracks
+
+    @longestTracks.setter
+    def longestTracks(self, value):
+        self._longestTracks = value
 
     @property
     def trueTracksSample(self):
@@ -477,11 +495,14 @@ class runAnalysis(object):
         if tracks:
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
                 [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
-                    tracks_of_interest] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
+                    subset_tracks_num, longest_tracks_num, tracks_of_interest] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
 
                 self._totalTracks[window] = total_tracks_num
                 self._trueTracks[window] = true_tracks_num
                 self._falseTracks[window] = false_tracks_num
+                self._subsetTracks[window] = subset_tracks_num
+                self._longestTracks[window] = longest_tracks_num
+
                 self._trueTracksSample[window] = selectSample(true_tracks)
                 self._falseTracksSample[window] = selectSample(false_tracks)
 
@@ -538,16 +559,33 @@ def checkIfInterested(diasources, ssmids):
         
         return False, 0
 
-def checkSubsets(tracks, subsetCount):
-    for test_track in tracks:
-        for comparison_track in tracks:
-            if set(test_track.diasources) != set(comparison_track.diasources):
-                if set(test_track.diasources).issubset(set(comparison_track.diasources)):
-                    test_track.isSubset = True
-                    test_track.subsetTracks.append(comparison_track)
-                    subsetCount += 1
+def checkSubsets(tracks):
+    # for each track in tracks, check subsets, if subset remove from array and add to subset array
+    # remainings tracks are the longest tracks
+    longest_tracks = []
+    subset_tracks = []
 
-    return subsetCount
+    for test_track in tracks:
+        if test_track.isSubset:
+            break
+        else: 
+            for comparison_track in tracks:
+                t =  set(test_track.diasources)
+                c =  set(comparison_track.diasources)
+
+                if t != c:
+                    if t.issubset(c):
+                        test_track.isSubset = True
+                        test_track.subsetTracks.append(comparison_track)
+                        subset_tracks.append(test_track)
+                        break
+
+    for test_track in tracks:
+        if test_track.isSubset == None:
+            test_track.isSubset = False
+            longest_tracks.append(test_track)
+
+    return longest_tracks, subset_tracks
 
 def countUniqueSSMIDs(dataframe):
     return dataframe['ssmid'].nunique()
@@ -827,12 +865,13 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, ssmidsOfInterest
     total_tracks_num = 0
     true_tracks_num = 0
     false_tracks_num = 0
-    subset_num = 0
 
     # Initialize track arrays
     false_tracks = []
     true_tracks = []
     tracks = []
+    subset_tracks = []
+    longest_tracks = []
 
     # Examine each line in trackFile and read in every line
     #  as a track object. If track contains new detections (diasource)
@@ -862,17 +901,18 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, ssmidsOfInterest
 
         tracks.append(new_track)
         
-    subset_num = checkSubsets(tracks, subset_num)
-    print subset_num
+    longest_tracks, subset_tracks = checkSubsets(tracks)
+
     endTime = time.ctime()
 
     outFileOut.write("True tracks found: %s\n" % (true_tracks_num))
     outFileOut.write("False tracks found: %s\n" % (false_tracks_num))
     outFileOut.write("Total tracks found: %s\n" % (total_tracks_num))
+    outFileOut.write("Subset tracks found: %s\n" % (len(subset_tracks)))
+    outFileOut.write("Non-subset tracks found: %s\n" % (len(longest_tracks)))
     outFileOut.write("Unique objects found: %s\n" % (len(ssmid_dict)))
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
-    print subset_num    
-
-    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, interested_tracks
+   
+    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, len(subset_tracks), len(longest_tracks), interested_tracks
