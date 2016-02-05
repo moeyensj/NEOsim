@@ -1,0 +1,39 @@
+Set min unique nights per track: 3
+Set min detections per track: 6
+ Set output buffer size = 1000
+Reading detections file 
+Calculating topocentric correction 
+Reading tracklets file 
+Reading input took 0.0000000000 seconds.
+Recentering all detections on (180, 0).
+   Bounds were (in deg) R=[230.3568641440,  340.0000000000], D=[ -24.8317269676,  -15.0000000000]
+Setting tracklet velocities.
+Sorting tracklets by image time and creating trees.
+Doing the linking.
+Looking for tracks between images at times 59607.160000000003 (image 0 / 3) and 59608.160000000003 (image 1 / 3)  (with 0 support images).
+ current wall-clock time is Fri Feb  5 12:14:34 2016
+That iteration took 1454700693.000000000000 seconds. 
+ so far, we have found 0 tracks.
+
+Looking for tracks between images at times 59607.160000000003 (image 0 / 3) and 59609.160000000003 (image 2 / 3)  (with 1 support images).
+ current wall-clock time is Fri Feb  5 12:14:34 2016
+That iteration took 1454700510.000000000000 seconds. 
+ so far, we have found 0 tracks.
+
+Looking for tracks between images at times 59608.160000000003 (image 1 / 3) and 59609.160000000003 (image 2 / 3)  (with 0 support images).
+ current wall-clock time is Fri Feb  5 12:14:34 2016
+That iteration took 1454700383.000000000000 seconds. 
+ so far, we have found 0 tracks.
+
+Found 3 valid start/end image pairs.
+Finished linking.
+Linking took 1454700694.000000000000 seconds.
+TrackSet: purgeToFile called.
+TrackSet: clearing component tracks from memory.
+Results successfully written to disk.
+Done. Exiting successfully.
+Completed after 0.0000000000 seconds.
+This process (25324) memory usage: 
+------------------------------------------
+------------------------------------------
+
