@@ -103,16 +103,16 @@ class MopsTest(unittest.TestCase):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_makeLinkTrackletsInput_byNight(self):
-        testTrackletsByNightDets = self.testTracker.trackletsByNightDets
-        controlTrackletsByNightDets = self.controlTracker.trackletsByNightDets
+        testDets = self.testTracker.dets
+        controlDets = self.controlTracker.dets
 
-        for tt, ct in zip(testTrackletsByNightDets, controlTrackletsByNightDets):
+        for tt, ct in zip(testDets, controlDets):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
-        testTrackletsByNightIds = self.testTracker.trackletsByNightIds
-        controlTrackletsByNightIds = self.controlTracker.trackletsByNightIds
+        testIds = self.testTracker.ids
+        controlIds = self.controlTracker.ids
 
-        for tt, ct in zip(testTrackletsByNightIds, controlTrackletsByNightIds):
+        for tt, ct in zip(testIds, controlIds):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_linkTracklets(self):
