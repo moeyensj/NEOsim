@@ -424,7 +424,7 @@ class runAnalysis(object):
         for ssmid in self._ssmidsOfInterest:
             self._ssmidsOfInterestObjects[ssmid] = sso(ssmid)
 
-    def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True):
+    def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True, onlyFullWindows=True):
 
         self._startTime = time.ctime()
 
@@ -494,17 +494,18 @@ class runAnalysis(object):
 
         if tracks:
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
-                [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
-                    subset_tracks_num, longest_tracks_num, tracks_of_interest] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
+                if checkWindow(window, onlyFullWindows, self.parameters.windowSize)
+                    [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
+                        subset_tracks_num, longest_tracks_num, tracks_of_interest] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
 
-                self._totalTracks[window] = total_tracks_num
-                self._trueTracks[window] = true_tracks_num
-                self._falseTracks[window] = false_tracks_num
-                self._subsetTracks[window] = subset_tracks_num
-                self._longestTracks[window] = longest_tracks_num
+                    self._totalTracks[window] = total_tracks_num
+                    self._trueTracks[window] = true_tracks_num
+                    self._falseTracks[window] = false_tracks_num
+                    self._subsetTracks[window] = subset_tracks_num
+                    self._longestTracks[window] = longest_tracks_num
 
-                self._trueTracksSample[window] = selectSample(true_tracks)
-                self._falseTracksSample[window] = selectSample(false_tracks)
+                    self._trueTracksSample[window] = selectSample(true_tracks)
+                    self._falseTracksSample[window] = selectSample(false_tracks)
 
                 for ssmid in tracks_of_interest:
                     self._ssmidsOfInterestObjects[ssmid].tracks[window] = tracks_of_interest[ssmid]
@@ -587,6 +588,15 @@ def checkSubsets(tracks):
 
     return longest_tracks, subset_tracks
 
+def checkWindow(window, onlyFullWindows, fullWindowSize):
+    if onlyFullWindows:
+        if int(window.split('-')[1]) - int(window.split('-')[0]) == fullWindowSize:
+            return True
+        else:
+            return False
+    else:
+        return True
+ 
 def countUniqueSSMIDs(dataframe):
     return dataframe['ssmid'].nunique()
 
