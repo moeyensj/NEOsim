@@ -932,12 +932,12 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
 
     endTime = time.ctime()
 
+    outFileOut.write("Unique objects found: %s\n" % (len(ssmid_dict)))
     outFileOut.write("True tracks found: %s\n" % (true_tracks_num))
     outFileOut.write("False tracks found: %s\n" % (false_tracks_num))
     outFileOut.write("Total tracks found: %s\n" % (total_tracks_num))
     outFileOut.write("Subset tracks found: %s\n" % (len(subset_tracks)))
     outFileOut.write("Non-subset tracks found: %s\n" % (len(longest_tracks)))
-    outFileOut.write("Unique objects found: %s\n" % (len(ssmid_dict)))
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
