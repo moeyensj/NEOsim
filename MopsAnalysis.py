@@ -82,7 +82,6 @@ class runAnalysis(object):
         self.initializeSSOs()
         self.findNights()
         self.findWindows()
-        self.analyze()
 
     @property
     def parameters(self):
