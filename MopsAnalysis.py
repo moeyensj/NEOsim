@@ -423,7 +423,7 @@ class runAnalysis(object):
         for ssmid in self._ssmidsOfInterest:
             self._ssmidsOfInterestObjects[ssmid] = sso(ssmid)
 
-    def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True, onlyFullWindows=True):
+    def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True, minWindowSize=0):
 
         self._startTime = time.ctime()
 
@@ -493,7 +493,7 @@ class runAnalysis(object):
 
         if tracks:
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
-                if checkWindow(window, onlyFullWindows, self.parameters.windowSize)
+                if checkWindow(window, minWindowSize):
                     [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
                         subset_tracks_num, longest_tracks_num, tracks_of_interest] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
 
@@ -506,8 +506,8 @@ class runAnalysis(object):
                     self._trueTracksSample[window] = selectSample(true_tracks)
                     self._falseTracksSample[window] = selectSample(false_tracks)
 
-                for ssmid in tracks_of_interest:
-                    self._ssmidsOfInterestObjects[ssmid].tracks[window] = tracks_of_interest[ssmid]
+                    for ssmid in tracks_of_interest:
+                        self._ssmidsOfInterestObjects[ssmid].tracks[window] = tracks_of_interest[ssmid]
                 
                 print ""
 
@@ -587,14 +587,11 @@ def checkSubsets(tracks):
 
     return longest_tracks, subset_tracks
 
-def checkWindow(window, onlyFullWindows, fullWindowSize):
-    if onlyFullWindows:
-        if int(window.split('-')[1]) - int(window.split('-')[0]) == fullWindowSize:
-            return True
-        else:
-            return False
-    else:
+def checkWindow(window, minWindowSize):
+    if int(window.split('-')[1]) - int(window.split('-')[0]) >= minWindowSize:
         return True
+    else:
+        return False
  
 def countUniqueSSMIDs(dataframe):
     return dataframe['ssmid'].nunique()
@@ -627,6 +624,22 @@ def countFindableTrueTrackletsAndSSMIDs(dataframe, minDetections, vmax):
              findable_ssmids.append(unique_ssmid)
                 
     return findableTrueTracklets, findable_ssmids
+
+def countFindableTrueTracks(dataframe, minDetectionsPerNight, minNights):
+    findableTracks = 0
+    
+    possible_ssmids = dataframe.groupby("ssmid").filter(lambda x: len(x) >= minDetectionsPerNight*minNights)
+    unique_ssmids = possible_ssmids['ssmid'].unique()
+    findable_ssmids = []
+    
+    for unique_ssmid in unique_ssmids:
+        detections = possible_ssmids[possible_ssmids["ssmid"] == unique_ssmid]
+        unique, counts = np.unique(detections.sort(columns="mjd")['mjd'].unique().astype(int), return_counts=True)
+        if len(counts[counts >= minDetectionsPerNight]) >= minNights:
+            findableTracks += 1
+            findable_ssmids.append(unique_ssmid)
+
+    return findableTracks, findable_ssmids
 
 def makeContiguous(angles):
     a0 = angles[0]
@@ -851,7 +864,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
 
     return true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, interested_tracklets
 
-def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, ssmidsOfInterest=None, verbose=True):
+def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNights=3, ssmidsOfInterest=None, verbose=True):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackFile), startTime)
     
@@ -863,6 +876,11 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetections=6, ssmidsOfInterest
     
     # Read detections into a dataframe
     dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
+
+    # Count number of true tracklets and findable SSMIDs in dataframe
+    findable_true_tracks, findable_ssmids = countFindableTrueTracks(dets_df, minDetectionsPerNight, minNights)
+    outFileOut.write("Unique objects: %s\n" % (len(findable_ssmids)))
+    outFileOut.write("True tracks: %s\n" % (findable_true_tracks))
     
     trackFileIn = open(trackFile, "r")
     tracks = []
