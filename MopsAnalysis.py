@@ -43,6 +43,7 @@ class runAnalysis(object):
         self._longestTracks = {}
         self._trueTracksSample = {}
         self._falseTracksSample = {}
+        self._trackFileSizes = {}
 
         # Tracklets (post findTracklets)
         self._totalTracklets = {}
@@ -50,6 +51,7 @@ class runAnalysis(object):
         self._falseTracklets = {}
         self._trueTrackletsSample = {}
         self._falseTrackletsSample = {}
+        self._trackletFileSizes = {}
 
         # Collapsed tracklets
         self._totalCollapsedTracklets = {}
@@ -57,6 +59,7 @@ class runAnalysis(object):
         self._falseCollapsedTracklets = {}
         self._trueCollapsedTrackletsSample = {}
         self._falseCollapsedTrackletsSample = {}
+        self._collapsedTrackletFileSizes = {}
 
         # Purified tracklets
         self._totalPurifiedTracklets = {}
@@ -64,6 +67,7 @@ class runAnalysis(object):
         self._falsePurifiedTracklets = {}
         self._truePurifiedTrackletsSample = {}
         self._falsePurifiedTrackletsSample = {}
+        self._purifiedTrackletFileSizes = {}
 
         # Final tracklets (post removeSubsets)
         self._totalFinalTracklets = {}
@@ -71,6 +75,7 @@ class runAnalysis(object):
         self._falseFinalTracklets = {}
         self._trueFinalTrackletsSample = {}
         self._falseFinalTrackletsSample = {}
+        self._finalTrackletFileSizes = {}
         
         # General analysis information
         self._startTime = 0
@@ -236,6 +241,14 @@ class runAnalysis(object):
         self._falseTracksSample = value
 
     @property
+    def trackFileSizes(self):
+        return self._trackFileSizes
+
+    @trackFileSizes.setter
+    def trackFileSizes(self, value):
+        self._trackFileSizes = value
+
+    @property
     def totalTracklets(self):
         return self._totalTracklets
 
@@ -274,6 +287,14 @@ class runAnalysis(object):
     @falseTrackletsSample.setter
     def falseTrackletsSample(self, value):
         self._falseTrackletsSample = value
+
+    @property
+    def trackletFileSizes(self):
+        return self._trackletFileSizes
+
+    @trackletFileSizes.setter
+    def trackletFileSizes(self, value):
+        self._trackletFileSizes = value
 
     @property
     def totalCollapsedTracklets(self):
@@ -316,6 +337,14 @@ class runAnalysis(object):
         self._falseCollapsedTrackletsSample = value
 
     @property
+    def collapsedTrackletFileSizes(self):
+        return self._collapsedTrackletFileSizes
+
+    @collapsedTrackletFileSizes.setter
+    def collapsedTrackletFileSizes(self, value):
+        self._collapsedTrackletFileSizes = value
+
+    @property
     def totalPurifiedTracklets(self):
         return self._totalPurifiedTracklets
 
@@ -356,6 +385,14 @@ class runAnalysis(object):
         self._falsePurifiedTrackletsSample = value
 
     @property
+    def purifiedTrackletFileSizes(self):
+        return self._purifiedTrackletFileSizes
+
+    @purifiedTrackletFileSizes.setter
+    def purifiedTrackletFileSizes(self, value):
+        self._purifiedTrackletFileSizes = value
+
+    @property
     def totalFinalTracklets(self):
         return self._totalFinalTracklets
 
@@ -394,6 +431,14 @@ class runAnalysis(object):
     @falseFinalTrackletsSample.setter
     def falseFinalTrackletsSample(self, value):
         self._falsePurifiedTrackletsSample = value
+
+    @property
+    def finalTrackletFileSizes(self):
+        return self._finalTrackletFileSizes
+
+    @finalTrackletFileSizes.setter
+    def finalTrackletFileSizes(self, value):
+        self._finalTrackletFileSizes = value
 
     @property
     def startTime(self):
