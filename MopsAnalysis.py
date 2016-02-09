@@ -611,7 +611,7 @@ class runAnalysis(object):
                 if checkWindow(window, minWindowSize):
                     [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
                         subset_tracks_num, longest_tracks_num, tracks_of_interest, det_file_size, 
-                        track_file_size] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
+                        ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
 
                     self._totalTracks[window] = total_tracks_num
                     self._trueTracks[window] = true_tracks_num
@@ -621,6 +621,8 @@ class runAnalysis(object):
 
                     self._trueTracksSample[window] = selectSample(true_tracks)
                     self._falseTracksSample[window] = selectSample(false_tracks)
+
+
 
                     for ssmid in tracks_of_interest:
                         self._ssmidsOfInterestObjects[ssmid].tracks[window] = tracks_of_interest[ssmid]
@@ -993,6 +995,7 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackFile), startTime)
 
+    idsFileSize = os.path.getsize(idsFile)
     detFileSize = os.path.getsize(detFile)
     trackFileSize = os.path.getsize(trackFile)
     
@@ -1001,6 +1004,15 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     outFileOut = open(outFile, "w")
     outFileOut.write("Start time: %s\n\n" % (startTime))
     print "Writing results to %s" % (outFile)
+
+    # Read ids file 
+    tracklet_num = 0
+    for tracklet in open(idsFile, "r"):
+        tracklet_num += 1
+
+    outFileOut.write("Input Tracklet (Ids) File Summary:\n")
+    outFileOut.write("File size (bytes): %s\n" % (idsFileSize))
+    outFileOut.write("Tracklets: %s\n\n" % (tracklet_num))
     
     # Read detections into a dataframe
     dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
@@ -1076,4 +1088,4 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
    
-    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, len(subset_tracks), len(longest_tracks), interested_tracks, detFileSize, trackFileSize
+    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, len(subset_tracks), len(longest_tracks), interested_tracks, detFileSize, idsFileSize, trackFileSize
