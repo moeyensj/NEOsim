@@ -553,6 +553,9 @@ class runAnalysis(object):
                 self._trueTrackletsSample[night] = selectSample(true_tracklets)
                 self._falseTrackletsSample[night] = selectSample(false_tracklets)
 
+                self._trackletFileSizes[night] = tracklet_file_size
+                self._trackletDetFileSizes[night] = det_file_size
+
                 for ssmid in tracklets_of_interest:
                     self._ssmidsOfInterestObjects[ssmid].tracklets[night] = tracklets_of_interest[ssmid]
 
@@ -568,6 +571,9 @@ class runAnalysis(object):
                 self._falseCollapsedTracklets[night] = false_tracklets_num
                 self._trueCollapsedTrackletsSample[night] = selectSample(true_tracklets)
                 self._falseCollapsedTrackletsSample[night] = selectSample(false_tracklets)
+
+                self._collapsedTrackletFileSizes[night] = tracklet_file_size
+                self._collapsedTrackletDetFileSizes[night] = det_file_size
 
                 for ssmid in tracklets_of_interest:
                     self._ssmidsOfInterestObjects[ssmid].collapsedTracklets[night] = tracklets_of_interest[ssmid]
@@ -585,6 +591,9 @@ class runAnalysis(object):
                 self._truePurifiedTrackletsSample[night] = selectSample(true_tracklets)
                 self._falsePurifiedTrackletsSample[night] = selectSample(false_tracklets)
 
+                self._purifiedTrackletFileSizes[night] = tracklet_file_size
+                self._purifiedTrackletDetFileSizes[night] = det_file_size
+
                 for ssmid in tracklets_of_interest:
                     self._ssmidsOfInterestObjects[ssmid].purifiedTracklets[night] = tracklets_of_interest[ssmid]
 
@@ -600,6 +609,9 @@ class runAnalysis(object):
                 self._falseFinalTracklets[night] = false_tracklets_num
                 self._trueFinalTrackletsSample[night] = selectSample(true_tracklets)
                 self._falseFinalTrackletsSample[night] = selectSample(false_tracklets)
+
+                self._finalTrackletFileSizes[night] = tracklet_file_size
+                self._finalTrackletDetFileSizes[night] = det_file_size
 
                 for ssmid in tracklets_of_interest:
                     self._ssmidsOfInterestObjects[ssmid].finalTracklets[night] = tracklets_of_interest[ssmid]
@@ -618,11 +630,12 @@ class runAnalysis(object):
                     self._falseTracks[window] = false_tracks_num
                     self._subsetTracks[window] = subset_tracks_num
                     self._longestTracks[window] = longest_tracks_num
-
                     self._trueTracksSample[window] = selectSample(true_tracks)
                     self._falseTracksSample[window] = selectSample(false_tracks)
 
-
+                    self._trackFileSizes[window] = track_file_size
+                    self._trackDetFileSizes[window] = det_file_size
+                    self._trackIdFileSizes[window] = ids_file_size
 
                     for ssmid in tracks_of_interest:
                         self._ssmidsOfInterestObjects[ssmid].tracks[window] = tracks_of_interest[ssmid]
