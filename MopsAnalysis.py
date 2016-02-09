@@ -802,16 +802,19 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
     # Create outfile to store results
     outFile = trackletFile + ".results"
     outFileOut = open(outFile, "w")
-    outFileOut.write("Start time: %s\n" % (startTime))
+    outFileOut.write("Start time: %s\n\n" % (startTime))
     print "Writing results to %s" % (outFile)
 
     # Read detections into a dataframe
     dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
+    outFileOut.write("Input Detection File Summary:\n")
+    outFileOut.write("Detections: %s\n" % (len(dets_df.index)))
+    outFileOut.write("Unique objects: %s\n" % (dets_df['ssmid'].nunique()))
 
     # Count number of true tracklets and findable SSMIDs in dataframe
     findable_true_tracklets_num, findable_ssmids = countFindableTrueTrackletsAndSSMIDs(dets_df, 2.0, vmax)
-    outFileOut.write("Unique objects: %s\n" % (len(findable_ssmids)))
-    outFileOut.write("True tracklets: %s\n" % (findable_true_tracklets_num))
+    outFileOut.write("Findable unique objects: %s\n" % (len(findable_ssmids)))
+    outFileOut.write("Findable true tracklets: %s\n\n" % (findable_true_tracklets_num))
     
     trackletFileIn = open(trackletFile, "r")
     tracklets = []
@@ -854,10 +857,11 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
         
     endTime = time.ctime()
 
+    outFileOut.write("Output Tracklet File Summary:\n")
     outFileOut.write("Unique objects found: %s\n" % (len(ssmid_dict)))
     outFileOut.write("True tracklets found: %s\n" % (true_tracklets_num))
     outFileOut.write("False tracklets found: %s\n" % (false_tracklets_num))
-    outFileOut.write("Total tracklets found: %s\n" % (total_tracklets_num))
+    outFileOut.write("Total tracklets found: %s\n\n" % (total_tracklets_num))
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackletFile), endTime)
@@ -871,16 +875,19 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     # Create outfile to store results
     outFile = trackFile + ".results"
     outFileOut = open(outFile, "w")
-    outFileOut.write("Start time: %s\n" % (startTime))
+    outFileOut.write("Start time: %s\n\n" % (startTime))
     print "Writing results to %s" % (outFile)
     
     # Read detections into a dataframe
     dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
+    outFileOut.write("Input Detection File Summary:\n")
+    outFileOut.write("Detections: %s\n" % (len(dets_df.index)))
+    outFileOut.write("Unique objects: %s\n" % (dets_df['ssmid'].nunique()))
 
     # Count number of true tracklets and findable SSMIDs in dataframe
     findable_true_tracks, findable_ssmids = countFindableTrueTracks(dets_df, minDetectionsPerNight, minNights)
-    outFileOut.write("Unique objects: %s\n" % (len(findable_ssmids)))
-    outFileOut.write("True tracks: %s\n" % (findable_true_tracks))
+    outFileOut.write("Findable unique objects: %s\n" % (len(findable_ssmids)))
+    outFileOut.write("Findable true tracks: %s\n\n" % (findable_true_tracks))
     
     trackFileIn = open(trackFile, "r")
     tracks = []
@@ -932,12 +939,13 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
 
     endTime = time.ctime()
 
+    outFileOut.write("Output Track File Summary:\n")
     outFileOut.write("Unique objects found: %s\n" % (len(ssmid_dict)))
     outFileOut.write("True tracks found: %s\n" % (true_tracks_num))
     outFileOut.write("False tracks found: %s\n" % (false_tracks_num))
     outFileOut.write("Total tracks found: %s\n" % (total_tracks_num))
     outFileOut.write("Subset tracks found: %s\n" % (len(subset_tracks)))
-    outFileOut.write("Non-subset tracks found: %s\n" % (len(longest_tracks)))
+    outFileOut.write("Non-subset tracks found: %s\n\n" % (len(longest_tracks)))
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
