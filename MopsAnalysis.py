@@ -128,6 +128,8 @@ class runAnalysis(object):
     def sampleSize(self, value):
         self._sampleSize = value
 
+    # General run overview
+
     @property
     def nights(self):
         return self._nights
@@ -183,6 +185,8 @@ class runAnalysis(object):
     @missedObjects.setter
     def missedObjects(self, value):
         self._missedObjects = value
+
+    # Tracks
 
     @property
     def totalTracks(self):
@@ -248,6 +252,8 @@ class runAnalysis(object):
     def trackFileSizes(self, value):
         self._trackFileSizes = value
 
+    # Tracklets (post findTracklets)
+
     @property
     def totalTracklets(self):
         return self._totalTracklets
@@ -295,6 +301,8 @@ class runAnalysis(object):
     @trackletFileSizes.setter
     def trackletFileSizes(self, value):
         self._trackletFileSizes = value
+
+    # Collapsed tracklets
 
     @property
     def totalCollapsedTracklets(self):
@@ -344,6 +352,8 @@ class runAnalysis(object):
     def collapsedTrackletFileSizes(self, value):
         self._collapsedTrackletFileSizes = value
 
+    # Purified tracklets
+
     @property
     def totalPurifiedTracklets(self):
         return self._totalPurifiedTracklets
@@ -391,6 +401,8 @@ class runAnalysis(object):
     @purifiedTrackletFileSizes.setter
     def purifiedTrackletFileSizes(self, value):
         self._purifiedTrackletFileSizes = value
+
+    # Final tracklets (post removeSubsets)
 
     @property
     def totalFinalTracklets(self):
@@ -440,6 +452,8 @@ class runAnalysis(object):
     def finalTrackletFileSizes(self, value):
         self._finalTrackletFileSizes = value
 
+    # General analysis information
+
     @property
     def startTime(self):
         return self._startTime
@@ -455,6 +469,8 @@ class runAnalysis(object):
     @endTime.setter
     def endTime(self, value):
         print "Cannot edit analysis end time."
+
+    # Instance Methods
 
     def findNights(self):
         for detFile in self.tracker.diasources:
