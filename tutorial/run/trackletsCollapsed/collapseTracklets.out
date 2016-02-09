@@ -1,0 +1,600 @@
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59580.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59580.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59580.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37420) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59581.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59581.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59581.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37422) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59582.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59582.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59582.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37424) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59583.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59583.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59583.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37426) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59584.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59584.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59584.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37428) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59585.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59585.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59585.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37430) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59586.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59586.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59586.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37432) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59587.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59587.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59587.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37434) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59588.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59588.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59588.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37436) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59589.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59589.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59589.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37438) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59590.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59590.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59590.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37440) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59591.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59591.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59591.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37442) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59592.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59592.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59592.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37444) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59593.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59593.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59593.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37446) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59594.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59594.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59594.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37448) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59595.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59595.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59595.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37450) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59596.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59596.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59596.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37452) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59597.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59597.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59597.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37454) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59598.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59598.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59598.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37456) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59599.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59599.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59599.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37458) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59600.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59600.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59600.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37460) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59601.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59601.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59601.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37462) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59602.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59602.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59602.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37464) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59603.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59603.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59603.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37466) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59604.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59604.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59604.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37468) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59605.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59605.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59605.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37470) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59606.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59606.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59606.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37472) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59607.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59607.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59607.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37474) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59608.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59608.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59608.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37476) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         /Users/joachim/repos/neosim/tutorial/nightly/59609.dias
+Pairs File         /Users/joachim/repos/neosim/tutorial/run/tracklets/59609.tracklets.byIndices
+Output File:       /Users/joachim/repos/neosim/tutorial/run/trackletsCollapsed/59609.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (37478) memory usage: 
+------------------------------------------
+------------------------------------------
+
