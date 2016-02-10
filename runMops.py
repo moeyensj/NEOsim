@@ -45,7 +45,7 @@ FINAL_TRACKS_DIR = "tracksFinal/"
 
 VERBOSE = True
 
-def directoryBuilder(runDir, verbose=VERBOSE):
+def directoryBuilder(runDir, collapse=True, purify=True, removeSubsetTracklets=True, removeSubsetTracks=True, verbose=VERBOSE):
     """
     Builds the directory structure for MOPS output files.
 
@@ -484,7 +484,8 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     """
 
     # Build directory structure
-    dirs = directoryBuilder(runDir, verbose=verbose)
+    dirs = directoryBuilder(runDir, collapse=collapse, purifiy=purify, removeSubsetTracklets=removeSubsetTracklets,
+        removeSubsetTracks=removeSubsetTracks, verbose=verbose)
 
     # Save parameters
     _save(parameters, 'parameters', outDir=runDir)
