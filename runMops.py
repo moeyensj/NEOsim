@@ -489,7 +489,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
 
     # Save parameters
     _save(parameters, 'parameters', outDir=runDir)
-
+    
     # Find diasources
     diasourceList = os.listdir(diasourcesDir)
     diasources = []
