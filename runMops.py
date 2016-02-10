@@ -466,7 +466,8 @@ def runArgs():
 
     return args
 
-def runMops(parameters, tracker, diasourcesDir, runDir, verbose=VERBOSE):
+def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=True, removeSubsetTracklets=True, 
+    removeSubsetTracks=False, verbose=VERBOSE):
     """
     Runs Moving Object Pipeline.
 
@@ -501,41 +502,44 @@ def runMops(parameters, tracker, diasourcesDir, runDir, verbose=VERBOSE):
     tracker.tracklets = tracklets
     tracker.trackletsDir = dirs[0]
 
-    # Run idsToIndices
-    trackletsByIndex = runIdsToIndices(tracklets, diasources, dirs[0], verbose=verbose)
-    tracker.ranIdsToIndices = True
-    tracker.trackletsByIndex = trackletsByIndex
-    tracker.trackletsByIndexDir = dirs[0]
+    if collapse:
+        # Run idsToIndices
+        trackletsByIndex = runIdsToIndices(tracklets, diasources, dirs[0], verbose=verbose)
+        tracker.ranIdsToIndices = True
+        tracker.trackletsByIndex = trackletsByIndex
+        tracker.trackletsByIndexDir = dirs[0]
 
-    # Run collapseTracklets
-    collapsedTracklets = runCollapseTracklets(parameters, trackletsByIndex, diasources, dirs[1], verbose=verbose)
-    collapsedTrackletsById = runIndicesToIds(collapsedTracklets, diasources, dirs[1], COLLAPSED_SUFFIX, verbose=verbose)
-    tracker.ranCollapseTracklets = True
-    tracker.collapsedTracklets = collapsedTracklets
-    tracker.collapsedTrackletsDir = dirs[1]
-    tracker.collapsedTrackletsById = collapsedTrackletsById
-    tracker.collapsedTrackletsByIdDir = dirs[1]
+        # Run collapseTracklets
+        collapsedTracklets = runCollapseTracklets(parameters, trackletsByIndex, diasources, dirs[1], verbose=verbose)
+        collapsedTrackletsById = runIndicesToIds(collapsedTracklets, diasources, dirs[1], COLLAPSED_SUFFIX, verbose=verbose)
+        tracker.ranCollapseTracklets = True
+        tracker.collapsedTracklets = collapsedTracklets
+        tracker.collapsedTrackletsDir = dirs[1]
+        tracker.collapsedTrackletsById = collapsedTrackletsById
+        tracker.collapsedTrackletsByIdDir = dirs[1]
 
-    # Run purifyTracklets
-    purifiedTracklets = runPurifyTracklets(parameters, collapsedTracklets, diasources, dirs[2], verbose=verbose)
-    purifiedTrackletsById = runIndicesToIds(purifiedTracklets, diasources, dirs[2], PURIFIED_SUFFIX, verbose=verbose)
-    tracker.ranPurifyTracklets = True
-    tracker.purifiedTracklets = purifiedTracklets
-    tracker.purifiedTrackletsDir = dirs[2]
-    tracker.purifiedTrackletsById =  purifiedTrackletsById
-    tracker.purifiedTrackletsByIdDir =  dirs[2]
+    if purify: 
+        # Run purifyTracklets
+        purifiedTracklets = runPurifyTracklets(parameters, collapsedTracklets, diasources, dirs[2], verbose=verbose)
+        purifiedTrackletsById = runIndicesToIds(purifiedTracklets, diasources, dirs[2], PURIFIED_SUFFIX, verbose=verbose)
+        tracker.ranPurifyTracklets = True
+        tracker.purifiedTracklets = purifiedTracklets
+        tracker.purifiedTrackletsDir = dirs[2]
+        tracker.purifiedTrackletsById =  purifiedTrackletsById
+        tracker.purifiedTrackletsByIdDir =  dirs[2]
 
-    # Run removeSubsets
-    finalTracklets = runRemoveSubsets(parameters, purifiedTracklets, diasources, dirs[3], verbose=verbose)
-    finalTrackletsById = runIndicesToIds(finalTracklets, diasources, dirs[3], FINAL_SUFFIX, verbose=verbose)
-    tracker.ranRemoveSubsets = True
-    tracker.finalTracklets = finalTracklets
-    tracker.finalTrackletsDir = dirs[3]
+    if removeSubsetTracklets:
+        # Run removeSubsets
+        finalTracklets = runRemoveSubsets(parameters, purifiedTracklets, diasources, dirs[3], verbose=verbose)
+        finalTrackletsById = runIndicesToIds(finalTracklets, diasources, dirs[3], FINAL_SUFFIX, verbose=verbose)
+        tracker.ranRemoveSubsets = True
+        tracker.finalTracklets = finalTracklets
+        tracker.finalTrackletsDir = dirs[3]
 
-    # Run indicesToIds
-    tracker.ranIndicesToIds = True
-    tracker.finalTrackletsById = finalTrackletsById
-    tracker.finalTrackletsByIdDir = dirs[3]
+        # Run indicesToIds
+        tracker.ranIndicesToIds = True
+        tracker.finalTrackletsById = finalTrackletsById
+        tracker.finalTrackletsByIdDir = dirs[3]
 
     # Run makeLinkTrackletsInputByNight
     dets, ids = runMakeLinkTrackletsInputByNight(parameters, diasourcesDir, dirs[3], dirs[4], verbose=verbose)
