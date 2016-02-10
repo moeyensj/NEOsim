@@ -484,7 +484,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     """
 
     # Build directory structure
-    dirs = directoryBuilder(runDir, collapse=collapse, purifiy=purify, removeSubsetTracklets=removeSubsetTracklets,
+    dirs = directoryBuilder(runDir, collapse=collapse, purify=purify, removeSubsetTracklets=removeSubsetTracklets,
         removeSubsetTracks=removeSubsetTracks, verbose=verbose)
 
     # Save parameters
