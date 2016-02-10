@@ -25,22 +25,23 @@ from MopsParameters import MopsParameters
 from MopsTracker import MopsTracker
 
 # File suffixes
-DIASOURCE_SUFFIX = '.dias'
-TRACKLET_SUFFIX = '.tracklets'
-BY_INDEX_SUFFIX = TRACKLET_SUFFIX + '.byIndices'
-COLLAPSED_SUFFIX = TRACKLET_SUFFIX + '.collapsed'
-PURIFIED_SUFFIX = TRACKLET_SUFFIX + '.purified'
-FINAL_SUFFIX = TRACKLET_SUFFIX + '.final'
-BY_ID_SUFFIX = '.byDiaIds'
-TRACK_SUFFIX = '.track'
+DIASOURCE_SUFFIX = ".dias"
+TRACKLET_SUFFIX = ".tracklets"
+BY_INDEX_SUFFIX = TRACKLET_SUFFIX + ".byIndices"
+COLLAPSED_SUFFIX = TRACKLET_SUFFIX + ".collapsed"
+PURIFIED_SUFFIX = TRACKLET_SUFFIX + ".purified"
+FINAL_SUFFIX = TRACKLET_SUFFIX + ".final"
+BY_ID_SUFFIX = ".byDiaIds"
+TRACK_SUFFIX = ".track"
 
 # Directories
-TRACKLETS_DIR = 'tracklets/' 
-COLLAPSED_DIR = 'trackletsCollapsed/'
-PURIFIED_DIR = 'trackletsPurified/' 
-FINAL_DIR = 'trackletsFinal/'
-TRACKLETS_BY_NIGHT_DIR = 'trackletsByNight/'
-TRACKS_DIR = 'tracks/'
+TRACKLETS_DIR = "tracklets/" 
+COLLAPSED_DIR = "trackletsCollapsed/"
+PURIFIED_DIR = "trackletsPurified/" 
+FINAL_TRACKLETS_DIR = "trackletsFinal/"
+TRACKLETS_BY_NIGHT_DIR = "trackletsByNight/"
+TRACKS_DIR = "tracks/"
+FINAL_TRACKS_DIR = "tracksFinal/"
 
 VERBOSE = True
 
@@ -61,7 +62,7 @@ def directoryBuilder(runDir, verbose=VERBOSE):
     except:
         raise NameError("Directory exists! Cannot continue!")
 
-    dirs = [TRACKLETS_DIR, COLLAPSED_DIR, PURIFIED_DIR, FINAL_DIR, TRACKLETS_BY_NIGHT_DIR, TRACKS_DIR]
+    dirs = [TRACKLETS_DIR, COLLAPSED_DIR, PURIFIED_DIR, FINAL_TRACKLETS_DIR, TRACKLETS_BY_NIGHT_DIR, TRACKS_DIR, FINAL_TRACKS_DIR]
     dirsOut = []
    
     for d in dirs:
