@@ -16,6 +16,7 @@ from MopsParameters import MopsParameters
 from MopsTracker import MopsTracker
 
 SAMPLE_SIZE = 50
+LSST_MIDNIGHT = 0.166
 
 class runAnalysis(object):
 
@@ -790,6 +791,11 @@ def convertToStandardDegrees(angle):
     while angle < 0.:
         angle += 360.
     return angle
+
+def calcNight(mjd, midnight=LSST_MIDNIGHT):
+    """Determine night number for any MJD."""
+    night = int(mjd + 0.5 - midnight)
+    return night
 
 def calcDegToRad(angle):
     return angle*(np.pi/180.0)
