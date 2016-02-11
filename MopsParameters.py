@@ -15,9 +15,9 @@ class DefaultMopsParameters:
     use_rms_filter = "True"
     rms_max = "0.001"
 
-    # removeSubsets
-    remove_subsets = "False"
-    keep_only_longest = "False"
+    # removeSubsets (tracklets)
+    remove_subset_tracklets = "True"
+    keep_only_longest_tracklets = "False"
     
     # makeLinkTrackletsInput_byNight
     window_size = "15"
@@ -33,6 +33,10 @@ class DefaultMopsParameters:
     output_buffer_size = "1000"
     leaf_node_size_max = None
 
+    # removeSubsets (tracks)
+    remove_subset_tracks = "True"
+    keep_only_longest_tracks = "False"
+
 class MopsParameters(object):
     def __init__(self, velocity_max=None, 
                 velocity_min=None, 
@@ -43,8 +47,8 @@ class MopsParameters(object):
                 method=None,
                 use_rms_filter=None,
                 rms_max=None,
-                remove_subsets=None,
-                keep_only_longest=None,
+                remove_subset_tracklets=None,
+                keep_only_longest_tracklets=None,
                 window_size=None,
                 detection_error_threshold=None,
                 dec_acceleration_max=None,
@@ -55,6 +59,8 @@ class MopsParameters(object):
                 detections_min=None,
                 output_buffer_size=None,
                 leaf_node_size_max=None,
+                remove_subset_tracks=None,
+                keep_only_longest_tracks=None,
                 verbose=True):
 
         self._vMax = velocity_max
@@ -66,8 +72,8 @@ class MopsParameters(object):
         self._method = method
         self._useRMSfilt = use_rms_filter
         self._rmsMax = rms_max
-        self._rmSubsets = remove_subsets
-        self._keepOnlyLongest = keep_only_longest
+        self._rmSubsetTracklets = remove_subset_tracklets
+        self._keepOnlyLongestTracklets = keep_only_longest_tracklets
         self._windowSize = window_size
         self._detErrThresh = detection_error_threshold
         self._decAccelMax = dec_acceleration_max
@@ -78,6 +84,8 @@ class MopsParameters(object):
         self._detectMin = detections_min
         self._bufferSize = output_buffer_size
         self._leafNodeSizeMax = leaf_node_size_max
+        self._rmSubsetTracks = remove_subset_tracks
+        self._keepOnlyLongestTracks = keep_only_longest_tracks
        
         defaults = DefaultMopsParameters()
 
@@ -108,11 +116,11 @@ class MopsParameters(object):
         if rms_max == None:
             self._rmsMax = defaults.rms_max
 
-        if remove_subsets == None:
-            self._rmSubsets = defaults.remove_subsets
+        if remove_subset_tracklets == None:
+            self._rmSubsetTracklets = defaults.remove_subset_tracklets
 
-        if keep_only_longest == None:
-            self._keepOnlyLongest = defaults.keep_only_longest
+        if keep_only_longest_tracklets == None:
+            self._keepOnlyLongestTracklets = defaults.keep_only_longest_tracklets
 
         if window_size == None:
             self._windowSize = defaults.window_size
@@ -143,6 +151,12 @@ class MopsParameters(object):
 
         if leaf_node_size_max == None:
             self._leafNodeSizeMax = defaults.leaf_node_size_max
+
+        if remove_subset_tracks == None:
+            self._rmSubsetTracks = defaults.remove_subset_tracks
+
+        if keep_only_longest_tracks == None:
+            self._keepOnlyLongestTracks = defaults.remove_subset_tracks
 
         if verbose:
             self.info()
@@ -220,20 +234,20 @@ class MopsParameters(object):
         self._rmsMax = value
 
     @property
-    def rmSubsets(self):
-        return self._rmSubsets
+    def rmSubsetTracklets(self):
+        return self._rmSubsetTracklets
     
-    @rmSubsets.setter
-    def rmSubsets(self, value):
-        self._rmSubsets = value
+    @rmSubsetTracklets.setter
+    def rmSubsetTracklets(self, value):
+        self._rmSubsetTracklets = value
 
     @property
-    def keepOnlyLongest(self):
-        return self._keepOnlyLongest
+    def keepOnlyLongestTracklets(self):
+        return self._keepOnlyLongestTracklets
     
-    @keepOnlyLongest.setter
-    def keepOnlyLongest(self, value):
-        self._keepOnlyLongest = value 
+    @keepOnlyLongestTracklets.setter
+    def keepOnlyLongestTracklets(self, value):
+        self._keepOnlyLongestTracklets = value 
 
     @property
     def windowSize(self):
@@ -315,6 +329,22 @@ class MopsParameters(object):
     def leafNodeSizeMax(self, value):
         self._leafNodeSizeMax = value
 
+    @property
+    def rmSubsetTracks(self):
+        return self._rmSubsetTracks
+    
+    @rmSubsetTracks.setter
+    def rmSubsetTracks(self, value):
+        self._rmSubsetTracks = value
+
+    @property
+    def keepOnlyLongestTracks(self):
+        return self._keepOnlyLongestTracks
+    
+    @keepOnlyLongestTracks.setter
+    def keepOnlyLongestTracks(self, value):
+        self._keepOnlyLongestTracks = value 
+
     def info(self):
         print "------- MOPS Parameters --------"
         print "Current Parameter Values:"
@@ -332,9 +362,9 @@ class MopsParameters(object):
         print "\tMaximum RMS:                              %s" % (self._rmsMax)
         print "---- purifyTracklets ----"
         print "\tMaximum RMS:                              %s" % (self._rmsMax)
-        print "---- removeSubsets ----"
-        print "\tRemove subsets:                           %s" % (self._rmSubsets)
-        print "\tKeep only longest:                        %s" % (self._keepOnlyLongest)
+        print "---- removeSubsets (tracklets) ----"
+        print "\tRemove subsets:                           %s" % (self._rmSubsetTracklets)
+        print "\tKeep only longest:                        %s" % (self._keepOnlyLongestTracklets)
         print "---- makeLinkTrackletsInput_byNight.py ----"
         print "\tWindow size:                              %s" % (self._windowSize)
         print "---- linkTracklets ----"
@@ -347,6 +377,9 @@ class MopsParameters(object):
         print "\t Minimum detections:                      %s" % (self._detectMin)
         print "\t Output buffer size:                      %s" % (self._bufferSize)
         print "\t Maximum leaf node size:                  %s" % (self._leafNodeSizeMax)
+        print "---- removeSubsets (tracks) ----"
+        print "\tRemove subsets:                           %s" % (self._rmSubsetTracks)
+        print "\tKeep only longest:                        %s" % (self._keepOnlyLongestTracks)
         print ""
 
         return
