@@ -522,6 +522,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     tracker.tracklets = tracklets
     tracker.trackletsDir = dirs["trackletsDir"]
     inputTrackletsDir = dirs["trackletsDir"]
+    _save(tracker, 'tracker', outDir=runDir)
 
     if collapse:
         # Run idsToIndices
@@ -529,6 +530,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
         tracker.ranIdsToIndices = True
         tracker.trackletsByIndex = trackletsByIndex
         tracker.trackletsByIndexDir = dirs["trackletsDir"]
+        _save(tracker, 'tracker', outDir=runDir)
 
         # Run collapseTracklets
         collapsedTracklets = runCollapseTracklets(parameters, trackletsByIndex, diasources, dirs["collapsedDir"], verbose=verbose)
@@ -539,6 +541,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
         tracker.collapsedTrackletsById = collapsedTrackletsById
         tracker.collapsedTrackletsByIdDir = dirs["collapsedDir"]
         inputTrackletsDir = dirs["collapsedDir"]
+        _save(tracker, 'tracker', outDir=runDir)
 
     if purify: 
         # Run purifyTracklets
@@ -550,6 +553,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
         tracker.purifiedTrackletsById =  purifiedTrackletsById
         tracker.purifiedTrackletsByIdDir =  dirs["purifiedDir"]
         inputTrackletsDir = dirs["purifiedDir"]
+        _save(tracker, 'tracker', outDir=runDir)
 
     if removeSubsetTracklets:
         # Run removeSubsets
@@ -557,6 +561,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
         tracker.ranRemoveSubsetTracklets = True
         tracker.finalTracklets = finalTracklets
         tracker.finalTrackletsDir = dirs["finalTrackletsDir"]
+        _save(tracker, 'tracker', outDir=runDir)
 
         # Run indicesToIds
         finalTrackletsById = runIndicesToIds(finalTracklets, diasources, dirs["finalTrackletsDir"], FINAL_TRACKLET_SUFFIX, verbose=verbose)
@@ -564,6 +569,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
         tracker.finalTrackletsById = finalTrackletsById
         tracker.finalTrackletsByIdDir = dirs["finalTrackletsDir"]
         inputTrackletsDir = dirs["finalTrackletsDir"]
+        _save(tracker, 'tracker', outDir=runDir)
 
     # Run makeLinkTrackletsInputByNight
     dets, ids = runMakeLinkTrackletsInputByNight(parameters, diasourcesDir, inputTrackletsDir, dirs["trackletsByNightDir"], verbose=verbose)
@@ -571,12 +577,14 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     tracker.dets = dets
     tracker.ids = ids
     tracker.trackletsByNightDir = dirs["trackletsByNightDir"]
+    _save(tracker, 'tracker', outDir=runDir)
 
     # Run linkTracklets
     tracks = runLinkTracklets(parameters, dets, ids, dirs["tracksDir"], verbose=verbose)
     tracker.ranLinkTracklets = True
     tracker.tracks = tracks
     tracker.tracksDir = dirs["tracksDir"]
+    _save(tracker, 'tracker', outDir=runDir)
 
     if removeSubsetTracks:
         # Run removeSubsets (tracks)
@@ -584,6 +592,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
         tracker.ranRemoveSubsetTracks = True
         tracker.finalTracks = finalTracks
         tracker.finalTracksDir = dirs["finalTracksDir"]
+        _save(tracker, 'tracker', outDir=runDir)
 
     # Print status and save tracker
     tracker.info()
