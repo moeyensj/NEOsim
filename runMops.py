@@ -45,6 +45,8 @@ FINAL_TRACKS_DIR = "tracksFinal/"
 
 VERBOSE = True
 
+defaults = MopsParameters()
+
 def directoryBuilder(runDir, collapse=True, purify=True, removeSubsetTracklets=True, removeSubsetTracks=True, verbose=VERBOSE):
     """
     Builds the directory structure for MOPS output files.
@@ -91,7 +93,7 @@ def directoryBuilder(runDir, collapse=True, purify=True, removeSubsetTracklets=T
             
     return dirsOut
 
-def runFindTracklets(parameters, diasources, outDir, verbose=VERBOSE):
+def runFindTracklets(diasources, outDir, vmax=defaults.vMax, vmin=defaults.vMin, verbose=VERBOSE):
     """
     Runs findTracklets. 
 
@@ -117,7 +119,7 @@ def runFindTracklets(parameters, diasources, outDir, verbose=VERBOSE):
     for diasource in diasources:
         trackletsOut = _out(outDir, diasource, TRACKLET_SUFFIX)
 
-        call = ['findTracklets', '-i', diasource, '-o', trackletsOut, '-v', parameters.vMax, '-m', parameters.vMin]
+        call = ['findTracklets', '-i', diasource, '-o', trackletsOut, '-v', vmax, '-m', vmin]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         tracklets.append(trackletsOut)
@@ -165,7 +167,9 @@ def runIdsToIndices(tracklets, diasources, outDir, verbose=VERBOSE):
 
     return byIndex
 
-def runCollapseTracklets(parameters, trackletsByIndex, diasources, outDir, verbose=VERBOSE):
+def runCollapseTracklets(trackletsByIndex, diasources, outDir, raTol=defaults.raTol,
+        decTol=defaults.decTol, angTol=defaults.angTol, vTol=defaults.vTol,
+        method=defaults.method, useRMSfilt=defaults.useRMSfilt, rmsMax=defaults.rmsMax, verbose=VERBOSE):
     """
     Runs collapseTracklets.
 
@@ -190,11 +194,11 @@ def runCollapseTracklets(parameters, trackletsByIndex, diasources, outDir, verbo
     for tracklet, diasource in zip(trackletsByIndex, diasources):
         collapsedTracklet = _out(outDir, diasource, COLLAPSED_TRACKLET_SUFFIX)
 
-        call = ['collapseTracklets', diasource, tracklet, parameters.raTol, 
-            parameters.decTol, parameters.angTol, parameters.vTol, collapsedTracklet,
-            '--method', parameters.method,
-            '--useRMSFilt', parameters.useRMSfilt,
-            '--maxRMS', parameters.rmsMax]
+        call = ['collapseTracklets', diasource, tracklet, raTol, 
+            decTol, angTol, vTol, collapsedTracklet,
+            '--method', method,
+            '--useRMSFilt', useRMSfilt,
+            '--maxRMS', rmsMax]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         collapsedTracklets.append(collapsedTracklet)
@@ -204,7 +208,7 @@ def runCollapseTracklets(parameters, trackletsByIndex, diasources, outDir, verbo
 
     return collapsedTracklets
 
-def runPurifyTracklets(parameters, collapsedTracklets, diasources, outDir, verbose=VERBOSE):
+def runPurifyTracklets(collapsedTracklets, diasources, outDir, rmsMax=defaults.rmsMax, verbose=VERBOSE):
     """
     Runs purifyTracklets.
 
@@ -230,7 +234,7 @@ def runPurifyTracklets(parameters, collapsedTracklets, diasources, outDir, verbo
         purifiedTracklet = _out(outDir, diasource, PURIFIED_TRACKLET_SUFFIX)
 
         call = ['purifyTracklets', '--detsFile', diasource, '--pairsFile', tracklet, 
-        '--maxRMS', parameters.rmsMax,'--outFile', purifiedTracklet]
+        '--maxRMS', rmsMax,'--outFile', purifiedTracklet]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         purifiedTracklets.append(purifiedTracklet)
@@ -240,7 +244,7 @@ def runPurifyTracklets(parameters, collapsedTracklets, diasources, outDir, verbo
 
     return purifiedTracklets
 
-def runRemoveSubsets(parameters, purifiedTracklets, diasources, outDir, verbose=VERBOSE):
+def runRemoveSubsets(purifiedTracklets, diasources, outDir, rmSubsets=defaults.rmSubsetTracklets, keepOnlyLongest=defaults.keepOnlyLongestTracklets, verbose=VERBOSE):
     """
     Runs removeSubsets.
 
@@ -267,8 +271,8 @@ def runRemoveSubsets(parameters, purifiedTracklets, diasources, outDir, verbose=
         finalTracklet = _out(outDir, diasource, FINAL_TRACKLET_SUFFIX)
 
         call = ['removeSubsets', '--inFile', tracklet, '--outFile', finalTracklet,
-            '--removeSubsets', parameters.rmSubsets,
-            '--keepOnlyLongest', parameters.keepOnlyLongest]
+            '--removeSubsets', rmSubsets,
+            '--keepOnlyLongest', keepOnlyLongest]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         finalTracklets.append(finalTracklet)
@@ -316,7 +320,7 @@ def runIndicesToIds(finalTracklets, diasources, outDir, suffix, verbose=VERBOSE)
 
     return byId
 
-def runMakeLinkTrackletsInputByNight(parameters, diasourcesDir, trackletsDir, outDir, verbose=VERBOSE):
+def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir, windowSize=defaults.windowSize, verbose=VERBOSE):
     """
     Runs makeLinkTrackletsInput_byNight.py.
 
@@ -340,7 +344,7 @@ def runMakeLinkTrackletsInputByNight(parameters, diasourcesDir, trackletsDir, ou
         _status(function, True)
 
     script = str(os.getenv('MOPS_DIR')) + '/bin/makeLinkTrackletsInput_byNight.py'
-    call = ['python', script, parameters.windowSize, diasourcesDir, trackletsDir, outDir]
+    call = ['python', script, windowSize, diasourcesDir, trackletsDir, outDir]
     subprocess.call(call, stdout=outfile, stderr=errfile)
 
     ids = glob.glob(outDir + '*.ids')
@@ -351,7 +355,7 @@ def runMakeLinkTrackletsInputByNight(parameters, diasourcesDir, trackletsDir, ou
 
     return dets, ids
 
-def runLinkTracklets(parameters, dets, ids, outDir, verbose=VERBOSE):
+def runLinkTracklets(dets, ids, outDir, detErrThresh=defaults.detErrThresh, decAccelMax=defaults.decAccelMax, raAccelMax=defaults.raAccelMax, nightMin=defaults.nightMin, detectMin=defaults.detectMin, bufferSize=defaults.bufferSize, latestFirstEnd=defaults.latestFirstEnd, earliestLastEnd=defaults.earliestLastEnd, leafNodeSizeMax=defaults.leafNodeSizeMax, verbose=VERBOSE):
     """
     Runs linkTracklets.
 
@@ -376,22 +380,22 @@ def runLinkTracklets(parameters, dets, ids, outDir, verbose=VERBOSE):
         errfile = file(trackOut + '.err', 'w')
 
         call = ['linkTracklets', 
-            '-e', parameters.detErrThresh, 
-            '-D', parameters.decAccelMax,
-            '-R', parameters.raAccelMax,
-            '-u', parameters.nightMin,
-            '-s', parameters.detectMin,
-            '-b', parameters.bufferSize,
+            '-e', detErrThresh, 
+            '-D', decAccelMax,
+            '-R', raAccelMax,
+            '-u', nightMin,
+            '-s', detectMin,
+            '-b', bufferSize,
             '-d', detIn, 
             '-t', idIn,
             '-o', trackOut]
 
-        if parameters.latestFirstEnd != None:
-            call.extend(['-F', parameters.latestFirstEnd])
-        if parameters.earliestLastEnd != None:
-            call.extend(['-L', parameters.earliestLastEnd])
-        if parameters.leafNodeSizeMax != None:
-            call.extend(['-n', parameters.leafNodeSizeMax])
+        if latestFirstEnd != None:
+            call.extend(['-F', latestFirstEnd])
+        if earliestLastEnd != None:
+            call.extend(['-L', earliestLastEnd])
+        if leafNodeSizeMax != None:
+            call.extend(['-n', leafNodeSizeMax])
 
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
@@ -452,10 +456,10 @@ def runArgs():
         Tracklets will not be collapsed unless the resulting tracklet would have RMS <= maxRMSm * average magnitude + maxRMSb 
         (used in collapseTracklets and purifyTracklets""")
 
-    # removeSubsets
-    parser.add_argument("-S","--remove_subsets", default=default.rmSubsets,
+    # removeSubsets (tracklets)
+    parser.add_argument("-S","--remove_subset_tracklets", default=default.rmSubsetTracklets,
         help="Remove subsets (used in removeSubsets)")
-    parser.add_argument("-k","--keep_only_longest", default=default.keepOnlyLongest,
+    parser.add_argument("-k","--keep_only_longest_tracklets", default=default.keepOnlyLongestTracklets,
         help="Keep only the longest collinear tracklets in a set (used in removeSubsets)")
 
     # makeLinkTrackletsInput_byNight
@@ -481,6 +485,12 @@ def runArgs():
         help="If specified, only search for tracks with last endpoint after time specified (used in linkTracklets)")
     parser.add_argument("-n", "--leaf_node_size_max", default=default.leafNodeSizeMax,
         help="Set max leaf node size for nodes in KDTree (used in linkTracklets)")
+
+    # removeSubsets (tracks)
+    parser.add_argument("-St","--remove_subset_tracks", default=default.rmSubsetTracks,
+        help="Remove subsets (used in removeSubsets)")
+    parser.add_argument("-kt","--keep_only_longest_tracks", default=default.keepOnlyLongestTracks,
+        help="Keep only the longest collinear tracks in a set (used in removeSubsets)")
 
     args = parser.parse_args()
 
@@ -517,7 +527,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     tracker.diasourcesDir = diasourcesDir
 
     # Run findTracklets
-    tracklets = runFindTracklets(parameters, diasources, dirs["trackletsDir"], verbose=verbose)
+    tracklets = runFindTracklets(diasources, dirs["trackletsDir"], vmax=parameters.vMax, vmin=parameters.vMin, verbose=verbose)
     tracker.ranFindTracklets = True
     tracker.tracklets = tracklets
     tracker.trackletsDir = dirs["trackletsDir"]
@@ -533,7 +543,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
         _save(tracker, 'tracker', outDir=runDir)
 
         # Run collapseTracklets
-        collapsedTracklets = runCollapseTracklets(parameters, trackletsByIndex, diasources, dirs["collapsedDir"], verbose=verbose)
+        collapsedTracklets = runCollapseTracklets(trackletsByIndex, diasources, dirs["collapsedDir"], raTol=parameters.raTol, decTol=parameters.decTol, angTol=parameters.angTol, vTol=parameters.vTol, method=parameters.method, useRMSfilt=parameters.useRMSfilt, rmsMax=parameters.rmsMax, verbose=verbose)
         collapsedTrackletsById = runIndicesToIds(collapsedTracklets, diasources, dirs["collapsedDir"], COLLAPSED_TRACKLET_SUFFIX, verbose=verbose)
         tracker.ranCollapseTracklets = True
         tracker.collapsedTracklets = collapsedTracklets
@@ -545,7 +555,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
 
     if purify: 
         # Run purifyTracklets
-        purifiedTracklets = runPurifyTracklets(parameters, collapsedTracklets, diasources, dirs["purifiedDir"], verbose=verbose)
+        purifiedTracklets = runPurifyTracklets(collapsedTracklets, diasources, dirs["purifiedDir"], rmsMax=parameters.rmsMax, verbose=verbose)
         purifiedTrackletsById = runIndicesToIds(purifiedTracklets, diasources, dirs["purifiedDir"], PURIFIED_TRACKLET_SUFFIX, verbose=verbose)
         tracker.ranPurifyTracklets = True
         tracker.purifiedTracklets = purifiedTracklets
@@ -557,7 +567,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
 
     if removeSubsetTracklets:
         # Run removeSubsets
-        finalTracklets = runRemoveSubsets(parameters, purifiedTracklets, diasources, dirs["finalTrackletsDir"], verbose=verbose)
+        finalTracklets = runRemoveSubsets(purifiedTracklets, diasources, dirs["finalTrackletsDir"], rmSubsets=parameters.rmSubsetTracklets, keepOnlyLongest=parameters.keepOnlyLongestTracklets, verbose=verbose)
         tracker.ranRemoveSubsetTracklets = True
         tracker.finalTracklets = finalTracklets
         tracker.finalTrackletsDir = dirs["finalTrackletsDir"]
@@ -572,7 +582,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
         _save(tracker, 'tracker', outDir=runDir)
 
     # Run makeLinkTrackletsInputByNight
-    dets, ids = runMakeLinkTrackletsInputByNight(parameters, diasourcesDir, inputTrackletsDir, dirs["trackletsByNightDir"], verbose=verbose)
+    dets, ids = runMakeLinkTrackletsInputByNight(diasourcesDir, inputTrackletsDir, dirs["trackletsByNightDir"], windowSize=parameters.windowSize, verbose=verbose)
     tracker.ranMakeLinkTrackletsInputByNight = True
     tracker.dets = dets
     tracker.ids = ids
@@ -580,7 +590,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     _save(tracker, 'tracker', outDir=runDir)
 
     # Run linkTracklets
-    tracks = runLinkTracklets(parameters, dets, ids, dirs["tracksDir"], verbose=verbose)
+    tracks = runLinkTracklets(dets, ids, dirs["tracksDir"], detErrThresh=parameters.detErrThresh, decAccelMax=parameters.decAccelMax, raAccelMax=parameters.raAccelMax, nightMin=parameters.nightMin, detectMin=parameters.detectMin, bufferSize=parameters.bufferSize, latestFirstEnd=parameters.latestFirstEnd, earliestLastEnd=parameters.earliestLastEnd, leafNodeSizeMax=parameters.leafNodeSizeMax, verbose=verbose)
     tracker.ranLinkTracklets = True
     tracker.tracks = tracks
     tracker.tracksDir = dirs["tracksDir"]
@@ -588,7 +598,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
 
     if removeSubsetTracks:
         # Run removeSubsets (tracks)
-        finalTracks = runRemoveSubsets(parameters, tracks, diasources, dirs["finalTracksDir"], verbose=verbose)
+        finalTracks = runRemoveSubsets(tracks, diasources, dirs["finalTracksDir"], rmSubsets=parameters.rmSubsetTracks, keepOnlyLongest=parameters.keepOnlyLongestTracks, verbose=verbose)
         tracker.ranRemoveSubsetTracks = True
         tracker.finalTracks = finalTracks
         tracker.finalTracksDir = dirs["finalTracksDir"]
@@ -675,8 +685,8 @@ if __name__=="__main__":
                     method=args.method,
                     use_rms_filter=args.use_rms_filter,
                     rms_max=args.rms_max,
-                    remove_subsets=args.remove_subsets,
-                    keep_only_longest=args.keep_only_longest,
+                    remove_subset_tracklets=args.remove_subset_tracklets,
+                    keep_only_longest_tracklets=args.keep_only_longest_tracklets,
                     window_size=args.window_size,
                     detection_error_threshold=args.detection_error_threshold,
                     dec_acceleration_max=args.dec_acceleration_max,
@@ -687,6 +697,8 @@ if __name__=="__main__":
                     detections_min=args.detections_min,
                     output_buffer_size=args.output_buffer_size,
                     leaf_node_size_max=args.leaf_node_size_max,
+                    remove_subset_tracks=args.remove_subset_tracks,
+                    keep_only_longest_tracks=args.keep_only_longest_tracks,
                     verbose=verbose)
     else:
         if verbose:
