@@ -486,7 +486,7 @@ def runArgs():
 
     return args
 
-def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=True, removeSubsetTracklets=True, removeSubsetTracks=False, verbose=VERBOSE):
+def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=True, removeSubsetTracklets=True, removeSubsetTracks=True, verbose=VERBOSE):
     """
     Runs Moving Object Pipeline.
 
@@ -554,7 +554,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     if removeSubsetTracklets:
         # Run removeSubsets
         finalTracklets = runRemoveSubsets(parameters, purifiedTracklets, diasources, dirs["finalTrackletsDir"], verbose=verbose)
-        tracker.ranRemoveSubsets = True
+        tracker.ranRemoveSubsetTracklets = True
         tracker.finalTracklets = finalTracklets
         tracker.finalTrackletsDir = dirs["finalTrackletsDir"]
 
@@ -577,6 +577,13 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     tracker.ranLinkTracklets = True
     tracker.tracks = tracks
     tracker.tracksDir = dirs["tracksDir"]
+
+    if removeSubsetTracks:
+        # Run removeSubsets (tracks)
+        finalTracks = runRemoveSubsets(parameters, tracks, diasources, dirs["finalTracksDir"], verbose=verbose)
+        tracker.ranRemoveSubsetTracks = True
+        tracker.finalTracks = finalTracks
+        tracker.finalTracksDir = dirs["finalTracksDir"]
 
     # Print status and save tracker
     tracker.info()
