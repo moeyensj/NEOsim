@@ -527,82 +527,119 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     tracker.diasourcesDir = diasourcesDir
 
     # Run findTracklets
-    tracklets = runFindTracklets(diasources, dirs["trackletsDir"], vmax=parameters.vMax, vmin=parameters.vMin, verbose=verbose)
-    tracker.ranFindTracklets = True
-    tracker.tracklets = tracklets
-    tracker.trackletsDir = dirs["trackletsDir"]
-    inputTrackletsDir = dirs["trackletsDir"]
-    _save(tracker, 'tracker', outDir=runDir)
+    if tracker.ranFindTracklets == False:
+        tracklets = runFindTracklets(diasources, dirs["trackletsDir"], vmax=parameters.vMax, vmin=parameters.vMin, verbose=verbose)
+        tracker.ranFindTracklets = True
+        tracker.tracklets = tracklets
+        tracker.trackletsDir = dirs["trackletsDir"]
+        inputTrackletsDir = dirs["trackletsDir"]
+        _save(tracker, 'tracker', outDir=runDir)
+    else:
+        print "findTracklets has already completed, moving on..."
+        print ""
 
     if collapse:
-        # Run idsToIndices
-        trackletsByIndex = runIdsToIndices(tracklets, diasources, dirs["trackletsDir"], verbose=verbose)
-        tracker.ranIdsToIndices = True
-        tracker.trackletsByIndex = trackletsByIndex
-        tracker.trackletsByIndexDir = dirs["trackletsDir"]
-        _save(tracker, 'tracker', outDir=runDir)
+        if tracker.ranIdsToIndices == False:
+            # Run idsToIndices
+            trackletsByIndex = runIdsToIndices(tracklets, diasources, dirs["trackletsDir"], verbose=verbose)
+            tracker.ranIdsToIndices = True
+            tracker.trackletsByIndex = trackletsByIndex
+            tracker.trackletsByIndexDir = dirs["trackletsDir"]
+            _save(tracker, 'tracker', outDir=runDir)
+        else:
+            print "idsToIndices has already completed, moving on..."
+            print ""
 
         # Run collapseTracklets
-        collapsedTracklets = runCollapseTracklets(trackletsByIndex, diasources, dirs["collapsedDir"], raTol=parameters.raTol, decTol=parameters.decTol, angTol=parameters.angTol, vTol=parameters.vTol, method=parameters.method, useRMSfilt=parameters.useRMSfilt, rmsMax=parameters.rmsMax, verbose=verbose)
-        collapsedTrackletsById = runIndicesToIds(collapsedTracklets, diasources, dirs["collapsedDir"], COLLAPSED_TRACKLET_SUFFIX, verbose=verbose)
-        tracker.ranCollapseTracklets = True
-        tracker.collapsedTracklets = collapsedTracklets
-        tracker.collapsedTrackletsDir = dirs["collapsedDir"]
-        tracker.collapsedTrackletsById = collapsedTrackletsById
-        tracker.collapsedTrackletsByIdDir = dirs["collapsedDir"]
-        inputTrackletsDir = dirs["collapsedDir"]
-        _save(tracker, 'tracker', outDir=runDir)
+        if tracker.ranCollapseTracklets == False:
+            collapsedTracklets = runCollapseTracklets(trackletsByIndex, diasources, dirs["collapsedDir"], raTol=parameters.raTol, decTol=parameters.decTol, angTol=parameters.angTol, vTol=parameters.vTol, method=parameters.method, useRMSfilt=parameters.useRMSfilt, rmsMax=parameters.rmsMax, verbose=verbose)
+            collapsedTrackletsById = runIndicesToIds(collapsedTracklets, diasources, dirs["collapsedDir"], COLLAPSED_TRACKLET_SUFFIX, verbose=verbose)
+            tracker.ranCollapseTracklets = True
+            tracker.collapsedTracklets = collapsedTracklets
+            tracker.collapsedTrackletsDir = dirs["collapsedDir"]
+            tracker.collapsedTrackletsById = collapsedTrackletsById
+            tracker.collapsedTrackletsByIdDir = dirs["collapsedDir"]
+            inputTrackletsDir = dirs["collapsedDir"]
+            _save(tracker, 'tracker', outDir=runDir)
+        else:
+            print "collapseTracklets has already completed, moving on..."
+            print ""
 
     if purify: 
         # Run purifyTracklets
-        purifiedTracklets = runPurifyTracklets(collapsedTracklets, diasources, dirs["purifiedDir"], rmsMax=parameters.rmsMax, verbose=verbose)
-        purifiedTrackletsById = runIndicesToIds(purifiedTracklets, diasources, dirs["purifiedDir"], PURIFIED_TRACKLET_SUFFIX, verbose=verbose)
-        tracker.ranPurifyTracklets = True
-        tracker.purifiedTracklets = purifiedTracklets
-        tracker.purifiedTrackletsDir = dirs["purifiedDir"]
-        tracker.purifiedTrackletsById =  purifiedTrackletsById
-        tracker.purifiedTrackletsByIdDir =  dirs["purifiedDir"]
-        inputTrackletsDir = dirs["purifiedDir"]
-        _save(tracker, 'tracker', outDir=runDir)
+        if tracker.ranPurifyTracklets == False:
+            purifiedTracklets = runPurifyTracklets(collapsedTracklets, diasources, dirs["purifiedDir"], rmsMax=parameters.rmsMax, verbose=verbose)
+            purifiedTrackletsById = runIndicesToIds(purifiedTracklets, diasources, dirs["purifiedDir"], PURIFIED_TRACKLET_SUFFIX, verbose=verbose)
+            tracker.ranPurifyTracklets = True
+            tracker.purifiedTracklets = purifiedTracklets
+            tracker.purifiedTrackletsDir = dirs["purifiedDir"]
+            tracker.purifiedTrackletsById =  purifiedTrackletsById
+            tracker.purifiedTrackletsByIdDir =  dirs["purifiedDir"]
+            inputTrackletsDir = dirs["purifiedDir"]
+            _save(tracker, 'tracker', outDir=runDir)
+        else: 
+            print "purifyTracklets has already completed, moving on..."
+            print ""
 
     if removeSubsetTracklets:
         # Run removeSubsets
-        finalTracklets = runRemoveSubsets(purifiedTracklets, diasources, dirs["finalTrackletsDir"], rmSubsets=parameters.rmSubsetTracklets, keepOnlyLongest=parameters.keepOnlyLongestTracklets, verbose=verbose)
-        tracker.ranRemoveSubsetTracklets = True
-        tracker.finalTracklets = finalTracklets
-        tracker.finalTrackletsDir = dirs["finalTrackletsDir"]
-        _save(tracker, 'tracker', outDir=runDir)
+        if tracker.ranRemoveSubsetTracklets == False:
+            finalTracklets = runRemoveSubsets(purifiedTracklets, diasources, dirs["finalTrackletsDir"], rmSubsets=parameters.rmSubsetTracklets, keepOnlyLongest=parameters.keepOnlyLongestTracklets, verbose=verbose)
+            tracker.ranRemoveSubsetTracklets = True
+            tracker.finalTracklets = finalTracklets
+            tracker.finalTrackletsDir = dirs["finalTrackletsDir"]
+            _save(tracker, 'tracker', outDir=runDir)
+        else:
+            print "removeSubsets (tracklets) has already completed, moving on..."
+            print ""
 
         # Run indicesToIds
-        finalTrackletsById = runIndicesToIds(finalTracklets, diasources, dirs["finalTrackletsDir"], FINAL_TRACKLET_SUFFIX, verbose=verbose)
-        tracker.ranIndicesToIds = True
-        tracker.finalTrackletsById = finalTrackletsById
-        tracker.finalTrackletsByIdDir = dirs["finalTrackletsDir"]
-        inputTrackletsDir = dirs["finalTrackletsDir"]
-        _save(tracker, 'tracker', outDir=runDir)
+        if tracker.ranIndicesToIds == False:
+            finalTrackletsById = runIndicesToIds(finalTracklets, diasources, dirs["finalTrackletsDir"], FINAL_TRACKLET_SUFFIX, verbose=verbose)
+            tracker.ranIndicesToIds = True
+            tracker.finalTrackletsById = finalTrackletsById
+            tracker.finalTrackletsByIdDir = dirs["finalTrackletsDir"]
+            inputTrackletsDir = dirs["finalTrackletsDir"]
+            _save(tracker, 'tracker', outDir=runDir)
+        else:
+            print "indicesToIds has already completed, moving on..."
+            print ""
+
 
     # Run makeLinkTrackletsInputByNight
-    dets, ids = runMakeLinkTrackletsInputByNight(diasourcesDir, inputTrackletsDir, dirs["trackletsByNightDir"], windowSize=parameters.windowSize, verbose=verbose)
-    tracker.ranMakeLinkTrackletsInputByNight = True
-    tracker.dets = dets
-    tracker.ids = ids
-    tracker.trackletsByNightDir = dirs["trackletsByNightDir"]
-    _save(tracker, 'tracker', outDir=runDir)
+    if tracker.ranMakeLinkTrackletsInputByNight == False:
+        dets, ids = runMakeLinkTrackletsInputByNight(diasourcesDir, inputTrackletsDir, dirs["trackletsByNightDir"], windowSize=parameters.windowSize, verbose=verbose)
+        tracker.ranMakeLinkTrackletsInputByNight = True
+        tracker.dets = dets
+        tracker.ids = ids
+        tracker.trackletsByNightDir = dirs["trackletsByNightDir"]
+        _save(tracker, 'tracker', outDir=runDir)
+    else:
+        print "makeLinkTrackletsInput_byNight has already completed, moving on..."
+        print ""
 
     # Run linkTracklets
-    tracks = runLinkTracklets(dets, ids, dirs["tracksDir"], detErrThresh=parameters.detErrThresh, decAccelMax=parameters.decAccelMax, raAccelMax=parameters.raAccelMax, nightMin=parameters.nightMin, detectMin=parameters.detectMin, bufferSize=parameters.bufferSize, latestFirstEnd=parameters.latestFirstEnd, earliestLastEnd=parameters.earliestLastEnd, leafNodeSizeMax=parameters.leafNodeSizeMax, verbose=verbose)
-    tracker.ranLinkTracklets = True
-    tracker.tracks = tracks
-    tracker.tracksDir = dirs["tracksDir"]
-    _save(tracker, 'tracker', outDir=runDir)
+    if tracker.ranLinkTracklets == False:
+        tracks = runLinkTracklets(dets, ids, dirs["tracksDir"], detErrThresh=parameters.detErrThresh, decAccelMax=parameters.decAccelMax, raAccelMax=parameters.raAccelMax, nightMin=parameters.nightMin, detectMin=parameters.detectMin, bufferSize=parameters.bufferSize, latestFirstEnd=parameters.latestFirstEnd, earliestLastEnd=parameters.earliestLastEnd, leafNodeSizeMax=parameters.leafNodeSizeMax, verbose=verbose)
+        tracker.ranLinkTracklets = True
+        tracker.tracks = tracks
+        tracker.tracksDir = dirs["tracksDir"]
+        _save(tracker, 'tracker', outDir=runDir)
+    else:
+        print "linkTracklets has already completed, moving on..."
+        print ""
 
     if removeSubsetTracks:
         # Run removeSubsets (tracks)
-        finalTracks = runRemoveSubsets(tracks, diasources, dirs["finalTracksDir"], rmSubsets=parameters.rmSubsetTracks, keepOnlyLongest=parameters.keepOnlyLongestTracks, verbose=verbose)
-        tracker.ranRemoveSubsetTracks = True
-        tracker.finalTracks = finalTracks
-        tracker.finalTracksDir = dirs["finalTracksDir"]
-        _save(tracker, 'tracker', outDir=runDir)
+        if tracker.ranRemoveSubsetTracks == False:
+            finalTracks = runRemoveSubsets(tracks, diasources, dirs["finalTracksDir"], rmSubsets=parameters.rmSubsetTracks, keepOnlyLongest=parameters.keepOnlyLongestTracks, verbose=verbose)
+            tracker.ranRemoveSubsetTracks = True
+            tracker.finalTracks = finalTracks
+            tracker.finalTracksDir = dirs["finalTracksDir"]
+            _save(tracker, 'tracker', outDir=runDir)
+        else:
+            print "removeSubsets (tracks) has already completed, moving on..."
+            print ""
 
     # Print status and save tracker
     tracker.info()
