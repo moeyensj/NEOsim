@@ -45,7 +45,7 @@ FINAL_TRACKS_DIR = "tracksFinal/"
 
 VERBOSE = True
 
-defaults = MopsParameters()
+defaults = MopsParameters(verbose=False)
 
 def directoryBuilder(runDir, collapse=True, purify=True, removeSubsetTracklets=True, removeSubsetTracks=True, verbose=VERBOSE):
     """
