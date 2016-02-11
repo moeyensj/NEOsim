@@ -35,10 +35,9 @@ TRACKLET_BY_ID_SUFFIX = ".byDiaIds"
 TRACK_SUFFIX = ".track"
 FINAL_TRACK_SUFFIX = TRACK_SUFFIX + ".final"
 
-# Directories
 TRACKLETS_DIR = "tracklets/" 
-COLLAPSED_DIR = "trackletsCollapsed/"
-PURIFIED_DIR = "trackletsPurified/" 
+COLLAPSED_TRACKLETS_DIR = "trackletsCollapsed/"
+PURIFIED_TRACKLETS_DIR = "trackletsPurified/" 
 FINAL_TRACKLETS_DIR = "trackletsFinal/"
 TRACKLETS_BY_NIGHT_DIR = "trackletsByNight/"
 TRACKS_DIR = "tracks/"
@@ -55,6 +54,10 @@ def directoryBuilder(runDir, collapse=True, purify=True, removeSubsetTracklets=T
     parameter: (dtype) [default (if optional)], information
 
     runDir: (string), name of the top folder
+    collapse: (boolean) [True], build collapse directory?
+    purify: (boolean) [True], build purify directory?
+    removeSubsetTracklets: (boolean) [True], build final tracklets directory?
+    removeSubsetTracks: (boolean) [True], build final tracks directory?
     ----------------------
     """
 
@@ -62,14 +65,29 @@ def directoryBuilder(runDir, collapse=True, purify=True, removeSubsetTracklets=T
         os.mkdir(runDir)
     except:
         raise NameError("Directory exists! Cannot continue!")
+        
+    dirsOut = {}
 
-    dirs = [TRACKLETS_DIR, COLLAPSED_DIR, PURIFIED_DIR, FINAL_TRACKLETS_DIR, TRACKLETS_BY_NIGHT_DIR, TRACKS_DIR, FINAL_TRACKS_DIR]
-    dirsOut = []
-   
-    for d in dirs:
-        newDir = os.path.join(runDir, d)
+    dirsOut["trackletsDir"] = TRACKLETS_DIR
+    dirsOut["trackletsByNightDir"] = TRACKLETS_BY_NIGHT_DIR 
+    dirsOut["tracksDir"] = TRACKS_DIR
+    
+    if collapse:
+        dirsOut["collapsedDir"] = COLLAPSED_TRACKLETS_DIR
+
+    if purify:
+        dirsOut["purifiedDir"] = PURIFIED_TRACKLETS_DIR
+        
+    if removeSubsetTracklets:
+        dirsOut["finalTrackletsDir"] = FINAL_TRACKLETS_DIR
+        
+    if removeSubsetTracks:
+        dirsOut["finalTracksDir"] = FINAL_TRACKS_DIR
+        
+    for d in dirsOut:
+        newDir = os.path.join(runDir, dirsOut[d])
         os.mkdir(newDir)
-        dirsOut.append(newDir)
+        dirsOut[d] = newDir
             
     return dirsOut
 
@@ -468,8 +486,7 @@ def runArgs():
 
     return args
 
-def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=True, removeSubsetTracklets=True, 
-    removeSubsetTracks=False, verbose=VERBOSE):
+def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=True, removeSubsetTracklets=True, removeSubsetTracks=False, verbose=VERBOSE):
     """
     Runs Moving Object Pipeline.
 
@@ -500,62 +517,66 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     tracker.diasourcesDir = diasourcesDir
 
     # Run findTracklets
-    tracklets = runFindTracklets(parameters, diasources, dirs[0], verbose=verbose)
+    tracklets = runFindTracklets(parameters, diasources, dirs["trackletsDir"], verbose=verbose)
     tracker.ranFindTracklets = True
     tracker.tracklets = tracklets
-    tracker.trackletsDir = dirs[0]
+    tracker.trackletsDir = dirs["trackletsDir"]
+    inputTrackletsDir = dirs["trackletsDir"]
 
     if collapse:
         # Run idsToIndices
-        trackletsByIndex = runIdsToIndices(tracklets, diasources, dirs[0], verbose=verbose)
+        trackletsByIndex = runIdsToIndices(tracklets, diasources, dirs["trackletsDir"], verbose=verbose)
         tracker.ranIdsToIndices = True
         tracker.trackletsByIndex = trackletsByIndex
-        tracker.trackletsByIndexDir = dirs[0]
+        tracker.trackletsByIndexDir = dirs["trackletsDir"]
 
         # Run collapseTracklets
-        collapsedTracklets = runCollapseTracklets(parameters, trackletsByIndex, diasources, dirs[1], verbose=verbose)
-        collapsedTrackletsById = runIndicesToIds(collapsedTracklets, diasources, dirs[1], COLLAPSED_TRACKLET_SUFFIX, verbose=verbose)
+        collapsedTracklets = runCollapseTracklets(parameters, trackletsByIndex, diasources, dirs["collapsedDir"], verbose=verbose)
+        collapsedTrackletsById = runIndicesToIds(collapsedTracklets, diasources, dirs["collapsedDir"], COLLAPSED_TRACKLET_SUFFIX, verbose=verbose)
         tracker.ranCollapseTracklets = True
         tracker.collapsedTracklets = collapsedTracklets
-        tracker.collapsedTrackletsDir = dirs[1]
+        tracker.collapsedTrackletsDir = dirs["collapsedDir"]
         tracker.collapsedTrackletsById = collapsedTrackletsById
-        tracker.collapsedTrackletsByIdDir = dirs[1]
+        tracker.collapsedTrackletsByIdDir = dirs["collapsedDir"]
+        inputTrackletsDir = dirs["collapsedDir"]
 
     if purify: 
         # Run purifyTracklets
-        purifiedTracklets = runPurifyTracklets(parameters, collapsedTracklets, diasources, dirs[2], verbose=verbose)
-        purifiedTrackletsById = runIndicesToIds(purifiedTracklets, diasources, dirs[2], PURIFIED_TRACKLET_SUFFIX, verbose=verbose)
+        purifiedTracklets = runPurifyTracklets(parameters, collapsedTracklets, diasources, dirs["purifiedDir"], verbose=verbose)
+        purifiedTrackletsById = runIndicesToIds(purifiedTracklets, diasources, dirs["purifiedDir"], PURIFIED_TRACKLET_SUFFIX, verbose=verbose)
         tracker.ranPurifyTracklets = True
         tracker.purifiedTracklets = purifiedTracklets
-        tracker.purifiedTrackletsDir = dirs[2]
+        tracker.purifiedTrackletsDir = dirs["purifiedDir"]
         tracker.purifiedTrackletsById =  purifiedTrackletsById
-        tracker.purifiedTrackletsByIdDir =  dirs[2]
+        tracker.purifiedTrackletsByIdDir =  dirs["purifiedDir"]
+        inputTrackletsDir = dirs["purifiedDir"]
 
     if removeSubsetTracklets:
         # Run removeSubsets
-        finalTracklets = runRemoveSubsets(parameters, purifiedTracklets, diasources, dirs[3], verbose=verbose)
-        finalTrackletsById = runIndicesToIds(finalTracklets, diasources, dirs[3], FINAL_TRACKLET_SUFFIX, verbose=verbose)
+        finalTracklets = runRemoveSubsets(parameters, purifiedTracklets, diasources, dirs["finalTrackletsDir"], verbose=verbose)
         tracker.ranRemoveSubsets = True
         tracker.finalTracklets = finalTracklets
-        tracker.finalTrackletsDir = dirs[3]
+        tracker.finalTrackletsDir = dirs["finalTrackletsDir"]
 
         # Run indicesToIds
+        finalTrackletsById = runIndicesToIds(finalTracklets, diasources, dirs["finalTrackletsDir"], FINAL_TRACKLET_SUFFIX, verbose=verbose)
         tracker.ranIndicesToIds = True
         tracker.finalTrackletsById = finalTrackletsById
-        tracker.finalTrackletsByIdDir = dirs[3]
+        tracker.finalTrackletsByIdDir = dirs["finalTrackletsDir"]
+        inputTrackletsDir = dirs["finalTrackletsDir"]
 
     # Run makeLinkTrackletsInputByNight
-    dets, ids = runMakeLinkTrackletsInputByNight(parameters, diasourcesDir, dirs[3], dirs[4], verbose=verbose)
+    dets, ids = runMakeLinkTrackletsInputByNight(parameters, diasourcesDir, inputTrackletsDir, dirs["trackletsByNightDir"], verbose=verbose)
     tracker.ranMakeLinkTrackletsInputByNight = True
     tracker.dets = dets
     tracker.ids = ids
-    tracker.trackletsByNightDir = dirs[4]
+    tracker.trackletsByNightDir = dirs["trackletsByNightDir"]
 
     # Run linkTracklets
-    tracks = runLinkTracklets(parameters, dets, ids, dirs[5], verbose=verbose)
+    tracks = runLinkTracklets(parameters, dets, ids, dirs["tracksDir"], verbose=verbose)
     tracker.ranLinkTracklets = True
     tracker.tracks = tracks
-    tracker.tracksDir = dirs[5]
+    tracker.tracksDir = dirs["tracksDir"]
 
     # Print status and save tracker
     tracker.info()
