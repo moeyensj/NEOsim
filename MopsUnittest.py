@@ -81,6 +81,13 @@ class MopsTest(unittest.TestCase):
         for tt, ct in zip(testPurifiedTracklets, controlPurifiedTracklets):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
+    def test_purifiedTrackletsById(self):
+        testPurifiedTrackletsById = self.testTracker.purifiedTrackletsById
+        controlPurifiedTrackletsById = self.controlTracker.purifiedTrackletsById
+
+        for tt, ct in zip(testPurifiedTrackletsById, controlPurifiedTrackletsById):
+            self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
+
     def test_purifiedTracketsById(self):
         testPurifiedTrackletsById = self.testTracker.purifiedTrackletsById
         controlPurifiedTrackletsById = self.controlTracker.purifiedTrackletsById
@@ -88,7 +95,7 @@ class MopsTest(unittest.TestCase):
         for tt, ct in zip(testPurifiedTrackletsById, controlPurifiedTrackletsById):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
-    def test_removeSubsets(self):
+    def test_removeSubsetsTracklets(self):
         testFinalTracklets = self.testTracker.finalTracklets
         controlFinalTracklets = self.controlTracker.finalTracklets
 
@@ -120,6 +127,13 @@ class MopsTest(unittest.TestCase):
         controlTracks = self.controlTracker.tracks
 
         for tt, ct in zip(testTracks, controlTracks):
+            self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
+
+    def test_removeSubsetsTracks(self):
+        testFinalTracks = self.testTracker.finalTracks
+        controlFinalTracks = self.controlTracker.finalTracks
+
+        for tt, ct in zip(testFinalTracks, controlFinalTracks):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
 if __name__ == '__main__':

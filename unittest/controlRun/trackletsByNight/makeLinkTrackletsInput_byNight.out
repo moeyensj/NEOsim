@@ -1,4 +1,4 @@
-Reading MITI files from /Users/joachim/repos/neosim/unittest/testData/nightly/
+Reading dias files from /Users/joachim/repos/neosim/unittest/testData/nightly/
 Reading tracklet files from /Users/joachim/repos/neosim/unittest/controlRun/trackletsFinal/
 Will write 15 day window *.dets and *.ids files to /Users/joachim/repos/neosim/unittest/controlRun/trackletsByNight/
 All nights:  [59580, 59581, 59582, 59583, 59584, 59585, 59586, 59587, 59588, 59589, 59590, 59591, 59592, 59593, 59594, 59595, 59596, 59597, 59598, 59599, 59600, 59601, 59602, 59603, 59604, 59605, 59606, 59607, 59608, 59609]
@@ -144,5 +144,3 @@ done with  [59607, 59608, 59609]
 
 No track could start on night  59608
 Compatible nights are:  [59608, 59609]
-No track could start on night  59609
-Compatible nights are:  [59609]

@@ -167,6 +167,35 @@ _finalTrackletsById: [unittest/controlRun/trackletsFinal/59580.tracklets.final.b
   unittest/controlRun/trackletsFinal/59609.tracklets.final.byDiaIds]
 _finalTrackletsByIdDir: unittest/controlRun/trackletsFinal/
 _finalTrackletsDir: unittest/controlRun/trackletsFinal/
+_finalTracks: [unittest/controlRun/tracksFinal/59580.tracklets.final,
+  unittest/controlRun/tracksFinal/59581.tracklets.final,
+  unittest/controlRun/tracksFinal/59582.tracklets.final,
+  unittest/controlRun/tracksFinal/59583.tracklets.final,
+  unittest/controlRun/tracksFinal/59584.tracklets.final,
+  unittest/controlRun/tracksFinal/59585.tracklets.final,
+  unittest/controlRun/tracksFinal/59586.tracklets.final,
+  unittest/controlRun/tracksFinal/59587.tracklets.final,
+  unittest/controlRun/tracksFinal/59588.tracklets.final,
+  unittest/controlRun/tracksFinal/59589.tracklets.final,
+  unittest/controlRun/tracksFinal/59590.tracklets.final,
+  unittest/controlRun/tracksFinal/59591.tracklets.final,
+  unittest/controlRun/tracksFinal/59592.tracklets.final,
+  unittest/controlRun/tracksFinal/59593.tracklets.final,
+  unittest/controlRun/tracksFinal/59594.tracklets.final,
+  unittest/controlRun/tracksFinal/59595.tracklets.final,
+  unittest/controlRun/tracksFinal/59596.tracklets.final,
+  unittest/controlRun/tracksFinal/59597.tracklets.final,
+  unittest/controlRun/tracksFinal/59598.tracklets.final,
+  unittest/controlRun/tracksFinal/59599.tracklets.final,
+  unittest/controlRun/tracksFinal/59600.tracklets.final,
+  unittest/controlRun/tracksFinal/59601.tracklets.final,
+  unittest/controlRun/tracksFinal/59602.tracklets.final,
+  unittest/controlRun/tracksFinal/59603.tracklets.final,
+  unittest/controlRun/tracksFinal/59604.tracklets.final,
+  unittest/controlRun/tracksFinal/59605.tracklets.final,
+  unittest/controlRun/tracksFinal/59606.tracklets.final,
+  unittest/controlRun/tracksFinal/59607.tracklets.final]
+_finalTracksDir: unittest/controlRun/tracksFinal/
 _ids: [unittest/controlRun/trackletsByNight/night_59580_through_59595.ids,
   unittest/controlRun/trackletsByNight/night_59581_through_59596.ids,
   unittest/controlRun/trackletsByNight/night_59582_through_59597.ids,
@@ -264,7 +293,8 @@ _ranIndicesToIds: true
 _ranLinkTracklets: true
 _ranMakeLinkTrackletsInputByNight: true
 _ranPurifyTracklets: true
-_ranRemoveSubsets: true
+_ranRemoveSubsetTracklets: true
+_ranRemoveSubsetTracks: true
 _runDir: unittest/controlRun/
 _tracklets: [unittest/controlRun/tracklets/59580.tracklets,
   unittest/controlRun/tracklets/59581.tracklets, unittest/controlRun/tracklets/59582.tracklets,
