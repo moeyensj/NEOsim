@@ -320,7 +320,7 @@ def runIndicesToIds(finalTracklets, diasources, outDir, suffix, verbose=VERBOSE)
 
     return byId
 
-def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir, windowSize=defaults.windowSize, verbose=VERBOSE):
+def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir, diasSuffix=DIASOURCE_SUFFIX, trackletSuffix=FINAL_TRACKLET_SUFFIX + TRACKLET_BY_ID_SUFFIX, windowSize=defaults.windowSize, verbose=VERBOSE):
     """
     Runs makeLinkTrackletsInput_byNight.py.
 
@@ -344,7 +344,7 @@ def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir, window
         _status(function, True)
 
     script = str(os.getenv('MOPS_DIR')) + '/bin/makeLinkTrackletsInput_byNight.py'
-    call = ['python', script, windowSize, diasourcesDir, trackletsDir, outDir]
+    call = ["python", script, "--windowSize", windowSize, "--diasSuffix", diasSuffix, "--trackletSuffix", trackletSuffix, diasourcesDir, trackletsDir, outDir]
     subprocess.call(call, stdout=outfile, stderr=errfile)
 
     ids = glob.glob(outDir + '*.ids')
