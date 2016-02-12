@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 
 import MopsPlotter
 import MopsReader
-from MopsObjects import diasource
 from MopsObjects import tracklet
 from MopsObjects import track
 from MopsObjects import sso
@@ -681,13 +680,13 @@ def checkSSMIDs(ssmids):
     else:
         return False
 
-def checkIfInterested(diasources, ssmids):
+def checkIfInterested(ssmidsToCheck, ssmids):
     if ssmids == None:
         return False, 0
     else: 
-        for diasource in diasources:
-            if diasource.ssmid in ssmids:
-                return True, diasource.ssmid
+        for ssmidToCheck in ssmidsToCheck:
+            if ssmidToCheck in ssmids:
+                return True, ssmidToCheck
         
         return False, 0
 
@@ -702,8 +701,8 @@ def checkSubsets(tracks):
             break
         else: 
             for comparison_track in tracks:
-                t =  set(test_track.diasources)
-                c =  set(comparison_track.diasources)
+                t =  set(test_track.diasources['diaid'])
+                c =  set(comparison_track.diasources['diaid'])
 
                 if t != c:
                     if t.issubset(c):
@@ -866,71 +865,55 @@ def calcRMS(diasources):
         print "RMS error was %f " % (rms)
     return rms, raRes[0], decRes[0], dists
 
-def _buildTracklet(dataframe, diaids, diasourceDict, ssmidDict):
-    new_tracklet = []
-    ssmids = []
+def _buildTracklet(dataframe, diaids, ssmidDict):
+    new_tracklet = tracklet(len(diaids))
 
-    for diaid in diaids:
-
-        ssmid = dataframe.loc[diaid]['ssmid']
-        if ssmid in ssmidDict:
-            ssmidDict[ssmid] += 1
-        else:
-            ssmidDict[ssmid] = 1
-
-        if diaid in diasourceDict:
-            ssmids.append(ssmid)
-            new_tracklet.append(diasourceDict[diaid])
-        else:
-            new_diasource = dataframe.loc[diaid]
-            new_diasource_obj = diasource(int(diaid), int(new_diasource['ssmid']),
-                         new_diasource['obshistid'], new_diasource['ra'],
-                         new_diasource['dec'], new_diasource['mjd'],
-                         new_diasource['mag'], new_diasource['snr'])
-            diasourceDict[diaid] = new_diasource_obj
-            
-            ssmids.append(ssmid)
-            new_tracklet.append(new_diasource_obj)
-
-    isTrue = checkSSMIDs(ssmids)  
-    final_tracklet = tracklet(new_tracklet, isTrue=isTrue)
-
-    return final_tracklet
-
-def _buildTrack(dataframe, diaids, diasourceDict, ssmidDict, calcRMS=False):
-    new_track_diasources = []
-    ssmids = []
-
-    for diaid in diaids:
-
-        ssmid = dataframe.loc[diaid]['ssmid']
-        if ssmid in ssmidDict:
-            ssmidDict[ssmid] += 1
-        else:
-            ssmidDict[ssmid] = 1
-
-        if diaid in diasourceDict:
-            ssmids.append(ssmid)
-            new_track_diasources.append(diasourceDict[diaid])
+    for i, diaid in enumerate(diaids):
+        diasource = dataframe.loc[diaid]
+        new_tracklet.diasources[i]['diaid'] = int(diaid)
+        new_tracklet.diasources[i]['obshistid'] = diasource['obshistid']
+        new_tracklet.diasources[i]['ssmid'] = diasource['ssmid']
+        new_tracklet.diasources[i]['ra'] = diasource['ra']
+        new_tracklet.diasources[i]['dec'] = diasource['dec']
+        new_tracklet.diasources[i]['mjd'] = diasource['mjd']
+        new_tracklet.diasources[i]['mag'] = diasource['mag']
+        new_tracklet.diasources[i]['snr'] = diasource['snr']
         
+        if diasource['ssmid'] in ssmidDict:
+            ssmidDict[diasource['ssmid']] += 1
         else:
-            new_diasource = dataframe.loc[diaid]
-            new_diasource_obj = diasource(int(diaid), int(new_diasource['ssmid']),
-                         new_diasource['obshistid'], new_diasource['ra'],
-                         new_diasource['dec'], new_diasource['mjd'],
-                         new_diasource['mag'], new_diasource['snr'])
-            diasourceDict[diaid] = new_diasource_obj
-            
-            ssmids.append(ssmid)
-            new_track_diasources.append(new_diasource_obj)
-            
-    isTrue = checkSSMIDs(ssmids)
-    final_track = track(new_track_diasources, isTrue=isTrue)
+            ssmidDict[diasource['ssmid']] = 1
+
+    new_tracklet.isTrue = checkSSMIDs(new_tracklet.diasources['ssmid'])
+
+    return new_tracklet
+
+
+def _buildTrack(dataframe, diaids, ssmidDict, calcRMS=False):
+    new_track = track(len(diaids))
+
+    for i, diaid in enumerate(diaids):
+        diasource = dataframe.loc[diaid]
+        new_track.diasources[i]['diaid'] = int(diaid)
+        new_track.diasources[i]['obshistid'] = diasource['obshistid']
+        new_track.diasources[i]['ssmid'] = diasource['ssmid']
+        new_track.diasources[i]['ra'] = diasource['ra']
+        new_track.diasources[i]['dec'] = diasource['dec']
+        new_track.diasources[i]['mjd'] = diasource['mjd']
+        new_track.diasources[i]['mag'] = diasource['mag']
+        new_track.diasources[i]['snr'] = diasource['snr']
+        
+        if diasource['ssmid'] in ssmidDict:
+            ssmidDict[diasource['ssmid']] += 1
+        else:
+            ssmidDict[diasource['ssmid']] = 1
+
+    new_track.isTrue = checkSSMIDs(new_track.diasources['ssmid'])
 
     if calcRMS:
-        final_track.rms, final_track.raRes, final_track.decRes, final_track.distances = calcRMS(final_track.diasources)
+        new_track.rms, new_track.raRes, new_track.decRes, new_track.distances = calcRMS(new_track.diasources)
 
-    return final_track
+    return new_track
 
 def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
     startTime = time.ctime()
@@ -960,7 +943,6 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
     trackletFileIn = open(trackletFile, "r")
     tracklets = []
     interested_tracklets = {}
-    diasource_dict = {}
     ssmid_dict = {}
     
     # Initalize success (or failure) counters
@@ -979,9 +961,9 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
         # Found a track!
         total_tracklets_num += 1
         new_tracklet_diaids = MopsReader.readTracklet(line)
-        new_tracklet = _buildTracklet(dets_df, new_tracklet_diaids, diasource_dict, ssmid_dict)
+        new_tracklet = _buildTracklet(dets_df, new_tracklet_diaids, ssmid_dict)
 
-        interested, ssmid = checkIfInterested(new_tracklet.diasources, ssmidsOfInterest)
+        interested, ssmid = checkIfInterested(new_tracklet.diasources['ssmid'], ssmidsOfInterest)
         if interested:
             if ssmid in interested_tracklets:
                 interested_tracklets[ssmid].append(new_tracklet)
@@ -1048,7 +1030,6 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     trackFileIn = open(trackFile, "r")
     tracks = []
     interested_tracks = {}
-    diasource_dict = {}
     ssmid_dict = {}
     
     # Initalize success (or failure) counters
@@ -1070,9 +1051,9 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
         # Found a track!
         total_tracks_num += 1
         new_track_diaids = MopsReader.readTrack(line)
-        new_track = _buildTrack(dets_df, new_track_diaids, diasource_dict, ssmid_dict)
+        new_track = _buildTrack(dets_df, new_track_diaids, ssmid_dict)
 
-        interested, ssmid = checkIfInterested(new_track.diasources, ssmidsOfInterest)
+        interested, ssmid = checkIfInterested(new_track.diasources['ssmid'], ssmidsOfInterest)
         if interested:
             if ssmid in interested_tracks:
                 interested_tracks[ssmid].append(new_track)
