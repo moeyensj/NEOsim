@@ -1,13 +1,38 @@
 import numpy as np
 
-__all__ = ["track", "sso"]
+__all__ = ["tracklet", "track", "sso"]
+
+class tracklet(object):
+    def __init__(self, diasources_num, isTrue=None):
+
+        self._diasources = np.zeros(diasources_num, 
+            dtype={"names":["diaid", "obshistid", "ssmid", "ra", "dec", "mjd", "mag", "snr"], 
+                   "formats":[">i4",">i4",">i4","float64","float64","float64","float64","float64"]})
+        self._isTrue = isTrue
+        
+    @property
+    def diasources(self):
+        return self._diasources
+
+    @diasources.setter
+    def diasources(self, value):
+        print "Cannot set diasources!"
+
+    @property
+    def isTrue(self):
+        return self._isTrue
+
+    @isTrue.setter
+    def isTrue(self, value):
+        self._isTrue = value
 
 class track(object):
-    def __init__(self, diasources, isTrue=None):
+    def __init__(self, diasources_num, isTrue=None):
 
-        self._diasources = diasources
+        self._diasources = np.zeros(diasources_num, 
+            dtype={"names":["diaid", "obshistid", "ssmid", "ra", "dec", "mjd", "mag", "snr"], 
+                   "formats":[">i4",">i4",">i4","float64","float64","float64","float64","float64"]})
         self._isTrue = isTrue
-        self._tracklets = None
         self._rms = None
         self._raRes = None
         self._decRes = None
@@ -21,8 +46,8 @@ class track(object):
 
     @diasources.setter
     def diasources(self, value):
-        self._diasources = value
-
+        print "Cannot set diasources!" 
+        
     @property
     def isTrue(self):
         return self._isTrue
@@ -30,14 +55,6 @@ class track(object):
     @isTrue.setter
     def isTrue(self, value):
         self._isTrue = value
-
-    @property
-    def tracklets(self):
-        return self._tracklets
-
-    @tracklets.setter
-    def tracklets(self, value):
-        self._tracklets = value
 
     @property
     def rms(self):
