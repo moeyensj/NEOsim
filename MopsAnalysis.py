@@ -717,8 +717,12 @@ class runAnalysis(object):
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
                 if checkWindow(window, minWindowSize):
                     [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
-                        subset_tracks_num, longest_tracks_num, tracks_of_interest, det_file_size, 
+                        subset_tracks_num, longest_tracks_num, tracks_of_interest, objects_num, findable_objs_num, found_objs_num, det_file_size, 
                         ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
+
+                    self._uniqueObjects[window] = objects_num
+                    self._findableObjects[window] = findable_objs_num
+                    self._foundObjects[window] = found_objs_num
 
                     self._totalTracks[window] = total_tracks_num
                     self._trueTracks[window] = true_tracks_num
@@ -741,7 +745,7 @@ class runAnalysis(object):
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.finalTracks, self.tracker.dets, self.tracker.ids):
                 if checkWindow(window, minWindowSize):
                     [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
-                        subset_tracks_num, longest_tracks_num, tracks_of_interest, det_file_size, 
+                        subset_tracks_num, longest_tracks_num, tracks_of_interest, objects_num, findable_objs_num, found_objs_num, det_file_size, 
                         ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
 
                     self._totalFinalTracks[window] = total_tracks_num
@@ -1172,6 +1176,7 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     tracks = []
     interested_tracks = {}
     ssmid_dict = {}
+    found_ssmids = []
     
     # Initalize success (or failure) counters
     total_tracks_num = 0
@@ -1206,6 +1211,8 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
             # Track is true! 
             true_tracks_num += 1
             true_tracks.append(new_track)
+            if new_track.diasources['ssmid'][0] not in found_ssmids:
+                found_ssmids.append(new_track.diasources['ssmid'][0])
         else:
             # Track is false. 
             false_tracks_num += 1
@@ -1219,7 +1226,7 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
 
     outFileOut.write("Output Track File Summary:\n")
     outFileOut.write("File size (bytes): %s\n" % (trackFileSize))
-    outFileOut.write("Objects found: %s\n" % (len(ssmid_dict)))
+    outFileOut.write("Objects found: %s\n" % (len(found_ssmids)))
     outFileOut.write("True tracks found: %s\n" % (true_tracks_num))
     outFileOut.write("False tracks found: %s\n" % (false_tracks_num))
     outFileOut.write("Total tracks found: %s\n" % (total_tracks_num))
@@ -1229,4 +1236,4 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
    
-    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, len(subset_tracks), len(longest_tracks), interested_tracks, detFileSize, idsFileSize, trackFileSize
+    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, len(subset_tracks), len(longest_tracks), interested_tracks, dets_df['ssmid'].nunique(), len(findable_ssmids), len(found_ssmids), detFileSize, idsFileSize, trackFileSize
