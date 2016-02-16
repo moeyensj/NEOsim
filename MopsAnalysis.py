@@ -1079,7 +1079,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
 
     # Count number of true tracklets and findable SSMIDs in dataframe
     findable_true_tracklets_num, findable_ssmids = countFindableTrueTrackletsAndSSMIDs(dets_df, 2.0, vmax)
-    outFileOut.write("Findable unique objects: %s\n" % (len(findable_ssmids)))
+    outFileOut.write("Findable objects: %s\n" % (len(findable_ssmids)))
     outFileOut.write("Findable true tracklets: %s\n\n" % (findable_true_tracklets_num))
     
     trackletFileIn = open(trackletFile, "r")
@@ -1164,10 +1164,9 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     outFileOut.write("Detections: %s\n" % (len(dets_df.index)))
     outFileOut.write("Unique objects: %s\n" % (dets_df['ssmid'].nunique()))
 
-    # Count number of true tracklets and findable SSMIDs in dataframe
-    findable_true_tracks, findable_ssmids = countFindableTrueTracks(dets_df, minDetectionsPerNight, minNights)
-    outFileOut.write("Findable unique objects: %s\n" % (len(findable_ssmids)))
-    outFileOut.write("Findable true tracks: %s\n\n" % (findable_true_tracks))
+    # Count number of true tracks and findable SSMIDs in dataframe
+    findable_ssmids = countFindableObjects(dets_df)
+    outFileOut.write("Findable objects: %s\n\n" % (len(findable_ssmids)))
     
     trackFileIn = open(trackFile, "r")
     tracks = []
@@ -1220,7 +1219,7 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
 
     outFileOut.write("Output Track File Summary:\n")
     outFileOut.write("File size (bytes): %s\n" % (trackFileSize))
-    outFileOut.write("Unique objects found: %s\n" % (len(ssmid_dict)))
+    outFileOut.write("Objects found: %s\n" % (len(ssmid_dict)))
     outFileOut.write("True tracks found: %s\n" % (true_tracks_num))
     outFileOut.write("False tracks found: %s\n" % (false_tracks_num))
     outFileOut.write("Total tracks found: %s\n" % (total_tracks_num))
