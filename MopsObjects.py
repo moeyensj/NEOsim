@@ -114,6 +114,7 @@ class sso(object):
         self._purifiedTracklets = {}
         self._finalTracklets = {}
         self._tracks = {}
+        self._finalTracks = {}
 
     @property
     def ssmid(self):
@@ -169,4 +170,12 @@ class sso(object):
 
     @tracks.setter
     def tracks(self, value):
-        self._tracks = value  
+        self._tracks = value
+
+    @property
+    def finalTracks(self):
+        return self._finalTracks
+
+    @finalTracks.setter
+    def finalTracks(self, value):
+        self._finalTracks = value  
