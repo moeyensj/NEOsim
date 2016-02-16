@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+import moMetrics
 import MopsPlotter
 import MopsReader
 from MopsObjects import tracklet
@@ -889,6 +890,29 @@ def countFindableTrueTracks(dataframe, minDetectionsPerNight, minNights):
             findable_ssmids.append(unique_ssmid)
 
     return findableTracks, findable_ssmids
+
+def countFindableObjects(dataframe):
+    unique_ssmids = dataframe['ssmid'].unique()
+    findable_ssmids = []
+    
+    discoverMet = moMetrics.DiscoveryChancesMetric(nObsPerNight=2, tNight=90./60./24., nNightsPerWindow=3, tWindow=15, snrLimit=-1)
+    
+    for unique_ssmid in unique_ssmids:
+        detections = dataframe[dataframe["ssmid"] == unique_ssmid]
+        
+        new_ssobject = np.zeros(len(detections), 
+            dtype={'names':['night', 'expMJD','SNR'], 
+                   'formats':['>i4','>i4','float64']})
+        
+        new_ssobject['night'] = calcNight(detections['mjd'].values)
+        new_ssobject['expMJD'] = detections['mjd'].values
+        new_ssobject['SNR'] = detections['snr'].values
+        
+        discoveryChances = discoverMet.run(new_ssobject, 0, 0)
+        if discoveryChances >= 1:
+            findable_ssmids.append(unique_ssmid)
+       
+    return findable_ssmids
 
 def makeContiguous(angles):
     a0 = angles[0]
