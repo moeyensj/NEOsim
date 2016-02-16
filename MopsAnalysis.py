@@ -911,8 +911,8 @@ def convertToStandardDegrees(angle):
 
 def calcNight(mjd, midnight=LSST_MIDNIGHT):
     """Determine night number for any MJD."""
-    night = int(mjd + 0.5 - midnight)
-    return night
+    night = mjd + 0.5 - midnight
+    return night.astype(int)
 
 def calcDegToRad(angle):
     return angle*(np.pi/180.0)
