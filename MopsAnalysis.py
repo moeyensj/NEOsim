@@ -47,6 +47,18 @@ class runAnalysis(object):
         self._trackIdFileSizes = {}
         self._trackFileSizes = {}
 
+        # Final tracks
+        self._totalFinalTracks = {}
+        self._trueFinalTracks = {}
+        self._falseFinalTracks = {}
+        self._subsetFinalTracks = {}
+        self._longestFinalTracks = {}
+        self._trueFinalTracksSample = {}
+        self._falseFinalTracksSample = {}
+        self._finalTrackDetFileSizes = {}
+        self._finalTrackIdFileSizes = {}
+        self._finalTrackFileSizes = {}
+
         # Tracklets (post findTracklets)
         self._totalTracklets = {}
         self._trueTracklets = {}
@@ -273,6 +285,88 @@ class runAnalysis(object):
     @trackFileSizes.setter
     def trackFileSizes(self, value):
         self._trackFileSizes = value
+
+    # Final tracks
+
+    @property
+    def totalFinalTracks(self):
+        return self._totalFinalTracks
+
+    @totalFinalTracks.setter
+    def totalFinalTracks(self, value):
+        self._totalFinalTracks = value
+
+    @property
+    def trueFinalTracks(self):
+        return self._trueFinalTracks
+
+    @trueFinalTracks.setter
+    def trueFinalTracks(self, value):
+        self._trueFinalTracks = value
+
+    @property
+    def falseFinalTracks(self):
+        return self._falseFinalTracks
+
+    @falseFinalTracks.setter
+    def falseFinalTracks(self, value):
+        self._falseFinalTracks = value
+
+    @property
+    def subsetFinalTracks(self):
+        return self._subsetFinalTracks
+
+    @subsetFinalTracks.setter
+    def subsetFinalTracks(self, value):
+        self._subsetFinalTracks = value
+
+    @property
+    def longestFinalTracks(self):
+        return self._longestFinalTracks
+
+    @longestFinalTracks.setter
+    def longestFinalTracks(self, value):
+        self._longestFinalTracks = value
+
+    @property
+    def trueFinalTracksSample(self):
+        return self._trueFinalTracksSample
+
+    @trueFinalTracksSample.setter
+    def trueFinalTracksSample(self, value):
+        self._trueFinalTracksSample = value
+
+    @property
+    def falseFinalTracksSample(self):
+        return self._falseFinalTracksSample
+
+    @falseFinalTracksSample.setter
+    def falseFinalTracksSample(self, value):
+        self._falseFinalTracksSample = value
+
+    @property
+    def finalTrackDetFileSizes(self):
+        return self._finalTrackDetFileSizes
+
+    @finalTrackDetFileSizes.setter
+    def finalTrackDetFileSizes(self, value):
+        self._finalTrackDetFileSizes = value
+
+    @property
+    def finalTrackIdFileSizes(self):
+        return self._finalTrackIdFileSizes
+
+    @finalTrackIdFileSizes.setter
+    def finalTrackIdFileSizes(self, value):
+        self._finalTrackIdFileSizes = value
+
+    @property
+    def finalTrackFileSizes(self):
+        return self._finalTrackFileSizes
+
+    @finalTrackFileSizes.setter
+    def finalTrackFileSizes(self, value):
+        self._finalTrackFileSizes = value
 
     # Tracklets (post findTracklets)
 
@@ -538,7 +632,7 @@ class runAnalysis(object):
         for ssmid in self._ssmidsOfInterest:
             self._ssmidsOfInterestObjects[ssmid] = sso(ssmid)
 
-    def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True, minWindowSize=0):
+    def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True, finalTracks=True, minWindowSize=0):
 
         self._startTime = time.ctime()
 
@@ -639,6 +733,30 @@ class runAnalysis(object):
 
                     for ssmid in tracks_of_interest:
                         self._ssmidsOfInterestObjects[ssmid].tracks[window] = tracks_of_interest[ssmid]
+                
+                print ""
+
+        if finalTracks:
+            for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.finalTracks, self.tracker.dets, self.tracker.ids):
+                if checkWindow(window, minWindowSize):
+                    [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
+                        subset_tracks_num, longest_tracks_num, tracks_of_interest, det_file_size, 
+                        ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
+
+                    self._totalFinalTracks[window] = total_tracks_num
+                    self._trueFinalTracks[window] = true_tracks_num
+                    self._falseFinalTracks[window] = false_tracks_num
+                    self._subsetFinalTracks[window] = subset_tracks_num
+                    self._longestFinalTracks[window] = longest_tracks_num
+                    self._trueFinalTracksSample[window] = selectSample(true_tracks)
+                    self._falseFinalTracksSample[window] = selectSample(false_tracks)
+
+                    self._finalTrackFileSizes[window] = track_file_size
+                    self._finalTrackDetFileSizes[window] = det_file_size
+                    self._finalTrackIdFileSizes[window] = ids_file_size
+
+                    for ssmid in tracks_of_interest:
+                        self._ssmidsOfInterestObjects[ssmid].finalTracks[window] = tracks_of_interest[ssmid]
                 
                 print ""
 
