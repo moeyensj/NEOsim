@@ -891,11 +891,11 @@ def countFindableTrueTracks(dataframe, minDetectionsPerNight, minNights):
 
     return findableTracks, findable_ssmids
 
-def countFindableObjects(dataframe):
+def countFindableObjects(dataframe, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1):
     unique_ssmids = dataframe['ssmid'].unique()
     findable_ssmids = []
     
-    discoverMet = moMetrics.DiscoveryChancesMetric(nObsPerNight=2, tNight=90./60./24., nNightsPerWindow=3, tWindow=15, snrLimit=-1)
+    discoverMet = moMetrics.DiscoveryChancesMetric(nObsPerNight=minDetectionsPerNight, tNight=90./60./24., nNightsPerWindow=minNights, tWindow=windowSize, snrLimit=snrLimit)
     
     for unique_ssmid in unique_ssmids:
         detections = dataframe[dataframe["ssmid"] == unique_ssmid]
@@ -1134,7 +1134,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
 
     return true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, interested_tracklets, detFileSize, trackletFileSize
 
-def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNights=3, ssmidsOfInterest=None, verbose=True):
+def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1, ssmidsOfInterest=None, verbose=True):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackFile), startTime)
 
@@ -1165,7 +1165,7 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     outFileOut.write("Unique objects: %s\n" % (dets_df['ssmid'].nunique()))
 
     # Count number of true tracks and findable SSMIDs in dataframe
-    findable_ssmids = countFindableObjects(dets_df)
+    findable_ssmids = countFindableObjects(dets_df, minDetectionsPerNight=minDetectionsPerNight, minNights=minNights, windowSize=windowSize, snrLimit=snrLimit)
     outFileOut.write("Findable objects: %s\n\n" % (len(findable_ssmids)))
     
     trackFileIn = open(trackFile, "r")
