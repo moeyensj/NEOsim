@@ -2,7 +2,6 @@ import yaml
 import unittest
 import shutil
 import os
-import argparse
 
 import runMops
 from MopsTracker import MopsTracker
@@ -136,6 +135,8 @@ runner = unittest.TextTestRunner()
 results = runner.run(suite())
 
 if results.wasSuccessful():
+    print "All tests PASSED. Deleting MOPs output."
     shutil.rmtree(TEST_DIR)
 else:
+    print "FAILURES detected. Keeping MOPs output."
     pass
