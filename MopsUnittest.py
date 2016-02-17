@@ -74,7 +74,7 @@ class MopsTest(unittest.TestCase):
         for tt, ct in zip(testCollapsedTrackletsById, controlCollapsedTrackletsById):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
-    def test_purifyTrackets(self):
+    def test_purifyTracklets(self):
         testPurifiedTracklets = self.testTracker.purifiedTracklets
         controlPurifiedTracklets = self.controlTracker.purifiedTracklets
 
@@ -82,13 +82,6 @@ class MopsTest(unittest.TestCase):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_purifiedTrackletsById(self):
-        testPurifiedTrackletsById = self.testTracker.purifiedTrackletsById
-        controlPurifiedTrackletsById = self.controlTracker.purifiedTrackletsById
-
-        for tt, ct in zip(testPurifiedTrackletsById, controlPurifiedTrackletsById):
-            self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
-
-    def test_purifiedTracketsById(self):
         testPurifiedTrackletsById = self.testTracker.purifiedTrackletsById
         controlPurifiedTrackletsById = self.controlTracker.purifiedTrackletsById
 
