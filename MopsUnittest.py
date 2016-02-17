@@ -2,6 +2,7 @@ import yaml
 import unittest
 import shutil
 import os
+import argparse
 
 import runMops
 from MopsTracker import MopsTracker
@@ -24,10 +25,6 @@ class MopsTest(unittest.TestCase):
         self.controlTracker = yaml.load(file("unittest/controlRun/tracker.yaml", "r"))
 
         runMops.runMops(self.testParameters, self.testTracker, DATA_DIR, TEST_DIR, verbose=VERBOSE)
-
-    @classmethod
-    def tearDownClass(self):
-        shutil.rmtree(TEST_DIR)
 
     def test_directoryBuilder(self):
         controlDirs = [self.controlTracker.trackletsDir, self.controlTracker.trackletsByIndexDir,
@@ -129,5 +126,16 @@ class MopsTest(unittest.TestCase):
         for tt, ct in zip(testFinalTracks, controlFinalTracks):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
-if __name__ == '__main__':
-    unittest.main()
+def suite():
+    tests = ['test_directoryBuilder', 'test_findTracklets', 'test_idsToIndices', 'test_collapseTracklets', 'test_collapsedTrackletsById', 
+        'test_purifyTracklets', 'test_purifiedTrackletsById', 'test_removeSubsetsTracklets', 'test_finalTrackletsById', 'test_makeLinkTrackletsInput_byNight', 'test_linkTracklets', 'test_removeSubsetsTracks']
+
+    return unittest.TestSuite(map(MopsTest, tests))
+
+runner = unittest.TextTestRunner()
+results = runner.run(suite())
+
+if results.wasSuccessful():
+    shutil.rmtree(TEST_DIR)
+else:
+    pass
