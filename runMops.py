@@ -244,7 +244,7 @@ def runPurifyTracklets(collapsedTracklets, diasources, outDir, rmsMax=defaults.r
 
     return purifiedTracklets
 
-def runRemoveSubsets(purifiedTracklets, diasources, outDir, rmSubsets=defaults.rmSubsetTracklets, keepOnlyLongest=defaults.keepOnlyLongestTracklets, verbose=VERBOSE):
+def runRemoveSubsets(purifiedTracklets, diasources, outDir, rmSubsets=defaults.rmSubsetTracklets, keepOnlyLongest=defaults.keepOnlyLongestTracklets, suffix=FINAL_TRACKLET_SUFFIX, verbose=VERBOSE):
     """
     Runs removeSubsets.
 
@@ -268,7 +268,7 @@ def runRemoveSubsets(purifiedTracklets, diasources, outDir, rmSubsets=defaults.r
         _status(function, True)
 
     for tracklet, diasource in zip(purifiedTracklets, diasources):
-        finalTracklet = _out(outDir, diasource, FINAL_TRACKLET_SUFFIX)
+        finalTracklet = _out(outDir, tracklet, suffix)
 
         call = ['removeSubsets', '--inFile', tracklet, '--outFile', finalTracklet,
             '--removeSubsets', rmSubsets,
@@ -632,7 +632,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     if removeSubsetTracks:
         # Run removeSubsets (tracks)
         if tracker.ranRemoveSubsetTracks == False:
-            finalTracks = runRemoveSubsets(tracks, diasources, dirs["finalTracksDir"], rmSubsets=parameters.rmSubsetTracks, keepOnlyLongest=parameters.keepOnlyLongestTracks, verbose=verbose)
+            finalTracks = runRemoveSubsets(tracks, diasources, dirs["finalTracksDir"], rmSubsets=parameters.rmSubsetTracks, keepOnlyLongest=parameters.keepOnlyLongestTracks, suffix=FINAL_TRACK_SUFFIX, verbose=verbose)
             tracker.ranRemoveSubsetTracks = True
             tracker.finalTracks = finalTracks
             tracker.finalTracksDir = dirs["finalTracksDir"]
