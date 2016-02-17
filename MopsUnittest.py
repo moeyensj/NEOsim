@@ -46,85 +46,85 @@ class MopsTest(unittest.TestCase):
             self.assertEqual(os.path.basename(td), os.path.basename(cd))
 
     def test_findTracklets(self):
-        testTracklets = self.testTracker.tracklets
-        controlTracklets = self.controlTracker.tracklets
+        testTracklets = sorted(self.testTracker.tracklets)
+        controlTracklets = sorted(self.controlTracker.tracklets)
 
         for tt, ct in zip(testTracklets, controlTracklets):
 
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_idsToIndices(self):
-        testTrackletsByIndex = self.testTracker.trackletsByIndex
-        controlTrackletsByIndex = self.controlTracker.trackletsByIndex
+        testTrackletsByIndex = sorted(self.testTracker.trackletsByIndex)
+        controlTrackletsByIndex = sorted(self.controlTracker.trackletsByIndex)
 
         for tt, ct in zip(testTrackletsByIndex, controlTrackletsByIndex):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_collapseTracklets(self):
-        testCollapsedTracklets = self.testTracker.collapsedTracklets
-        controlCollapsedTracklets = self.controlTracker.collapsedTracklets
+        testCollapsedTracklets = sorted(self.testTracker.collapsedTracklets)
+        controlCollapsedTracklets = sorted(self.controlTracker.collapsedTracklets)
 
         for tt, ct in zip(testCollapsedTracklets, controlCollapsedTracklets):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_collapsedTrackletsById(self):
-        testCollapsedTrackletsById = self.testTracker.collapsedTrackletsById
-        controlCollapsedTrackletsById = self.controlTracker.collapsedTrackletsById
+        testCollapsedTrackletsById = sorted(self.testTracker.collapsedTrackletsById)
+        controlCollapsedTrackletsById = sorted(self.controlTracker.collapsedTrackletsById)
 
         for tt, ct in zip(testCollapsedTrackletsById, controlCollapsedTrackletsById):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_purifyTracklets(self):
-        testPurifiedTracklets = self.testTracker.purifiedTracklets
-        controlPurifiedTracklets = self.controlTracker.purifiedTracklets
+        testPurifiedTracklets = sorted(self.testTracker.purifiedTracklets)
+        controlPurifiedTracklets = sorted(self.controlTracker.purifiedTracklets)
 
         for tt, ct in zip(testPurifiedTracklets, controlPurifiedTracklets):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_purifiedTrackletsById(self):
-        testPurifiedTrackletsById = self.testTracker.purifiedTrackletsById
-        controlPurifiedTrackletsById = self.controlTracker.purifiedTrackletsById
+        testPurifiedTrackletsById = sorted(self.testTracker.purifiedTrackletsById)
+        controlPurifiedTrackletsById = sorted(self.controlTracker.purifiedTrackletsById)
 
         for tt, ct in zip(testPurifiedTrackletsById, controlPurifiedTrackletsById):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_removeSubsetsTracklets(self):
-        testFinalTracklets = self.testTracker.finalTracklets
-        controlFinalTracklets = self.controlTracker.finalTracklets
+        testFinalTracklets = sorted(self.testTracker.finalTracklets)
+        controlFinalTracklets = sorted(self.controlTracker.finalTracklets)
 
         for tt, ct in zip(testFinalTracklets, controlFinalTracklets):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_finalTrackletsById(self):
-        testFinalTrackletsById = self.testTracker.finalTrackletsById
-        controlFinalTrackletsById = self.controlTracker.finalTrackletsById
+        testFinalTrackletsById = sorted(self.testTracker.finalTrackletsById)
+        controlFinalTrackletsById = sorted(self.controlTracker.finalTrackletsById)
 
         for tt, ct in zip(testFinalTrackletsById, controlFinalTrackletsById):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_makeLinkTrackletsInput_byNight(self):
-        testDets = self.testTracker.dets
-        controlDets = self.controlTracker.dets
+        testDets = sorted(self.testTracker.dets)
+        controlDets = sorted(self.controlTracker.dets)
 
         for tt, ct in zip(testDets, controlDets):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
-        testIds = self.testTracker.ids
-        controlIds = self.controlTracker.ids
+        testIds = sorted(self.testTracker.ids)
+        controlIds = sorted(self.controlTracker.ids)
 
         for tt, ct in zip(testIds, controlIds):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_linkTracklets(self):
-        testTracks = self.testTracker.tracks
-        controlTracks = self.controlTracker.tracks
+        testTracks = sorted(self.testTracker.tracks)
+        controlTracks = sorted(self.controlTracker.tracks)
 
         for tt, ct in zip(testTracks, controlTracks):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_removeSubsetsTracks(self):
-        testFinalTracks = self.testTracker.finalTracks
-        controlFinalTracks = self.controlTracker.finalTracks
+        testFinalTracks = sorted(self.testTracker.finalTracks)
+        controlFinalTracks = sorted(self.controlTracker.finalTracks)
 
         for tt, ct in zip(testFinalTracks, controlFinalTracks):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
