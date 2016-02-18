@@ -2,6 +2,7 @@ import yaml
 import unittest
 import shutil
 import os
+import argparse
 
 import runMops
 from MopsTracker import MopsTracker
@@ -131,12 +132,14 @@ def suite():
 
     return unittest.TestSuite(map(MopsTest, tests))
 
-runner = unittest.TextTestRunner()
-results = runner.run(suite())
+if __name__=="__main__":
 
-if results.wasSuccessful():
-    print "All tests PASSED. Deleting MOPs output."
-    shutil.rmtree(TEST_DIR)
-else:
-    print "FAILURES detected. Keeping MOPs output."
-    pass
+    runner = unittest.TextTestRunner()
+    results = runner.run(suite())
+
+    if results.wasSuccessful():
+        print "All tests PASSED. Deleting MOPs output."
+        shutil.rmtree(TEST_DIR)
+    else:
+        print "FAILURES detected. Keeping MOPs output."
+        pass
