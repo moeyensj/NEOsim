@@ -1,0 +1,163 @@
+!!python/object:MopsTracker.MopsTracker
+_collapsedTracklets: [controlRun/source1/trackletsCollapsed/59580.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59581.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59582.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59583.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59584.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59585.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59586.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59587.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59588.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59589.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59590.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59591.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59592.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59593.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59594.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59595.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59596.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59597.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59598.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59599.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59600.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59601.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59602.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59603.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59604.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59605.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59606.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59607.tracklets.collapsed, controlRun/source1/trackletsCollapsed/59608.tracklets.collapsed,
+  controlRun/source1/trackletsCollapsed/59609.tracklets.collapsed]
+_collapsedTrackletsById: [controlRun/source1/trackletsCollapsed/59580.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59581.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59582.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59583.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59584.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59585.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59586.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59587.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59588.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59589.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59590.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59591.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59592.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59593.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59594.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59595.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59596.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59597.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59598.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59599.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59600.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59601.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59602.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59603.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59604.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59605.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59606.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59607.tracklets.collapsed.byDiaIds, controlRun/source1/trackletsCollapsed/59608.tracklets.collapsed.byDiaIds,
+  controlRun/source1/trackletsCollapsed/59609.tracklets.collapsed.byDiaIds]
+_collapsedTrackletsByIdDir: controlRun/source1/trackletsCollapsed/
+_collapsedTrackletsDir: controlRun/source1/trackletsCollapsed/
+_dets: []
+_diasources: [testData/source1/nightly/59580.dias, testData/source1/nightly/59581.dias,
+  testData/source1/nightly/59582.dias, testData/source1/nightly/59583.dias, testData/source1/nightly/59584.dias,
+  testData/source1/nightly/59585.dias, testData/source1/nightly/59586.dias, testData/source1/nightly/59587.dias,
+  testData/source1/nightly/59588.dias, testData/source1/nightly/59589.dias, testData/source1/nightly/59590.dias,
+  testData/source1/nightly/59591.dias, testData/source1/nightly/59592.dias, testData/source1/nightly/59593.dias,
+  testData/source1/nightly/59594.dias, testData/source1/nightly/59595.dias, testData/source1/nightly/59596.dias,
+  testData/source1/nightly/59597.dias, testData/source1/nightly/59598.dias, testData/source1/nightly/59599.dias,
+  testData/source1/nightly/59600.dias, testData/source1/nightly/59601.dias, testData/source1/nightly/59602.dias,
+  testData/source1/nightly/59603.dias, testData/source1/nightly/59604.dias, testData/source1/nightly/59605.dias,
+  testData/source1/nightly/59606.dias, testData/source1/nightly/59607.dias, testData/source1/nightly/59608.dias,
+  testData/source1/nightly/59609.dias]
+_diasourcesDir: testData/source1/nightly
+_finalTracklets: [controlRun/source1/trackletsFinal/59580.tracklets.final, controlRun/source1/trackletsFinal/59581.tracklets.final,
+  controlRun/source1/trackletsFinal/59582.tracklets.final, controlRun/source1/trackletsFinal/59583.tracklets.final,
+  controlRun/source1/trackletsFinal/59584.tracklets.final, controlRun/source1/trackletsFinal/59585.tracklets.final,
+  controlRun/source1/trackletsFinal/59586.tracklets.final, controlRun/source1/trackletsFinal/59587.tracklets.final,
+  controlRun/source1/trackletsFinal/59588.tracklets.final, controlRun/source1/trackletsFinal/59589.tracklets.final,
+  controlRun/source1/trackletsFinal/59590.tracklets.final, controlRun/source1/trackletsFinal/59591.tracklets.final,
+  controlRun/source1/trackletsFinal/59592.tracklets.final, controlRun/source1/trackletsFinal/59593.tracklets.final,
+  controlRun/source1/trackletsFinal/59594.tracklets.final, controlRun/source1/trackletsFinal/59595.tracklets.final,
+  controlRun/source1/trackletsFinal/59596.tracklets.final, controlRun/source1/trackletsFinal/59597.tracklets.final,
+  controlRun/source1/trackletsFinal/59598.tracklets.final, controlRun/source1/trackletsFinal/59599.tracklets.final,
+  controlRun/source1/trackletsFinal/59600.tracklets.final, controlRun/source1/trackletsFinal/59601.tracklets.final,
+  controlRun/source1/trackletsFinal/59602.tracklets.final, controlRun/source1/trackletsFinal/59603.tracklets.final,
+  controlRun/source1/trackletsFinal/59604.tracklets.final, controlRun/source1/trackletsFinal/59605.tracklets.final,
+  controlRun/source1/trackletsFinal/59606.tracklets.final, controlRun/source1/trackletsFinal/59607.tracklets.final,
+  controlRun/source1/trackletsFinal/59608.tracklets.final, controlRun/source1/trackletsFinal/59609.tracklets.final]
+_finalTrackletsById: [controlRun/source1/trackletsFinal/59580.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59581.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59582.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59583.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59584.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59585.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59586.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59587.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59588.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59589.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59590.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59591.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59592.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59593.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59594.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59595.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59596.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59597.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59598.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59599.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59600.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59601.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59602.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59603.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59604.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59605.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59606.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59607.tracklets.final.byDiaIds, controlRun/source1/trackletsFinal/59608.tracklets.final.byDiaIds,
+  controlRun/source1/trackletsFinal/59609.tracklets.final.byDiaIds]
+_finalTrackletsByIdDir: controlRun/source1/trackletsFinal/
+_finalTrackletsDir: controlRun/source1/trackletsFinal/
+_finalTracks: []
+_finalTracksDir: controlRun/source1/tracksFinal/
+_ids: []
+_purifiedTracklets: [controlRun/source1/trackletsPurified/59580.tracklets.purified,
+  controlRun/source1/trackletsPurified/59581.tracklets.purified, controlRun/source1/trackletsPurified/59582.tracklets.purified,
+  controlRun/source1/trackletsPurified/59583.tracklets.purified, controlRun/source1/trackletsPurified/59584.tracklets.purified,
+  controlRun/source1/trackletsPurified/59585.tracklets.purified, controlRun/source1/trackletsPurified/59586.tracklets.purified,
+  controlRun/source1/trackletsPurified/59587.tracklets.purified, controlRun/source1/trackletsPurified/59588.tracklets.purified,
+  controlRun/source1/trackletsPurified/59589.tracklets.purified, controlRun/source1/trackletsPurified/59590.tracklets.purified,
+  controlRun/source1/trackletsPurified/59591.tracklets.purified, controlRun/source1/trackletsPurified/59592.tracklets.purified,
+  controlRun/source1/trackletsPurified/59593.tracklets.purified, controlRun/source1/trackletsPurified/59594.tracklets.purified,
+  controlRun/source1/trackletsPurified/59595.tracklets.purified, controlRun/source1/trackletsPurified/59596.tracklets.purified,
+  controlRun/source1/trackletsPurified/59597.tracklets.purified, controlRun/source1/trackletsPurified/59598.tracklets.purified,
+  controlRun/source1/trackletsPurified/59599.tracklets.purified, controlRun/source1/trackletsPurified/59600.tracklets.purified,
+  controlRun/source1/trackletsPurified/59601.tracklets.purified, controlRun/source1/trackletsPurified/59602.tracklets.purified,
+  controlRun/source1/trackletsPurified/59603.tracklets.purified, controlRun/source1/trackletsPurified/59604.tracklets.purified,
+  controlRun/source1/trackletsPurified/59605.tracklets.purified, controlRun/source1/trackletsPurified/59606.tracklets.purified,
+  controlRun/source1/trackletsPurified/59607.tracklets.purified, controlRun/source1/trackletsPurified/59608.tracklets.purified,
+  controlRun/source1/trackletsPurified/59609.tracklets.purified]
+_purifiedTrackletsById: [controlRun/source1/trackletsPurified/59580.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59581.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59582.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59583.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59584.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59585.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59586.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59587.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59588.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59589.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59590.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59591.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59592.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59593.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59594.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59595.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59596.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59597.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59598.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59599.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59600.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59601.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59602.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59603.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59604.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59605.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59606.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59607.tracklets.purified.byDiaIds, controlRun/source1/trackletsPurified/59608.tracklets.purified.byDiaIds,
+  controlRun/source1/trackletsPurified/59609.tracklets.purified.byDiaIds]
+_purifiedTrackletsByIdDir: controlRun/source1/trackletsPurified/
+_purifiedTrackletsDir: controlRun/source1/trackletsPurified/
+_ranCollapseTracklets: true
+_ranFindTracklets: true
+_ranIdsToIndices: true
+_ranIndicesToIds: true
+_ranLinkTracklets: true
+_ranMakeLinkTrackletsInputByNight: true
+_ranPurifyTracklets: true
+_ranRemoveSubsetTracklets: true
+_ranRemoveSubsetTracks: true
+_runDir: controlRun/source1
+_tracklets: [controlRun/source1/tracklets/59580.tracklets, controlRun/source1/tracklets/59581.tracklets,
+  controlRun/source1/tracklets/59582.tracklets, controlRun/source1/tracklets/59583.tracklets,
+  controlRun/source1/tracklets/59584.tracklets, controlRun/source1/tracklets/59585.tracklets,
+  controlRun/source1/tracklets/59586.tracklets, controlRun/source1/tracklets/59587.tracklets,
+  controlRun/source1/tracklets/59588.tracklets, controlRun/source1/tracklets/59589.tracklets,
+  controlRun/source1/tracklets/59590.tracklets, controlRun/source1/tracklets/59591.tracklets,
+  controlRun/source1/tracklets/59592.tracklets, controlRun/source1/tracklets/59593.tracklets,
+  controlRun/source1/tracklets/59594.tracklets, controlRun/source1/tracklets/59595.tracklets,
+  controlRun/source1/tracklets/59596.tracklets, controlRun/source1/tracklets/59597.tracklets,
+  controlRun/source1/tracklets/59598.tracklets, controlRun/source1/tracklets/59599.tracklets,
+  controlRun/source1/tracklets/59600.tracklets, controlRun/source1/tracklets/59601.tracklets,
+  controlRun/source1/tracklets/59602.tracklets, controlRun/source1/tracklets/59603.tracklets,
+  controlRun/source1/tracklets/59604.tracklets, controlRun/source1/tracklets/59605.tracklets,
+  controlRun/source1/tracklets/59606.tracklets, controlRun/source1/tracklets/59607.tracklets,
+  controlRun/source1/tracklets/59608.tracklets, controlRun/source1/tracklets/59609.tracklets]
+_trackletsByIndex: [controlRun/source1/tracklets/59580.tracklets.byIndices, controlRun/source1/tracklets/59581.tracklets.byIndices,
+  controlRun/source1/tracklets/59582.tracklets.byIndices, controlRun/source1/tracklets/59583.tracklets.byIndices,
+  controlRun/source1/tracklets/59584.tracklets.byIndices, controlRun/source1/tracklets/59585.tracklets.byIndices,
+  controlRun/source1/tracklets/59586.tracklets.byIndices, controlRun/source1/tracklets/59587.tracklets.byIndices,
+  controlRun/source1/tracklets/59588.tracklets.byIndices, controlRun/source1/tracklets/59589.tracklets.byIndices,
+  controlRun/source1/tracklets/59590.tracklets.byIndices, controlRun/source1/tracklets/59591.tracklets.byIndices,
+  controlRun/source1/tracklets/59592.tracklets.byIndices, controlRun/source1/tracklets/59593.tracklets.byIndices,
+  controlRun/source1/tracklets/59594.tracklets.byIndices, controlRun/source1/tracklets/59595.tracklets.byIndices,
+  controlRun/source1/tracklets/59596.tracklets.byIndices, controlRun/source1/tracklets/59597.tracklets.byIndices,
+  controlRun/source1/tracklets/59598.tracklets.byIndices, controlRun/source1/tracklets/59599.tracklets.byIndices,
+  controlRun/source1/tracklets/59600.tracklets.byIndices, controlRun/source1/tracklets/59601.tracklets.byIndices,
+  controlRun/source1/tracklets/59602.tracklets.byIndices, controlRun/source1/tracklets/59603.tracklets.byIndices,
+  controlRun/source1/tracklets/59604.tracklets.byIndices, controlRun/source1/tracklets/59605.tracklets.byIndices,
+  controlRun/source1/tracklets/59606.tracklets.byIndices, controlRun/source1/tracklets/59607.tracklets.byIndices,
+  controlRun/source1/tracklets/59608.tracklets.byIndices, controlRun/source1/tracklets/59609.tracklets.byIndices]
+_trackletsByIndexDir: controlRun/source1/tracklets/
+_trackletsByNightDir: controlRun/source1/trackletsByNight/
+_trackletsDir: controlRun/source1/tracklets/
+_tracks: []
+_tracksDir: controlRun/source1/tracks/

@@ -1,0 +1,4 @@
+Reading dias files from testData/source1/nightly
+Reading tracklet files from controlRun/source1/trackletsFinal/
+Will write 15 day window *.dets and *.ids files to controlRun/source1/trackletsByNight/
+All nights:  []

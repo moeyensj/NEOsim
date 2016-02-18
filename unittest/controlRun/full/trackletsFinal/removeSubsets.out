@@ -1,0 +1,660 @@
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59580.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59580.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45947) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59581.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59581.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45949) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59582.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59582.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45951) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59583.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59583.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45953) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59584.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59584.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45955) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59585.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59585.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45957) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59586.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59586.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45959) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59587.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59587.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45961) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59588.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59588.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45963) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59589.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59589.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45965) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59590.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59590.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45967) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59591.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59591.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45969) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59592.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59592.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45971) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59593.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59593.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45973) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59594.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59594.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45975) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59595.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59595.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45977) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59596.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59596.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45979) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59597.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59597.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45981) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59598.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59598.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45983) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59599.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59599.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45985) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59600.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59600.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45987) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59601.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59601.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45989) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59602.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59602.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45991) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59603.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59603.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45993) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59604.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59604.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45995) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59605.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59605.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45997) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59606.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59606.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (45999) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59607.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59607.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (46001) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59608.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59608.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (46003) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/full/trackletsPurified/59609.tracklets.purified
+Output file:                                 controlRun/full/trackletsFinal/59609.tracklets.final
+RemoveSubsets:                               false
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: false
+Reading infile, starting at Thu Feb 18 13:33:16 2016
+
+Finished reading infile at Thu Feb 18 13:33:16 2016
+
+Reading input took 0.0000000000 seconds.
+Finished filtering, writing output starting at Thu Feb 18 13:33:16 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Thu Feb 18 13:33:16 2016
+
+This process (46005) memory usage: 
+------------------------------------------
+------------------------------------------
+
