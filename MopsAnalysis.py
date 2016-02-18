@@ -633,7 +633,7 @@ class runAnalysis(object):
         for ssmid in self._ssmidsOfInterest:
             self._ssmidsOfInterestObjects[ssmid] = sso(ssmid)
 
-    def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True, finalTracks=True, minWindowSize=0):
+    def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True, finalTracks=True, analyzeSubsets=False, minWindowSize=0):
 
         self._startTime = time.ctime()
 
@@ -718,7 +718,7 @@ class runAnalysis(object):
                 if checkWindow(window, minWindowSize):
                     [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
                         subset_tracks_num, longest_tracks_num, tracks_of_interest, objects_num, findable_objs_num, found_objs_num, det_file_size, 
-                        ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
+                        ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest, analyzeSubsets=analyzeSubsets)
 
                     self._uniqueObjects[window] = objects_num
                     self._findableObjects[window] = findable_objs_num
@@ -1064,17 +1064,20 @@ def _buildTrack(dataframe, diaids, ssmidDict, calcRMS=False):
 def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackletFile), startTime)
-
-    detFileSize = os.path.getsize(detFile)
-    trackletFileSize = os.path.getsize(trackletFile)
     
     # Create outfile to store results
     outFile = trackletFile + ".results"
-    outFileOut = open(outFile, "w")
+    outFileOut = open(outFile, "w", 0)
     outFileOut.write("Start time: %s\n\n" % (startTime))
     print "Writing results to %s" % (outFile)
 
+    # Get file sizes
+    print "Checking file sizes..."
+    detFileSize = os.path.getsize(detFile)
+    trackletFileSize = os.path.getsize(trackletFile)
+
     # Read detections into a dataframe
+    print "Reading input detections..."
     dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
     outFileOut.write("Input Detection File Summary:\n")
     outFileOut.write("File size (bytes): %s\n" % (detFileSize))
@@ -1082,6 +1085,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
     outFileOut.write("Unique objects: %s\n" % (dets_df['ssmid'].nunique()))
 
     # Count number of true tracklets and findable SSMIDs in dataframe
+    print "Counting findable true tracklets..."
     findable_true_tracklets_num, findable_ssmids = countFindableTrueTrackletsAndSSMIDs(dets_df, 2.0, vmax)
     outFileOut.write("Findable objects: %s\n" % (len(findable_ssmids)))
     outFileOut.write("Findable true tracklets: %s\n\n" % (findable_true_tracklets_num))
@@ -1103,6 +1107,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
     # Examine each line in trackletFile and read in every line
     #  as a track object. If track contains new detections (diasource)
     #  then add new source to diasource_dict. 
+    print "Building tracklets from tracklet file..."
     for line in trackletFileIn:
         # Found a track!
         total_tracklets_num += 1
@@ -1138,21 +1143,23 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
 
     return true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, interested_tracklets, detFileSize, trackletFileSize
 
-def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1, ssmidsOfInterest=None, verbose=True):
+def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1, ssmidsOfInterest=None, analyzeSubsets=False, verbose=True):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackFile), startTime)
-
-    idsFileSize = os.path.getsize(idsFile)
-    detFileSize = os.path.getsize(detFile)
-    trackFileSize = os.path.getsize(trackFile)
     
     # Create outfile to store results
     outFile = trackFile + ".results"
-    outFileOut = open(outFile, "w")
+    outFileOut = open(outFile, "w", 0)
     outFileOut.write("Start time: %s\n\n" % (startTime))
     print "Writing results to %s" % (outFile)
 
+    print "Checking file sizes..."
+    idsFileSize = os.path.getsize(idsFile)
+    detFileSize = os.path.getsize(detFile)
+    trackFileSize = os.path.getsize(trackFile)
+
     # Read ids file 
+    print "Counting number of input tracklets..."
     tracklet_num = 0
     for tracklet in open(idsFile, "r"):
         tracklet_num += 1
@@ -1162,6 +1169,7 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     outFileOut.write("Tracklets: %s\n\n" % (tracklet_num))
     
     # Read detections into a dataframe
+    print "Reading input detections..."
     dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
     outFileOut.write("Input Detection File Summary:\n")
     outFileOut.write("File size (bytes): %s\n" % (detFileSize))
@@ -1169,6 +1177,7 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     outFileOut.write("Unique objects: %s\n" % (dets_df['ssmid'].nunique()))
 
     # Count number of true tracks and findable SSMIDs in dataframe
+    print "Counting findable objects..."
     findable_ssmids = countFindableObjects(dets_df, minDetectionsPerNight=minDetectionsPerNight, minNights=minNights, windowSize=windowSize, snrLimit=snrLimit)
     outFileOut.write("Findable objects: %s\n\n" % (len(findable_ssmids)))
     
@@ -1193,6 +1202,7 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     # Examine each line in trackFile and read in every line
     #  as a track object. If track contains new detections (diasource)
     #  then add new source to diasource_dict. 
+    print "Building tracks from track file..."
     for line in trackFileIn:
         # Found a track!
         total_tracks_num += 1
@@ -1219,8 +1229,12 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
             false_tracks.append(new_track)
 
         tracks.append(new_track)
-        
-    longest_tracks, subset_tracks = checkSubsets(tracks)
+    
+    longest_tracks = []
+    subset_tracks = []
+    if analyzeSubsets:
+        print "Counting subset tracks..."    
+        longest_tracks, subset_tracks = checkSubsets(tracks)
 
     endTime = time.ctime()
 
