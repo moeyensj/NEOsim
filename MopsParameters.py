@@ -16,7 +16,7 @@ class DefaultMopsParameters:
     rms_max = "0.001"
 
     # removeSubsets (tracklets)
-    remove_subset_tracklets = "True"
+    remove_subset_tracklets = "False"
     keep_only_longest_tracklets = "False"
     
     # makeLinkTrackletsInput_byNight
@@ -368,15 +368,15 @@ class MopsParameters(object):
         print "---- makeLinkTrackletsInput_byNight.py ----"
         print "\tWindow size:                              %s" % (self._windowSize)
         print "---- linkTracklets ----"
-        print "\t Detection error threshold:               %s" % (self._detErrThresh)
-        print "\t Maximum right ascension acceleration:    %s" % (self._raAccelMax)
-        print "\t Maximum declination acceleration:        %s" % (self._decAccelMax)
-        print "\t Latest first endpoint:                   %s" % (self._latestFirstEnd)
-        print "\t Earliest last endpoint:                  %s" % (self._earliestLastEnd)
-        print "\t Minimum nights:                          %s" % (self._nightMin)
-        print "\t Minimum detections:                      %s" % (self._detectMin)
-        print "\t Output buffer size:                      %s" % (self._bufferSize)
-        print "\t Maximum leaf node size:                  %s" % (self._leafNodeSizeMax)
+        print "\tDetection error threshold:               %s" % (self._detErrThresh)
+        print "\tMaximum right ascension acceleration:    %s" % (self._raAccelMax)
+        print "\tMaximum declination acceleration:        %s" % (self._decAccelMax)
+        print "\tLatest first endpoint:                   %s" % (self._latestFirstEnd)
+        print "\tEarliest last endpoint:                  %s" % (self._earliestLastEnd)
+        print "\tMinimum nights:                          %s" % (self._nightMin)
+        print "\tMinimum detections:                      %s" % (self._detectMin)
+        print "\tOutput buffer size:                      %s" % (self._bufferSize)
+        print "\tMaximum leaf node size:                  %s" % (self._leafNodeSizeMax)
         print "---- removeSubsets (tracks) ----"
         print "\tRemove subsets:                           %s" % (self._rmSubsetTracks)
         print "\tKeep only longest:                        %s" % (self._keepOnlyLongestTracks)
