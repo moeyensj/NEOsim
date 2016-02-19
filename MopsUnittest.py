@@ -140,33 +140,48 @@ if __name__=="__main__":
 
     parser = argparse.ArgumentParser(description="Runs MOPS on test data and compares the output of each MOPS function to a set of control files.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    group = parser.add_mutually_exclusive_group(required=False)
-    group.add_argument('-s1', action='store_true', help="Run unittest only with source 1.")
-    group.add_argument('-s2', action='store_true', help="Run unittest only with source 2.")
-    group.add_argument('-s3', action='store_true', help="Run unittest only with source 3.")
+    group1 = parser.add_mutually_exclusive_group(required=False)
+    group1.add_argument('-s1', '--source1', action='store_true', help="Run unittest only with source 1.")
+    group1.add_argument('-s2', '--source2', action='store_true', help="Run unittest only with source 2.")
+    group1.add_argument('-s3', '--source3', action='store_true', help="Run unittest only with source 3.")
+
+    group2 = parser.add_mutually_exclusive_group(required=False)
+    group2.add_argument('-d', '--delete', action='store_true', help="Deletes MOPs output regardless of test results.")
+    group2.add_argument('-k', '--keep', action='store_true', help="Keeps MOPs output regardless of test results.")
+
+    parser.add_argument('-o', '--overwrite', action='store_true', help="Overwrites existing test output.")
 
     args = parser.parse_args()
 
-    if args.s1:
+    if args.source1:
         PARAMETERS = "unittest/controlRun/source1/parameters.yaml"
         TRACKER = "unittest/controlRun/source1/tracker.yaml"
         DATA_DIR = "unittest/testData/source1/nightly"
         TEST_DIR = "unittest/testRun/source1/"
-    elif args.s2: 
+    elif args.source2: 
         PARAMETERS = "unittest/controlRun/source2/parameters.yaml"
         TRACKER = "unittest/controlRun/source2/tracker.yaml"
         DATA_DIR = "unittest/testData/source2/nightly"
         TEST_DIR = "unittest/testRun/source2/"
-    elif args.s3:
+    elif args.source3:
         PARAMETERS = "unittest/controlRun/source3/parameters.yaml"
         TRACKER = "unittest/controlRun/source3/tracker.yaml"
         DATA_DIR = "unittest/testData/source3/nightly"
         TEST_DIR = "unittest/testRun/source3/" 
 
+    if args.overwrite:
+        if os.path.exists(TEST_DIR):
+            shutil.rmtree(TEST_DIR)
+
     runner = unittest.TextTestRunner()
     results = runner.run(suite())
 
-    if results.wasSuccessful():
+    if args.delete:
+        print "Deleting MOPs output."
+        shutil.rmtree(TEST_DIR)
+    elif args.keep:
+        print "Keeping MOPs output."
+    elif results.wasSuccessful():
         print "All tests PASSED. Deleting MOPs output."
         shutil.rmtree(TEST_DIR)
     else:
