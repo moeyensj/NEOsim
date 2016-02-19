@@ -149,7 +149,7 @@ if __name__=="__main__":
     group2.add_argument('-d', '--delete', action='store_true', help="Deletes MOPs output regardless of test results.")
     group2.add_argument('-k', '--keep', action='store_true', help="Keeps MOPs output regardless of test results.")
 
-    parser.add_argument('-o', '--overwrite', action='store_true', help="Overwrites existing test output.")
+    parser.add_argument('-O', '--overwrite', action='store_true', help="Overwrites existing test output.")
 
     args = parser.parse_args()
 
