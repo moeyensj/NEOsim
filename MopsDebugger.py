@@ -5,6 +5,7 @@ import sqlite3 as sql
 import pandas as pd
  
 import runMops
+import MopsAnalysis
 from MopsTracker import MopsTracker
 from MopsParameters import MopsParameters
 
@@ -28,6 +29,9 @@ def runSSMID(ssmid, database=DATABASE, tableName=TABLE_NAME, outputDir=OUTPUT_DI
     WHERE ssmid == %s
     """ % (tableName, ssmid), con, index_col='diaid') 
 
+    if len(dets) == 0:
+        raise ValueError("SSMID doesn't exist.")
+
     detsOut = os.path.join(new_data_dir, "%s.txt" % (ssmid))
     dets.to_csv(detsOut, sep=" ", header=False, index='diaid')
     
@@ -41,6 +45,9 @@ def runSSMID(ssmid, database=DATABASE, tableName=TABLE_NAME, outputDir=OUTPUT_DI
     parameters = MopsParameters(verbose=True)
     tracker = MopsTracker(run_dir, verbose=True)
     runMops.runMops(parameters, tracker, nightly, run_dir)
+
+    analysis = MopsAnalysis.runAnalysis(parameters, tracker)
+    analysis.analyze()
 
     if delete:
         shutil.rmtree(run_dir)
