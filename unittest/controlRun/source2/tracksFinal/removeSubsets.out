@@ -1,0 +1,728 @@
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59580_through_59595.track
+Output file:                                 controlRun/source2/tracksFinal/night_59580_through_59595.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:54 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 1.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 1.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8604) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59581_through_59596.track
+Output file:                                 controlRun/source2/tracksFinal/night_59581_through_59596.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8606) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59582_through_59597.track
+Output file:                                 controlRun/source2/tracksFinal/night_59582_through_59597.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8608) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59583_through_59598.track
+Output file:                                 controlRun/source2/tracksFinal/night_59583_through_59598.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8610) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59584_through_59599.track
+Output file:                                 controlRun/source2/tracksFinal/night_59584_through_59599.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8612) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59585_through_59600.track
+Output file:                                 controlRun/source2/tracksFinal/night_59585_through_59600.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8614) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59586_through_59601.track
+Output file:                                 controlRun/source2/tracksFinal/night_59586_through_59601.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8616) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59587_through_59602.track
+Output file:                                 controlRun/source2/tracksFinal/night_59587_through_59602.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8618) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59588_through_59603.track
+Output file:                                 controlRun/source2/tracksFinal/night_59588_through_59603.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8620) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59589_through_59604.track
+Output file:                                 controlRun/source2/tracksFinal/night_59589_through_59604.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8622) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59590_through_59605.track
+Output file:                                 controlRun/source2/tracksFinal/night_59590_through_59605.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8624) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59591_through_59606.track
+Output file:                                 controlRun/source2/tracksFinal/night_59591_through_59606.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8626) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59592_through_59607.track
+Output file:                                 controlRun/source2/tracksFinal/night_59592_through_59607.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8628) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59593_through_59608.track
+Output file:                                 controlRun/source2/tracksFinal/night_59593_through_59608.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8630) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59594_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59594_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8632) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59595_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59595_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8634) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59596_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59596_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8636) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59597_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59597_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8638) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59598_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59598_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8640) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59599_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59599_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8642) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59600_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59600_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8644) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59601_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59601_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8646) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59602_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59602_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8648) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59603_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59603_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8650) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59604_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59604_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8652) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59605_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59605_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8654) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59606_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59606_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8656) memory usage: 
+------------------------------------------
+------------------------------------------
+
+RemoveSubsets:
+---------------
+Input file:                                  controlRun/source2/tracks/night_59607_through_59609.track
+Output file:                                 controlRun/source2/tracksFinal/night_59607_through_59609.track.final
+RemoveSubsets:                               true
+Short-circuit if possible:                   true
+Sort sets by size before set intersection:   false
+Keep only longest tracklet(s) per detection: true
+Reading infile, starting at Fri Feb 19 10:40:55 2016
+
+Finished reading infile at Fri Feb 19 10:40:55 2016
+
+Reading input took 0.0000000000 seconds.
+Building detection-to-track map, starting at Fri Feb 19 10:40:55 2016
+
+Finished detection-to-track map, filtering tracks starting at Fri Feb 19 10:40:55 2016
+
+Finished filtering, writing output starting at Fri Feb 19 10:40:55 2016
+
+Completed after 0.0000000000 seconds.
+Finished successfully finished at Fri Feb 19 10:40:55 2016
+
+This process (8658) memory usage: 
+------------------------------------------
+------------------------------------------
+

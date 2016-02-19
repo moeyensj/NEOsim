@@ -33,7 +33,20 @@ _collapsedTrackletsById: [controlRun/source1/trackletsCollapsed/59580.tracklets.
   controlRun/source1/trackletsCollapsed/59609.tracklets.collapsed.byDiaIds]
 _collapsedTrackletsByIdDir: controlRun/source1/trackletsCollapsed/
 _collapsedTrackletsDir: controlRun/source1/trackletsCollapsed/
-_dets: []
+_dets: [controlRun/source1/trackletsByNight/night_59580_through_59595.dets, controlRun/source1/trackletsByNight/night_59581_through_59596.dets,
+  controlRun/source1/trackletsByNight/night_59582_through_59597.dets, controlRun/source1/trackletsByNight/night_59583_through_59598.dets,
+  controlRun/source1/trackletsByNight/night_59584_through_59599.dets, controlRun/source1/trackletsByNight/night_59585_through_59600.dets,
+  controlRun/source1/trackletsByNight/night_59586_through_59601.dets, controlRun/source1/trackletsByNight/night_59587_through_59602.dets,
+  controlRun/source1/trackletsByNight/night_59588_through_59603.dets, controlRun/source1/trackletsByNight/night_59589_through_59604.dets,
+  controlRun/source1/trackletsByNight/night_59590_through_59605.dets, controlRun/source1/trackletsByNight/night_59591_through_59606.dets,
+  controlRun/source1/trackletsByNight/night_59592_through_59607.dets, controlRun/source1/trackletsByNight/night_59593_through_59608.dets,
+  controlRun/source1/trackletsByNight/night_59594_through_59609.dets, controlRun/source1/trackletsByNight/night_59595_through_59609.dets,
+  controlRun/source1/trackletsByNight/night_59596_through_59609.dets, controlRun/source1/trackletsByNight/night_59597_through_59609.dets,
+  controlRun/source1/trackletsByNight/night_59598_through_59609.dets, controlRun/source1/trackletsByNight/night_59599_through_59609.dets,
+  controlRun/source1/trackletsByNight/night_59600_through_59609.dets, controlRun/source1/trackletsByNight/night_59601_through_59609.dets,
+  controlRun/source1/trackletsByNight/night_59602_through_59609.dets, controlRun/source1/trackletsByNight/night_59603_through_59609.dets,
+  controlRun/source1/trackletsByNight/night_59604_through_59609.dets, controlRun/source1/trackletsByNight/night_59605_through_59609.dets,
+  controlRun/source1/trackletsByNight/night_59606_through_59609.dets, controlRun/source1/trackletsByNight/night_59607_through_59609.dets]
 _diasources: [testData/source1/nightly/59580.dias, testData/source1/nightly/59581.dias,
   testData/source1/nightly/59582.dias, testData/source1/nightly/59583.dias, testData/source1/nightly/59584.dias,
   testData/source1/nightly/59585.dias, testData/source1/nightly/59586.dias, testData/source1/nightly/59587.dias,
@@ -45,7 +58,7 @@ _diasources: [testData/source1/nightly/59580.dias, testData/source1/nightly/5958
   testData/source1/nightly/59603.dias, testData/source1/nightly/59604.dias, testData/source1/nightly/59605.dias,
   testData/source1/nightly/59606.dias, testData/source1/nightly/59607.dias, testData/source1/nightly/59608.dias,
   testData/source1/nightly/59609.dias]
-_diasourcesDir: testData/source1/nightly
+_diasourcesDir: testData/source1/nightly/
 _finalTracklets: [controlRun/source1/trackletsFinal/59580.tracklets.final, controlRun/source1/trackletsFinal/59581.tracklets.final,
   controlRun/source1/trackletsFinal/59582.tracklets.final, controlRun/source1/trackletsFinal/59583.tracklets.final,
   controlRun/source1/trackletsFinal/59584.tracklets.final, controlRun/source1/trackletsFinal/59585.tracklets.final,
@@ -79,9 +92,36 @@ _finalTrackletsById: [controlRun/source1/trackletsFinal/59580.tracklets.final.by
   controlRun/source1/trackletsFinal/59609.tracklets.final.byDiaIds]
 _finalTrackletsByIdDir: controlRun/source1/trackletsFinal/
 _finalTrackletsDir: controlRun/source1/trackletsFinal/
-_finalTracks: []
+_finalTracks: [controlRun/source1/tracksFinal/night_59580_through_59595.track.final,
+  controlRun/source1/tracksFinal/night_59581_through_59596.track.final, controlRun/source1/tracksFinal/night_59582_through_59597.track.final,
+  controlRun/source1/tracksFinal/night_59583_through_59598.track.final, controlRun/source1/tracksFinal/night_59584_through_59599.track.final,
+  controlRun/source1/tracksFinal/night_59585_through_59600.track.final, controlRun/source1/tracksFinal/night_59586_through_59601.track.final,
+  controlRun/source1/tracksFinal/night_59587_through_59602.track.final, controlRun/source1/tracksFinal/night_59588_through_59603.track.final,
+  controlRun/source1/tracksFinal/night_59589_through_59604.track.final, controlRun/source1/tracksFinal/night_59590_through_59605.track.final,
+  controlRun/source1/tracksFinal/night_59591_through_59606.track.final, controlRun/source1/tracksFinal/night_59592_through_59607.track.final,
+  controlRun/source1/tracksFinal/night_59593_through_59608.track.final, controlRun/source1/tracksFinal/night_59594_through_59609.track.final,
+  controlRun/source1/tracksFinal/night_59595_through_59609.track.final, controlRun/source1/tracksFinal/night_59596_through_59609.track.final,
+  controlRun/source1/tracksFinal/night_59597_through_59609.track.final, controlRun/source1/tracksFinal/night_59598_through_59609.track.final,
+  controlRun/source1/tracksFinal/night_59599_through_59609.track.final, controlRun/source1/tracksFinal/night_59600_through_59609.track.final,
+  controlRun/source1/tracksFinal/night_59601_through_59609.track.final, controlRun/source1/tracksFinal/night_59602_through_59609.track.final,
+  controlRun/source1/tracksFinal/night_59603_through_59609.track.final, controlRun/source1/tracksFinal/night_59604_through_59609.track.final,
+  controlRun/source1/tracksFinal/night_59605_through_59609.track.final, controlRun/source1/tracksFinal/night_59606_through_59609.track.final,
+  controlRun/source1/tracksFinal/night_59607_through_59609.track.final]
 _finalTracksDir: controlRun/source1/tracksFinal/
-_ids: []
+_ids: [controlRun/source1/trackletsByNight/night_59580_through_59595.ids, controlRun/source1/trackletsByNight/night_59581_through_59596.ids,
+  controlRun/source1/trackletsByNight/night_59582_through_59597.ids, controlRun/source1/trackletsByNight/night_59583_through_59598.ids,
+  controlRun/source1/trackletsByNight/night_59584_through_59599.ids, controlRun/source1/trackletsByNight/night_59585_through_59600.ids,
+  controlRun/source1/trackletsByNight/night_59586_through_59601.ids, controlRun/source1/trackletsByNight/night_59587_through_59602.ids,
+  controlRun/source1/trackletsByNight/night_59588_through_59603.ids, controlRun/source1/trackletsByNight/night_59589_through_59604.ids,
+  controlRun/source1/trackletsByNight/night_59590_through_59605.ids, controlRun/source1/trackletsByNight/night_59591_through_59606.ids,
+  controlRun/source1/trackletsByNight/night_59592_through_59607.ids, controlRun/source1/trackletsByNight/night_59593_through_59608.ids,
+  controlRun/source1/trackletsByNight/night_59594_through_59609.ids, controlRun/source1/trackletsByNight/night_59595_through_59609.ids,
+  controlRun/source1/trackletsByNight/night_59596_through_59609.ids, controlRun/source1/trackletsByNight/night_59597_through_59609.ids,
+  controlRun/source1/trackletsByNight/night_59598_through_59609.ids, controlRun/source1/trackletsByNight/night_59599_through_59609.ids,
+  controlRun/source1/trackletsByNight/night_59600_through_59609.ids, controlRun/source1/trackletsByNight/night_59601_through_59609.ids,
+  controlRun/source1/trackletsByNight/night_59602_through_59609.ids, controlRun/source1/trackletsByNight/night_59603_through_59609.ids,
+  controlRun/source1/trackletsByNight/night_59604_through_59609.ids, controlRun/source1/trackletsByNight/night_59605_through_59609.ids,
+  controlRun/source1/trackletsByNight/night_59606_through_59609.ids, controlRun/source1/trackletsByNight/night_59607_through_59609.ids]
 _purifiedTracklets: [controlRun/source1/trackletsPurified/59580.tracklets.purified,
   controlRun/source1/trackletsPurified/59581.tracklets.purified, controlRun/source1/trackletsPurified/59582.tracklets.purified,
   controlRun/source1/trackletsPurified/59583.tracklets.purified, controlRun/source1/trackletsPurified/59584.tracklets.purified,
@@ -159,5 +199,18 @@ _trackletsByIndex: [controlRun/source1/tracklets/59580.tracklets.byIndices, cont
 _trackletsByIndexDir: controlRun/source1/tracklets/
 _trackletsByNightDir: controlRun/source1/trackletsByNight/
 _trackletsDir: controlRun/source1/tracklets/
-_tracks: []
+_tracks: [controlRun/source1/tracks/night_59580_through_59595.track, controlRun/source1/tracks/night_59581_through_59596.track,
+  controlRun/source1/tracks/night_59582_through_59597.track, controlRun/source1/tracks/night_59583_through_59598.track,
+  controlRun/source1/tracks/night_59584_through_59599.track, controlRun/source1/tracks/night_59585_through_59600.track,
+  controlRun/source1/tracks/night_59586_through_59601.track, controlRun/source1/tracks/night_59587_through_59602.track,
+  controlRun/source1/tracks/night_59588_through_59603.track, controlRun/source1/tracks/night_59589_through_59604.track,
+  controlRun/source1/tracks/night_59590_through_59605.track, controlRun/source1/tracks/night_59591_through_59606.track,
+  controlRun/source1/tracks/night_59592_through_59607.track, controlRun/source1/tracks/night_59593_through_59608.track,
+  controlRun/source1/tracks/night_59594_through_59609.track, controlRun/source1/tracks/night_59595_through_59609.track,
+  controlRun/source1/tracks/night_59596_through_59609.track, controlRun/source1/tracks/night_59597_through_59609.track,
+  controlRun/source1/tracks/night_59598_through_59609.track, controlRun/source1/tracks/night_59599_through_59609.track,
+  controlRun/source1/tracks/night_59600_through_59609.track, controlRun/source1/tracks/night_59601_through_59609.track,
+  controlRun/source1/tracks/night_59602_through_59609.track, controlRun/source1/tracks/night_59603_through_59609.track,
+  controlRun/source1/tracks/night_59604_through_59609.track, controlRun/source1/tracks/night_59605_through_59609.track,
+  controlRun/source1/tracks/night_59606_through_59609.track, controlRun/source1/tracks/night_59607_through_59609.track]
 _tracksDir: controlRun/source1/tracks/

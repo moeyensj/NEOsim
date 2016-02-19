@@ -29,8 +29,8 @@ def updateUnittest(database, testDataDir, controlRunDir, tableName="testsources"
     
     # Gather detections and save them to a text file
     objs = pd.read_sql_query("""
-    SELECT * FROM testsources
-    """, con, index_col='diaid')
+    SELECT * FROM %s
+    """ % tableName, con, index_col='diaid')
     
     # Retrieve unique ssmids and limit to 3
     ssmids = objs['ssmid'].unique()
@@ -45,7 +45,7 @@ def createTestCase(con, testDataDir, controlRunDir, subDir, ssmid=None):
     new_data_dir = os.path.join(testDataDir, subDir)
     os.mkdir(new_data_dir)
     
-    nightly = os.path.join(new_data_dir, 'nightly')
+    nightly = os.path.join(new_data_dir, 'nightly/')
     os.mkdir(nightly)
     
     if ssmid == None:

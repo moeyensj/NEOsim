@@ -6,17 +6,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:01 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:01 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:01 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:01 2016
 
-This process (47033) memory usage: 
+This process (8931) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -28,17 +28,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:01 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:01 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:01 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:01 2016
 
-This process (47035) memory usage: 
+This process (8933) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -50,17 +50,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:01 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:01 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:01 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:01 2016
 
-This process (47037) memory usage: 
+This process (8935) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -72,17 +72,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:01 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:01 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:01 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47039) memory usage: 
+This process (8937) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -94,17 +94,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47041) memory usage: 
+This process (8939) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -116,17 +116,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47043) memory usage: 
+This process (8941) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -138,17 +138,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47045) memory usage: 
+This process (8943) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -160,17 +160,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47047) memory usage: 
+This process (8945) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -182,17 +182,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47049) memory usage: 
+This process (8947) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -204,17 +204,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47051) memory usage: 
+This process (8949) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -226,17 +226,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47053) memory usage: 
+This process (8951) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -248,17 +248,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47055) memory usage: 
+This process (8953) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -270,17 +270,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47057) memory usage: 
+This process (8955) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -292,17 +292,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47059) memory usage: 
+This process (8957) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -314,17 +314,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47061) memory usage: 
+This process (8959) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -336,17 +336,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47063) memory usage: 
+This process (8961) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -358,17 +358,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47065) memory usage: 
+This process (8963) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -380,17 +380,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47067) memory usage: 
+This process (8965) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -402,17 +402,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47069) memory usage: 
+This process (8967) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -424,17 +424,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47071) memory usage: 
+This process (8969) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -446,17 +446,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47073) memory usage: 
+This process (8971) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -468,17 +468,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47075) memory usage: 
+This process (8973) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -490,17 +490,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47077) memory usage: 
+This process (8975) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -512,17 +512,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47079) memory usage: 
+This process (8977) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -534,17 +534,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47081) memory usage: 
+This process (8979) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -556,17 +556,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47083) memory usage: 
+This process (8981) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -578,17 +578,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47085) memory usage: 
+This process (8983) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -600,17 +600,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47087) memory usage: 
+This process (8985) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -622,17 +622,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47089) memory usage: 
+This process (8987) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -644,17 +644,17 @@ RemoveSubsets:                               false
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: false
-Reading infile, starting at Thu Feb 18 13:33:43 2016
+Reading infile, starting at Fri Feb 19 10:41:02 2016
 
-Finished reading infile at Thu Feb 18 13:33:43 2016
+Finished reading infile at Fri Feb 19 10:41:02 2016
 
 Reading input took 0.0000000000 seconds.
-Finished filtering, writing output starting at Thu Feb 18 13:33:43 2016
+Finished filtering, writing output starting at Fri Feb 19 10:41:02 2016
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Thu Feb 18 13:33:43 2016
+Finished successfully finished at Fri Feb 19 10:41:02 2016
 
-This process (47091) memory usage: 
+This process (8989) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
