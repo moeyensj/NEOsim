@@ -1,0 +1,600 @@
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59580.dias
+Pairs File         unittest/controlRun/full/tracklets/59580.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59580.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18842) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59581.dias
+Pairs File         unittest/controlRun/full/tracklets/59581.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59581.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18844) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59582.dias
+Pairs File         unittest/controlRun/full/tracklets/59582.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59582.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18846) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59583.dias
+Pairs File         unittest/controlRun/full/tracklets/59583.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59583.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18848) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59584.dias
+Pairs File         unittest/controlRun/full/tracklets/59584.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59584.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18850) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59585.dias
+Pairs File         unittest/controlRun/full/tracklets/59585.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59585.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18852) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59586.dias
+Pairs File         unittest/controlRun/full/tracklets/59586.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59586.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18854) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59587.dias
+Pairs File         unittest/controlRun/full/tracklets/59587.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59587.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18856) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59588.dias
+Pairs File         unittest/controlRun/full/tracklets/59588.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59588.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18858) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59589.dias
+Pairs File         unittest/controlRun/full/tracklets/59589.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59589.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18860) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59590.dias
+Pairs File         unittest/controlRun/full/tracklets/59590.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59590.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18862) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59591.dias
+Pairs File         unittest/controlRun/full/tracklets/59591.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59591.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18864) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59592.dias
+Pairs File         unittest/controlRun/full/tracklets/59592.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59592.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18866) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59593.dias
+Pairs File         unittest/controlRun/full/tracklets/59593.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59593.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18868) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59594.dias
+Pairs File         unittest/controlRun/full/tracklets/59594.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59594.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18870) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59595.dias
+Pairs File         unittest/controlRun/full/tracklets/59595.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59595.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18872) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59596.dias
+Pairs File         unittest/controlRun/full/tracklets/59596.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59596.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18874) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59597.dias
+Pairs File         unittest/controlRun/full/tracklets/59597.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59597.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18876) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59598.dias
+Pairs File         unittest/controlRun/full/tracklets/59598.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59598.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18878) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59599.dias
+Pairs File         unittest/controlRun/full/tracklets/59599.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59599.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18880) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59600.dias
+Pairs File         unittest/controlRun/full/tracklets/59600.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59600.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18882) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59601.dias
+Pairs File         unittest/controlRun/full/tracklets/59601.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59601.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18884) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59602.dias
+Pairs File         unittest/controlRun/full/tracklets/59602.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59602.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18886) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59603.dias
+Pairs File         unittest/controlRun/full/tracklets/59603.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59603.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18888) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59604.dias
+Pairs File         unittest/controlRun/full/tracklets/59604.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59604.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18890) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59605.dias
+Pairs File         unittest/controlRun/full/tracklets/59605.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59605.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18892) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59606.dias
+Pairs File         unittest/controlRun/full/tracklets/59606.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59606.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18894) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59607.dias
+Pairs File         unittest/controlRun/full/tracklets/59607.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59607.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18896) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59608.dias
+Pairs File         unittest/controlRun/full/tracklets/59608.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59608.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18898) memory usage: 
+------------------------------------------
+------------------------------------------
+
+collapseTracklets: 
+--------------------------------
+Method:            greedy
+enforce min. RMS:  true
+maximum RMS:       0.001
+Dets File:         unittest/testData/full/nightly/59609.dias
+Pairs File         unittest/controlRun/full/tracklets/59609.tracklets.byIndices
+Output File:       unittest/controlRun/full/trackletsCollapsed/59609.tracklets.collapsed
+Tolerances: 
+RA0: 0.002, Dec0: 0.002, angle: 5, velocity: 0.05
+Reading input took 0.0000000000 seconds.
+Found 6 detections
+Found 3 pairs.
+Writing the output to file...
+Done!
+Completed after 0.0000000000 seconds.
+This process (18900) memory usage: 
+------------------------------------------
+------------------------------------------
+

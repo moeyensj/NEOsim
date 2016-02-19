@@ -7,23 +7,27 @@ import runMops
 from MopsTracker import MopsTracker
 from MopsParameters import MopsParameters
 
-TEST_DIR = "unittest/testRun/"
-DATA_DIR = "unittest/testData/nightly/"
-CONTROL_DIR = "unittest/controlRun/"
+PARAMETERS = "unittest/controlRun/full/parameters.yaml"
+TRACKER = "unittest/controlRun/full/tracker.yaml"
+DATA_DIR = "unittest/testData/full/nightly"
+TEST_DIR = "unittest/testRun/full/"
 
 VERBOSE = True
 
 class MopsTest(unittest.TestCase):
 
     @classmethod
-    def setUpClass(self):
-        self.testTracker = MopsTracker(TEST_DIR)
-        self.testParameters = MopsParameters(verbose=VERBOSE)
+    def setUpClass(cls):
+        cls.dataDir = DATA_DIR
+        cls.testDir = TEST_DIR
 
-        self.controlParameters = yaml.load(file("unittest/controlRun/parameters.yaml", "r"))
-        self.controlTracker = yaml.load(file("unittest/controlRun/tracker.yaml", "r"))
+        cls.testTracker = MopsTracker(TEST_DIR)
+        cls.testParameters = MopsParameters(verbose=VERBOSE)
 
-        runMops.runMops(self.testParameters, self.testTracker, DATA_DIR, TEST_DIR, verbose=VERBOSE)
+        cls.controlParameters = yaml.load(file(PARAMETERS, "r"))
+        cls.controlTracker = yaml.load(file(TRACKER, "r"))
+
+        runMops.runMops(cls.testParameters, cls.testTracker, cls.dataDir, cls.testDir, verbose=VERBOSE)
 
     def test_directoryBuilder(self):
         controlDirs = [self.controlTracker.trackletsDir, self.controlTracker.trackletsByIndexDir,
@@ -128,15 +132,43 @@ class MopsTest(unittest.TestCase):
 def suite():
     tests = ['test_directoryBuilder', 'test_findTracklets', 'test_idsToIndices', 'test_collapseTracklets', 'test_collapsedTrackletsById', 
         'test_purifyTracklets', 'test_purifiedTrackletsById', 'test_removeSubsetsTracklets', 'test_finalTrackletsById', 'test_makeLinkTrackletsInput_byNight', 'test_linkTracklets', 'test_removeSubsetsTracks']
-
     return unittest.TestSuite(map(MopsTest, tests))
 
-runner = unittest.TextTestRunner()
-results = runner.run(suite())
+if __name__=="__main__":
 
-if results.wasSuccessful():
-    print "All tests PASSED. Deleting MOPs output."
-    shutil.rmtree(TEST_DIR)
-else:
-    print "FAILURES detected. Keeping MOPs output."
-    pass
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Runs MOPS on test data and compares the output of each MOPS function to a set of control files.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    group = parser.add_mutually_exclusive_group(required=False)
+    group.add_argument('-s1', action='store_true', help="Run unittest only with source 1.")
+    group.add_argument('-s2', action='store_true', help="Run unittest only with source 2.")
+    group.add_argument('-s3', action='store_true', help="Run unittest only with source 3.")
+
+    args = parser.parse_args()
+
+    if args.s1:
+        PARAMETERS = "unittest/controlRun/source1/parameters.yaml"
+        TRACKER = "unittest/controlRun/source1/tracker.yaml"
+        DATA_DIR = "unittest/testData/source1/nightly"
+        TEST_DIR = "unittest/testRun/source1/"
+    elif args.s2: 
+        PARAMETERS = "unittest/controlRun/source2/parameters.yaml"
+        TRACKER = "unittest/controlRun/source2/tracker.yaml"
+        DATA_DIR = "unittest/testData/source2/nightly"
+        TEST_DIR = "unittest/testRun/source2/"
+    elif args.s3:
+        PARAMETERS = "unittest/controlRun/source3/parameters.yaml"
+        TRACKER = "unittest/controlRun/source3/tracker.yaml"
+        DATA_DIR = "unittest/testData/source3/nightly"
+        TEST_DIR = "unittest/testRun/source3/" 
+
+    runner = unittest.TextTestRunner()
+    results = runner.run(suite())
+
+    if results.wasSuccessful():
+        print "All tests PASSED. Deleting MOPs output."
+        shutil.rmtree(TEST_DIR)
+    else:
+        print "FAILURES detected. Keeping MOPs output."
+        pass

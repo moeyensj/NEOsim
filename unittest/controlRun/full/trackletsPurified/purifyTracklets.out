@@ -1,0 +1,540 @@
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59580.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59580.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59580.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18932) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59581.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59581.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59581.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18934) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59582.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59582.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59582.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18936) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59583.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59583.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59583.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18938) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59584.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59584.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59584.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18940) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59585.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59585.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59585.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18942) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59586.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59586.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59586.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18944) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59587.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59587.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59587.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18946) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59588.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59588.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59588.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18948) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59589.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59589.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59589.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18950) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59590.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59590.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59590.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18952) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59591.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59591.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59591.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18954) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59592.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59592.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59592.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18956) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59593.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59593.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59593.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18958) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59594.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59594.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59594.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18960) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59595.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59595.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59595.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18962) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59596.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59596.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59596.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18964) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59597.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59597.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59597.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18966) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59598.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59598.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59598.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18968) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59599.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59599.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59599.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18970) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59600.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59600.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59600.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18972) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59601.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59601.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59601.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18974) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59602.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59602.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59602.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18976) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59603.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59603.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59603.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18978) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59604.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59604.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59604.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18980) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59605.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59605.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59605.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18982) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59606.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59606.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59606.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18984) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59607.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59607.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59607.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18986) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59608.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59608.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59608.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18988) memory usage: 
+------------------------------------------
+------------------------------------------
+
+purifyTracklets: 
+==========================================
+Detections file:        unittest/testData/full/nightly/59609.dias
+Pairs (tracklets) file: unittest/controlRun/full/trackletsCollapsed/59609.tracklets.collapsed
+Output file:            unittest/controlRun/full/trackletsPurified/59609.tracklets.purified
+max RMS:                0.001
+Reading detections file....
+Reading tracklets (pairs) file....
+Done!
+Reading input took 0.0000000000 seconds.
+Doing the filtering...
+Done. Writing output.
+Done!
+Completed after 0.0000000000 seconds.
+This process (18990) memory usage: 
+------------------------------------------
+------------------------------------------
+
