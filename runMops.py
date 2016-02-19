@@ -127,7 +127,7 @@ def runFindTracklets(diasources, outDir, vmax=defaults.vMax, vmin=defaults.vMin,
     if verbose:
         _status(function, False)
 
-    return tracklets
+    return sorted(tracklets)
 
 def runIdsToIndices(tracklets, diasources, outDir, verbose=VERBOSE):
     """
@@ -165,7 +165,7 @@ def runIdsToIndices(tracklets, diasources, outDir, verbose=VERBOSE):
     if verbose:
         _status(function, False)
 
-    return byIndex
+    return sorted(byIndex)
 
 def runCollapseTracklets(trackletsByIndex, diasources, outDir, raTol=defaults.raTol,
         decTol=defaults.decTol, angTol=defaults.angTol, vTol=defaults.vTol,
@@ -206,7 +206,7 @@ def runCollapseTracklets(trackletsByIndex, diasources, outDir, raTol=defaults.ra
     if verbose:
         _status(function, False)
 
-    return collapsedTracklets
+    return sorted(collapsedTracklets)
 
 def runPurifyTracklets(collapsedTracklets, diasources, outDir, rmsMax=defaults.rmsMax, verbose=VERBOSE):
     """
@@ -242,7 +242,7 @@ def runPurifyTracklets(collapsedTracklets, diasources, outDir, rmsMax=defaults.r
     if verbose:
         _status(function, False)
 
-    return purifiedTracklets
+    return sorted(purifiedTracklets)
 
 def runRemoveSubsets(purifiedTracklets, diasources, outDir, rmSubsets=defaults.rmSubsetTracklets, keepOnlyLongest=defaults.keepOnlyLongestTracklets, suffix=FINAL_TRACKLET_SUFFIX, verbose=VERBOSE):
     """
@@ -280,7 +280,7 @@ def runRemoveSubsets(purifiedTracklets, diasources, outDir, rmSubsets=defaults.r
     if verbose:
         _status(function, False)
 
-    return finalTracklets
+    return sorted(finalTracklets)
 
 def runIndicesToIds(finalTracklets, diasources, outDir, suffix, verbose=VERBOSE):
     """
@@ -318,7 +318,7 @@ def runIndicesToIds(finalTracklets, diasources, outDir, suffix, verbose=VERBOSE)
     if verbose:
         _status(function, False)
 
-    return byId
+    return sorted(byId)
 
 def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir, diasSuffix=DIASOURCE_SUFFIX, trackletSuffix=FINAL_TRACKLET_SUFFIX + TRACKLET_BY_ID_SUFFIX, windowSize=defaults.windowSize, verbose=VERBOSE):
     """
@@ -353,7 +353,7 @@ def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir, diasSu
     if verbose:
         _status(function, False)
 
-    return dets, ids
+    return sorted(dets), sorted(ids)
 
 def runLinkTracklets(dets, ids, outDir, detErrThresh=defaults.detErrThresh, decAccelMax=defaults.decAccelMax, raAccelMax=defaults.raAccelMax, nightMin=defaults.nightMin, detectMin=defaults.detectMin, bufferSize=defaults.bufferSize, latestFirstEnd=defaults.latestFirstEnd, earliestLastEnd=defaults.earliestLastEnd, leafNodeSizeMax=defaults.leafNodeSizeMax, verbose=VERBOSE):
     """
@@ -404,7 +404,7 @@ def runLinkTracklets(dets, ids, outDir, detErrThresh=defaults.detErrThresh, decA
     if verbose:
         _status(function, False)
 
-    return tracks
+    return sorted(tracks)
 
 def runArgs():
 
@@ -519,7 +519,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     _save(parameters, 'parameters', outDir=runDir)
 
     # Find diasources
-    diasourceList = os.listdir(diasourcesDir)
+    diasourceList = sorted(os.listdir(diasourcesDir))
     diasources = []
     for diasource in diasourceList:
         diasources.append(os.path.join(diasourcesDir, diasource))
