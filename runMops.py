@@ -20,6 +20,8 @@ import subprocess
 import glob
 import argparse
 import yaml
+import itertools
+import multiprocessing
 
 from MopsParameters import MopsParameters
 from MopsTracker import MopsTracker
@@ -355,7 +357,10 @@ def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir, diasSu
 
     return sorted(dets), sorted(ids)
 
-def runLinkTracklets(dets, ids, outDir, detErrThresh=defaults.detErrThresh, decAccelMax=defaults.decAccelMax, raAccelMax=defaults.raAccelMax, nightMin=defaults.nightMin, detectMin=defaults.detectMin, bufferSize=defaults.bufferSize, latestFirstEnd=defaults.latestFirstEnd, earliestLastEnd=defaults.earliestLastEnd, leafNodeSizeMax=defaults.leafNodeSizeMax, verbose=VERBOSE):
+def runLinkTracklets(dets, ids, outDir, enableMultiprocess=True, processes=8, detErrThresh=defaults.detErrThresh, decAccelMax=defaults.decAccelMax, 
+    raAccelMax=defaults.raAccelMax, nightMin=defaults.nightMin, detectMin=defaults.detectMin, 
+    bufferSize=defaults.bufferSize, latestFirstEnd=defaults.latestFirstEnd, 
+    earliestLastEnd=defaults.earliestLastEnd, leafNodeSizeMax=defaults.leafNodeSizeMax, verbose=VERBOSE):
     """
     Runs linkTracklets.
 
@@ -374,32 +379,66 @@ def runLinkTracklets(dets, ids, outDir, detErrThresh=defaults.detErrThresh, decA
     if verbose:
         _status(function, True)
 
-    for detIn, idIn in zip(dets,ids):
-        trackOut = _out(outDir, detIn, TRACK_SUFFIX)
-        outfile = file(trackOut + '.out', 'w')
-        errfile = file(trackOut + '.err', 'w')
+    if enableMultiprocess:
+        print "Multiprocess Enabled!"
 
-        call = ['linkTracklets', 
-            '-e', detErrThresh, 
-            '-D', decAccelMax,
-            '-R', raAccelMax,
-            '-u', nightMin,
-            '-s', detectMin,
-            '-b', bufferSize,
-            '-d', detIn, 
-            '-t', idIn,
-            '-o', trackOut]
+        calls = []
+        for detIn, idIn in zip(dets,ids):
+            trackOut = _out(outDir, detIn, TRACK_SUFFIX)
 
-        if latestFirstEnd != None:
-            call.extend(['-F', latestFirstEnd])
-        if earliestLastEnd != None:
-            call.extend(['-L', earliestLastEnd])
-        if leafNodeSizeMax != None:
-            call.extend(['-n', leafNodeSizeMax])
+            call = ['linkTracklets', 
+                '-e', detErrThresh, 
+                '-D', decAccelMax,
+                '-R', raAccelMax,
+                '-u', nightMin,
+                '-s', detectMin,
+                '-b', bufferSize,
+                '-d', detIn, 
+                '-t', ids[dets == detIn],
+                '-o', trackOut]
 
-        subprocess.call(call, stdout=outfile, stderr=errfile)
+            if latestFirstEnd != None:
+                call.extend(['-F', latestFirstEnd])
+            if earliestLastEnd != None:
+                call.extend(['-L', earliestLastEnd])
+            if leafNodeSizeMax != None:
+                call.extend(['-n', leafNodeSizeMax])
 
-        tracks.append(trackOut)
+            tracks.append(trackOut)
+
+            calls.append(call)
+
+        p = multiprocessing.Pool(processes=processes)
+        p.map(_runWindow, calls)
+
+    else:
+
+        for detIn, idIn in zip(dets,ids):
+            trackOut = _out(outDir, detIn, TRACK_SUFFIX)
+            outfile = file(trackOut + '.out', 'w')
+            errfile = file(trackOut + '.err', 'w')
+
+            call = ['linkTracklets', 
+                '-e', detErrThresh, 
+                '-D', decAccelMax,
+                '-R', raAccelMax,
+                '-u', nightMin,
+                '-s', detectMin,
+                '-b', bufferSize,
+                '-d', detIn, 
+                '-t', idIn,
+                '-o', trackOut]
+
+            if latestFirstEnd != None:
+                call.extend(['-F', latestFirstEnd])
+            if earliestLastEnd != None:
+                call.extend(['-L', earliestLastEnd])
+            if leafNodeSizeMax != None:
+                call.extend(['-n', leafNodeSizeMax])
+
+            subprocess.call(call, stdout=outfile, stderr=errfile)
+
+            tracks.append(trackOut)
 
     if verbose:
         _status(function, False)
@@ -695,6 +734,16 @@ def _out(outDir, filename, suffix):
     # Create path 
     outFile = os.path.join(outDir, outName)
     return outFile
+
+def _runWindow(call):
+    # Unfortunately pool.map() can't map a function call of multiple arguments
+    # so we have to extract the trackOut name from the function call...
+    trackOut = call[18]
+    outfile = file(trackOut + '.out', 'w')
+    errfile = file(trackOut + '.err', 'w')
+
+    subprocess.call(call, stdout=outfile, stderr=errfile)
+    return
 
 if __name__=="__main__":
 
