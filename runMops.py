@@ -737,7 +737,8 @@ def _out(outDir, filename, suffix):
 
 def _runWindow(call):
     # Unfortunately pool.map() can't map a function call of multiple arguments
-    # so we have to extract the trackOut name from the function call...
+    # so we have to extract the trackOut name from the function call.
+    # When python 3.3 is accepted as standard, pool.starmap() will be used instead.
     trackOut = call[18]
     outfile = file(trackOut + '.out', 'w')
     errfile = file(trackOut + '.err', 'w')
