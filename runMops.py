@@ -357,7 +357,7 @@ def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir, diasSu
 
     return sorted(dets), sorted(ids)
 
-def runLinkTracklets(dets, ids, outDir, enableMultiprocess=True, processes=8, detErrThresh=defaults.detErrThresh, decAccelMax=defaults.decAccelMax, 
+def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8, detErrThresh=defaults.detErrThresh, decAccelMax=defaults.decAccelMax, 
     raAccelMax=defaults.raAccelMax, nightMin=defaults.nightMin, detectMin=defaults.detectMin, 
     bufferSize=defaults.bufferSize, latestFirstEnd=defaults.latestFirstEnd, 
     earliestLastEnd=defaults.earliestLastEnd, leafNodeSizeMax=defaults.leafNodeSizeMax, verbose=VERBOSE):
@@ -379,8 +379,9 @@ def runLinkTracklets(dets, ids, outDir, enableMultiprocess=True, processes=8, de
     if verbose:
         _status(function, True)
 
-    if enableMultiprocess:
-        print "Multiprocess Enabled!"
+    if enableMultiprocessing:
+        print "Multiprocessing Enabled!"
+        print "Using %s CPUs in parallel." % (processes)
 
         calls = []
         for detIn, idIn in zip(dets,ids):
@@ -535,7 +536,8 @@ def runArgs():
 
     return args
 
-def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=True, removeSubsetTracklets=True, removeSubsetTracks=True, verbose=VERBOSE):
+def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, collapse=True, purify=True, removeSubsetTracklets=True, 
+    linkTracklets=True, removeSubsetTracks=True, enableMultiprocessing=True, processes=8, verbose=VERBOSE):
     """
     Runs Moving Object Pipeline.
 
@@ -547,6 +549,14 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     tracker: (MopsTracker object), object keeps track of output files and directories
     diasourcesDir: (string), directory containing diasources
     runDir: (string), run directory
+    findTracklets: (boolean) [True], run findTracklets?
+    collapse: (boolean) [True], run collapseTracklets?
+    purify: (boolean) [True], run purifyTracklets?
+    removeSubsetTracklets: (boolean) [True], run removeSubsets on tracklets?
+    linkTracklets: (boolean) [True], run linkTracklets?
+    removeSubsetTracks: (boolean) [True], run removeSubsets on tracks?
+    enableMultiprocessing: (boolean) [True], run linkTracklets in parallel?
+    processes: (int) [8], when multiprocessing is enabled, use this many processes. 
     ----------------------
     """
 
@@ -566,16 +576,17 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
     tracker.diasourcesDir = diasourcesDir
 
     # Run findTracklets
-    if tracker.ranFindTracklets == False:
-        tracklets = runFindTracklets(diasources, dirs["trackletsDir"], vmax=parameters.vMax, vmin=parameters.vMin, verbose=verbose)
-        tracker.ranFindTracklets = True
-        tracker.tracklets = tracklets
-        tracker.trackletsDir = dirs["trackletsDir"]
-        inputTrackletsDir = dirs["trackletsDir"]
-        _save(tracker, 'tracker', outDir=runDir)
-    else:
-        print "findTracklets has already completed, moving on..."
-        print ""
+    if findTracklets:
+        if tracker.ranFindTracklets == False:
+            tracklets = runFindTracklets(diasources, dirs["trackletsDir"], vmax=parameters.vMax, vmin=parameters.vMin, verbose=verbose)
+            tracker.ranFindTracklets = True
+            tracker.tracklets = tracklets
+            tracker.trackletsDir = dirs["trackletsDir"]
+            inputTrackletsDir = dirs["trackletsDir"]
+            _save(tracker, 'tracker', outDir=runDir)
+        else:
+            print "findTracklets has already completed, moving on..."
+            print ""
 
     if collapse:
         if tracker.ranIdsToIndices == False:
@@ -644,29 +655,33 @@ def runMops(parameters, tracker, diasourcesDir, runDir, collapse=True, purify=Tr
             print "indicesToIds has already completed, moving on..."
             print ""
 
+    if linkTracklets:
+        # Run makeLinkTrackletsInputByNight
+        if tracker.ranMakeLinkTrackletsInputByNight == False:
+            dets, ids = runMakeLinkTrackletsInputByNight(diasourcesDir, inputTrackletsDir, dirs["trackletsByNightDir"], windowSize=parameters.windowSize, verbose=verbose)
+            tracker.ranMakeLinkTrackletsInputByNight = True
+            tracker.dets = dets
+            tracker.ids = ids
+            tracker.trackletsByNightDir = dirs["trackletsByNightDir"]
+            _save(tracker, 'tracker', outDir=runDir)
+        else:
+            print "makeLinkTrackletsInput_byNight has already completed, moving on..."
+            print ""
 
-    # Run makeLinkTrackletsInputByNight
-    if tracker.ranMakeLinkTrackletsInputByNight == False:
-        dets, ids = runMakeLinkTrackletsInputByNight(diasourcesDir, inputTrackletsDir, dirs["trackletsByNightDir"], windowSize=parameters.windowSize, verbose=verbose)
-        tracker.ranMakeLinkTrackletsInputByNight = True
-        tracker.dets = dets
-        tracker.ids = ids
-        tracker.trackletsByNightDir = dirs["trackletsByNightDir"]
-        _save(tracker, 'tracker', outDir=runDir)
-    else:
-        print "makeLinkTrackletsInput_byNight has already completed, moving on..."
-        print ""
-
-    # Run linkTracklets
-    if tracker.ranLinkTracklets == False:
-        tracks = runLinkTracklets(dets, ids, dirs["tracksDir"], detErrThresh=parameters.detErrThresh, decAccelMax=parameters.decAccelMax, raAccelMax=parameters.raAccelMax, nightMin=parameters.nightMin, detectMin=parameters.detectMin, bufferSize=parameters.bufferSize, latestFirstEnd=parameters.latestFirstEnd, earliestLastEnd=parameters.earliestLastEnd, leafNodeSizeMax=parameters.leafNodeSizeMax, verbose=verbose)
-        tracker.ranLinkTracklets = True
-        tracker.tracks = tracks
-        tracker.tracksDir = dirs["tracksDir"]
-        _save(tracker, 'tracker', outDir=runDir)
-    else:
-        print "linkTracklets has already completed, moving on..."
-        print ""
+        # Run linkTracklets
+        if tracker.ranLinkTracklets == False:
+            tracks = runLinkTracklets(dets, ids, dirs["tracksDir"], enableMultiprocessing=enableMultiprocessing, processes=processes,
+                detErrThresh=parameters.detErrThresh, decAccelMax=parameters.decAccelMax, raAccelMax=parameters.raAccelMax, 
+                nightMin=parameters.nightMin, detectMin=parameters.detectMin, bufferSize=parameters.bufferSize, 
+                latestFirstEnd=parameters.latestFirstEnd, earliestLastEnd=parameters.earliestLastEnd, 
+                leafNodeSizeMax=parameters.leafNodeSizeMax, verbose=verbose)
+            tracker.ranLinkTracklets = True
+            tracker.tracks = tracks
+            tracker.tracksDir = dirs["tracksDir"]
+            _save(tracker, 'tracker', outDir=runDir)
+        else:
+            print "linkTracklets has already completed, moving on..."
+            print ""
 
     if removeSubsetTracks:
         # Run removeSubsets (tracks)
