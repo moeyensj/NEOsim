@@ -20,7 +20,6 @@ import subprocess
 import glob
 import argparse
 import yaml
-import itertools
 import multiprocessing
 
 from MopsParameters import MopsParameters
