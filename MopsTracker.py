@@ -42,6 +42,19 @@ class MopsTracker(object):
         self._ranLinkTracklets = False
         self._ranRemoveSubsetTracks = False
 
+        self._ranTrackletAnalysis = False
+        self._trackletResults = None
+        self._ranCollapsedTrackletAnalysis = False
+        self._collapsedTrackletResults = None
+        self._ranPurifiedTrackletAnalysis = False
+        self._purifiedTrackletResults = None
+        self._ranFinalTrackletAnalysis = False
+        self._finalTrackletResults = None
+        self._ranTrackAnalysis = False
+        self._trackResults = None
+        self._ranFinalTracksAnalysis = False
+        self._finalTrackResults = None
+
         if verbose:
             self.info()
 
@@ -334,52 +347,100 @@ class MopsTracker(object):
         self._ranRemoveSubsetTracks = value
 
     @property
-    def vMax(self):
-        return self._vMax
+    def ranTrackletAnalysis(self):
+        return self._ranTrackletAnalysis
+
+    @ranTrackletAnalysis.setter
+    def ranTrackletAnalysis(self, value):
+        self._ranTrackletAnalysis = value
     
-    @vMax.setter
-    def vMax(self, value):
-        self._vMax = value
+    @property
+    def trackletResults(self):
+        return self._trackletResults
+
+    @trackletResults.setter
+    def trackletResults(self, value):
+        self._trackletResults = value
 
     @property
-    def vMin(self):
-        return self._vMin
+    def ranCollapsedTrackletAnalysis(self):
+        return self._ranCollapsedTrackletAnalysis
 
-    @vMin.setter
-    def vMin(self, value):
-        self._vMin = value 
-
-    @property
-    def raTol(self):
-        return self._raTol
-
-    @raTol.setter
-    def raTol(self, value):
-        self._raTol = value
+    @ranCollapsedTrackletAnalysis.setter
+    def ranCollapsedTrackletAnalysis(self, value):
+        self._ranCollapsedTrackletAnalysis = value
 
     @property
-    def decTol(self):
-        return self._decTol
+    def collapsedTrackletResults(self):
+        return self._collapsedTrackletResults
 
-    @decTol.setter
-    def decTol(self, value):
-        self._decTol = value
-
-    @property
-    def angTol(self):
-        return self._angTol
-
-    @angTol.setter
-    def angTol(self, value):
-        self._angTol = value
+    @collapsedTrackletResults.setter
+    def collapsedTrackletResults(self, value):
+        self._collapsedTrackletResults = value
 
     @property
-    def vTol(self):
-        return self._vTol
+    def ranPurifiedTrackletAnalysis(self):
+        return self._ranPurifiedTrackletAnalysis
 
-    @vTol.setter
-    def vTol(self, value):
-        self._vTol = value
+    @ranPurifiedTrackletAnalysis.setter
+    def ranPurifiedTrackletAnalysis(self, value):
+        self._ranPurifiedTrackletAnalysis = value
+
+    @property
+    def purifiedTrackletResults(self):
+        return self._purifiedTrackletResults
+
+    @purifiedTrackletResults.setter
+    def purifiedTrackletResults(self, value):
+        self._purifiedTrackletResults = value
+
+    @property
+    def ranFinalTrackletAnalysis(self):
+        return self._ranFinalTrackletAnalysis
+
+    @ranFinalTrackletAnalysis.setter
+    def ranFinalTrackletAnalysis(self, value):
+        self._ranFinalTrackletAnalysis = value
+
+    @property
+    def finalTrackletResults(self):
+        return self._finalTrackletResults
+
+    @finalTrackletResults.setter
+    def finalTrackletResults(self, value):
+        self._finalTrackletResults = value
+
+    @property
+    def ranTrackAnalysis(self):
+        return self._ranTrackAnalysis
+
+    @ranTrackAnalysis.setter
+    def ranTrackAnalysis(self, value):
+        self._ranTrackAnalysis = value
+
+    @property
+    def trackResults(self):
+        return self._trackResults
+
+    @trackResults.setter
+    def trackResults(self, value):
+        self._trackResults = value
+
+    @property
+    def ranFinalTracksAnalysis(self):
+        return self._ranFinalTracksAnalysis
+
+    @ranFinalTracksAnalysis.setter
+    def ranFinalTracksAnalysis(self, value):
+        self._ranFinalTracksAnalysis = value
+
+    @property
+    def finalTrackResults(self):
+        return self._finalTrackResults
+
+    @finalTrackResults.setter
+    def finalTrackResults(self, value):
+        self._finalTrackResults = value
 
     def info(self):
         print "------- MOPS Tracker --------"
