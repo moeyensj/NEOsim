@@ -662,6 +662,7 @@ class runAnalysis(object):
 
             self.tracker.ranTrackletAnalysis = True
             self.tracker.trackletResults = sorted(resultFiles)
+            self.tracker.toYaml(outDir=self.tracker.runDir)
                    
         else:
             print "Skipping tracklet analysis..."
@@ -693,6 +694,7 @@ class runAnalysis(object):
 
             self.tracker.ranCollapsedTrackletAnalysis = True
             self.tracker.collapsedTrackletResults = sorted(resultFiles)
+            self.tracker.toYaml(outDir=self.tracker.runDir)
                 
         else:
             print "Skipping collapsed tracklet analysis..."
@@ -724,6 +726,7 @@ class runAnalysis(object):
 
             self.tracker.ranPurifiedTrackletAnalysis = True
             self.tracker.purifiedTrackletResults = sorted(resultFiles)
+            self.tracker.toYaml(outDir=self.tracker.runDir)
 
         else:
             print "Skipping purified tracklet analysis..."
@@ -754,6 +757,7 @@ class runAnalysis(object):
 
             self.tracker.ranFinalTrackletAnalysis = True
             self.tracker.finalTrackletResults = sorted(resultFiles)
+            self.tracker.toYaml(outDir=self.tracker.runDir)
 
         else:
             print "Skipping final tracklet analysis..."   
@@ -793,6 +797,7 @@ class runAnalysis(object):
 
             self.tracker.ranTrackAnalysis = True
             self.tracker.trackResults = sorted(resultFiles)
+            self.tracker.toYaml(outDir=self.tracker.runDir)
 
         else:
             print "Skipping track analysis..."
@@ -828,6 +833,7 @@ class runAnalysis(object):
 
             self.tracker.ranFinalTrackAnalysis = True
             self.tracker.finalTrackResults = sorted(resultFiles)
+            self.tracker.toYaml(outDir=self.tracker.runDir)
 
         else:
             print "Skipping final track analysis..."
