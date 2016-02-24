@@ -637,26 +637,31 @@ class runAnalysis(object):
 
         self._startTime = time.ctime()
 
-        if tracklets:
-            for night, trackletFile, detFile in zip(self.nights, self.tracker.tracklets, self.tracker.diasources):
-                [true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
-                    tracklet_file_size] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
+        if tracklets and self.tracker.ranFindTracklets:
+                for night, trackletFile, detFile in zip(self.nights, self.tracker.tracklets, self.tracker.diasources):
+                    [true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
+                        tracklet_file_size] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
 
-                self._totalTracklets[night] = total_tracklets_num
-                self._trueTracklets[night] = true_tracklets_num
-                self._falseTracklets[night] = false_tracklets_num
-                self._trueTrackletsSample[night] = selectSample(true_tracklets)
-                self._falseTrackletsSample[night] = selectSample(false_tracklets)
+                    self._totalTracklets[night] = total_tracklets_num
+                    self._trueTracklets[night] = true_tracklets_num
+                    self._falseTracklets[night] = false_tracklets_num
+                    self._trueTrackletsSample[night] = selectSample(true_tracklets)
+                    self._falseTrackletsSample[night] = selectSample(false_tracklets)
 
-                self._trackletFileSizes[night] = tracklet_file_size
-                self._trackletDetFileSizes[night] = det_file_size
+                    self._trackletFileSizes[night] = tracklet_file_size
+                    self._trackletDetFileSizes[night] = det_file_size
 
-                for ssmid in tracklets_of_interest:
-                    self._ssmidsOfInterestObjects[ssmid].tracklets[night] = tracklets_of_interest[ssmid]
+                    for ssmid in tracklets_of_interest:
+                        self._ssmidsOfInterestObjects[ssmid].tracklets[night] = tracklets_of_interest[ssmid]
 
-                print ""
+                    print ""
+                   
+        else:
+            print "Skipping tracklet analysis..."
+            print ""
+        
 
-        if collapsedTracklets:
+        if collapsedTracklets and self.tracker.ranCollapseTracklets:
             for night, trackletFile, detFile in zip(self.nights, self.tracker.collapsedTrackletsById, self.tracker.diasources):
                 [true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
                     tracklet_file_size] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
@@ -672,10 +677,15 @@ class runAnalysis(object):
 
                 for ssmid in tracklets_of_interest:
                     self._ssmidsOfInterestObjects[ssmid].collapsedTracklets[night] = tracklets_of_interest[ssmid]
-                
-                print ""
 
-        if purifiedTracklets:
+                print ""
+                
+        else:
+            print "Skipping collapsed tracklet analysis..."
+            print ""
+
+
+        if purifiedTracklets and self.tracker.ranPurifyTracklets:
             for night, trackletFile, detFile in zip(self.nights, self.tracker.purifiedTrackletsById, self.tracker.diasources):
                 [true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
                     tracklet_file_size] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
@@ -694,7 +704,11 @@ class runAnalysis(object):
 
                 print ""
 
-        if finalTracklets:
+        else:
+            print "Skipping purified tracklet analysis..."
+            print ""
+
+        if finalTracklets and self.tracker.ranRemoveSubsetTracklets:
             for night, trackletFile, detFile in zip(self.nights, self.tracker.finalTrackletsById, self.tracker.diasources):
                 [true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
                     tracklet_file_size] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
@@ -710,10 +724,14 @@ class runAnalysis(object):
 
                 for ssmid in tracklets_of_interest:
                     self._ssmidsOfInterestObjects[ssmid].finalTracklets[night] = tracklets_of_interest[ssmid]
-                
+
                 print ""
 
-        if tracks:
+        else:
+            print "Skipping final tracklet analysis..."   
+            print ""
+
+        if tracks and self.tracker.ranLinkTracklets:
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
                 if checkWindow(window, minWindowSize):
                     [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
@@ -738,10 +756,14 @@ class runAnalysis(object):
 
                     for ssmid in tracks_of_interest:
                         self._ssmidsOfInterestObjects[ssmid].tracks[window] = tracks_of_interest[ssmid]
-                
-                print ""
 
-        if finalTracks:
+                    print ""
+
+        else:
+            print "Skipping track analysis..."
+            print ""
+
+        if finalTracks and self.tracker.ranRemoveSubsetTracks:
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.finalTracks, self.tracker.dets, self.tracker.ids):
                 if checkWindow(window, minWindowSize):
                     [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
@@ -763,7 +785,10 @@ class runAnalysis(object):
                     for ssmid in tracks_of_interest:
                         self._ssmidsOfInterestObjects[ssmid].finalTracks[window] = tracks_of_interest[ssmid]
                 
-                print ""
+                    print ""
+        else:
+            print "Skipping final track analysis..."
+            print ""
 
         self._endTime = time.ctime()
 
