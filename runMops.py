@@ -383,7 +383,8 @@ def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8,
         print "Using %s CPUs in parallel." % (processes)
 
         calls = []
-        for detIn, idIn in zip(dets,ids):
+
+        for detIn, idIn in zip(dets, ids):
             trackOut = _out(outDir, detIn, TRACK_SUFFIX)
 
             call = ['linkTracklets', 
@@ -394,7 +395,7 @@ def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8,
                 '-s', detectMin,
                 '-b', bufferSize,
                 '-d', detIn, 
-                '-t', ids[dets == detIn],
+                '-t', idIn,
                 '-o', trackOut]
 
             if latestFirstEnd != None:
@@ -740,7 +741,6 @@ def _runWindow(call):
     trackOut = call[18]
     outfile = file(trackOut + '.out', 'w')
     errfile = file(trackOut + '.err', 'w')
-
     subprocess.call(call, stdout=outfile, stderr=errfile)
     return
 
