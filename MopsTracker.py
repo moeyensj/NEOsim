@@ -32,6 +32,7 @@ class MopsTracker(object):
         self._tracksDir = None
         self._finalTracksDir = None
 
+        self._ranDirectoryBuilder = False
         self._ranFindTracklets = False
         self._ranIdsToIndices = False
         self._ranCollapseTracklets = False
@@ -265,6 +266,14 @@ class MopsTracker(object):
     @finalTracksDir.setter
     def finalTracksDir(self, value):
         self._finalTracksDir = value
+
+    @property
+    def ranDirectoryBuilder(self):
+        return self._ranDirectoryBuilder
+
+    @ranDirectoryBuilder.setter
+    def ranDirectoryBuilder(self, value):
+        self._ranDirectoryBuilder = value
 
     @property
     def ranFindTracklets(self):
