@@ -20,7 +20,6 @@ import subprocess
 import glob
 import argparse
 import yaml
-import itertools
 import multiprocessing
 
 from MopsParameters import MopsParameters
@@ -384,7 +383,8 @@ def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8,
         print "Using %s CPUs in parallel." % (processes)
 
         calls = []
-        for detIn, idIn in zip(dets,ids):
+
+        for detIn, idIn in zip(dets, ids):
             trackOut = _out(outDir, detIn, TRACK_SUFFIX)
 
             call = ['linkTracklets', 
@@ -395,7 +395,7 @@ def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8,
                 '-s', detectMin,
                 '-b', bufferSize,
                 '-d', detIn, 
-                '-t', ids[dets == detIn],
+                '-t', idIn,
                 '-o', trackOut]
 
             if latestFirstEnd != None:
@@ -565,7 +565,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
         removeSubsetTracks=removeSubsetTracks, verbose=verbose)
 
     # Save parameters
-    _save(parameters, 'parameters', outDir=runDir)
+    parameters.toYaml(outDir=runDir)
 
     # Find diasources
     diasourceList = sorted(os.listdir(diasourcesDir))
@@ -574,6 +574,8 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
         diasources.append(os.path.join(diasourcesDir, diasource))
     tracker.diasources = diasources
     tracker.diasourcesDir = diasourcesDir
+    tracker.toYaml(outDir=runDir)
+    print ""
 
     # Run findTracklets
     if findTracklets:
@@ -583,10 +585,11 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
             tracker.tracklets = tracklets
             tracker.trackletsDir = dirs["trackletsDir"]
             inputTrackletsDir = dirs["trackletsDir"]
-            _save(tracker, 'tracker', outDir=runDir)
+            tracker.toYaml(outDir=runDir)
         else:
             print "findTracklets has already completed, moving on..."
-            print ""
+        
+        print ""
 
     if collapse:
         if tracker.ranIdsToIndices == False:
@@ -595,10 +598,11 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
             tracker.ranIdsToIndices = True
             tracker.trackletsByIndex = trackletsByIndex
             tracker.trackletsByIndexDir = dirs["trackletsDir"]
-            _save(tracker, 'tracker', outDir=runDir)
+            tracker.toYaml(outDir=runDir)
         else:
             print "idsToIndices has already completed, moving on..."
-            print ""
+        
+        print ""
 
         # Run collapseTracklets
         if tracker.ranCollapseTracklets == False:
@@ -610,10 +614,11 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
             tracker.collapsedTrackletsById = collapsedTrackletsById
             tracker.collapsedTrackletsByIdDir = dirs["collapsedDir"]
             inputTrackletsDir = dirs["collapsedDir"]
-            _save(tracker, 'tracker', outDir=runDir)
+            tracker.toYaml(outDir=runDir)
         else:
             print "collapseTracklets has already completed, moving on..."
-            print ""
+        
+        print ""
 
     if purify: 
         # Run purifyTracklets
@@ -626,10 +631,11 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
             tracker.purifiedTrackletsById =  purifiedTrackletsById
             tracker.purifiedTrackletsByIdDir =  dirs["purifiedDir"]
             inputTrackletsDir = dirs["purifiedDir"]
-            _save(tracker, 'tracker', outDir=runDir)
+            tracker.toYaml(outDir=runDir)
         else: 
             print "purifyTracklets has already completed, moving on..."
-            print ""
+        
+        print ""
 
     if removeSubsetTracklets:
         # Run removeSubsets
@@ -638,10 +644,11 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
             tracker.ranRemoveSubsetTracklets = True
             tracker.finalTracklets = finalTracklets
             tracker.finalTrackletsDir = dirs["finalTrackletsDir"]
-            _save(tracker, 'tracker', outDir=runDir)
+            tracker.toYaml(outDir=runDir)
         else:
             print "removeSubsets (tracklets) has already completed, moving on..."
-            print ""
+        
+        print ""
 
         # Run indicesToIds
         if tracker.ranIndicesToIds == False:
@@ -650,10 +657,11 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
             tracker.finalTrackletsById = finalTrackletsById
             tracker.finalTrackletsByIdDir = dirs["finalTrackletsDir"]
             inputTrackletsDir = dirs["finalTrackletsDir"]
-            _save(tracker, 'tracker', outDir=runDir)
+            tracker.toYaml(outDir=runDir)
         else:
             print "indicesToIds has already completed, moving on..."
-            print ""
+        
+        print ""
 
     if linkTracklets:
         # Run makeLinkTrackletsInputByNight
@@ -663,10 +671,11 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
             tracker.dets = dets
             tracker.ids = ids
             tracker.trackletsByNightDir = dirs["trackletsByNightDir"]
-            _save(tracker, 'tracker', outDir=runDir)
+            tracker.toYaml(outDir=runDir)
         else:
             print "makeLinkTrackletsInput_byNight has already completed, moving on..."
-            print ""
+        
+        print ""
 
         # Run linkTracklets
         if tracker.ranLinkTracklets == False:
@@ -678,10 +687,11 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
             tracker.ranLinkTracklets = True
             tracker.tracks = tracks
             tracker.tracksDir = dirs["tracksDir"]
-            _save(tracker, 'tracker', outDir=runDir)
+            tracker.toYaml(outDir=runDir)
         else:
             print "linkTracklets has already completed, moving on..."
-            print ""
+        
+        print ""
 
     if removeSubsetTracks:
         # Run removeSubsets (tracks)
@@ -690,14 +700,15 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
             tracker.ranRemoveSubsetTracks = True
             tracker.finalTracks = finalTracks
             tracker.finalTracksDir = dirs["finalTracksDir"]
-            _save(tracker, 'tracker', outDir=runDir)
+            tracker.toYaml(outDir=runDir)
         else:
             print "removeSubsets (tracks) has already completed, moving on..."
-            print ""
+        
+        print ""
 
     # Print status and save tracker
     tracker.info()
-    _save(tracker, 'tracker', outDir=runDir)
+    tracker.toYaml(outDir=runDir)
 
     return
 
@@ -712,24 +723,7 @@ def _status(function, current):
     return
 
 
-def _save(mopsObject, objectName, outDir=None):
 
-    print "------- Run MOPS -------"
-
-    if outDir == None:
-        outname = "%s.yaml" % (objectName)
-    else:
-        outname = os.path.join(outDir, "%s.yaml" % (objectName))
-
-    print "Saving %s to %s" % (objectName, outname)
-
-    stream = file(outname, "w")
-    yaml.dump(mopsObject, stream)   
-    stream.close()
-
-    print ""
-
-    return
 
 def _log(function, outDir):
     # Split function name to get rid of possible .py
@@ -757,7 +751,6 @@ def _runWindow(call):
     trackOut = call[18]
     outfile = file(trackOut + '.out', 'w')
     errfile = file(trackOut + '.err', 'w')
-
     subprocess.call(call, stdout=outfile, stderr=errfile)
     return
 

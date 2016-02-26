@@ -384,8 +384,29 @@ class MopsParameters(object):
 
         return
 
+    def toYaml(self, outDir=None):
+        import os
+        import yaml
+
+        if outDir == None:
+            outname = "parameters.yaml"
+        else:
+            outname = os.path.join(outDir, "parameters.yaml")
+
+        print "Saving parameters to %s" % (outname)
+
+        stream = file(outname, "w")
+        yaml.dump(self, stream)   
+        stream.close()
+
+        return
+
     @classmethod
     def fromYaml(cls, yamlFile):
         import yaml
+
+        print "Loading parameters from %s" % (yamlFile)
+
         cls = yaml.load(file(yamlFile, "r"))
+
         return cls

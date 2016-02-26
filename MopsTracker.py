@@ -32,6 +32,7 @@ class MopsTracker(object):
         self._tracksDir = None
         self._finalTracksDir = None
 
+        self._ranDirectoryBuilder = False
         self._ranFindTracklets = False
         self._ranIdsToIndices = False
         self._ranCollapseTracklets = False
@@ -267,6 +268,14 @@ class MopsTracker(object):
         self._finalTracksDir = value
 
     @property
+    def ranDirectoryBuilder(self):
+        return self._ranDirectoryBuilder
+
+    @ranDirectoryBuilder.setter
+    def ranDirectoryBuilder(self, value):
+        self._ranDirectoryBuilder = value
+
+    @property
     def ranFindTracklets(self):
         return self._ranFindTracklets
 
@@ -459,8 +468,29 @@ class MopsTracker(object):
         
         return
 
+    def toYaml(self, outDir=None):
+        import os
+        import yaml
+
+        if outDir == None:
+            outname = "tracker.yaml"
+        else:
+            outname = os.path.join(outDir, "tracker.yaml")
+
+        print "Saving tracker to %s" % (outname)
+
+        stream = file(outname, "w")
+        yaml.dump(self, stream)   
+        stream.close()
+
+        return
+
     @classmethod
     def fromYaml(cls, yamlFile):
         import yaml
+        
+        print "Loading tracker from %s" % (yamlFile)
+        
         cls = yaml.load(file(yamlFile, "r"))
+        
         return cls

@@ -637,10 +637,14 @@ class runAnalysis(object):
 
         self._startTime = time.ctime()
 
-        if tracklets:
+        if tracklets and self.tracker.ranFindTracklets:
+            resultFiles = []
+
             for night, trackletFile, detFile in zip(self.nights, self.tracker.tracklets, self.tracker.diasources):
-                [true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
+                [resultsFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
                     tracklet_file_size] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
+
+                resultFiles.append(resultsFile)
 
                 self._totalTracklets[night] = total_tracklets_num
                 self._trueTracklets[night] = true_tracklets_num
@@ -656,10 +660,23 @@ class runAnalysis(object):
 
                 print ""
 
-        if collapsedTracklets:
+            self.tracker.ranTrackletAnalysis = True
+            self.tracker.trackletResults = sorted(resultFiles)
+            self.tracker.toYaml(outDir=self.tracker.runDir)
+                   
+        else:
+            print "Skipping tracklet analysis..."
+            print ""
+        
+
+        if collapsedTracklets and self.tracker.ranCollapseTracklets:
+            resultFiles = []
+
             for night, trackletFile, detFile in zip(self.nights, self.tracker.collapsedTrackletsById, self.tracker.diasources):
-                [true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
+                [resultsFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
                     tracklet_file_size] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
+
+                resultFiles.append(resultsFile)
 
                 self._totalCollapsedTracklets[night] = total_tracklets_num
                 self._trueCollapsedTracklets[night] = true_tracklets_num
@@ -672,13 +689,26 @@ class runAnalysis(object):
 
                 for ssmid in tracklets_of_interest:
                     self._ssmidsOfInterestObjects[ssmid].collapsedTracklets[night] = tracklets_of_interest[ssmid]
-                
+
                 print ""
 
-        if purifiedTracklets:
+            self.tracker.ranCollapsedTrackletAnalysis = True
+            self.tracker.collapsedTrackletResults = sorted(resultFiles)
+            self.tracker.toYaml(outDir=self.tracker.runDir)
+                
+        else:
+            print "Skipping collapsed tracklet analysis..."
+            print ""
+
+
+        if purifiedTracklets and self.tracker.ranPurifyTracklets:
+            resultFiles = []
+
             for night, trackletFile, detFile in zip(self.nights, self.tracker.purifiedTrackletsById, self.tracker.diasources):
-                [true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
+                [resultsFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
                     tracklet_file_size] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
+
+                resultFiles.append(resultsFile)
 
                 self._totalPurifiedTracklets[night] = total_tracklets_num
                 self._truePurifiedTracklets[night] = true_tracklets_num
@@ -694,10 +724,22 @@ class runAnalysis(object):
 
                 print ""
 
-        if finalTracklets:
+            self.tracker.ranPurifiedTrackletAnalysis = True
+            self.tracker.purifiedTrackletResults = sorted(resultFiles)
+            self.tracker.toYaml(outDir=self.tracker.runDir)
+
+        else:
+            print "Skipping purified tracklet analysis..."
+            print ""
+
+        if finalTracklets and self.tracker.ranRemoveSubsetTracklets:
+            resultFiles = []
+
             for night, trackletFile, detFile in zip(self.nights, self.tracker.finalTrackletsById, self.tracker.diasources):
-                [true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
+                [resultsFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
                     tracklet_file_size] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
+
+                resultFiles.append(resultsFile)
 
                 self._totalFinalTracklets[night] = total_tracklets_num
                 self._trueFinalTracklets[night] = true_tracklets_num
@@ -710,15 +752,27 @@ class runAnalysis(object):
 
                 for ssmid in tracklets_of_interest:
                     self._ssmidsOfInterestObjects[ssmid].finalTracklets[night] = tracklets_of_interest[ssmid]
-                
+
                 print ""
 
-        if tracks:
+            self.tracker.ranFinalTrackletAnalysis = True
+            self.tracker.finalTrackletResults = sorted(resultFiles)
+            self.tracker.toYaml(outDir=self.tracker.runDir)
+
+        else:
+            print "Skipping final tracklet analysis..."   
+            print ""
+
+        if tracks and self.tracker.ranLinkTracklets:
+            resultFiles = []
+
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
                 if checkWindow(window, minWindowSize):
-                    [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
+                    [resultsFile, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
                         subset_tracks_num, longest_tracks_num, tracks_of_interest, objects_num, findable_objs_num, found_objs_num, det_file_size, 
                         ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest, analyzeSubsets=analyzeSubsets)
+
+                    resultFiles.append(resultsFile)
 
                     self._uniqueObjects[window] = objects_num
                     self._findableObjects[window] = findable_objs_num
@@ -738,15 +792,27 @@ class runAnalysis(object):
 
                     for ssmid in tracks_of_interest:
                         self._ssmidsOfInterestObjects[ssmid].tracks[window] = tracks_of_interest[ssmid]
-                
-                print ""
 
-        if finalTracks:
+                    print ""
+
+            self.tracker.ranTrackAnalysis = True
+            self.tracker.trackResults = sorted(resultFiles)
+            self.tracker.toYaml(outDir=self.tracker.runDir)
+
+        else:
+            print "Skipping track analysis..."
+            print ""
+
+        if finalTracks and self.tracker.ranRemoveSubsetTracks:
+            resultFiles = []
+
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.finalTracks, self.tracker.dets, self.tracker.ids):
                 if checkWindow(window, minWindowSize):
-                    [true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
+                    [resultsFile, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
                         subset_tracks_num, longest_tracks_num, tracks_of_interest, objects_num, findable_objs_num, found_objs_num, det_file_size, 
                         ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
+
+                    resultFiles.append(resultsFile)
 
                     self._totalFinalTracks[window] = total_tracks_num
                     self._trueFinalTracks[window] = true_tracks_num
@@ -763,7 +829,15 @@ class runAnalysis(object):
                     for ssmid in tracks_of_interest:
                         self._ssmidsOfInterestObjects[ssmid].finalTracks[window] = tracks_of_interest[ssmid]
                 
-                print ""
+                    print ""
+
+            self.tracker.ranFinalTrackAnalysis = True
+            self.tracker.finalTrackResults = sorted(resultFiles)
+            self.tracker.toYaml(outDir=self.tracker.runDir)
+
+        else:
+            print "Skipping final track analysis..."
+            print ""
 
         self._endTime = time.ctime()
 
@@ -1141,7 +1215,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackletFile), endTime)
 
-    return true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, interested_tracklets, detFileSize, trackletFileSize
+    return outFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, interested_tracklets, detFileSize, trackletFileSize
 
 def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1, ssmidsOfInterest=None, analyzeSubsets=False, verbose=True):
     startTime = time.ctime()
@@ -1250,4 +1324,4 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
    
-    return true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, len(subset_tracks), len(longest_tracks), interested_tracks, dets_df['ssmid'].nunique(), len(findable_ssmids), len(found_ssmids), detFileSize, idsFileSize, trackFileSize
+    return outFile, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, len(subset_tracks), len(longest_tracks), interested_tracks, dets_df['ssmid'].nunique(), len(findable_ssmids), len(found_ssmids), detFileSize, idsFileSize, trackFileSize
