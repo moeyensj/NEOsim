@@ -732,7 +732,7 @@ def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, pur
     tracker.info()
     tracker.toYaml(outDir=runDir)
 
-    return
+    return parameters, tracker
 
 def _status(function, current):
 
@@ -821,4 +821,4 @@ if __name__=="__main__":
     tracker.getDetections(diasourcesDir)
 
     # Run MOPs
-    runMops(parameters, tracker, verbose=verbose)
+    parameters, tracker = runMops(parameters, tracker, verbose=verbose)

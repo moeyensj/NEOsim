@@ -25,7 +25,7 @@ class MopsTest(unittest.TestCase):
         cls.controlParameters = yaml.load(file(PARAMETERS, "r"))
         cls.controlTracker = yaml.load(file(TRACKER, "r"))
 
-        runMops.runMops(cls.testParameters, cls.testTracker, verbose=VERBOSE)
+        parameters, tracker = runMops.runMops(cls.testParameters, cls.testTracker, verbose=VERBOSE)
 
     def test_directoryBuilder(self):
         controlDirs = [self.controlTracker.trackletsDir, self.controlTracker.trackletsByIndexDir,
