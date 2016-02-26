@@ -451,6 +451,21 @@ class MopsTracker(object):
     def finalTrackResults(self, value):
         self._finalTrackResults = value
 
+    def getDetections(self, diasourcesDir):
+        import os
+
+        diasourceList = sorted(os.listdir(diasourcesDir))
+        diasources = []
+
+        for diasource in diasourceList:
+            diasources.append(os.path.join(diasourcesDir, diasource))
+
+        self._diasources = diasources
+        self._diasourcesDir = diasourcesDir
+
+        print "Found %s detection files in %s." % (len(diasourceList), diasourcesDir)
+        print ""
+
     def info(self):
         print "------- MOPS Tracker --------"
         print "Current run status:"

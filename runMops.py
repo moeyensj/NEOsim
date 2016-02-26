@@ -552,7 +552,7 @@ def runArgs():
 
     return args
 
-def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, collapseTracklets=True, purifyTracklets=True, removeSubsetTracklets=True, 
+def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, purifyTracklets=True, removeSubsetTracklets=True, 
     linkTracklets=True, removeSubsetTracks=True, enableMultiprocessing=True, processes=8, overwrite=False, verbose=VERBOSE):
     """
     Runs Moving Object Pipeline.
@@ -563,8 +563,6 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
 
     parameters: (MopsParameters object), user or default defined MOPS parameter object
     tracker: (MopsTracker object), object keeps track of output files and directories
-    diasourcesDir: (string), directory containing diasources
-    runDir: (string), run directory
     findTracklets: (boolean) [True], run findTracklets?
     collapse: (boolean) [True], run collapseTracklets?
     purify: (boolean) [True], run purifyTracklets?
@@ -580,11 +578,16 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
         print "Running LSST's Moving Object Pipeline"
         print ""
 
+    runDir = tracker.runDir
+    diasources = tracker.diasources
+    diasourcesDir = tracker.diasourcesDir
+
     # If overwrite, delete progress stored in tracker.
     if overwrite:
         print "Overwrite triggered: clearing tracker..."
         print ""
         tracker = MopsTracker(runDir, verbose=False)
+        tracker.getDetections(diasourcesDir)
 
     # Build directory structure
     dirs = directoryBuilder(runDir, findTracklets=findTracklets, collapseTracklets=collapseTracklets, purifyTracklets=purifyTracklets, 
@@ -594,17 +597,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
 
     # Save parameters
     parameters.toYaml(outDir=runDir)
-
-    if tracker.diasources == None:
-        # Find diasources
-        diasourceList = sorted(os.listdir(diasourcesDir))
-        diasources = []
-        for diasource in diasourceList:
-            diasources.append(os.path.join(diasourcesDir, diasource))
-        tracker.diasources = diasources
-        tracker.diasourcesDir = diasourcesDir
-        tracker.toYaml(outDir=runDir)
-        print ""
+    print ""
 
     # Run findTracklets
     if findTracklets:
@@ -751,9 +744,6 @@ def _status(function, current):
         print ""
     return
 
-
-
-
 def _log(function, outDir):
     # Split function name to get rid of possible .py
     function = os.path.splitext(function)[0]
@@ -828,6 +818,7 @@ if __name__=="__main__":
 
      # Initialize tracker
     tracker = MopsTracker(runDir, verbose=verbose)
+    tracker.getDetections(diasourcesDir)
 
     # Run MOPs
-    runMops(parameters, tracker, diasourcesDir, runDir, verbose=verbose)
+    runMops(parameters, tracker, verbose=verbose)
