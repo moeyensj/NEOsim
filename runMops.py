@@ -20,6 +20,7 @@ import subprocess
 import glob
 import argparse
 import yaml
+import shutil
 import multiprocessing
 
 from MopsParameters import MopsParameters
@@ -48,7 +49,8 @@ VERBOSE = True
 
 defaults = MopsParameters(verbose=False)
 
-def directoryBuilder(runDir, collapse=True, purify=True, removeSubsetTracklets=True, removeSubsetTracks=True, verbose=VERBOSE):
+def directoryBuilder(runDir, findTracklets=True, collapseTracklets=True, purifyTracklets=True, removeSubsetTracklets=True, 
+    linkTracklets=True, removeSubsetTracks=True, overwrite=False, verbose=VERBOSE):
     """
     Builds the directory structure for MOPS output files.
 
@@ -64,32 +66,46 @@ def directoryBuilder(runDir, collapse=True, purify=True, removeSubsetTracklets=T
     ----------------------
     """
 
-    try:
+    if os.path.exists(runDir):
+        if overwrite:
+            shutil.rmtree(runDir)
+            os.mkdir(runDir)
+            print "Overwrite triggered: deleting existing directory..."
+            print ""
+        else:
+            raise NameError("Run directory exists! Cannot continue!")
+    else:
         os.mkdir(runDir)
-    except:
-        raise NameError("Directory exists! Cannot continue!")
         
     dirsOut = {}
 
-    dirsOut["trackletsDir"] = TRACKLETS_DIR
-    dirsOut["trackletsByNightDir"] = TRACKLETS_BY_NIGHT_DIR 
-    dirsOut["tracksDir"] = TRACKS_DIR
+    if findTracklets:
+        dirsOut["trackletsDir"] = TRACKLETS_DIR
     
-    if collapse:
+    if collapseTracklets:
         dirsOut["collapsedDir"] = COLLAPSED_TRACKLETS_DIR
 
-    if purify:
+    if purifyTracklets:
         dirsOut["purifiedDir"] = PURIFIED_TRACKLETS_DIR
         
     if removeSubsetTracklets:
         dirsOut["finalTrackletsDir"] = FINAL_TRACKLETS_DIR
+
+    if linkTracklets:
+        dirsOut["trackletsByNightDir"] = TRACKLETS_BY_NIGHT_DIR 
+        dirsOut["tracksDir"] = TRACKS_DIR
         
     if removeSubsetTracks:
         dirsOut["finalTracksDir"] = FINAL_TRACKS_DIR
         
     for d in dirsOut:
         newDir = os.path.join(runDir, dirsOut[d])
-        os.mkdir(newDir)
+
+        if os.path.exists(newDir):
+            print "%s already exists."
+        else:
+            os.mkdir(newDir)
+
         dirsOut[d] = newDir
             
     return dirsOut
@@ -536,8 +552,8 @@ def runArgs():
 
     return args
 
-def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, collapse=True, purify=True, removeSubsetTracklets=True, 
-    linkTracklets=True, removeSubsetTracks=True, enableMultiprocessing=True, processes=8, verbose=VERBOSE):
+def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, collapseTracklets=True, purifyTracklets=True, removeSubsetTracklets=True, 
+    linkTracklets=True, removeSubsetTracks=True, enableMultiprocessing=True, processes=8, overwrite=False, verbose=VERBOSE):
     """
     Runs Moving Object Pipeline.
 
@@ -559,23 +575,36 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
     processes: (int) [8], when multiprocessing is enabled, use this many processes. 
     ----------------------
     """
+    if verbose:
+        print "------- Run MOPS -------"
+        print "Running LSST's Moving Object Pipeline"
+        print ""
+
+    # If overwrite, delete progress stored in tracker.
+    if overwrite:
+        print "Overwrite triggered: clearing tracker..."
+        print ""
+        tracker = MopsTracker(runDir, verbose=False)
 
     # Build directory structure
-    dirs = directoryBuilder(runDir, collapse=collapse, purify=purify, removeSubsetTracklets=removeSubsetTracklets,
-        removeSubsetTracks=removeSubsetTracks, verbose=verbose)
+    dirs = directoryBuilder(runDir, findTracklets=findTracklets, collapseTracklets=collapseTracklets, purifyTracklets=purifyTracklets, 
+        removeSubsetTracklets=removeSubsetTracklets, linkTracklets=linkTracklets, removeSubsetTracks=removeSubsetTracks, 
+        overwrite=overwrite, verbose=verbose)
+    tracker.ranDirectoryBuilder = True
 
     # Save parameters
     parameters.toYaml(outDir=runDir)
 
-    # Find diasources
-    diasourceList = sorted(os.listdir(diasourcesDir))
-    diasources = []
-    for diasource in diasourceList:
-        diasources.append(os.path.join(diasourcesDir, diasource))
-    tracker.diasources = diasources
-    tracker.diasourcesDir = diasourcesDir
-    tracker.toYaml(outDir=runDir)
-    print ""
+    if tracker.diasources == None:
+        # Find diasources
+        diasourceList = sorted(os.listdir(diasourcesDir))
+        diasources = []
+        for diasource in diasourceList:
+            diasources.append(os.path.join(diasourcesDir, diasource))
+        tracker.diasources = diasources
+        tracker.diasourcesDir = diasourcesDir
+        tracker.toYaml(outDir=runDir)
+        print ""
 
     # Run findTracklets
     if findTracklets:
@@ -591,7 +620,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
         
         print ""
 
-    if collapse:
+    if collapseTracklets:
         if tracker.ranIdsToIndices == False:
             # Run idsToIndices
             trackletsByIndex = runIdsToIndices(tracklets, diasources, dirs["trackletsDir"], verbose=verbose)
@@ -620,7 +649,7 @@ def runMops(parameters, tracker, diasourcesDir, runDir, findTracklets=True, coll
         
         print ""
 
-    if purify: 
+    if purifyTracklets: 
         # Run purifyTracklets
         if tracker.ranPurifyTracklets == False:
             purifiedTracklets = runPurifyTracklets(collapsedTracklets, diasources, dirs["purifiedDir"], rmsMax=parameters.rmsMax, verbose=verbose)
@@ -763,11 +792,6 @@ if __name__=="__main__":
     # Retrieve output directory and nightly DIA Sources directory
     runDir = os.path.join(os.path.abspath(args.outputDir), "")
     diasourcesDir = os.path.join(os.path.abspath(args.diasourcesDir), "")
-
-    if verbose:
-        print "------- Run MOPS -------"
-        print "Running LSST's Moving Object Pipeline"
-        print ""
 
     # Initialize MopsParameters and MopsTracker
     if args.config_file == None:
