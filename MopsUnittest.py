@@ -18,16 +18,14 @@ class MopsTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.dataDir = DATA_DIR
-        cls.testDir = TEST_DIR
-
         cls.testTracker = MopsTracker(TEST_DIR)
+        cls.testTracker.getDetections(DATA_DIR)
         cls.testParameters = MopsParameters(verbose=VERBOSE)
 
         cls.controlParameters = yaml.load(file(PARAMETERS, "r"))
         cls.controlTracker = yaml.load(file(TRACKER, "r"))
 
-        runMops.runMops(cls.testParameters, cls.testTracker, cls.dataDir, cls.testDir, verbose=VERBOSE)
+        runMops.runMops(cls.testParameters, cls.testTracker, verbose=VERBOSE)
 
     def test_directoryBuilder(self):
         controlDirs = [self.controlTracker.trackletsDir, self.controlTracker.trackletsByIndexDir,
