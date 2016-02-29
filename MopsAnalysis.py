@@ -21,7 +21,6 @@ LSST_MIDNIGHT = 0.166
 class runAnalysis(object):
 
     def __init__(self, parameters, tracker, ssmidsOfInterest=None, sampleSize=10):
-
         self._parameters = parameters
         self._tracker = tracker
         self._ssmidsOfInterest = ssmidsOfInterest
@@ -35,6 +34,7 @@ class runAnalysis(object):
         self._findableObjects = {}
         self._foundObjects = {}
         self._missedObjects = {}
+        self._performanceRatio = {}
 
         # Tracks
         self._totalTracks = {}
@@ -204,6 +204,14 @@ class runAnalysis(object):
     @missedObjects.setter
     def missedObjects(self, value):
         self._missedObjects = value
+
+    @property
+    def performanceRatio(self):
+        return self._performanceRatio
+
+    @performanceRatio.setter
+    def performanceRatio(self, value):
+        self._performanceRatio = value
 
     # Tracks
 
@@ -633,7 +641,7 @@ class runAnalysis(object):
         for ssmid in self._ssmidsOfInterest:
             self._ssmidsOfInterestObjects[ssmid] = sso(ssmid)
 
-    def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True, finalTracks=True, analyzeSubsets=False, minWindowSize=0):
+    def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True, finalTracks=True, analyzeSubsets=True, minWindowSize=0):
 
         self._startTime = time.ctime()
 
@@ -768,8 +776,9 @@ class runAnalysis(object):
 
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
                 if checkWindow(window, minWindowSize):
-                    [resultsFile, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
-                        subset_tracks_num, longest_tracks_num, tracks_of_interest, objects_num, findable_objs_num, found_objs_num, det_file_size, 
+                    [resultsFile, performance_ratio, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
+                        subset_tracks_num, longest_tracks_num, tracks_of_interest, objects_num, findable_objs_num, found_objs_num, 
+                        missed_objs_num, det_file_size, 
                         ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest, analyzeSubsets=analyzeSubsets)
 
                     resultFiles.append(resultsFile)
@@ -777,6 +786,8 @@ class runAnalysis(object):
                     self._uniqueObjects[window] = objects_num
                     self._findableObjects[window] = findable_objs_num
                     self._foundObjects[window] = found_objs_num
+                    self._missedObjects[window] = missed_objs_num
+                    self._performanceRatio[window] = performance_ratio
 
                     self._totalTracks[window] = total_tracks_num
                     self._trueTracks[window] = true_tracks_num
@@ -808,8 +819,8 @@ class runAnalysis(object):
 
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.finalTracks, self.tracker.dets, self.tracker.ids):
                 if checkWindow(window, minWindowSize):
-                    [resultsFile, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
-                        subset_tracks_num, longest_tracks_num, tracks_of_interest, objects_num, findable_objs_num, found_objs_num, det_file_size, 
+                    [resultsFile, performance_ratio, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
+                        subset_tracks_num, longest_tracks_num, tracks_of_interest, objects_num, findable_objs_num, found_objs_num, missed_objs_num, det_file_size, 
                         ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
 
                     resultFiles.append(resultsFile)
@@ -923,6 +934,10 @@ def checkWindow(window, minWindowSize):
  
 def countUniqueSSMIDs(dataframe):
     return dataframe['ssmid'].nunique()
+
+def countMissedSSMIDs(foundSSMIDs, findableSSMIDs):
+    missedSSMIDs = set(findableSSMIDs) - set(foundSSMIDs)
+    return list(missedSSMIDs)
 
 def countFindableTrueTrackletsAndSSMIDs(dataframe, minDetections, vmax):
     findableTrueTracklets = 0
@@ -1217,7 +1232,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
 
     return outFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, interested_tracklets, detFileSize, trackletFileSize
 
-def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1, ssmidsOfInterest=None, analyzeSubsets=False, verbose=True):
+def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1, ssmidsOfInterest=None, analyzeSubsets=True, verbose=True):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackFile), startTime)
     
@@ -1260,6 +1275,7 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     interested_tracks = {}
     ssmid_dict = {}
     found_ssmids = []
+    missed_ssmids = []
     
     # Initalize success (or failure) counters
     total_tracks_num = 0
@@ -1310,18 +1326,29 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
         print "Counting subset tracks..."    
         longest_tracks, subset_tracks = checkSubsets(tracks)
 
+    print "Counting missed objects..."
+    missed_ssmids = countMissedSSMIDs(found_ssmids, findable_ssmids)
+
+    print "Calculating performance..."
+    if len(findable_ssmids) != 0:
+        performance_ratio = float(len(found_ssmids))/len(findable_ssmids)
+    else:
+        performance_ratio = 0.0
+
     endTime = time.ctime()
 
     outFileOut.write("Output Track File Summary:\n")
     outFileOut.write("File size (bytes): %s\n" % (trackFileSize))
     outFileOut.write("Objects found: %s\n" % (len(found_ssmids)))
+    outFileOut.write("Objects missed: %s\n" % (len(missed_ssmids)))
     outFileOut.write("True tracks found: %s\n" % (true_tracks_num))
     outFileOut.write("False tracks found: %s\n" % (false_tracks_num))
     outFileOut.write("Total tracks found: %s\n" % (total_tracks_num))
     outFileOut.write("Subset tracks found: %s\n" % (len(subset_tracks)))
     outFileOut.write("Non-subset tracks found: %s\n\n" % (len(longest_tracks)))
+    outFileOut.write("MOPs Performance Ratio (found/findable): %.5f\n\n" % (performance_ratio))
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
    
-    return outFile, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, len(subset_tracks), len(longest_tracks), interested_tracks, dets_df['ssmid'].nunique(), len(findable_ssmids), len(found_ssmids), detFileSize, idsFileSize, trackFileSize
+    return outFile, performance_ratio, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, len(subset_tracks), len(longest_tracks), interested_tracks, dets_df['ssmid'].nunique(), len(findable_ssmids), len(found_ssmids), len(missed_ssmids), detFileSize, idsFileSize, trackFileSize
