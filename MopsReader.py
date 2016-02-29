@@ -12,8 +12,8 @@ def readTrack(track):
 def readIds(ids):
     return np.fromstring(track, sep=" ", dtype=int)
 
-def readDetectionsIntoDataframe(detsFile):
-    return pd.read_csv(detsFile, header=None, names=['diaid', 'obshistid', 'ssmid', 'ra', 'dec', 'mjd', 'mag', 'snr'], index_col='diaid', delim_whitespace=True)
+def readDetectionsIntoDataframe(detsFile, header=None):
+    return pd.read_csv(detsFile, header=header, names=['diaid', 'obshistid', 'ssmid', 'ra', 'dec', 'mjd', 'mag', 'snr'], index_col='diaid', delim_whitespace=True)
 
 def readDetectionsIntoDatabase(detsFile, database, table):
     con = sql.connect(database)
