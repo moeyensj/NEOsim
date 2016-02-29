@@ -607,6 +607,7 @@ def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, pur
             tracker.tracklets = tracklets
             tracker.trackletsDir = dirs["trackletsDir"]
             inputTrackletsDir = dirs["trackletsDir"]
+            inputTrackletSuffix = TRACKLET_SUFFIX
             tracker.toYaml(outDir=runDir)
         else:
             print "findTracklets has already completed, moving on..."
@@ -636,6 +637,7 @@ def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, pur
             tracker.collapsedTrackletsById = collapsedTrackletsById
             tracker.collapsedTrackletsByIdDir = dirs["collapsedDir"]
             inputTrackletsDir = dirs["collapsedDir"]
+            inputTrackletSuffix = COLLAPSED_TRACKLET_SUFFIX + TRACKLET_BY_ID_SUFFIX
             tracker.toYaml(outDir=runDir)
         else:
             print "collapseTracklets has already completed, moving on..."
@@ -679,6 +681,7 @@ def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, pur
             tracker.finalTrackletsById = finalTrackletsById
             tracker.finalTrackletsByIdDir = dirs["finalTrackletsDir"]
             inputTrackletsDir = dirs["finalTrackletsDir"]
+            inputTrackletSuffix = FINAL_TRACKLET_SUFFIX + TRACKLET_BY_ID_SUFFIX
             tracker.toYaml(outDir=runDir)
         else:
             print "indicesToIds has already completed, moving on..."
@@ -688,7 +691,8 @@ def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, pur
     if linkTracklets:
         # Run makeLinkTrackletsInputByNight
         if tracker.ranMakeLinkTrackletsInputByNight == False:
-            dets, ids = runMakeLinkTrackletsInputByNight(diasourcesDir, inputTrackletsDir, dirs["trackletsByNightDir"], windowSize=parameters.windowSize, verbose=verbose)
+            dets, ids = runMakeLinkTrackletsInputByNight(diasourcesDir, inputTrackletsDir, dirs["trackletsByNightDir"], 
+                trackletSuffix=inputTrackletSuffix, windowSize=parameters.windowSize, verbose=verbose)
             tracker.ranMakeLinkTrackletsInputByNight = True
             tracker.dets = dets
             tracker.ids = ids
