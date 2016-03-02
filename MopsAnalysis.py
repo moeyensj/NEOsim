@@ -15,17 +15,13 @@ from MopsObjects import sso
 from MopsParameters import MopsParameters
 from MopsTracker import MopsTracker
 
-SAMPLE_SIZE = 50
 LSST_MIDNIGHT = 0.166
 
 class runAnalysis(object):
 
-    def __init__(self, parameters, tracker, ssmidsOfInterest=None, sampleSize=10):
+    def __init__(self, parameters, tracker):
         self._parameters = parameters
         self._tracker = tracker
-        self._ssmidsOfInterest = ssmidsOfInterest
-        self._ssmidsOfInterestObjects = {}
-        self._sampleSize = sampleSize
 
         # General run overview
         self._nights = []
@@ -42,8 +38,6 @@ class runAnalysis(object):
         self._falseTracks = {}
         self._subsetTracks = {}
         self._longestTracks = {}
-        self._trueTracksSample = {}
-        self._falseTracksSample = {}
         self._trackDetFileSizes = {}
         self._trackIdFileSizes = {}
         self._trackFileSizes = {}
@@ -54,8 +48,6 @@ class runAnalysis(object):
         self._falseFinalTracks = {}
         self._subsetFinalTracks = {}
         self._longestFinalTracks = {}
-        self._trueFinalTracksSample = {}
-        self._falseFinalTracksSample = {}
         self._finalTrackDetFileSizes = {}
         self._finalTrackIdFileSizes = {}
         self._finalTrackFileSizes = {}
@@ -64,8 +56,6 @@ class runAnalysis(object):
         self._totalTracklets = {}
         self._trueTracklets = {}
         self._falseTracklets = {}
-        self._trueTrackletsSample = {}
-        self._falseTrackletsSample = {}
         self._trackletDetFileSizes = {}
         self._trackletFileSizes = {}
 
@@ -73,8 +63,6 @@ class runAnalysis(object):
         self._totalCollapsedTracklets = {}
         self._trueCollapsedTracklets = {}
         self._falseCollapsedTracklets = {}
-        self._trueCollapsedTrackletsSample = {}
-        self._falseCollapsedTrackletsSample = {}
         self._collapsedTrackletDetFileSizes = {}
         self._collapsedTrackletFileSizes = {}
 
@@ -82,8 +70,6 @@ class runAnalysis(object):
         self._totalPurifiedTracklets = {}
         self._truePurifiedTracklets = {}
         self._falsePurifiedTracklets = {}
-        self._truePurifiedTrackletsSample = {}
-        self._falsePurifiedTrackletsSample = {}
         self._purifiedTrackletDetFileSizes = {}
         self._purifiedTrackletFileSizes = {}
 
@@ -91,8 +77,6 @@ class runAnalysis(object):
         self._totalFinalTracklets = {}
         self._trueFinalTracklets = {}
         self._falseFinalTracklets = {}
-        self._trueFinalTrackletsSample = {}
-        self._falseFinalTrackletsSample = {}
         self._finalTrackletDetFileSizes = {}
         self._finalTrackletFileSizes = {}
         
@@ -100,10 +84,6 @@ class runAnalysis(object):
         self._startTime = 0
         self._endTime = 0
 
-        if self._ssmidsOfInterest == None:
-            self._ssmidsOfInterest = selectSampleSSMIDs(tracker.dets, self._sampleSize)
-
-        self.initializeSSOs()
         self.findNights()
         self.findWindows()
 
@@ -122,30 +102,6 @@ class runAnalysis(object):
     @tracker.setter
     def tracker(self, value):
         self._tracker = value
-        
-    @property
-    def ssmidsOfInterest(self):
-        return self._ssmidsOfInterest
-
-    @ssmidsOfInterest.setter
-    def ssmidsOfInterest(self, value):
-        self._ssmidsOfInterest = value
-    
-    @property
-    def ssmidsOfInterestObjects(self):
-        return self._ssmidsOfInterestObjects
-
-    @ssmidsOfInterestObjects.setter
-    def ssmidsOfInterestObjects(self, value):
-        self._ssmidsOfInterestObjects = value
-
-    @property
-    def sampleSize(self):
-        return self._sampleSize
-
-    @sampleSize.setter
-    def sampleSize(self, value):
-        self._sampleSize = value
 
     # General run overview
 
@@ -256,22 +212,6 @@ class runAnalysis(object):
         self._longestTracks = value
 
     @property
-    def trueTracksSample(self):
-        return self._trueTracksSample
-
-    @trueTracksSample.setter
-    def trueTracksSample(self, value):
-        self._trueTracksSample = value
-
-    @property
-    def falseTracksSample(self):
-        return self._falseTracksSample
-
-    @falseTracksSample.setter
-    def falseTracksSample(self, value):
-        self._falseTracksSample = value
-
-    @property
     def trackDetFileSizes(self):
         return self._trackDetFileSizes
 
@@ -338,22 +278,6 @@ class runAnalysis(object):
         self._longestFinalTracks = value
 
     @property
-    def trueFinalTracksSample(self):
-        return self._trueFinalTracksSample
-
-    @trueFinalTracksSample.setter
-    def trueFinalTracksSample(self, value):
-        self._trueFinalTracksSample = value
-
-    @property
-    def falseFinalTracksSample(self):
-        return self._falseFinalTracksSample
-
-    @falseFinalTracksSample.setter
-    def falseFinalTracksSample(self, value):
-        self._falseFinalTracksSample = value
-
-    @property
     def finalTrackDetFileSizes(self):
         return self._finalTrackDetFileSizes
 
@@ -404,22 +328,6 @@ class runAnalysis(object):
         self._falseTracklets = value
 
     @property
-    def trueTrackletsSample(self):
-        return self._trueTrackletsSample
-
-    @trueTrackletsSample.setter
-    def trueTrackletsSample(self, value):
-        self._trueTrackletsSample = value
-
-    @property
-    def falseTrackletsSample(self):
-        return self._falseTrackletsSample
-
-    @falseTrackletsSample.setter
-    def falseTrackletsSample(self, value):
-        self._falseTrackletsSample = value
-
-    @property
     def trackletDetFileSizes(self):
         return self._trackletDetFileSizes
 
@@ -460,22 +368,6 @@ class runAnalysis(object):
     @falseCollapsedTracklets.setter
     def falseCollapsedTracklets(self, value):
         self._falseCollapsedTracklets = value
-
-    @property
-    def trueCollapsedTrackletsSample(self):
-        return self._trueCollapsedTrackletsSample
-
-    @trueCollapsedTrackletsSample.setter
-    def trueCollapsedTrackletsSample(self, value):
-        self._trueCollapsedTrackletsSample = value
-
-    @property
-    def falseCollapsedTrackletsSample(self):
-        return self._falseCollapsedTrackletsSample
-
-    @falseCollapsedTrackletsSample.setter
-    def falseCollapsedTrackletsSample(self, value):
-        self._falseCollapsedTrackletsSample = value
 
     @property
     def collapsedTrackletDetFileSizes(self):
@@ -520,22 +412,6 @@ class runAnalysis(object):
         self._falsePurifiedTracklets = value
 
     @property
-    def truePurifiedTrackletsSample(self):
-        return self._truePurifiedTrackletsSample
-
-    @truePurifiedTrackletsSample.setter
-    def truePurifiedTrackletsSample(self, value):
-        self._truePurifiedTrackletsSample = value
-
-    @property
-    def falsePurifiedTrackletsSample(self):
-        return self._falsePurifiedTrackletsSample
-
-    @falsePurifiedTrackletsSample.setter
-    def falsePurifiedTrackletsSample(self, value):
-        self._falsePurifiedTrackletsSample = value
-
-    @property
     def purifiedTrackletDetFileSizes(self):
         return self._purifiedTrackletDetFileSizes
 
@@ -576,22 +452,6 @@ class runAnalysis(object):
     @falseFinalTracklets.setter
     def falseFinalTracklets(self, value):
         self._falsePurifiedTracklets = value
-
-    @property
-    def trueFinalTrackletsSample(self):
-        return self._trueFinalTrackletsSample
-
-    @trueFinalTrackletsSample.setter
-    def trueFinalTrackletsSample(self, value):
-        self._trueFinalTrackletsSample = value
-
-    @property
-    def falseFinalTrackletsSample(self):
-        return self._falseFinalTrackletsSample
-
-    @falseFinalTrackletsSample.setter
-    def falseFinalTrackletsSample(self, value):
-        self._falsePurifiedTrackletsSample = value
 
     @property
     def finalTrackletDetFileSizes(self):
@@ -637,10 +497,6 @@ class runAnalysis(object):
         for trackFile in self.tracker.tracks:
             self._windows.append(MopsReader.readWindow(trackFile))
 
-    def initializeSSOs(self):
-        for ssmid in self._ssmidsOfInterest:
-            self._ssmidsOfInterestObjects[ssmid] = sso(ssmid)
-
     def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True, finalTracks=True, analyzeSubsets=True, minWindowSize=0):
 
         self._startTime = time.ctime()
@@ -650,21 +506,15 @@ class runAnalysis(object):
 
             for night, trackletFile, detFile in zip(self.nights, self.tracker.tracklets, self.tracker.diasources):
                 [resultsFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
-                    tracklet_file_size] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
+                    tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
 
                 resultFiles.append(resultsFile)
 
                 self._totalTracklets[night] = total_tracklets_num
                 self._trueTracklets[night] = true_tracklets_num
                 self._falseTracklets[night] = false_tracklets_num
-                self._trueTrackletsSample[night] = selectSample(true_tracklets)
-                self._falseTrackletsSample[night] = selectSample(false_tracklets)
-
                 self._trackletFileSizes[night] = tracklet_file_size
                 self._trackletDetFileSizes[night] = det_file_size
-
-                for ssmid in tracklets_of_interest:
-                    self._ssmidsOfInterestObjects[ssmid].tracklets[night] = tracklets_of_interest[ssmid]
 
                 print ""
 
@@ -682,21 +532,15 @@ class runAnalysis(object):
 
             for night, trackletFile, detFile in zip(self.nights, self.tracker.collapsedTrackletsById, self.tracker.diasources):
                 [resultsFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
-                    tracklet_file_size] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
+                    tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
 
                 resultFiles.append(resultsFile)
 
                 self._totalCollapsedTracklets[night] = total_tracklets_num
                 self._trueCollapsedTracklets[night] = true_tracklets_num
                 self._falseCollapsedTracklets[night] = false_tracklets_num
-                self._trueCollapsedTrackletsSample[night] = selectSample(true_tracklets)
-                self._falseCollapsedTrackletsSample[night] = selectSample(false_tracklets)
-
                 self._collapsedTrackletFileSizes[night] = tracklet_file_size
                 self._collapsedTrackletDetFileSizes[night] = det_file_size
-
-                for ssmid in tracklets_of_interest:
-                    self._ssmidsOfInterestObjects[ssmid].collapsedTracklets[night] = tracklets_of_interest[ssmid]
 
                 print ""
 
@@ -714,21 +558,15 @@ class runAnalysis(object):
 
             for night, trackletFile, detFile in zip(self.nights, self.tracker.purifiedTrackletsById, self.tracker.diasources):
                 [resultsFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
-                    tracklet_file_size] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
+                    tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
 
                 resultFiles.append(resultsFile)
 
                 self._totalPurifiedTracklets[night] = total_tracklets_num
                 self._truePurifiedTracklets[night] = true_tracklets_num
                 self._falsePurifiedTracklets[night] = false_tracklets_num
-                self._truePurifiedTrackletsSample[night] = selectSample(true_tracklets)
-                self._falsePurifiedTrackletsSample[night] = selectSample(false_tracklets)
-
                 self._purifiedTrackletFileSizes[night] = tracklet_file_size
                 self._purifiedTrackletDetFileSizes[night] = det_file_size
-
-                for ssmid in tracklets_of_interest:
-                    self._ssmidsOfInterestObjects[ssmid].purifiedTracklets[night] = tracklets_of_interest[ssmid]
 
                 print ""
 
@@ -745,21 +583,15 @@ class runAnalysis(object):
 
             for night, trackletFile, detFile in zip(self.nights, self.tracker.finalTrackletsById, self.tracker.diasources):
                 [resultsFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, tracklets_of_interest, det_file_size, 
-                    tracklet_file_size] = analyzeTracklets(trackletFile, detFile, ssmidsOfInterest=self.ssmidsOfInterest)
+                    tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
 
                 resultFiles.append(resultsFile)
 
                 self._totalFinalTracklets[night] = total_tracklets_num
                 self._trueFinalTracklets[night] = true_tracklets_num
                 self._falseFinalTracklets[night] = false_tracklets_num
-                self._trueFinalTrackletsSample[night] = selectSample(true_tracklets)
-                self._falseFinalTrackletsSample[night] = selectSample(false_tracklets)
-
                 self._finalTrackletFileSizes[night] = tracklet_file_size
                 self._finalTrackletDetFileSizes[night] = det_file_size
-
-                for ssmid in tracklets_of_interest:
-                    self._ssmidsOfInterestObjects[ssmid].finalTracklets[night] = tracklets_of_interest[ssmid]
 
                 print ""
 
@@ -779,7 +611,7 @@ class runAnalysis(object):
                     [resultsFile, performance_ratio, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
                         subset_tracks_num, longest_tracks_num, tracks_of_interest, objects_num, findable_objs_num, found_objs_num, 
                         missed_objs_num, det_file_size, 
-                        ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest, analyzeSubsets=analyzeSubsets)
+                        ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, analyzeSubsets=analyzeSubsets)
 
                     resultFiles.append(resultsFile)
 
@@ -794,15 +626,10 @@ class runAnalysis(object):
                     self._falseTracks[window] = false_tracks_num
                     self._subsetTracks[window] = subset_tracks_num
                     self._longestTracks[window] = longest_tracks_num
-                    self._trueTracksSample[window] = selectSample(true_tracks)
-                    self._falseTracksSample[window] = selectSample(false_tracks)
 
                     self._trackFileSizes[window] = track_file_size
                     self._trackDetFileSizes[window] = det_file_size
                     self._trackIdFileSizes[window] = ids_file_size
-
-                    for ssmid in tracks_of_interest:
-                        self._ssmidsOfInterestObjects[ssmid].tracks[window] = tracks_of_interest[ssmid]
 
                     print ""
 
@@ -821,7 +648,7 @@ class runAnalysis(object):
                 if checkWindow(window, minWindowSize):
                     [resultsFile, performance_ratio, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
                         subset_tracks_num, longest_tracks_num, tracks_of_interest, objects_num, findable_objs_num, found_objs_num, missed_objs_num, det_file_size, 
-                        ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, ssmidsOfInterest=self.ssmidsOfInterest)
+                        ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile)
 
                     resultFiles.append(resultsFile)
 
@@ -830,16 +657,11 @@ class runAnalysis(object):
                     self._falseFinalTracks[window] = false_tracks_num
                     self._subsetFinalTracks[window] = subset_tracks_num
                     self._longestFinalTracks[window] = longest_tracks_num
-                    self._trueFinalTracksSample[window] = selectSample(true_tracks)
-                    self._falseFinalTracksSample[window] = selectSample(false_tracks)
 
                     self._finalTrackFileSizes[window] = track_file_size
                     self._finalTrackDetFileSizes[window] = det_file_size
                     self._finalTrackIdFileSizes[window] = ids_file_size
 
-                    for ssmid in tracks_of_interest:
-                        self._ssmidsOfInterestObjects[ssmid].finalTracks[window] = tracks_of_interest[ssmid]
-                
                     print ""
 
             self.tracker.ranFinalTrackAnalysis = True
@@ -853,25 +675,6 @@ class runAnalysis(object):
         self._endTime = time.ctime()
 
         return
-
-def selectSample(objects, number=SAMPLE_SIZE):
-    if len(objects) < number:
-        return objects
-    else:
-        return random.sample(objects, number)
-
-def selectSampleSSMIDs(detFiles, number):
-    ssmids = []
-    sizes = []
-    for detFile in detFiles:
-        sizes.append(os.path.getsize(detFile))
-        
-    detFile = detFiles[np.where(sizes == np.max(sizes))[0][0]]
-    
-    dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
-    sample = selectSample(dets_df['ssmid'].unique(), number=number)
-    
-    return sample
 
 def findSSMIDs(dataframe, diaids):
     ssmids = []
@@ -1150,7 +953,7 @@ def _buildTrack(dataframe, diaids, ssmidDict, calcRMS=False):
 
     return new_track
 
-def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
+def analyzeTracklets(trackletFile, detFile, vmax=0.5):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackletFile), startTime)
     
@@ -1203,14 +1006,6 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
         new_tracklet_diaids = MopsReader.readTracklet(line)
         new_tracklet = _buildTracklet(dets_df, new_tracklet_diaids, ssmid_dict)
 
-        interested, ssmid = checkIfInterested(new_tracklet.diasources['ssmid'], ssmidsOfInterest)
-        if interested:
-            if ssmid in interested_tracklets:
-                interested_tracklets[ssmid].append(new_tracklet)
-            else:
-                interested_tracklets[ssmid] = []
-                interested_tracklets[ssmid].append(new_tracklet)
-
         if new_tracklet.isTrue:
             true_tracklets_num += 1
             true_tracklets.append(new_tracklet)
@@ -1232,7 +1027,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5, ssmidsOfInterest=None):
 
     return outFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, interested_tracklets, detFileSize, trackletFileSize
 
-def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1, ssmidsOfInterest=None, analyzeSubsets=True, verbose=True):
+def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1, analyzeSubsets=True, verbose=True):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackFile), startTime)
     
@@ -1298,14 +1093,6 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
         total_tracks_num += 1
         new_track_diaids = MopsReader.readTrack(line)
         new_track = _buildTrack(dets_df, new_track_diaids, ssmid_dict)
-
-        interested, ssmid = checkIfInterested(new_track.diasources['ssmid'], ssmidsOfInterest)
-        if interested:
-            if ssmid in interested_tracks:
-                interested_tracks[ssmid].append(new_track)
-            else:
-                interested_tracks[ssmid] = []
-                interested_tracks[ssmid].append(new_track)
                  
         if new_track.isTrue:
             # Track is true! 
