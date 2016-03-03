@@ -691,16 +691,6 @@ def checkSSMIDs(ssmids):
     else:
         return False
 
-def checkIfInterested(ssmidsToCheck, ssmids):
-    if ssmids == None:
-        return False, 0
-    else: 
-        for ssmidToCheck in ssmidsToCheck:
-            if ssmidToCheck in ssmids:
-                return True, ssmidToCheck
-        
-        return False, 0
-
 def checkSubsets(tracks):
     # for each track in tracks, check subsets, if subset remove from array and add to subset array
     # remainings tracks are the longest tracks
