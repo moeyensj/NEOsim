@@ -7,7 +7,7 @@ class tracklet(object):
 
         self._diasources = np.zeros(diasources_num, 
             dtype={"names":["diaid", "obshistid", "ssmid", "ra", "dec", "mjd", "mag", "snr"], 
-                   "formats":[">i4",">i4",">i4","float64","float64","float64","float64","float64"]})
+                   "formats":["int64","int64","int64","float64","float64","float64","float64","float64"]})
         self._isTrue = isTrue
         
     @property
@@ -31,7 +31,7 @@ class track(object):
 
         self._diasources = np.zeros(diasources_num, 
             dtype={"names":["diaid", "obshistid", "ssmid", "ra", "dec", "mjd", "mag", "snr"], 
-                   "formats":[">i4",">i4",">i4","float64","float64","float64","float64","float64"]})
+                   "formats":["int64","int64","int64","float64","float64","float64","float64","float64"]})
         self._isTrue = isTrue
         self._rms = None
         self._raRes = None
