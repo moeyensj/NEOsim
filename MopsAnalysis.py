@@ -505,7 +505,7 @@ class runAnalysis(object):
             resultFiles = []
 
             for night, trackletFile, detFile in zip(self.nights, self.tracker.tracklets, self.tracker.diasources):
-                [resultsFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, det_file_size, 
+                [resultsFile, true_tracklets_num, false_tracklets_num, total_tracklets_num, det_file_size, 
                     tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
 
                 resultFiles.append(resultsFile)
@@ -531,7 +531,7 @@ class runAnalysis(object):
             resultFiles = []
 
             for night, trackletFile, detFile in zip(self.nights, self.tracker.collapsedTrackletsById, self.tracker.diasources):
-                [resultsFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, det_file_size, 
+                [resultsFile, true_tracklets_num, false_tracklets_num, total_tracklets_num, det_file_size, 
                     tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
 
                 resultFiles.append(resultsFile)
@@ -557,7 +557,7 @@ class runAnalysis(object):
             resultFiles = []
 
             for night, trackletFile, detFile in zip(self.nights, self.tracker.purifiedTrackletsById, self.tracker.diasources):
-                [resultsFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, det_file_size, 
+                [resultsFile, true_tracklets_num, false_tracklets_num, total_tracklets_num, det_file_size, 
                     tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
 
                 resultFiles.append(resultsFile)
@@ -582,7 +582,7 @@ class runAnalysis(object):
             resultFiles = []
 
             for night, trackletFile, detFile in zip(self.nights, self.tracker.finalTrackletsById, self.tracker.diasources):
-                [resultsFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, det_file_size, 
+                [resultsFile, true_tracklets_num, false_tracklets_num, total_tracklets_num, det_file_size, 
                     tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
 
                 resultFiles.append(resultsFile)
@@ -608,7 +608,7 @@ class runAnalysis(object):
 
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
                 if checkWindow(window, minWindowSize):
-                    [resultsFile, performance_ratio, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
+                    [resultsFile, performance_ratio, true_tracks_num, false_tracks_num, total_tracks_num, 
                         subset_tracks_num, longest_tracks_num, objects_num, findable_objs_num, found_objs_num, 
                         missed_objs_num, det_file_size, 
                         ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, analyzeSubsets=analyzeSubsets)
@@ -646,7 +646,7 @@ class runAnalysis(object):
 
             for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.finalTracks, self.tracker.dets, self.tracker.ids):
                 if checkWindow(window, minWindowSize):
-                    [resultsFile, performance_ratio, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, 
+                    [resultsFile, performance_ratio, true_tracks_num, false_tracks_num, total_tracks_num, 
                         subset_tracks_num, longest_tracks_num, objects_num, findable_objs_num, found_objs_num, missed_objs_num, det_file_size, 
                         ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile)
 
@@ -694,8 +694,8 @@ def checkSSMIDs(ssmids):
 def checkSubsets(tracks):
     # for each track in tracks, check subsets, if subset remove from array and add to subset array
     # remainings tracks are the longest tracks
-    longest_tracks = []
-    subset_tracks = []
+    longest_tracks_num = 0
+    subset_tracks_num = 0
 
     for test_track in tracks:
         if test_track.isSubset:
@@ -709,15 +709,15 @@ def checkSubsets(tracks):
                     if t.issubset(c):
                         test_track.isSubset = True
                         test_track.subsetTracks.append(comparison_track)
-                        subset_tracks.append(test_track)
+                        subset_tracks_num += 1
                         break
 
     for test_track in tracks:
         if test_track.isSubset == None:
             test_track.isSubset = False
-            longest_tracks.append(test_track)
+            longest_tracks_num += 1
 
-    return longest_tracks, subset_tracks
+    return longest_tracks_num, subset_tracks_num
 
 def checkWindow(window, minWindowSize):
     if int(window.split('-')[1]) - int(window.split('-')[0]) >= minWindowSize:
@@ -973,18 +973,13 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
     outFileOut.write("Findable true tracklets: %s\n\n" % (findable_true_tracklets_num))
     
     trackletFileIn = open(trackletFile, "r")
-    tracklets = []
-    interested_tracklets = {}
     ssmid_dict = {}
     
     # Initalize success (or failure) counters
     total_tracklets_num = 0
     true_tracklets_num = 0
     false_tracklets_num = 0
-
-    # Initialize tracklet arrays
-    true_tracklets = []
-    false_tracklets = []
+    tracklets = []
 
     # Examine each line in trackletFile and read in every line
     #  as a track object. If track contains new detections (diasource)
@@ -998,10 +993,10 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
 
         if new_tracklet.isTrue:
             true_tracklets_num += 1
-            true_tracklets.append(new_tracklet)
         else: 
             false_tracklets_num += 1
-            false_tracklets.append(new_tracklet)
+
+        tracklets.append(new_tracklet)
         
     endTime = time.ctime()
 
@@ -1015,7 +1010,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackletFile), endTime)
 
-    return outFile, true_tracklets, false_tracklets, true_tracklets_num, false_tracklets_num, total_tracklets_num, detFileSize, trackletFileSize
+    return outFile, true_tracklets_num, false_tracklets_num, total_tracklets_num, detFileSize, trackletFileSize
 
 def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1, analyzeSubsets=True, verbose=True):
     startTime = time.ctime()
@@ -1062,17 +1057,11 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     found_ssmids = []
     missed_ssmids = []
     
-    # Initalize success (or failure) counters
+    # Initalize success (or failure) counters and track array
     total_tracks_num = 0
     true_tracks_num = 0
     false_tracks_num = 0
-
-    # Initialize track arrays
-    false_tracks = []
-    true_tracks = []
     tracks = []
-    subset_tracks = []
-    longest_tracks = []
 
     # Examine each line in trackFile and read in every line
     #  as a track object. If track contains new detections (diasource)
@@ -1087,21 +1076,19 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
         if new_track.isTrue:
             # Track is true! 
             true_tracks_num += 1
-            true_tracks.append(new_track)
             if new_track.diasources['ssmid'][0] not in found_ssmids:
                 found_ssmids.append(new_track.diasources['ssmid'][0])
         else:
             # Track is false. 
             false_tracks_num += 1
-            false_tracks.append(new_track)
 
         tracks.append(new_track)
     
-    longest_tracks = []
-    subset_tracks = []
+    longest_tracks_num = 0
+    subset_tracks_num = 0
     if analyzeSubsets:
         print "Counting subset tracks..."    
-        longest_tracks, subset_tracks = checkSubsets(tracks)
+        longest_tracks_num, subset_tracks_num = checkSubsets(tracks)
 
     print "Counting missed objects..."
     missed_ssmids = countMissedSSMIDs(found_ssmids, findable_ssmids)
@@ -1121,11 +1108,11 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     outFileOut.write("True tracks found: %s\n" % (true_tracks_num))
     outFileOut.write("False tracks found: %s\n" % (false_tracks_num))
     outFileOut.write("Total tracks found: %s\n" % (total_tracks_num))
-    outFileOut.write("Subset tracks found: %s\n" % (len(subset_tracks)))
-    outFileOut.write("Non-subset tracks found: %s\n\n" % (len(longest_tracks)))
+    outFileOut.write("Subset tracks found: %s\n" % (subset_tracks_num))
+    outFileOut.write("Non-subset tracks found: %s\n\n" % (longest_tracks_num))
     outFileOut.write("MOPs Performance Ratio (found/findable): %.5f\n\n" % (performance_ratio))
     outFileOut.write("End time: %s\n" % (endTime))
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
    
-    return outFile, performance_ratio, true_tracks, false_tracks, true_tracks_num, false_tracks_num, total_tracks_num, len(subset_tracks), len(longest_tracks), dets_df['ssmid'].nunique(), len(findable_ssmids), len(found_ssmids), len(missed_ssmids), detFileSize, idsFileSize, trackFileSize
+    return outFile, performance_ratio, true_tracks_num, false_tracks_num, total_tracks_num, subset_tracks_num, longest_tracks_num, dets_df['ssmid'].nunique(), len(findable_ssmids), len(found_ssmids), len(missed_ssmids), detFileSize, idsFileSize, trackFileSize
