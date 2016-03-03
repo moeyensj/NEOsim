@@ -973,13 +973,14 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
     outFileOut.write("Findable true tracklets: %s\n\n" % (findable_true_tracklets_num))
     
     trackletFileIn = open(trackletFile, "r")
+    tracklets = []
     ssmid_dict = {}
     
     # Initalize success (or failure) counters
     total_tracklets_num = 0
     true_tracklets_num = 0
     false_tracklets_num = 0
-    tracklets = []
+    
 
     # Examine each line in trackletFile and read in every line
     #  as a track object. If track contains new detections (diasource)
@@ -1052,7 +1053,6 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     
     trackFileIn = open(trackFile, "r")
     tracks = []
-    interested_tracks = {}
     ssmid_dict = {}
     found_ssmids = []
     missed_ssmids = []
@@ -1061,7 +1061,6 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     total_tracks_num = 0
     true_tracks_num = 0
     false_tracks_num = 0
-    tracks = []
 
     # Examine each line in trackFile and read in every line
     #  as a track object. If track contains new detections (diasource)
