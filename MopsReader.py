@@ -13,7 +13,7 @@ def readIds(ids):
     return np.fromstring(track, sep=" ", dtype=int)
 
 def readDetectionsIntoDataframe(detsFile, header=None):
-    return pd.read_csv(detsFile, header=header, names=['diaid', 'obshistid', 'ssmid', 'ra', 'dec', 'mjd', 'mag', 'snr'], index_col='diaid', delim_whitespace=True)
+    return pd.read_csv(detsFile, header=header, names=["diaId", "visitId", "ssmId", "ra", "dec", "mjd", "mag", "snr"], index_col="diaId", delim_whitespace=True)
 
 def readNight(detFile):
     return os.path.basename(detFile).split(".")[0]

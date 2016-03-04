@@ -11,7 +11,6 @@ import MopsPlotter
 import MopsReader
 from MopsObjects import tracklet
 from MopsObjects import track
-from MopsObjects import sso
 from MopsParameters import MopsParameters
 from MopsTracker import MopsTracker
 
@@ -676,20 +675,18 @@ class runAnalysis(object):
 
         return
 
+def calcNight(mjd, midnight=LSST_MIDNIGHT):
+    """Determine night number for any MJD."""
+    night = mjd + 0.5 - midnight
+    return night.astype(int)
+
 def findSSMIDs(dataframe, diaids):
     ssmids = []
     for i in diaids:
-        ssmid = int(dataframe[dataframe['diaid'] == i]['ssmid'])
+        ssmid = int(dataframe[dataframe["diaId"] == i]["ssmId"])
         ssmids.append(ssmid)
 
     return np.array(ssmids)
-
-def checkSSMIDs(ssmids):
-    uniqueIds = np.unique(ssmids)
-    if len(uniqueIds) == 1:
-        return True
-    else:
-        return False
 
 def checkSubsets(tracks):
     # for each track in tracks, check subsets, if subset remove from array and add to subset array
@@ -702,8 +699,8 @@ def checkSubsets(tracks):
             break
         else: 
             for comparison_track in tracks:
-                t =  set(test_track.diasources['diaid'])
-                c =  set(comparison_track.diasources['diaid'])
+                t =  set(test_track.diasources["diaId"])
+                c =  set(comparison_track.diasources["diaId"])
 
                 if t != c:
                     if t.issubset(c):
@@ -720,13 +717,13 @@ def checkSubsets(tracks):
     return longest_tracks_num, subset_tracks_num
 
 def checkWindow(window, minWindowSize):
-    if int(window.split('-')[1]) - int(window.split('-')[0]) >= minWindowSize:
+    if int(window.split("-")[1]) - int(window.split("-")[0]) >= minWindowSize:
         return True
     else:
         return False
  
 def countUniqueSSMIDs(dataframe):
-    return dataframe['ssmid'].nunique()
+    return dataframe["ssmId"].nunique()
 
 def countMissedSSMIDs(foundSSMIDs, findableSSMIDs):
     missedSSMIDs = set(findableSSMIDs) - set(foundSSMIDs)
@@ -735,16 +732,16 @@ def countMissedSSMIDs(foundSSMIDs, findableSSMIDs):
 def countFindableTrueTrackletsAndSSMIDs(dataframe, minDetections, vmax):
     findableTrueTracklets = 0
     
-    possible_ssmids = dataframe.groupby("ssmid").filter(lambda x: len(x) >= minDetections)
-    unique_ssmids = possible_ssmids['ssmid'].unique()
+    possible_ssmids = dataframe.groupby("ssmId").filter(lambda x: len(x) >= minDetections)
+    unique_ssmids = possible_ssmids["ssmId"].unique()
     findable_ssmids = []
     
     for unique_ssmid in unique_ssmids:
-        detections = possible_ssmids[possible_ssmids["ssmid"] == unique_ssmid]
+        detections = possible_ssmids[possible_ssmids["ssmId"] == unique_ssmid]
         detections.sort(columns="mjd")
 
-        start_mjd = min(detections['mjd'])
-        end_mjd = max(detections['mjd'])
+        start_mjd = min(detections["mjd"])
+        end_mjd = max(detections["mjd"])
 
         dt = end_mjd - start_mjd
         max_distance = dt*vmax
@@ -764,13 +761,13 @@ def countFindableTrueTrackletsAndSSMIDs(dataframe, minDetections, vmax):
 def countFindableTrueTracks(dataframe, minDetectionsPerNight, minNights):
     findableTracks = 0
     
-    possible_ssmids = dataframe.groupby("ssmid").filter(lambda x: len(x) >= minDetectionsPerNight*minNights)
-    unique_ssmids = possible_ssmids['ssmid'].unique()
+    possible_ssmids = dataframe.groupby("ssmId").filter(lambda x: len(x) >= minDetectionsPerNight*minNights)
+    unique_ssmids = possible_ssmids["ssmId"].unique()
     findable_ssmids = []
     
     for unique_ssmid in unique_ssmids:
-        detections = possible_ssmids[possible_ssmids["ssmid"] == unique_ssmid]
-        unique, counts = np.unique(detections.sort(columns="mjd")['mjd'].unique().astype(int), return_counts=True)
+        detections = possible_ssmids[possible_ssmids["ssmId"] == unique_ssmid]
+        unique, counts = np.unique(detections.sort(columns="mjd")["mjd"].unique().astype(int), return_counts=True)
         if len(counts[counts >= minDetectionsPerNight]) >= minNights:
             findableTracks += 1
             findable_ssmids.append(unique_ssmid)
@@ -778,21 +775,21 @@ def countFindableTrueTracks(dataframe, minDetectionsPerNight, minNights):
     return findableTracks, findable_ssmids
 
 def countFindableObjects(dataframe, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1):
-    unique_ssmids = dataframe['ssmid'].unique()
+    unique_ssmids = dataframe["ssmId"].unique()
     findable_ssmids = []
     
     discoverMet = moMetrics.DiscoveryChancesMetric(nObsPerNight=minDetectionsPerNight, tNight=90./60./24., nNightsPerWindow=minNights, tWindow=windowSize, snrLimit=snrLimit)
     
     for unique_ssmid in unique_ssmids:
-        detections = dataframe[dataframe["ssmid"] == unique_ssmid]
+        detections = dataframe[dataframe["ssmId"] == unique_ssmid]
         
         new_ssobject = np.zeros(len(detections), 
-            dtype={'names':['night', 'expMJD','SNR'], 
-                   'formats':['>i4','>i4','float64']})
+            dtype={"names":["night", "expMJD","SNR"], 
+                   "formats":[">i4",">i4","float64"]})
         
-        new_ssobject['night'] = calcNight(detections['mjd'].values)
-        new_ssobject['expMJD'] = detections['mjd'].values
-        new_ssobject['SNR'] = detections['snr'].values
+        new_ssobject["night"] = calcNight(detections["mjd"].values)
+        new_ssobject["expMJD"] = detections["mjd"].values
+        new_ssobject["SNR"] = detections["snr"].values
         
         discoveryChances = discoverMet.run(new_ssobject, 0, 0)
         if discoveryChances >= 1:
@@ -800,119 +797,26 @@ def countFindableObjects(dataframe, minDetectionsPerNight=2, minNights=3, window
        
     return findable_ssmids
 
-def makeContiguous(angles):
-    a0 = angles[0]
-    output = [a0]
-    for angle in angles[1:]:
-        while abs(angle - a0) > 180:
-            if angle > a0:
-                angle -= 360.
-            else:
-                angle += 360.
-        output.append(angle)
-    return output
-
-def convertToStandardDegrees(angle):
-    while angle > 360.:
-        angle -= 360.
-    while angle < 0.:
-        angle += 360.
-    return angle
-
-def calcNight(mjd, midnight=LSST_MIDNIGHT):
-    """Determine night number for any MJD."""
-    night = mjd + 0.5 - midnight
-    return night.astype(int)
-
-def calcDegToRad(angle):
-    return angle*(np.pi/180.0)
-
-def calcRadToDeg(angle):
-    return angle*(180.0/np.pi)
-
-def calcAngularDistance(a, b):
-    while abs(a - b) > 180:
-        if a > b:
-            b += 360.
-        else:
-            a += 360.
-    return a - b
-
-def calcGreatCircleDistance(ra0, dec0, ra1, dec1):
-    ra_dist = calcAngularDistance(ra0, ra1);
-    dec_dist = calcAngularDistance(dec0, dec1);    
-    # Convert all factors to radians
-    ra_dist = calcDegToRad(convertToStandardDegrees(ra_dist));
-    dec_dist = calcDegToRad(convertToStandardDegrees(dec_dist));
-    dec0 = calcDegToRad(convertToStandardDegrees(dec0));
-    dec1 = calcDegToRad(convertToStandardDegrees(dec1));
-    r = 2*np.arcsin(np.sqrt((np.sin(dec_dist/2.))**2 + np.cos(dec0)*np.cos(dec1)*(np.sin(ra_dist/2))**2));
-    # Back to degrees
-    return calcRadToDeg(r);
-    
-def calcRMS(diasources):
-    t0 = min(map(lambda x: x.mjd, diasources))
-    ras = []
-    decs = []
-    mjds = []
-    for diasource in diasources:
-        ras.append(diasource.ra)
-        decs.append(diasource.dec)
-        mjds.append(diasource.mjd - t0)
-    ras = makeContiguous(ras)
-    decs = makeContiguous(decs)
-    ras = np.array(ras)
-    decs = np.array(decs)
-    mjds = np.array(mjds)
-
-    raFunc, raRes, rank, svd, rcond = np.polyfit(mjds, ras, 2, full=True)
-    decFunc, decRes, rank, svd, rcond = np.polyfit(mjds, decs, 2, full=True)
-    raFunc = np.poly1d(raFunc)
-    decFunc = np.poly1d(decFunc)
-
-    #now get the euclidean distance between predicted and observed for each point
-    netSqDist = 0.0
-    dists = []
-    for i in range(len(mjds)):
-        predRa = raFunc(mjds[i])
-        predDec = decFunc(mjds[i])
-        dist = calcGreatCircleDistance(predRa, predDec, ras[i], decs[i])
-        dists.append(dist)
-        if (dist > .1):
-            print "Unexpected wierdness, diasource had angular distance of %f from best-fit curve prediction" % (dist)
-            print "Predicted RA, Dec were ", predRa, predDec
-            print "observed RA, Dec were ", ras[i], decs[i]
-            print "all RAs were ", ras
-            print "all decs were ", decs
-        sqDist = dist**2
-        #print "got euclidean distance was ", sqDist
-        netSqDist += sqDist
-
-    rms = np.sqrt(netSqDist / len(diasources))
-    if (rms > .1):
-        print "RMS error was %f " % (rms)
-    return rms, raRes[0], decRes[0], dists
-
 def _buildTracklet(dataframe, diaids, ssmidDict):
     new_tracklet = tracklet(len(diaids))
 
     for i, diaid in enumerate(diaids):
         diasource = dataframe.loc[diaid]
-        new_tracklet.diasources[i]['diaid'] = int(diaid)
-        new_tracklet.diasources[i]['obshistid'] = diasource['obshistid']
-        new_tracklet.diasources[i]['ssmid'] = diasource['ssmid']
-        new_tracklet.diasources[i]['ra'] = diasource['ra']
-        new_tracklet.diasources[i]['dec'] = diasource['dec']
-        new_tracklet.diasources[i]['mjd'] = diasource['mjd']
-        new_tracklet.diasources[i]['mag'] = diasource['mag']
-        new_tracklet.diasources[i]['snr'] = diasource['snr']
+        new_tracklet.diasources[i]["diaId"] = int(diaid)
+        new_tracklet.diasources[i]["visitId"] = diasource["visitId"]
+        new_tracklet.diasources[i]["ssmId"] = diasource["ssmId"]
+        new_tracklet.diasources[i]["ra"] = diasource["ra"]
+        new_tracklet.diasources[i]["dec"] = diasource["dec"]
+        new_tracklet.diasources[i]["mjd"] = diasource["mjd"]
+        new_tracklet.diasources[i]["mag"] = diasource["mag"]
+        new_tracklet.diasources[i]["snr"] = diasource["snr"]
         
-        if diasource['ssmid'] in ssmidDict:
-            ssmidDict[diasource['ssmid']] += 1
+        if diasource["ssmId"] in ssmidDict:
+            ssmidDict[diasource["ssmId"]] += 1
         else:
-            ssmidDict[diasource['ssmid']] = 1
+            ssmidDict[diasource["ssmId"]] = 1
 
-    new_tracklet.isTrue = checkSSMIDs(new_tracklet.diasources['ssmid'])
+    new_tracklet.isTrue = checkSSMIDs(new_tracklet.diasources["ssmId"])
 
     return new_tracklet
 
@@ -922,21 +826,21 @@ def _buildTrack(dataframe, diaids, ssmidDict, calcRMS=False):
 
     for i, diaid in enumerate(diaids):
         diasource = dataframe.loc[diaid]
-        new_track.diasources[i]['diaid'] = int(diaid)
-        new_track.diasources[i]['obshistid'] = diasource['obshistid']
-        new_track.diasources[i]['ssmid'] = diasource['ssmid']
-        new_track.diasources[i]['ra'] = diasource['ra']
-        new_track.diasources[i]['dec'] = diasource['dec']
-        new_track.diasources[i]['mjd'] = diasource['mjd']
-        new_track.diasources[i]['mag'] = diasource['mag']
-        new_track.diasources[i]['snr'] = diasource['snr']
+        new_track.diasources[i]["diaId"] = int(diaid)
+        new_track.diasources[i]["visitId"] = diasource["visitId"]
+        new_track.diasources[i]["ssmId"] = diasource["ssmId"]
+        new_track.diasources[i]["ra"] = diasource["ra"]
+        new_track.diasources[i]["dec"] = diasource["dec"]
+        new_track.diasources[i]["mjd"] = diasource["mjd"]
+        new_track.diasources[i]["mag"] = diasource["mag"]
+        new_track.diasources[i]["snr"] = diasource["snr"]
         
-        if diasource['ssmid'] in ssmidDict:
-            ssmidDict[diasource['ssmid']] += 1
+        if diasource["ssmId"] in ssmidDict:
+            ssmidDict[diasource["ssmId"]] += 1
         else:
-            ssmidDict[diasource['ssmid']] = 1
+            ssmidDict[diasource["ssmId"]] = 1
 
-    new_track.isTrue = checkSSMIDs(new_track.diasources['ssmid'])
+    new_track.isTrue = checkSSMIDs(new_track.diasources["ssmId"])
 
     if calcRMS:
         new_track.rms, new_track.raRes, new_track.decRes, new_track.distances = calcRMS(new_track.diasources)
@@ -964,7 +868,7 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
     outFileOut.write("Input Detection File Summary:\n")
     outFileOut.write("File size (bytes): %s\n" % (detFileSize))
     outFileOut.write("Detections: %s\n" % (len(dets_df.index)))
-    outFileOut.write("Unique objects: %s\n" % (dets_df['ssmid'].nunique()))
+    outFileOut.write("Unique objects: %s\n" % (dets_df["ssmId"].nunique()))
 
     # Count number of true tracklets and findable SSMIDs in dataframe
     print "Counting findable true tracklets..."
@@ -1044,7 +948,7 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
     outFileOut.write("Input Detection File Summary:\n")
     outFileOut.write("File size (bytes): %s\n" % (detFileSize))
     outFileOut.write("Detections: %s\n" % (len(dets_df.index)))
-    outFileOut.write("Unique objects: %s\n" % (dets_df['ssmid'].nunique()))
+    outFileOut.write("Unique objects: %s\n" % (dets_df["ssmId"].nunique()))
 
     # Count number of true tracks and findable SSMIDs in dataframe
     print "Counting findable objects..."
@@ -1075,8 +979,8 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
         if new_track.isTrue:
             # Track is true! 
             true_tracks_num += 1
-            if new_track.diasources['ssmid'][0] not in found_ssmids:
-                found_ssmids.append(new_track.diasources['ssmid'][0])
+            if new_track.diasources["ssmId"][0] not in found_ssmids:
+                found_ssmids.append(new_track.diasources["ssmId"][0])
         else:
             # Track is false. 
             false_tracks_num += 1
@@ -1114,4 +1018,4 @@ def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNight
 
     print "Finished analysis for %s at %s" % (os.path.basename(trackFile), endTime)
    
-    return outFile, performance_ratio, true_tracks_num, false_tracks_num, total_tracks_num, subset_tracks_num, longest_tracks_num, dets_df['ssmid'].nunique(), len(findable_ssmids), len(found_ssmids), len(missed_ssmids), detFileSize, idsFileSize, trackFileSize
+    return outFile, performance_ratio, true_tracks_num, false_tracks_num, total_tracks_num, subset_tracks_num, longest_tracks_num, dets_df["ssmId"].nunique(), len(findable_ssmids), len(found_ssmids), len(missed_ssmids), detFileSize, idsFileSize, trackFileSize
