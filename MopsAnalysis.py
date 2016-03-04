@@ -784,8 +784,8 @@ def countFindableObjects(dataframe, minDetectionsPerNight=2, minNights=3, window
         detections = dataframe[dataframe["ssmId"] == unique_ssmid]
         
         new_ssobject = np.zeros(len(detections), 
-            dtype={"names":["night", "expMJD","SNR"], 
-                   "formats":[">i4",">i4","float64"]})
+            dtype={"names":["night", "expMJD", "SNR"], 
+                   "formats":["int4","int4","float64"]})
         
         new_ssobject["night"] = calcNight(detections["mjd"].values)
         new_ssobject["expMJD"] = detections["mjd"].values
