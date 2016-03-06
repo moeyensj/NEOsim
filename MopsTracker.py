@@ -43,6 +43,8 @@ class MopsTracker(object):
         self._ranLinkTracklets = False
         self._ranRemoveSubsetTracks = False
 
+        self._nightlyDatabase = None
+        self._windowDatabases = None
         self._ranTrackletAnalysis = False
         self._trackletResults = None
         self._ranCollapsedTrackletAnalysis = False
@@ -354,6 +356,22 @@ class MopsTracker(object):
     @ranRemoveSubsetTracks.setter
     def ranRemoveSubsetTracks(self, value):
         self._ranRemoveSubsetTracks = value
+
+    @property
+    def nightlyDatabase(self):
+        return self._nightlyDatabase
+
+    @nightlyDatabase.setter
+    def nightlyDatabase(self, value):
+        self._nightlyDatabase = value
+
+    @property
+    def windowDatabases(self):
+        return self._windowDatabases
+
+    @windowDatabases.setter
+    def windowDatabases(self, value):
+        self._windowDatabases = value
 
     @property
     def ranTrackletAnalysis(self):
