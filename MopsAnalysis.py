@@ -504,17 +504,7 @@ class runAnalysis(object):
             resultFiles = []
 
             for night, trackletFile, detFile in zip(self.nights, self.tracker.tracklets, self.tracker.diasources):
-                [resultsFile, true_tracklets_num, false_tracklets_num, total_tracklets_num, det_file_size, 
-                    tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
-
-                resultFiles.append(resultsFile)
-
-                self._totalTracklets[night] = total_tracklets_num
-                self._trueTracklets[night] = true_tracklets_num
-                self._falseTracklets[night] = false_tracklets_num
-                self._trackletFileSizes[night] = tracklet_file_size
-                self._trackletDetFileSizes[night] = det_file_size
-
+                allTrackletsDataframe, trackletMembersDataframe, maxtrackletId = analyzeTracklets(trackletFile, detFile)
                 print ""
 
             self.tracker.ranTrackletAnalysis = True
@@ -530,21 +520,13 @@ class runAnalysis(object):
             resultFiles = []
 
             for night, trackletFile, detFile in zip(self.nights, self.tracker.collapsedTrackletsById, self.tracker.diasources):
-                [resultsFile, true_tracklets_num, false_tracklets_num, total_tracklets_num, det_file_size, 
-                    tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
+                allTrackletsDataframe, trackletMembersDataframe, maxtrackletId = analyzeTracklets(trackletFile, detFile)
 
                 resultFiles.append(resultsFile)
-
-                self._totalCollapsedTracklets[night] = total_tracklets_num
-                self._trueCollapsedTracklets[night] = true_tracklets_num
-                self._falseCollapsedTracklets[night] = false_tracklets_num
-                self._collapsedTrackletFileSizes[night] = tracklet_file_size
-                self._collapsedTrackletDetFileSizes[night] = det_file_size
-
                 print ""
 
             self.tracker.ranCollapsedTrackletAnalysis = True
-            self.tracker.collapsedTrackletResults = sorted(resultFiles)
+            self.tracker.collapsedTrackletResults = sorted(resultsFiles)
             self.tracker.toYaml(outDir=self.tracker.runDir)
                 
         else:
@@ -560,12 +542,6 @@ class runAnalysis(object):
                     tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
 
                 resultFiles.append(resultsFile)
-
-                self._totalPurifiedTracklets[night] = total_tracklets_num
-                self._truePurifiedTracklets[night] = true_tracklets_num
-                self._falsePurifiedTracklets[night] = false_tracklets_num
-                self._purifiedTrackletFileSizes[night] = tracklet_file_size
-                self._purifiedTrackletDetFileSizes[night] = det_file_size
 
                 print ""
 
@@ -585,12 +561,6 @@ class runAnalysis(object):
                     tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
 
                 resultFiles.append(resultsFile)
-
-                self._totalFinalTracklets[night] = total_tracklets_num
-                self._trueFinalTracklets[night] = true_tracklets_num
-                self._falseFinalTracklets[night] = false_tracklets_num
-                self._finalTrackletFileSizes[night] = tracklet_file_size
-                self._finalTrackletDetFileSizes[night] = det_file_size
 
                 print ""
 
@@ -801,7 +771,7 @@ def _buildTrack(dataframe, diaids, ssmidDict, calcRMS=False):
 
     return new_track
 
-def analyzeTracklets(trackletFile, detFile, vmax=0.5):
+def analyzeTracklets(trackletFile, detFile, night, cursor=None, trackletIdCountStart=0, analysisObject=None):
     startTime = time.ctime()
     print "Starting analysis for %s at %s" % (os.path.basename(trackletFile), startTime)
     
@@ -822,15 +792,13 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
     outFileOut.write("Input Detection File Summary:\n")
     outFileOut.write("File size (bytes): %s\n" % (detFileSize))
     outFileOut.write("Detections: %s\n" % (len(dets_df.index)))
-    outFileOut.write("Unique objects: %s\n" % (dets_df["ssmId"].nunique()))
+    outFileOut.write("Unique objects: %s\n" % (dets_df['ssmId'].nunique()))
 
     # Count number of true tracklets and findable SSMIDs in dataframe
     print "Counting findable true tracklets..."
-    # findable_true_tracklets_num, findable_ssmids = countFindableTrueTrackletsAndSSMIDs(dets_df, 2.0, vmax)
-    findable_true_tracklets_num = 0
-    findable_ssmids = [0]
-    outFileOut.write("Findable objects: %s\n" % (len(findable_ssmids)))
-    outFileOut.write("Findable true tracklets: %s\n\n" % (findable_true_tracklets_num))
+    #findable_true_tracklets_num, findable_ssmids = countFindableTrueTrackletsAndSSMIDs(dets_df, 2.0, vmax)
+    #outFileOut.write("Findable objects: %s\n" % (len(findable_ssmids)))
+    #outFileOut.write("Findable true tracklets: %s\n\n" % (findable_true_tracklets_num))
     
     trackletFileIn = open(trackletFile, "r")
     tracklets = []
@@ -841,23 +809,35 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
     true_tracklets_num = 0
     false_tracklets_num = 0
     
-
+    # Initialize tracklet dataframes
+    allTrackletsDataframe = pd.DataFrame(columns=['trackletId', 'linkedObjectId', 'numLinkedObjects', 'numMembers', 'velocity', 'rms', 'night', 'createdBy', 'deletedBy'])
+    trackletMembersDataframe = pd.DataFrame(columns=['trackletId', 'diaId'])
+    
     # Examine each line in trackletFile and read in every line
     #  as a track object. If track contains new detections (diasource)
     #  then add new source to diasource_dict. 
     print "Building tracklets from tracklet file..."
-    for line in trackletFileIn:
+    for i, line in enumerate(trackletFileIn):
         # Found a track!
         total_tracklets_num += 1
         new_tracklet_diaids = MopsReader.readTracklet(line)
-        new_tracklet = _buildTracklet(dets_df, new_tracklet_diaids, ssmid_dict)
+        new_tracklet = _buildTracklet(dets_df, trackletIdCountStart + i, new_tracklet_diaids, night, ssmid_dict)
 
         if new_tracklet.isTrue:
             true_tracklets_num += 1
         else: 
             false_tracklets_num += 1
-
-        tracklets.append(new_tracklet)
+            
+        trackletMembersDataframe = trackletMembersDataframe.append(new_tracklet.toTrackletMembersDataframe())
+        allTrackletsDataframe = allTrackletsDataframe.append(new_tracklet.toAllTrackletsDataframe())
+        
+        maxTrackletId = trackletIdCountStart + i + 1
+        
+    if cursor is not None:
+        print "Updating TrackletMembers database..."
+        trackletMembersDataframe.to_sql("TrackletMembers", cursor, if_exists="append", index=False)
+        print "Updating AllTracklets database..."
+        allTrackletsDataframe.to_sql("AllTracklets", cursor, if_exists="append", index=False)
         
     endTime = time.ctime()
 
@@ -868,10 +848,19 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
     outFileOut.write("False tracklets found: %s\n" % (false_tracklets_num))
     outFileOut.write("Total tracklets found: %s\n\n" % (total_tracklets_num))
     outFileOut.write("End time: %s\n" % (endTime))
-
+    
+    if analysisObject is not None:
+        print "Updating analysis object..."
+        
+        analysisObject.totalTracklets[night] = total_tracklets_num
+        analysisObject.trueTracklets[night] = true_tracklets_num
+        analysisObject.falseTracklets[night] = false_tracklets_num
+        analysisObject.trackletFileSizes[night] = tracklet_file_size
+        analysisObject.trackletDetFileSizes[night] = det_file_size
+        
     print "Finished analysis for %s at %s" % (os.path.basename(trackletFile), endTime)
-
-    return outFile, true_tracklets_num, false_tracklets_num, total_tracklets_num, detFileSize, trackletFileSize
+    
+    return outFile, allTrackletsDataframe, trackletMembersDataframe, maxTrackletId
 
 def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1, analyzeSubsets=True, verbose=True):
     startTime = time.ctime()
