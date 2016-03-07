@@ -729,51 +729,6 @@ def countMissedSSMIDs(foundSSMIDs, findableSSMIDs):
     missedSSMIDs = set(findableSSMIDs) - set(foundSSMIDs)
     return list(missedSSMIDs)
 
-def countFindableTrueTrackletsAndSSMIDs(dataframe, minDetections, vmax):
-    findableTrueTracklets = 0
-    
-    possible_ssmids = dataframe.groupby("ssmId").filter(lambda x: len(x) >= minDetections)
-    unique_ssmids = possible_ssmids["ssmId"].unique()
-    findable_ssmids = []
-    
-    for unique_ssmid in unique_ssmids:
-        detections = possible_ssmids[possible_ssmids["ssmId"] == unique_ssmid]
-        detections.sort(columns="mjd")
-
-        start_mjd = min(detections["mjd"])
-        end_mjd = max(detections["mjd"])
-
-        dt = end_mjd - start_mjd
-        max_distance = dt*vmax
-
-        total_distance = 0.0
-        total_time = 0.0
-
-        for det0, det1 in zip(detections.iloc[:-1].itertuples(), detections.iloc[1:].itertuples()):
-            total_distance += calcGreatCircleDistance(det0[3], det0[4], det1[3], det1[4])
-
-        if max_distance > total_distance:
-             findableTrueTracklets += 1
-             findable_ssmids.append(unique_ssmid)
-                
-    return findableTrueTracklets, findable_ssmids
-
-def countFindableTrueTracks(dataframe, minDetectionsPerNight, minNights):
-    findableTracks = 0
-    
-    possible_ssmids = dataframe.groupby("ssmId").filter(lambda x: len(x) >= minDetectionsPerNight*minNights)
-    unique_ssmids = possible_ssmids["ssmId"].unique()
-    findable_ssmids = []
-    
-    for unique_ssmid in unique_ssmids:
-        detections = possible_ssmids[possible_ssmids["ssmId"] == unique_ssmid]
-        unique, counts = np.unique(detections.sort(columns="mjd")["mjd"].unique().astype(int), return_counts=True)
-        if len(counts[counts >= minDetectionsPerNight]) >= minNights:
-            findableTracks += 1
-            findable_ssmids.append(unique_ssmid)
-
-    return findableTracks, findable_ssmids
-
 def countFindableObjects(dataframe, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1):
     unique_ssmids = dataframe["ssmId"].unique()
     findable_ssmids = []
@@ -872,7 +827,9 @@ def analyzeTracklets(trackletFile, detFile, vmax=0.5):
 
     # Count number of true tracklets and findable SSMIDs in dataframe
     print "Counting findable true tracklets..."
-    findable_true_tracklets_num, findable_ssmids = countFindableTrueTrackletsAndSSMIDs(dets_df, 2.0, vmax)
+    # findable_true_tracklets_num, findable_ssmids = countFindableTrueTrackletsAndSSMIDs(dets_df, 2.0, vmax)
+    findable_true_tracklets_num = 0
+    findable_ssmids = [0]
     outFileOut.write("Findable objects: %s\n" % (len(findable_ssmids)))
     outFileOut.write("Findable true tracklets: %s\n\n" % (findable_true_tracklets_num))
     
