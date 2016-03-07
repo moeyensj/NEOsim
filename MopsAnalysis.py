@@ -752,27 +752,26 @@ def countFindableObjects(dataframe, minDetectionsPerNight=2, minNights=3, window
        
     return findable_ssmids
 
-def _buildTracklet(dataframe, diaids, ssmidDict):
-    new_tracklet = tracklet(len(diaids))
+def _buildTracklet(dataframe, trackletId, diaids, night, ssmidDict, calcRMS=True):
+    new_tracklet = tracklet(trackletId, len(diaids), night)
 
     for i, diaid in enumerate(diaids):
         diasource = dataframe.loc[diaid]
-        new_tracklet.diasources[i]["diaId"] = int(diaid)
-        new_tracklet.diasources[i]["visitId"] = diasource["visitId"]
-        new_tracklet.diasources[i]["ssmId"] = diasource["ssmId"]
-        new_tracklet.diasources[i]["ra"] = diasource["ra"]
-        new_tracklet.diasources[i]["dec"] = diasource["dec"]
-        new_tracklet.diasources[i]["mjd"] = diasource["mjd"]
-        new_tracklet.diasources[i]["mag"] = diasource["mag"]
-        new_tracklet.diasources[i]["snr"] = diasource["snr"]
+        new_tracklet.addDiasource(i, diaid, diasource)
         
-        if diasource["ssmId"] in ssmidDict:
-            ssmidDict[diasource["ssmId"]] += 1
+        if diasource['ssmId'] in ssmidDict:
+            ssmidDict[diasource['ssmId']] += 1
         else:
-            ssmidDict[diasource["ssmId"]] = 1
-
-    new_tracklet.isTrue = checkSSMIDs(new_tracklet.diasources["ssmId"])
-
+            ssmidDict[diasource['ssmId']] = 1
+    
+    if calcRMS:
+        new_tracklet.updateRMS()
+        
+    new_tracklet.updateVelocity()
+    new_tracklet.updateQuality()
+    new_tracklet.updateMembers()
+    new_tracklet.updateInfo()
+    
     return new_tracklet
 
 
