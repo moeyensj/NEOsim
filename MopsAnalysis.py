@@ -722,12 +722,13 @@ def countFindableObjects(dataframe, minDetectionsPerNight=2, minNights=3, window
        
     return findable_ssmids
 
-def _buildTracklet(dataframe, trackletId, diaids, night, ssmidDict, calcRMS=True):
+def _buildTracklet(dataframe, trackletId, diaids, night, ssmidDict, createdBy=1, calcRMS=True):
     new_tracklet = tracklet(trackletId, len(diaids), night)
 
     for i, diaid in enumerate(diaids):
         diasource = dataframe.loc[diaid]
         new_tracklet.addDiasource(i, diaid, diasource)
+        new_tracklet.createdBy = createdBy
         
         if diasource['ssmId'] in ssmidDict:
             ssmidDict[diasource['ssmId']] += 1
@@ -743,6 +744,7 @@ def _buildTracklet(dataframe, trackletId, diaids, night, ssmidDict, calcRMS=True
     new_tracklet.updateInfo()
     
     return new_tracklet
+
 
 
 def _buildTrack(dataframe, diaids, ssmidDict, calcRMS=False):
