@@ -18,6 +18,7 @@ class MopsTracker(object):
         self._tracks = None
         self._finalTracks = None
         self._runDir = runDir
+        self._resultsDir = None
 
         self._diasourcesDir = None 
         self._trackletsDir = None 
@@ -46,17 +47,13 @@ class MopsTracker(object):
         self._nightlyDatabase = None
         self._windowDatabases = None
         self._ranTrackletAnalysis = False
-        self._trackletResults = None
         self._ranCollapsedTrackletAnalysis = False
-        self._collapsedTrackletResults = None
         self._ranPurifiedTrackletAnalysis = False
-        self._purifiedTrackletResults = None
         self._ranFinalTrackletAnalysis = False
-        self._finalTrackletResults = None
         self._ranTrackAnalysis = False
-        self._trackResults = None
         self._ranFinalTracksAnalysis = False
-        self._finalTrackResults = None
+        self._trackletResults = None
+        self._trackResults = None
 
         if verbose:
             self.info()
@@ -270,6 +267,14 @@ class MopsTracker(object):
         self._finalTracksDir = value
 
     @property
+    def resultsDir(self):
+        return self._resultsDir
+    
+    @resultsDir.setter
+    def resultsDir(self, value):
+        self._resultsDir = value
+
+    @property
     def ranDirectoryBuilder(self):
         return self._ranDirectoryBuilder
 
@@ -380,14 +385,6 @@ class MopsTracker(object):
     @ranTrackletAnalysis.setter
     def ranTrackletAnalysis(self, value):
         self._ranTrackletAnalysis = value
-    
-    @property
-    def trackletResults(self):
-        return self._trackletResults
-
-    @trackletResults.setter
-    def trackletResults(self, value):
-        self._trackletResults = value
 
     @property
     def ranCollapsedTrackletAnalysis(self):
@@ -398,28 +395,12 @@ class MopsTracker(object):
         self._ranCollapsedTrackletAnalysis = value
 
     @property
-    def collapsedTrackletResults(self):
-        return self._collapsedTrackletResults
-
-    @collapsedTrackletResults.setter
-    def collapsedTrackletResults(self, value):
-        self._collapsedTrackletResults = value
-
-    @property
     def ranPurifiedTrackletAnalysis(self):
         return self._ranPurifiedTrackletAnalysis
 
     @ranPurifiedTrackletAnalysis.setter
     def ranPurifiedTrackletAnalysis(self, value):
         self._ranPurifiedTrackletAnalysis = value
-
-    @property
-    def purifiedTrackletResults(self):
-        return self._purifiedTrackletResults
-
-    @purifiedTrackletResults.setter
-    def purifiedTrackletResults(self, value):
-        self._purifiedTrackletResults = value
 
     @property
     def ranFinalTrackletAnalysis(self):
@@ -430,28 +411,12 @@ class MopsTracker(object):
         self._ranFinalTrackletAnalysis = value
 
     @property
-    def finalTrackletResults(self):
-        return self._finalTrackletResults
-
-    @finalTrackletResults.setter
-    def finalTrackletResults(self, value):
-        self._finalTrackletResults = value
-
-    @property
     def ranTrackAnalysis(self):
         return self._ranTrackAnalysis
 
     @ranTrackAnalysis.setter
     def ranTrackAnalysis(self, value):
         self._ranTrackAnalysis = value
-
-    @property
-    def trackResults(self):
-        return self._trackResults
-
-    @trackResults.setter
-    def trackResults(self, value):
-        self._trackResults = value
 
     @property
     def ranFinalTracksAnalysis(self):
@@ -462,12 +427,20 @@ class MopsTracker(object):
         self._ranFinalTracksAnalysis = value
 
     @property
-    def finalTrackResults(self):
-        return self._finalTrackResults
+    def trackletResults(self):
+        return self._trackletResults
 
-    @finalTrackResults.setter
-    def finalTrackResults(self, value):
-        self._finalTrackResults = value
+    @trackletResults.setter
+    def trackletResults(self, value):
+        self._trackletResults = value
+    
+    @property
+    def trackResults(self):
+        return self._trackResults
+
+    @trackResults.setter
+    def trackResults(self, value):
+        self._trackResults = value
 
     def getDetections(self, diasourcesDir):
         import os
