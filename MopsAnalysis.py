@@ -31,6 +31,8 @@ class runAnalysis(object):
         self._foundObjects = {}
         self._missedObjects = {}
         self._performanceRatio = {}
+        self._nightlyDetectionFileSizes = {}
+        self._windowDetectionFileSizes = {}
 
         # Tracks
         self._totalTracks = {}
@@ -38,7 +40,6 @@ class runAnalysis(object):
         self._falseTracks = {}
         self._subsetTracks = {}
         self._longestTracks = {}
-        self._trackDetFileSizes = {}
         self._trackIdFileSizes = {}
         self._trackFileSizes = {}
 
@@ -48,7 +49,6 @@ class runAnalysis(object):
         self._falseFinalTracks = {}
         self._subsetFinalTracks = {}
         self._longestFinalTracks = {}
-        self._finalTrackDetFileSizes = {}
         self._finalTrackIdFileSizes = {}
         self._finalTrackFileSizes = {}
 
@@ -56,28 +56,24 @@ class runAnalysis(object):
         self._totalTracklets = {}
         self._trueTracklets = {}
         self._falseTracklets = {}
-        self._trackletDetFileSizes = {}
         self._trackletFileSizes = {}
 
         # Collapsed tracklets
         self._totalCollapsedTracklets = {}
         self._trueCollapsedTracklets = {}
         self._falseCollapsedTracklets = {}
-        self._collapsedTrackletDetFileSizes = {}
         self._collapsedTrackletFileSizes = {}
 
         # Purified tracklets
         self._totalPurifiedTracklets = {}
         self._truePurifiedTracklets = {}
         self._falsePurifiedTracklets = {}
-        self._purifiedTrackletDetFileSizes = {}
         self._purifiedTrackletFileSizes = {}
 
         # Final tracklets (post removeSubsets)
         self._totalFinalTracklets = {}
         self._trueFinalTracklets = {}
         self._falseFinalTracklets = {}
-        self._finalTrackletDetFileSizes = {}
         self._finalTrackletFileSizes = {}
         
         # General analysis information
@@ -169,6 +165,22 @@ class runAnalysis(object):
     def performanceRatio(self, value):
         self._performanceRatio = value
 
+    @property
+    def nightlyDetectionFileSizes(self):
+        return self._nightlyDetectionFileSizes
+
+    @nightlyDetectionFileSizes.setter
+    def nightlyDetectionFileSizes(self, value):
+        self._nightlyDetectionFileSizes = value
+
+    @property
+    def windowDetectionFileSizes(self):
+        return self._windowDetectionFileSizes
+
+    @windowDetectionFileSizes.setter
+    def windowDetectionFileSizes(self, value):
+        self._windowDetectionFileSizes = value
+
     # Tracks
 
     @property
@@ -210,14 +222,6 @@ class runAnalysis(object):
     @longestTracks.setter
     def longestTracks(self, value):
         self._longestTracks = value
-
-    @property
-    def trackDetFileSizes(self):
-        return self._trackDetFileSizes
-
-    @trackDetFileSizes.setter
-    def trackDetFileSizes(self, value):
-        self._trackDetFileSizes = value
 
     @property
     def trackIdFileSizes(self):
@@ -278,14 +282,6 @@ class runAnalysis(object):
         self._longestFinalTracks = value
 
     @property
-    def finalTrackDetFileSizes(self):
-        return self._finalTrackDetFileSizes
-
-    @finalTrackDetFileSizes.setter
-    def finalTrackDetFileSizes(self, value):
-        self._finalTrackDetFileSizes = value
-
-    @property
     def finalTrackIdFileSizes(self):
         return self._finalTrackIdFileSizes
 
@@ -328,14 +324,6 @@ class runAnalysis(object):
         self._falseTracklets = value
 
     @property
-    def trackletDetFileSizes(self):
-        return self._trackletDetFileSizes
-
-    @trackletDetFileSizes.setter
-    def trackletDetFileSizes(self, value):
-        self._trackletDetFileSizes = value
-
-    @property
     def trackletFileSizes(self):
         return self._trackletFileSizes
 
@@ -368,14 +356,6 @@ class runAnalysis(object):
     @falseCollapsedTracklets.setter
     def falseCollapsedTracklets(self, value):
         self._falseCollapsedTracklets = value
-
-    @property
-    def collapsedTrackletDetFileSizes(self):
-        return self._collapsedTrackletDetFileSizes
-
-    @collapsedTrackletDetFileSizes.setter
-    def collapsedTrackletDetFileSizes(self, value):
-        self._collapsedTrackletDetFileSizes = value
 
     @property
     def collapsedTrackletFileSizes(self):
@@ -412,14 +392,6 @@ class runAnalysis(object):
         self._falsePurifiedTracklets = value
 
     @property
-    def purifiedTrackletDetFileSizes(self):
-        return self._purifiedTrackletDetFileSizes
-
-    @purifiedTrackletDetFileSizes.setter
-    def purifiedTrackletDetFileSizes(self, value):
-        self._purifiedTrackletDetFileSizes = value
-
-    @property
     def purifiedTrackletFileSizes(self):
         return self._purifiedTrackletFileSizes
 
@@ -452,14 +424,6 @@ class runAnalysis(object):
     @falseFinalTracklets.setter
     def falseFinalTracklets(self, value):
         self._falsePurifiedTracklets = value
-
-    @property
-    def finalTrackletDetFileSizes(self):
-        return self._finalTrackletDetFileSizes
-
-    @finalTrackletDetFileSizes.setter
-    def finalTrackletDetFileSizes(self, value):
-        self._finalTrackletDetFileSizes = value
 
     @property
     def finalTrackletFileSizes(self):
@@ -500,148 +464,7 @@ class runAnalysis(object):
     def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True, finalTracks=True, analyzeSubsets=True, minWindowSize=0):
 
         self._startTime = time.ctime()
-
-        if tracklets and self.tracker.ranFindTracklets:
-            resultFiles = []
-
-            for night, trackletFile, detFile in zip(self.nights, self.tracker.tracklets, self.tracker.diasources):
-                allTrackletsDataframe, trackletMembersDataframe, maxtrackletId = analyzeTracklets(trackletFile, detFile)
-                print ""
-
-            self.tracker.ranTrackletAnalysis = True
-            self.tracker.trackletResults = sorted(resultFiles)
-            self.tracker.toYaml(outDir=self.tracker.runDir)
-                   
-        else:
-            print "Skipping tracklet analysis..."
-            print ""
-        
-
-        if collapsedTracklets and self.tracker.ranCollapseTracklets:
-            resultFiles = []
-
-            for night, trackletFile, detFile in zip(self.nights, self.tracker.collapsedTrackletsById, self.tracker.diasources):
-                allTrackletsDataframe, trackletMembersDataframe, maxtrackletId = analyzeTracklets(trackletFile, detFile)
-
-                resultFiles.append(resultsFile)
-                print ""
-
-            self.tracker.ranCollapsedTrackletAnalysis = True
-            self.tracker.collapsedTrackletResults = sorted(resultsFiles)
-            self.tracker.toYaml(outDir=self.tracker.runDir)
-                
-        else:
-            print "Skipping collapsed tracklet analysis..."
-            print ""
-
-
-        if purifiedTracklets and self.tracker.ranPurifyTracklets:
-            resultFiles = []
-
-            for night, trackletFile, detFile in zip(self.nights, self.tracker.purifiedTrackletsById, self.tracker.diasources):
-                [resultsFile, true_tracklets_num, false_tracklets_num, total_tracklets_num, det_file_size, 
-                    tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
-
-                resultFiles.append(resultsFile)
-
-                print ""
-
-            self.tracker.ranPurifiedTrackletAnalysis = True
-            self.tracker.purifiedTrackletResults = sorted(resultFiles)
-            self.tracker.toYaml(outDir=self.tracker.runDir)
-
-        else:
-            print "Skipping purified tracklet analysis..."
-            print ""
-
-        if finalTracklets and self.tracker.ranRemoveSubsetTracklets:
-            resultFiles = []
-
-            for night, trackletFile, detFile in zip(self.nights, self.tracker.finalTrackletsById, self.tracker.diasources):
-                [resultsFile, true_tracklets_num, false_tracklets_num, total_tracklets_num, det_file_size, 
-                    tracklet_file_size] = analyzeTracklets(trackletFile, detFile)
-
-                resultFiles.append(resultsFile)
-
-                print ""
-
-            self.tracker.ranFinalTrackletAnalysis = True
-            self.tracker.finalTrackletResults = sorted(resultFiles)
-            self.tracker.toYaml(outDir=self.tracker.runDir)
-
-        else:
-            print "Skipping final tracklet analysis..."   
-            print ""
-
-        if tracks and self.tracker.ranLinkTracklets:
-            resultFiles = []
-
-            for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.tracks, self.tracker.dets, self.tracker.ids):
-                if checkWindow(window, minWindowSize):
-                    [resultsFile, performance_ratio, true_tracks_num, false_tracks_num, total_tracks_num, 
-                        subset_tracks_num, longest_tracks_num, objects_num, findable_objs_num, found_objs_num, 
-                        missed_objs_num, det_file_size, 
-                        ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile, analyzeSubsets=analyzeSubsets)
-
-                    resultFiles.append(resultsFile)
-
-                    self._uniqueObjects[window] = objects_num
-                    self._findableObjects[window] = findable_objs_num
-                    self._foundObjects[window] = found_objs_num
-                    self._missedObjects[window] = missed_objs_num
-                    self._performanceRatio[window] = performance_ratio
-
-                    self._totalTracks[window] = total_tracks_num
-                    self._trueTracks[window] = true_tracks_num
-                    self._falseTracks[window] = false_tracks_num
-                    self._subsetTracks[window] = subset_tracks_num
-                    self._longestTracks[window] = longest_tracks_num
-
-                    self._trackFileSizes[window] = track_file_size
-                    self._trackDetFileSizes[window] = det_file_size
-                    self._trackIdFileSizes[window] = ids_file_size
-
-                    print ""
-
-            self.tracker.ranTrackAnalysis = True
-            self.tracker.trackResults = sorted(resultFiles)
-            self.tracker.toYaml(outDir=self.tracker.runDir)
-
-        else:
-            print "Skipping track analysis..."
-            print ""
-
-        if finalTracks and self.tracker.ranRemoveSubsetTracks:
-            resultFiles = []
-
-            for window, trackFile, detFile, idsFile in zip(self.windows, self.tracker.finalTracks, self.tracker.dets, self.tracker.ids):
-                if checkWindow(window, minWindowSize):
-                    [resultsFile, performance_ratio, true_tracks_num, false_tracks_num, total_tracks_num, 
-                        subset_tracks_num, longest_tracks_num, objects_num, findable_objs_num, found_objs_num, missed_objs_num, det_file_size, 
-                        ids_file_size, track_file_size] = analyzeTracks(trackFile, detFile, idsFile)
-
-                    resultFiles.append(resultsFile)
-
-                    self._totalFinalTracks[window] = total_tracks_num
-                    self._trueFinalTracks[window] = true_tracks_num
-                    self._falseFinalTracks[window] = false_tracks_num
-                    self._subsetFinalTracks[window] = subset_tracks_num
-                    self._longestFinalTracks[window] = longest_tracks_num
-
-                    self._finalTrackFileSizes[window] = track_file_size
-                    self._finalTrackDetFileSizes[window] = det_file_size
-                    self._finalTrackIdFileSizes[window] = ids_file_size
-
-                    print ""
-
-            self.tracker.ranFinalTrackAnalysis = True
-            self.tracker.finalTrackResults = sorted(resultFiles)
-            self.tracker.toYaml(outDir=self.tracker.runDir)
-
-        else:
-            print "Skipping final track analysis..."
-            print ""
-
+        # to be upgraded
         self._endTime = time.ctime()
 
         return
@@ -808,97 +631,6 @@ def _buildTrack(dataframe, diaids, ssmidDict, calcRMS=False):
         new_track.rms, new_track.raRes, new_track.decRes, new_track.distances = calcRMS(new_track.diasources)
 
     return new_track
-
-def analyzeTracklets(trackletFile, detFile, night, cursor=None, trackletIdCountStart=0, analysisObject=None):
-    startTime = time.ctime()
-    print "Starting analysis for %s at %s" % (os.path.basename(trackletFile), startTime)
-    
-    # Create outfile to store results
-    outFile = trackletFile + ".results"
-    outFileOut = open(outFile, "w", 0)
-    outFileOut.write("Start time: %s\n\n" % (startTime))
-    print "Writing results to %s" % (outFile)
-
-    # Get file sizes
-    print "Checking file sizes..."
-    detFileSize = os.path.getsize(detFile)
-    trackletFileSize = os.path.getsize(trackletFile)
-
-    # Read detections into a dataframe
-    print "Reading input detections..."
-    dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
-    outFileOut.write("Input Detection File Summary:\n")
-    outFileOut.write("File size (bytes): %s\n" % (detFileSize))
-    outFileOut.write("Detections: %s\n" % (len(dets_df.index)))
-    outFileOut.write("Unique objects: %s\n" % (dets_df['ssmId'].nunique()))
-
-    # Count number of true tracklets and findable SSMIDs in dataframe
-    print "Counting findable true tracklets..."
-    #findable_true_tracklets_num, findable_ssmids = countFindableTrueTrackletsAndSSMIDs(dets_df, 2.0, vmax)
-    #outFileOut.write("Findable objects: %s\n" % (len(findable_ssmids)))
-    #outFileOut.write("Findable true tracklets: %s\n\n" % (findable_true_tracklets_num))
-    
-    trackletFileIn = open(trackletFile, "r")
-    tracklets = []
-    ssmid_dict = {}
-    
-    # Initalize success (or failure) counters
-    total_tracklets_num = 0
-    true_tracklets_num = 0
-    false_tracklets_num = 0
-    
-    # Initialize tracklet dataframes
-    allTrackletsDataframe = pd.DataFrame(columns=['trackletId', 'linkedObjectId', 'numLinkedObjects', 'numMembers', 'velocity', 'rms', 'night', 'createdBy', 'deletedBy'])
-    trackletMembersDataframe = pd.DataFrame(columns=['trackletId', 'diaId'])
-    
-    # Examine each line in trackletFile and read in every line
-    #  as a track object. If track contains new detections (diasource)
-    #  then add new source to diasource_dict. 
-    print "Building tracklets from tracklet file..."
-    for i, line in enumerate(trackletFileIn):
-        # Found a track!
-        total_tracklets_num += 1
-        new_tracklet_diaids = MopsReader.readTracklet(line)
-        new_tracklet = _buildTracklet(dets_df, trackletIdCountStart + i, new_tracklet_diaids, night, ssmid_dict)
-
-        if new_tracklet.isTrue:
-            true_tracklets_num += 1
-        else: 
-            false_tracklets_num += 1
-            
-        trackletMembersDataframe = trackletMembersDataframe.append(new_tracklet.toTrackletMembersDataframe())
-        allTrackletsDataframe = allTrackletsDataframe.append(new_tracklet.toAllTrackletsDataframe())
-        
-        maxTrackletId = trackletIdCountStart + i + 1
-        
-    if cursor is not None:
-        print "Updating TrackletMembers database..."
-        trackletMembersDataframe.to_sql("TrackletMembers", cursor, if_exists="append", index=False)
-        print "Updating AllTracklets database..."
-        allTrackletsDataframe.to_sql("AllTracklets", cursor, if_exists="append", index=False)
-        
-    endTime = time.ctime()
-
-    outFileOut.write("Output Tracklet File Summary:\n")
-    outFileOut.write("File size (bytes): %s\n" % (trackletFileSize))
-    outFileOut.write("Unique objects found: %s\n" % (len(ssmid_dict)))
-    outFileOut.write("True tracklets found: %s\n" % (true_tracklets_num))
-    outFileOut.write("False tracklets found: %s\n" % (false_tracklets_num))
-    outFileOut.write("Total tracklets found: %s\n\n" % (total_tracklets_num))
-    outFileOut.write("End time: %s\n" % (endTime))
-    
-    if analysisObject is not None:
-        print "Updating analysis object..."
-        
-        analysisObject.totalTracklets[night] = total_tracklets_num
-        analysisObject.trueTracklets[night] = true_tracklets_num
-        analysisObject.falseTracklets[night] = false_tracklets_num
-        analysisObject.trackletFileSizes[night] = tracklet_file_size
-        analysisObject.trackletDetFileSizes[night] = det_file_size
-        
-    print "Finished analysis for %s at %s" % (os.path.basename(trackletFile), endTime)
-    
-    return outFile, allTrackletsDataframe, trackletMembersDataframe, maxTrackletId
 
 def analyzeTracks(trackFile, detFile, idsFile, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1, analyzeSubsets=True, verbose=True):
     startTime = time.ctime()
