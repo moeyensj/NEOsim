@@ -2,6 +2,7 @@ import os
 import time
 import yaml
 import random
+import difflib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -658,6 +659,43 @@ def findSSMIDs(dataframe, diaids):
 
     return np.array(ssmids)
 
+def findNewLinesAndDeletedIndices(file1, file2):
+    file1In = open(file1, "r")
+    file2In = open(file2, "r")
+    
+    # Here we use unified_diff. Unfortunately, at this stage ndiff would be more informative with
+    #  regards to index tracking however it is dreadfully slow with big files due to a series 
+    #  of internal nested for loops. We set context lines = 1 so as to use them to rematch
+    #  the file one index relative to the delta created by unified_diff.
+    udiff = list(difflib.unified_diff(file1In.readlines(), file2In.readlines(), n=1))
+    
+    new_lines = []
+    deleted_linenums = []
+    
+    file1_index = -1
+    for i, line in enumerate(udiff[3:]):
+        if line[0] == " ":
+            # This is a context line. Scan file one for this
+            #  line and then re-establish file one index. 
+            #  This is necessary since we are not using ndiff.
+            for j, l1 in enumerate(open(file1, "r")):
+                if l1[:-2] == line[1:-2]:
+                    file1_index = j
+        else:
+            if line[0] == "+":
+                # This line only exists in file two. 
+                # Lets add this line to a list of newly 
+                #  created lines. We will build linkages later.
+                new_lines.append(line[1:-2])
+            elif line[0] == "-":
+                # This line only exists in file one.
+                # Lets append the index to our list of deleted
+                #  line numbers.
+                file1_index += 1
+                deleted_linenums.append(file1_index)
+            
+    return new_lines, deleted_linenums
+
 def checkSubsets(tracks):
     # for each track in tracks, check subsets, if subset remove from array and add to subset array
     # remainings tracks are the longest tracks
@@ -744,8 +782,6 @@ def _buildTracklet(dataframe, trackletId, diaids, night, ssmidDict, createdBy=1,
     new_tracklet.updateInfo()
     
     return new_tracklet
-
-
 
 def _buildTrack(dataframe, diaids, ssmidDict, calcRMS=False):
     new_track = track(len(diaids))
