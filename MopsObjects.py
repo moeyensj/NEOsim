@@ -162,6 +162,7 @@ class tracklet(object):
         self._info["deletedBy"] = self._deletedBy
 
     def update(self):
+        self.updateVelocity()
         self.updateRMS()
         self.updateQuality()
         self.updateMembers()
