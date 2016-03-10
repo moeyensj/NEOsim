@@ -181,19 +181,19 @@ class track(object):
             dtype={"names":["diaId", "visitId", "ssmId", "ra", "dec", "mjd", "mag", "snr"], 
                    "formats":["int64","int64","int64","float64","float64","float64","float64","float64"]})
         self._info = np.zeros(1, 
-            dtype={"names":["trackId", "linkedObjectId", "numLinkedObjects", "numMembers", "rms", "window", "startTime", "endTime", "createdBy", "deletedBy"],
-                    "formats":["int64","int64","int64","int64","float64","float64","float64","float64","int64","int64"]})
+            dtype={"names":["trackId", "linkedObjectId", "numLinkedObjects", "numMembers", "rms", "window", "startTime", "endTime", "subsetOf", "createdBy", "deletedBy"],
+                    "formats":["int64","int64","int64","int64","float64","float64","float64","float64","int64","int64","int64"]})
         self._members = np.ones(diasources_num,
             dtype={"names":["trackId", "diaId"],
                   "formats":["int64","int64"]})
         self._numMembers = diasources_num
         self._window = window
         self._isTrue = None
-        self._linkedObjectId = 0
-        self._numLinkedObjects = None
+        self._linkedObjectId = None
+        self._numLinkedObjects = 0
         self._rms = None
         self._isSubset = None
-        self._subsetTrackIds = []
+        self._subsetOf = None
         self._startTime = None
         self._endTime = None
         self._createdBy = 5
@@ -288,12 +288,12 @@ class track(object):
         self._isSubset = value
 
     @property
-    def subsetTracks(self):
-        return self._subsetTracks
+    def subsetOf(self):
+        return self._subsetOf
 
-    @subsetTracks.setter
-    def subsetTracks(self, value):
-        self._subsetTrackIds = value
+    @subsetOf.setter
+    def subsetOf(self, value):
+        self._subsetOf = value
 
     @property
     def startTime(self):
