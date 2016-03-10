@@ -44,14 +44,8 @@ class MopsTracker(object):
         self._ranLinkTracklets = False
         self._ranRemoveSubsetTracks = False
 
-        self._nightlyDatabase = None
-        self._windowDatabases = None
-        self._ranTrackletAnalysis = False
-        self._ranCollapsedTrackletAnalysis = False
-        self._ranPurifiedTrackletAnalysis = False
-        self._ranFinalTrackletAnalysis = False
-        self._ranTrackAnalysis = False
-        self._ranFinalTracksAnalysis = False
+        self._trackletDatabase = None
+        self._trackDatabases = None
         self._trackletResults = None
         self._trackResults = None
 
@@ -363,68 +357,20 @@ class MopsTracker(object):
         self._ranRemoveSubsetTracks = value
 
     @property
-    def nightlyDatabase(self):
-        return self._nightlyDatabase
+    def trackletDatabase(self):
+        return self._trackletDatabase
 
-    @nightlyDatabase.setter
-    def nightlyDatabase(self, value):
-        self._nightlyDatabase = value
-
-    @property
-    def windowDatabases(self):
-        return self._windowDatabases
-
-    @windowDatabases.setter
-    def windowDatabases(self, value):
-        self._windowDatabases = value
+    @trackletDatabase.setter
+    def trackletDatabase(self, value):
+        self._trackletDatabase = value
 
     @property
-    def ranTrackletAnalysis(self):
-        return self._ranTrackletAnalysis
+    def trackDatabases(self):
+        return self._trackDatabases
 
-    @ranTrackletAnalysis.setter
-    def ranTrackletAnalysis(self, value):
-        self._ranTrackletAnalysis = value
-
-    @property
-    def ranCollapsedTrackletAnalysis(self):
-        return self._ranCollapsedTrackletAnalysis
-
-    @ranCollapsedTrackletAnalysis.setter
-    def ranCollapsedTrackletAnalysis(self, value):
-        self._ranCollapsedTrackletAnalysis = value
-
-    @property
-    def ranPurifiedTrackletAnalysis(self):
-        return self._ranPurifiedTrackletAnalysis
-
-    @ranPurifiedTrackletAnalysis.setter
-    def ranPurifiedTrackletAnalysis(self, value):
-        self._ranPurifiedTrackletAnalysis = value
-
-    @property
-    def ranFinalTrackletAnalysis(self):
-        return self._ranFinalTrackletAnalysis
-
-    @ranFinalTrackletAnalysis.setter
-    def ranFinalTrackletAnalysis(self, value):
-        self._ranFinalTrackletAnalysis = value
-
-    @property
-    def ranTrackAnalysis(self):
-        return self._ranTrackAnalysis
-
-    @ranTrackAnalysis.setter
-    def ranTrackAnalysis(self, value):
-        self._ranTrackAnalysis = value
-
-    @property
-    def ranFinalTracksAnalysis(self):
-        return self._ranFinalTracksAnalysis
-
-    @ranFinalTracksAnalysis.setter
-    def ranFinalTracksAnalysis(self, value):
-        self._ranFinalTracksAnalysis = value
+    @trackDatabases.setter
+    def trackDatabases(self, value):
+        self._trackDatabases = value
 
     @property
     def trackletResults(self):
