@@ -161,6 +161,12 @@ class tracklet(object):
         self._info["createdBy"] = self._createdBy 
         self._info["deletedBy"] = self._deletedBy
 
+    def update(self):
+        self.updateRMS()
+        self.updateQuality()
+        self.updateMembers()
+        self.updateInfo()
+
     def toAllTrackletsDataframe(self):
         return pd.DataFrame(self._info)
 
