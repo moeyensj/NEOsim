@@ -19,4 +19,4 @@ def readNight(detFile):
 
 def readWindow(trackFile):
     window = os.path.basename(trackFile).split(".")[0].split("_")
-    return window[1] + "-" + window[3]
+    return int(window[1]), int(window[3])
