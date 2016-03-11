@@ -89,7 +89,7 @@ def buildTrackDatabase(database, outDir):
             numLinkedObjects INTEGER,
             numMembers INTEGER,
             rms REAL,
-            window REAL,
+            windowStart REAL,
             startTime REAL,
             endTime REAL,
             subsetOf INTEGER, 
