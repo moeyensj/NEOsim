@@ -1,7 +1,6 @@
 import os
 import numpy as np
 import pandas as pd
-import sqlite3 as sql
 
 def readTracklet(tracklet):
     return np.fromstring(tracklet, sep=" ", dtype=int) 
