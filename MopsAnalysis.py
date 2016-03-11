@@ -521,7 +521,7 @@ def findNewLinesAndDeletedIndices(file1, file2):
 
 def checkSubsets(tracks):
     # for each track in tracks, check subsets, if subset remove from array and add to subset array
-    # remainings tracks are the longest tracks
+    # remaining tracks are the longest tracks
     longest_tracks_num = 0
     subset_tracks_num = 0
 
@@ -536,7 +536,8 @@ def checkSubsets(tracks):
                 if t != c:
                     if t.issubset(c):
                         test_track.isSubset = True
-                        test_track.subsetTracks.append(comparison_track)
+                        test_track.subsetOf = comparison_track.trackId
+                        test_track.updateInfo()
                         subset_tracks_num += 1
                         break
 
@@ -545,7 +546,7 @@ def checkSubsets(tracks):
             test_track.isSubset = False
             longest_tracks_num += 1
 
-    return longest_tracks_num, subset_tracks_num
+    return longest_tracks_num, subset_tracks_num, tracks
  
 def countUniqueSSMIDs(dataframe):
     return dataframe["ssmId"].nunique()
@@ -616,15 +617,14 @@ def _buildTrack(dataframe, trackId, diaids, window, ssmidDict, createdBy=5, calc
     if calcRMS:
         new_track.updateRMS()
     
+    new_track.updateTime()
     new_track.updateQuality()
     new_track.updateMembers()
     new_track.updateInfo()
     
     return new_track
 
-def analyzeTracklets(trackletFile, detFile, outDir, cursor=None, 
-                     collapsedTrackletFile=None, purifiedTrackletFile=None, removeSubsetTrackletFile=None,
-                     analysisObject=None, trackletIdCountStart=1):
+def analyzeTracklets(trackletFile, detFile, outDir, cursor=None, collapsedTrackletFile=None, purifiedTrackletFile=None, removeSubsetTrackletFile=None, analysisObject=None, trackletIdCountStart=1):
     startTime = time.ctime()
     night = MopsReader.readNight(detFile)
     print "Starting tracklet analysis for night %s at %s" % (night, startTime)
@@ -923,3 +923,208 @@ def analyzeTracklets(trackletFile, detFile, outDir, cursor=None,
     print ""
     
     return outFile, allTrackletsDataframe, trackletMembersDataframe, tracklet_ids
+
+def analyzeTracks(trackFile, detFile, idsFile, outDir, cursor=None, removeSubsetTrackFile=None, minDetectionsPerNight=2, minNights=3, windowSize=15, 
+    snrLimit=-1, analyzeSubsets=True, analysisObject=None, verbose=True):
+    startTime = time.ctime()
+    startNight, endNight = MopsReader.readWindow(detFile)
+    print "Starting track analysis for window (nights: %s - %s) at %s" % (str(startNight), str(endNight), startTime)
+    
+    # Create outfile to store results
+    if not os.path.exists(outDir):
+        os.mkdir(outDir)
+    window = str(startNight) + "-" + str(endNight)
+    outFile = os.path.join(os.path.abspath(outDir), "", str(window) + ".results")
+    outFileOut = open(outFile, "w", 0)
+    outFileOut.write("Start time: %s\n\n" % (startTime))
+    print "- Writing results to %s" % (outFile)
+
+    print "- Checking file sizes..."
+    ids_file_size = os.path.getsize(idsFile)
+    det_file_size = os.path.getsize(detFile)
+    track_file_size = os.path.getsize(trackFile)
+    if removeSubsetTrackFile is not None:
+        final_track_file_size = os.path.getsize(removeSubsetTrackFile)
+
+    # Read ids file 
+    print "- Counting number of input tracks..."
+    track_num = 0
+    for track in open(idsFile, "r"):
+        track_num += 1
+
+    outFileOut.write("Input Track (Ids) File Summary:\n")
+    outFileOut.write("File name: %s\n" % (idsFile))
+    outFileOut.write("File size (bytes): %s\n" % (ids_file_size))
+    outFileOut.write("Tracks: %s\n\n" % (track_num))
+    
+    # Read detections into a dataframe
+    print "- Reading input detections..."
+    dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
+
+    # Count number of true tracks and findable SSMIDs in dataframe
+    print "- Counting findable objects..."
+    findable_ssmids = countFindableObjects(dets_df, minDetectionsPerNight=minDetectionsPerNight, minNights=minNights, windowSize=windowSize, snrLimit=snrLimit)
+
+    if analysisObject is not None:
+        print "- Updating analysis object..."
+        analysisObject.windowDetectionFileSizes[night] = det_file_size
+
+    # Write detection file properties to outfile
+    print "- Writing detection file summary to outfile..."
+    print ""
+    outFileOut.write("Input Detection File Summary:\n")
+    outFileOut.write("File name: %s\n" % (detFile))
+    outFileOut.write("File size (bytes): %s\n" % (det_file_size))
+    outFileOut.write("Detections: %s\n" % (len(dets_df.index)))
+    outFileOut.write("Unique objects: %s\n" % (dets_df["ssmId"].nunique()))
+    outFileOut.write("Findable objects: %s\n\n" % (len(findable_ssmids)))
+
+    trackFileIn = open(trackFile, "r")
+    tracks = []
+    ssmid_dict = {}
+    found_ssmids = []
+    missed_ssmids = []
+    
+    # Initalize success (or failure) counters
+    total_tracks_num = 0
+    true_tracks_num = 0
+    false_tracks_num = 0
+    track_ids = []
+
+    print "Analyzing track file..."
+    print "- Building dataframes..."
+    allTracksDataframe = pd.DataFrame(columns=["trackId", "linkedObjectId", "numLinkedObjects", "numMembers", "rms", "windowStart", "startTime", "endTime", "subsetOf", "createdBy", "deletedBy"])
+    trackMembersDataframe = pd.DataFrame(columns=["trackId", "diaId"])
+
+    # Examine each line in trackFile and read in every line
+    #  as a track object. If track contains new detections (diasource)
+    #  then add new source to diasource_dict. 
+    print "- Building tracks..."
+    for i, line in enumerate(trackFileIn):
+        track_id = i + 1
+        track_ids.append(track_id)
+        
+        new_track_diaids = MopsReader.readTrack(line)
+        new_track = _buildTrack(dets_df, track_id, new_track_diaids, startNight, ssmid_dict, createdBy=5)
+
+        total_tracks_num += 1     
+        if new_track.isTrue:
+            true_tracks_num += 1
+            if new_track.diasources["ssmId"][0] not in found_ssmids:
+                found_ssmids.append(new_track.diasources["ssmId"][0])
+        else:
+            false_tracks_num += 1
+
+        tracks.append(new_track)
+
+        trackMembersDataframe = trackMembersDataframe.append(new_track.toTrackMembersDataframe())
+        allTracksDataframe = allTracksDataframe.append(new_track.toAllTracksDataframe())
+
+    print "- Appended new tracks to dataframes..."
+
+    start_track_id = max(track_ids) + 1
+    
+    longest_tracks_num = 0
+    subset_tracks_num = 0
+    if analyzeSubsets:
+        print "- Counting subset tracks..."   
+        longest_tracks_num, subset_tracks_num, tracks = checkSubsets(tracks)
+
+        print "- Updating AllTracks dataframe..."   
+        for track in tracks:
+            if track.isSubset:
+                allTracksDataframe.loc[allTracksDataframe["trackId"] == track.trackId, "subsetOf"] = track.subsetOf
+            else:
+                continue
+
+    print "- Counting missed objects..."
+    missed_ssmids = countMissedSSMIDs(found_ssmids, findable_ssmids)
+
+    print "- Calculating performance..."
+    if len(findable_ssmids) != 0:
+        performance_ratio = float(len(found_ssmids))/len(findable_ssmids)
+    else:
+        performance_ratio = 0.0
+
+    print "- Writing results to outfile..."
+    outFileOut.write("Output Track File Summary:\n")
+    outFileOut.write("File name: %s\n" % (trackFile))
+    outFileOut.write("File size (bytes): %s\n" % (track_file_size))
+    outFileOut.write("Objects found: %s\n" % (len(found_ssmids)))
+    outFileOut.write("Objects missed: %s\n" % (len(missed_ssmids)))
+    outFileOut.write("True tracks: %s\n" % (true_tracks_num))
+    outFileOut.write("False tracks %s\n" % (false_tracks_num))
+    outFileOut.write("Total tracks: %s\n" % (total_tracks_num))
+    outFileOut.write("Subset tracks: %s\n" % (subset_tracks_num))
+    outFileOut.write("Longest tracks: %s\n\n" % (longest_tracks_num))
+    outFileOut.write("MOPs Performance Ratio (found/findable): %.5f\n\n" % (performance_ratio))
+
+    print ""
+
+    if removeSubsetTrackFile is not None:
+        print "Analyzing final tracks..."
+        created_by_removeSubsets, deleted_by_removeSubsets_ind = findNewLinesAndDeletedIndices(trackFile, removeSubsetTrackFile)
+        print "removeSubsets removed %s tracks..." % (len(deleted_by_removeSubsets_ind))
+
+        total_final_tracks_num = 0
+        true_final_tracks_num = 0
+        false_final_tracks_num = 0
+
+        print "- Updating dataframe properties..."
+        for ind in deleted_by_removeSubsets_ind:
+            allTracksDataframe.loc[allTracksDataframe["trackId"] == ind + 1, "deletedBy"] = 6
+
+        print "- Building final tracks..."
+        for i, line in enumerate(created_by_removeSubsets):
+            track_id = start_track_id + i
+            track_ids.append(track_id)
+            
+            new_track_diaids = MopsReader.readTrack(line)
+            new_track = _buildTrack(dets_df, track_id, new_track_diaids, windowStart, ssmid_dict, createdBy=5)
+
+            total_final_tracks_num += 1     
+            if new_track.isTrue:
+                true_final_tracks_num += 1
+            else:
+                false_final_tracks_num += 1
+
+            trackMembersDataframe = trackMembersDataframe.append(new_track.toTrackMembersDataframe())
+            allTracksDataframe = allTracksDataframe.append(new_track.toAllTracksDataframe())
+
+        print "- Appended new tracks to dataframes..."
+
+        if analysisObject is not None:
+            print "- Updating analysis object..."
+
+            analysisObject.totalFinalTracks[night] = total_final_tracks_num
+            analysisObject.trueFinalTracks[night] = true_final_tracks_num
+            analysisObject.falseFinalTracks[night] = false_final_tracks_num
+            analysisObject.finalTrackFileSizes[night] = final_track_file_size
+
+        print "- Writing results to outfile..."
+        outFileOut.write("Output Final Track File Summary:\n")
+        outFileOut.write("File name: %s\n" % (removeSubsetTrackFile))
+        outFileOut.write("File size (bytes): %s\n" % (final_track_file_size))
+        outFileOut.write("True final tracks: %s\n" % (true_final_tracks_num))
+        outFileOut.write("False final tracks %s\n" % (false_final_tracks_num))
+        outFileOut.write("Total final tracks: %s\n" % (total_final_tracks_num))
+        outFileOut.write("*** Note: These numbers only reflect tracks affected by removeSubsets. ***\n")
+        outFileOut.write("***          File may contain other unaffected tracks.                 ***\n\n")
+        print ""
+
+    if cursor is not None:
+        print "Converting dataframes to sqlite tables..."
+        print "Updating TrackMembers tables..."
+        trackMembersDataframe.to_sql("TrackMembers", cursor, if_exists="append", index=False)
+        print "Updating AllTracks tables..."
+        allTracksDataframe.to_sql("AllTracks", cursor, if_exists="append", index=False)
+        
+        print ""
+
+    endTime = time.ctime()
+    outFileOut.write("End time: %s\n" % (endTime))
+
+    print "Finished track analysis for window (nights: %s - %s) at %s" % (str(startNight), str(endNight), endTime)
+    print ""
+    
+    return outFile, allTracksDataframe, trackMembersDataframe, track_ids
