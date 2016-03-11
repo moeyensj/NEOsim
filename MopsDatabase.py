@@ -74,7 +74,7 @@ def buildTrackletDatabase(database, outDir, overwrite=False):
         OR createdBy = 4
         """)
 
-    return con
+    return con, database
 
 def buildTrackDatabase(database, outDir):
 
@@ -121,4 +121,4 @@ def buildTrackDatabase(database, outDir):
         OR createdBy = 6
         """)
 
-    return con
+    return con, database
