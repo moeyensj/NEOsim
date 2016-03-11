@@ -122,14 +122,14 @@ class tracklet(object):
         self._deletedBy = value
 
     def addDiasource(self, diasource_num, diaid, diasource):
-        self._diasources[diasource_num]['diaId'] = int(diaid)
-        self._diasources[diasource_num]['visitId'] = diasource['visitId']
-        self._diasources[diasource_num]['ssmId'] = diasource['ssmId']
-        self._diasources[diasource_num]['ra'] = diasource['ra']
-        self._diasources[diasource_num]['dec'] = diasource['dec']
-        self._diasources[diasource_num]['mjd'] = diasource['mjd']
-        self._diasources[diasource_num]['mag'] = diasource['mag']
-        self._diasources[diasource_num]['snr'] = diasource['snr']
+        self._diasources[diasource_num]["diaId"] = int(diaid)
+        self._diasources[diasource_num]["visitId"] = diasource["visitId"]
+        self._diasources[diasource_num]["ssmId"] = diasource["ssmId"]
+        self._diasources[diasource_num]["ra"] = diasource["ra"]
+        self._diasources[diasource_num]["dec"] = diasource["dec"]
+        self._diasources[diasource_num]["mjd"] = diasource["mjd"]
+        self._diasources[diasource_num]["mag"] = diasource["mag"]
+        self._diasources[diasource_num]["snr"] = diasource["snr"]
 
     def updateRMS(self):
         self._rms = calcRMS(self._diasources)
@@ -175,29 +175,29 @@ class tracklet(object):
         return pd.DataFrame(self._members)
 
 class track(object):
-    def __init__(self, trackId, diasources_num, window):
+    def __init__(self, trackId, diasources_num, windowStart):
         self._trackId = trackId
         self._diasources = np.zeros(diasources_num, 
             dtype={"names":["diaId", "visitId", "ssmId", "ra", "dec", "mjd", "mag", "snr"], 
                    "formats":["int64","int64","int64","float64","float64","float64","float64","float64"]})
         self._info = np.zeros(1, 
-            dtype={"names":["trackId", "linkedObjectId", "numLinkedObjects", "numMembers", "rms", "window", "startTime", "endTime", "subsetOf", "createdBy", "deletedBy"],
+            dtype={"names":["trackId", "linkedObjectId", "numLinkedObjects", "numMembers", "rms", "windowStart", "startTime", "endTime", "subsetOf", "createdBy", "deletedBy"],
                     "formats":["int64","int64","int64","int64","float64","float64","float64","float64","int64","int64","int64"]})
         self._members = np.ones(diasources_num,
             dtype={"names":["trackId", "diaId"],
                   "formats":["int64","int64"]})
         self._numMembers = diasources_num
-        self._window = window
+        self._windowStart = windowStart
         self._isTrue = None
         self._linkedObjectId = None
         self._numLinkedObjects = 0
         self._rms = None
         self._isSubset = None
-        self._subsetOf = None
+        self._subsetOf = 0
         self._startTime = None
         self._endTime = None
         self._createdBy = 5
-        self._deletedBy = None
+        self._deletedBy = 0
 
     @property
     def trackId(self):
@@ -240,12 +240,12 @@ class track(object):
         print "Cannot set numberMembers!"
 
     @property
-    def window(self):
-        return self._window
+    def windowStart(self):
+        return self._windowStart
 
-    @window.setter
-    def window(self, value):
-        print "Cannot set window!"
+    @windowStart.setter
+    def windowStart(self, value):
+        print "Cannot set windowStart!"
         
     @property
     def isTrue(self):
@@ -328,14 +328,14 @@ class track(object):
         self._deletedBy = value
 
     def addDiasource(self, diasource_num, diaid, diasource):
-        self._diasources[diasource_num]['diaId'] = int(diaid)
-        self._diasources[diasource_num]['visitId'] = diasource['visitId']
-        self._diasources[diasource_num]['ssmId'] = diasource['ssmId']
-        self._diasources[diasource_num]['ra'] = diasource['ra']
-        self._diasources[diasource_num]['dec'] = diasource['dec']
-        self._diasources[diasource_num]['mjd'] = diasource['mjd']
-        self._diasources[diasource_num]['mag'] = diasource['mag']
-        self._diasources[diasource_num]['snr'] = diasource['snr']
+        self._diasources[diasource_num]["diaId"] = int(diaid)
+        self._diasources[diasource_num]["visitId"] = diasource["visitId"]
+        self._diasources[diasource_num]["ssmId"] = diasource["ssmId"]
+        self._diasources[diasource_num]["ra"] = diasource["ra"]
+        self._diasources[diasource_num]["dec"] = diasource["dec"]
+        self._diasources[diasource_num]["mjd"] = diasource["mjd"]
+        self._diasources[diasource_num]["mag"] = diasource["mag"]
+        self._diasources[diasource_num]["snr"] = diasource["snr"]
 
     def updateRMS(self):
         self._rms = calcRMS(self._diasources)
@@ -344,10 +344,14 @@ class track(object):
         self._isTrue, num_unique_ids = checkSSMIDs(self._diasources["ssmId"])
         if self._isTrue:
             self._linkedObjectId = self._diasources["ssmId"][0]
-            self._numlinkedObjects = num_unique_ids
+            self._numLinkedObjects = num_unique_ids
         else:
             self._linkedObjectId = None
-            self._numlinkedObjects = num_unique_ids
+            self._numLinkedObjects = num_unique_ids
+
+    def updateTime(self):
+        self._startTime = min(self.diasources["mjd"])
+        self._endTime = max(self.diasources["mjd"])
 
     def updateMembers(self):
         self._members["trackId"] = self._members["trackId"] * self._trackId
@@ -359,22 +363,24 @@ class track(object):
         self._info["numLinkedObjects"] = self._numLinkedObjects 
         self._info["numMembers"] = self._numMembers
         self._info["rms"] = self._rms 
-        self._info["window"] = self._window 
+        self._info["windowStart"] = self._windowStart
         self._info["startTime"] = self._startTime 
         self._info["endTime"] = self._endTime 
+        self._info["subsetOf"] = self._subsetOf
         self._info["createdBy"] = self._createdBy 
         self._info["deletedBy"] = self._deletedBy
 
     def update(self):
         self.updateRMS()
         self.updateQuality()
+        self.updateTime()
         self.updateMembers()
         self.updateInfo()
 
-    def toAllTrackletsDataframe(self):
+    def toAllTracksDataframe(self):
         return pd.DataFrame(self._info)
 
-    def toTrackletMembersDataframe(self):
+    def toTrackMembersDataframe(self):
         return pd.DataFrame(self._members)
 
 def checkSSMIDs(ssmids):
