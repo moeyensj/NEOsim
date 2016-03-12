@@ -1,15 +1,14 @@
 import os
 import time
 import yaml
-import random
 import difflib
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
 import moMetrics
 import MopsPlotter
 import MopsReader
+import MopsDatabase
 from MopsObjects import tracklet
 from MopsObjects import track
 from MopsParameters import MopsParameters
@@ -474,14 +473,6 @@ def calcNight(mjd, midnight=LSST_MIDNIGHT):
     night = mjd + 0.5 - midnight
     return night.astype(int)
 
-def findSSMIDs(dataframe, diaids):
-    ssmids = []
-    for i in diaids:
-        ssmid = int(dataframe[dataframe["diaId"] == i]["ssmId"])
-        ssmids.append(ssmid)
-
-    return np.array(ssmids)
-
 def findNewLinesAndDeletedIndices(file1, file2):
     file1In = open(file1, "r")
     file2In = open(file2, "r")
@@ -548,10 +539,10 @@ def checkSubsets(tracks):
 
     return longest_tracks_num, subset_tracks_num, tracks
  
-def countUniqueSSMIDs(dataframe):
+def countUniqueObjects(dataframe):
     return dataframe["ssmId"].nunique()
 
-def countMissedSSMIDs(foundSSMIDs, findableSSMIDs):
+def countMissedObjects(foundSSMIDs, findableSSMIDs):
     missedSSMIDs = set(findableSSMIDs) - set(foundSSMIDs)
     return list(missedSSMIDs)
 
@@ -1038,7 +1029,7 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
                 continue
 
     print "- Counting missed objects..."
-    missed_ssmids = countMissedSSMIDs(found_ssmids, findable_ssmids)
+    missed_ssmids = countMissedObjects(found_ssmids, findable_ssmids)
 
     print "- Calculating performance..."
     if len(findable_ssmids) != 0:
