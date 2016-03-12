@@ -624,7 +624,7 @@ def _buildTrack(dataframe, trackId, diaids, window, ssmidDict, createdBy=5, calc
     
     return new_track
 
-def analyzeTracklets(trackletFile, detFile, outDir, cursor=None, collapsedTrackletFile=None, purifiedTrackletFile=None, removeSubsetTrackletFile=None, analysisObject=None, trackletIdCountStart=1):
+def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, collapsedTrackletFile=None, purifiedTrackletFile=None, removeSubsetTrackletFile=None, trackletIdCountStart=1,  analysisObject=None):
     startTime = time.ctime()
     night = MopsReader.readNight(detFile)
     print "Starting tracklet analysis for night %s at %s" % (night, startTime)
@@ -924,8 +924,8 @@ def analyzeTracklets(trackletFile, detFile, outDir, cursor=None, collapsedTrackl
     
     return outFile, allTrackletsDataframe, trackletMembersDataframe, tracklet_ids
 
-def analyzeTracks(trackFile, detFile, idsFile, outDir, cursor=None, removeSubsetTrackFile=None, minDetectionsPerNight=2, minNights=3, windowSize=15, 
-    snrLimit=-1, analyzeSubsets=True, analysisObject=None, verbose=True):
+def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, removeSubsetTrackFile=None, minDetectionsPerNight=2, minNights=3, windowSize=15, 
+    snrLimit=-1, analyzeSubsets=True, analysisObject=None):
     startTime = time.ctime()
     startNight, endNight = MopsReader.readWindow(detFile)
     print "Starting track analysis for window (nights: %s - %s) at %s" % (str(startNight), str(endNight), startTime)
