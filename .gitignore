@@ -8,3 +8,4 @@ fullsky5year.db
 *.pyc
 ldm156*/
 debug/*
+_development/
