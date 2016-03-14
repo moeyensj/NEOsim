@@ -14,6 +14,11 @@ def readIds(ids):
 def readDetectionsIntoDataframe(detsFile, header=None):
     return pd.read_csv(detsFile, header=header, names=["diaId", "visitId", "ssmId", "ra", "dec", "mjd", "mag", "snr"], index_col="diaId", delim_whitespace=True)
 
+def readDetectionsIntoDatabase(detsFile, cursor, table="DiaSources", header=None):
+    dets_df = readDetectionsIntoDataframe(detsFile, header=header)
+    dets_df.to_sql(table, cursor, if_exists="append")
+    return 
+
 def readNight(detFile):
     return int(os.path.basename(detFile).split(".")[0])
 
