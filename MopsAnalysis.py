@@ -16,444 +16,6 @@ from MopsTracker import MopsTracker
 
 LSST_MIDNIGHT = 0.166
 
-class runAnalysis(object):
-
-    def __init__(self, parameters, tracker):
-        self._parameters = parameters
-        self._tracker = tracker
-
-        # General run overview
-        self._nights = []
-        self._windows = []
-        self._uniqueObjects = {}
-        self._findableObjects = {}
-        self._foundObjects = {}
-        self._missedObjects = {}
-        self._performanceRatio = {}
-        self._nightlyDetectionFileSizes = {}
-        self._windowDetectionFileSizes = {}
-
-        # Tracks
-        self._totalTracks = {}
-        self._trueTracks = {}
-        self._falseTracks = {}
-        self._subsetTracks = {}
-        self._longestTracks = {}
-        self._trackIdFileSizes = {}
-        self._trackFileSizes = {}
-
-        # Final tracks
-        self._totalFinalTracks = {}
-        self._trueFinalTracks = {}
-        self._falseFinalTracks = {}
-        self._subsetFinalTracks = {}
-        self._longestFinalTracks = {}
-        self._finalTrackIdFileSizes = {}
-        self._finalTrackFileSizes = {}
-
-        # Tracklets (post findTracklets)
-        self._totalTracklets = {}
-        self._trueTracklets = {}
-        self._falseTracklets = {}
-        self._trackletFileSizes = {}
-
-        # Collapsed tracklets
-        self._totalCollapsedTracklets = {}
-        self._trueCollapsedTracklets = {}
-        self._falseCollapsedTracklets = {}
-        self._collapsedTrackletFileSizes = {}
-
-        # Purified tracklets
-        self._totalPurifiedTracklets = {}
-        self._truePurifiedTracklets = {}
-        self._falsePurifiedTracklets = {}
-        self._purifiedTrackletFileSizes = {}
-
-        # Final tracklets (post removeSubsets)
-        self._totalFinalTracklets = {}
-        self._trueFinalTracklets = {}
-        self._falseFinalTracklets = {}
-        self._finalTrackletFileSizes = {}
-        
-        # General analysis information
-        self._startTime = 0
-        self._endTime = 0
-
-    @property
-    def parameters(self):
-        return self._parameters
-
-    @parameters.setter
-    def parameters(self, value):
-        self._parameters = value
-
-    @property
-    def tracker(self):
-        return self._tracker
-
-    @tracker.setter
-    def tracker(self, value):
-        self._tracker = value
-
-    # General run overview
-
-    @property
-    def nights(self):
-        return self._nights
-
-    @nights.setter
-    def nights(self, value):
-        self._nights = value
-
-    @property
-    def windows(self):
-        return self._windows
-
-    @windows.setter
-    def windows(self, value):
-        self._windows = value
-
-    @property
-    def uniqueObjects(self):
-        return self._uniqueObjects
-
-    @uniqueObjects.setter
-    def uniqueObjects(self, value):
-        self._uniqueObjects = value
-
-    @property
-    def findableObjects(self):
-        return self._findableObjects
-
-    @findableObjects.setter
-    def findableObjects(self, value):
-        self._findableObjects = value
-
-    @property
-    def foundObjects(self):
-        return self._foundObjects
-
-    @foundObjects.setter
-    def foundObjects(self, value):
-        self._foundObjects = value
-
-    @property
-    def missedObjects(self):
-        return self._missedObjects
-
-    @missedObjects.setter
-    def missedObjects(self, value):
-        self._missedObjects = value
-
-    @property
-    def missedObjects(self):
-        return self._missedObjects
-
-    @missedObjects.setter
-    def missedObjects(self, value):
-        self._missedObjects = value
-
-    @property
-    def performanceRatio(self):
-        return self._performanceRatio
-
-    @performanceRatio.setter
-    def performanceRatio(self, value):
-        self._performanceRatio = value
-
-    @property
-    def nightlyDetectionFileSizes(self):
-        return self._nightlyDetectionFileSizes
-
-    @nightlyDetectionFileSizes.setter
-    def nightlyDetectionFileSizes(self, value):
-        self._nightlyDetectionFileSizes = value
-
-    @property
-    def windowDetectionFileSizes(self):
-        return self._windowDetectionFileSizes
-
-    @windowDetectionFileSizes.setter
-    def windowDetectionFileSizes(self, value):
-        self._windowDetectionFileSizes = value
-
-    # Tracks
-
-    @property
-    def totalTracks(self):
-        return self._totalTracks
-
-    @totalTracks.setter
-    def totalTracks(self, value):
-        self._totalTracks = value
-
-    @property
-    def trueTracks(self):
-        return self._trueTracks
-
-    @trueTracks.setter
-    def trueTracks(self, value):
-        self._trueTracks = value
-
-    @property
-    def falseTracks(self):
-        return self._falseTracks
-
-    @falseTracks.setter
-    def falseTracks(self, value):
-        self._falseTracks = value
-
-    @property
-    def subsetTracks(self):
-        return self._subsetTracks
-
-    @subsetTracks.setter
-    def subsetTracks(self, value):
-        self._subsetTracks = value
-
-    @property
-    def longestTracks(self):
-        return self._longestTracks
-
-    @longestTracks.setter
-    def longestTracks(self, value):
-        self._longestTracks = value
-
-    @property
-    def trackIdFileSizes(self):
-        return self._trackIdFileSizes
-
-    @trackIdFileSizes.setter
-    def trackIdFileSizes(self, value):
-        self._trackIdFileSizes = value
-
-    @property
-    def trackFileSizes(self):
-        return self._trackFileSizes
-
-    @trackFileSizes.setter
-    def trackFileSizes(self, value):
-        self._trackFileSizes = value
-
-    # Final tracks
-
-    @property
-    def totalFinalTracks(self):
-        return self._totalFinalTracks
-
-    @totalFinalTracks.setter
-    def totalFinalTracks(self, value):
-        self._totalFinalTracks = value
-
-    @property
-    def trueFinalTracks(self):
-        return self._trueFinalTracks
-
-    @trueFinalTracks.setter
-    def trueFinalTracks(self, value):
-        self._trueFinalTracks = value
-
-    @property
-    def falseFinalTracks(self):
-        return self._falseFinalTracks
-
-    @falseFinalTracks.setter
-    def falseFinalTracks(self, value):
-        self._falseFinalTracks = value
-
-    @property
-    def subsetFinalTracks(self):
-        return self._subsetFinalTracks
-
-    @subsetFinalTracks.setter
-    def subsetFinalTracks(self, value):
-        self._subsetFinalTracks = value
-
-    @property
-    def longestFinalTracks(self):
-        return self._longestFinalTracks
-
-    @longestFinalTracks.setter
-    def longestFinalTracks(self, value):
-        self._longestFinalTracks = value
-
-    @property
-    def finalTrackIdFileSizes(self):
-        return self._finalTrackIdFileSizes
-
-    @finalTrackIdFileSizes.setter
-    def finalTrackIdFileSizes(self, value):
-        self._finalTrackIdFileSizes = value
-
-    @property
-    def finalTrackFileSizes(self):
-        return self._finalTrackFileSizes
-
-    @finalTrackFileSizes.setter
-    def finalTrackFileSizes(self, value):
-        self._finalTrackFileSizes = value
-
-    # Tracklets (post findTracklets)
-
-    @property
-    def totalTracklets(self):
-        return self._totalTracklets
-
-    @totalTracklets.setter
-    def totalTracklets(self, value):
-        self._totalTracklets = value
-
-    @property
-    def trueTracklets(self):
-        return self._trueTracklets
-
-    @trueTracklets.setter
-    def trueTracklets(self, value):
-        self._trueTracklets = value
-
-    @property
-    def falseTracklets(self):
-        return self._falseTracklets
-
-    @falseTracklets.setter
-    def falseTracklets(self, value):
-        self._falseTracklets = value
-
-    @property
-    def trackletFileSizes(self):
-        return self._trackletFileSizes
-
-    @trackletFileSizes.setter
-    def trackletFileSizes(self, value):
-        self._trackletFileSizes = value
-
-    # Collapsed tracklets
-
-    @property
-    def totalCollapsedTracklets(self):
-        return self._totalCollapsedTracklets
-
-    @totalCollapsedTracklets.setter
-    def totalCollapsedTracklets(self, value):
-        self._totalCollapsedTracklets = value
-
-    @property
-    def trueCollapsedTracklets(self):
-        return self._trueCollapsedTracklets
-
-    @trueCollapsedTracklets.setter
-    def trueCollapsedTracklets(self, value):
-        self._trueCollapsedTracklets = value
-
-    @property
-    def falseCollapsedTracklets(self):
-        return self._falseCollapsedTracklets
-
-    @falseCollapsedTracklets.setter
-    def falseCollapsedTracklets(self, value):
-        self._falseCollapsedTracklets = value
-
-    @property
-    def collapsedTrackletFileSizes(self):
-        return self._collapsedTrackletFileSizes
-
-    @collapsedTrackletFileSizes.setter
-    def collapsedTrackletFileSizes(self, value):
-        self._collapsedTrackletFileSizes = value
-
-    # Purified tracklets
-
-    @property
-    def totalPurifiedTracklets(self):
-        return self._totalPurifiedTracklets
-
-    @totalPurifiedTracklets.setter
-    def totalPurifiedTracklets(self, value):
-        self._totalPurifiedTracklets = value
-
-    @property
-    def truePurifiedTracklets(self):
-        return self._truePurifiedTracklets
-
-    @truePurifiedTracklets.setter
-    def truePurifiedTracklets(self, value):
-        self._truePurifiedTracklets = value
-
-    @property
-    def falsePurifiedTracklets(self):
-        return self._falsePurifiedTracklets
-
-    @falsePurifiedTracklets.setter
-    def falsePurifiedTracklets(self, value):
-        self._falsePurifiedTracklets = value
-
-    @property
-    def purifiedTrackletFileSizes(self):
-        return self._purifiedTrackletFileSizes
-
-    @purifiedTrackletFileSizes.setter
-    def purifiedTrackletFileSizes(self, value):
-        self._purifiedTrackletFileSizes = value
-
-    # Final tracklets (post removeSubsets)
-
-    @property
-    def totalFinalTracklets(self):
-        return self._totalFinalTracklets
-
-    @totalFinalTracklets.setter
-    def totalFinalTracklets(self, value):
-        self._totalFinalTracklets = value
-
-    @property
-    def trueFinalTracklets(self):
-        return self._trueFinalTracklets
-
-    @trueFinalTracklets.setter
-    def trueFinalTracklets(self, value):
-        self._trueFinalTracklets = value
-
-    @property
-    def falseFinalTracklets(self):
-        return self._falseFinalTracklets
-
-    @falseFinalTracklets.setter
-    def falseFinalTracklets(self, value):
-        self._falsePurifiedTracklets = value
-
-    @property
-    def finalTrackletFileSizes(self):
-        return self._finalTrackletFileSizes
-
-    @finalTrackletFileSizes.setter
-    def finalTrackletFileSizes(self, value):
-        self._finalTrackletFileSizes = value
-
-    # General analysis information
-
-    @property
-    def startTime(self):
-        return self._startTime
-
-    @startTime.setter
-    def startTime(self, value):
-        print "Cannot edit analysis start time."
-
-    @property
-    def endTime(self):
-        return self._endTime
-
-    @endTime.setter
-    def endTime(self, value):
-        print "Cannot edit analysis end time."
-
-    def analyze(self):
-
-        self._startTime = time.ctime()
-        self._endTime = time.ctime()
-
-        return
-
 def calcNight(mjd, midnight=LSST_MIDNIGHT):
     """Determine night number for any MJD."""
     night = mjd + 0.5 - midnight
@@ -601,7 +163,7 @@ def _buildTrack(dataframe, trackId, diaids, window, ssmidDict, createdBy=5, calc
     
     return new_track
 
-def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, collapsedTrackletFile=None, purifiedTrackletFile=None, removeSubsetTrackletFile=None, trackletIdCountStart=1,  analysisObject=None):
+def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, collapsedTrackletFile=None, purifiedTrackletFile=None, removeSubsetTrackletFile=None, trackletIdCountStart=1,  resultsObject=None):
     startTime = time.ctime()
     night = MopsReader.readNight(detFile)
     print "Starting tracklet analysis for night %s at %s" % (night, startTime)
@@ -633,9 +195,9 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
     print "- Counting findable objects..."
     findable_ssmids = countFindableObjects(dets_df, minDetectionsPerNight=2, minNights=1, windowSize=1, snrLimit=-1)
     
-    if analysisObject is not None:
+    if resultsObject is not None:
         print "- Updating analysis object..."
-        analysisObject.nightlyDetectionFileSizes[night] = det_file_size
+        resultsObject.nightlyDetectionFileSizes[night] = det_file_size
     
     # Write detection file properties to outfile
     print "- Writing detection file summary to outfile..."
@@ -696,13 +258,13 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
     outFileOut.write("False tracklets: %s\n" % (false_tracklets_num))
     outFileOut.write("Total tracklets: %s\n\n" % (total_tracklets_num))
     
-    if analysisObject is not None:
+    if resultsObject is not None:
         print "- Updating analysis object..."
         
-        analysisObject.totalTracklets[night] = total_tracklets_num
-        analysisObject.trueTracklets[night] = true_tracklets_num
-        analysisObject.falseTracklets[night] = false_tracklets_num
-        analysisObject.trackletFileSizes[night] = tracklet_file_size
+        resultsObject.totalTracklets[night] = total_tracklets_num
+        resultsObject.trueTracklets[night] = true_tracklets_num
+        resultsObject.falseTracklets[night] = false_tracklets_num
+        resultsObject.trackletFileSizes[night] = tracklet_file_size
         
     print ""
     
@@ -743,13 +305,13 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         prev_start_tracklet_id = start_tracklet_id
         start_tracklet_id = max(tracklet_ids) + 1
         
-        if analysisObject is not None:
+        if resultsObject is not None:
             print "- Updating analysis object..."
 
-            analysisObject.totalCollapsedTracklets[night] = total_collapsed_tracklets_num
-            analysisObject.trueCollapsedTracklets[night] = true_collapsed_tracklets_num
-            analysisObject.falseCollapsedTracklets[night] = false_collapsed_tracklets_num
-            analysisObject.collapsedTrackletFileSizes[night] = collapsed_tracklet_file_size
+            resultsObject.totalCollapsedTracklets[night] = total_collapsed_tracklets_num
+            resultsObject.trueCollapsedTracklets[night] = true_collapsed_tracklets_num
+            resultsObject.falseCollapsedTracklets[night] = false_collapsed_tracklets_num
+            resultsObject.collapsedTrackletFileSizes[night] = collapsed_tracklet_file_size
             
         print "- Writing results to outfile..."
         outFileOut.write("Output Collapsed Tracklet File Summary:\n")
@@ -802,13 +364,13 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         prev_start_tracklet_id = start_tracklet_id
         start_tracklet_id = max(tracklet_ids) + 1
         
-        if analysisObject is not None:
+        if resultsObject is not None:
             print "- Updating analysis object..."
 
-            analysisObject.totalPurifiedTracklets[night] = total_purified_tracklets_num
-            analysisObject.truePurifiedTracklets[night] = true_purified_tracklets_num
-            analysisObject.falsePurifiedTracklets[night] = false_purified_tracklets_num
-            analysisObject.purifiedTrackletFileSizes[night] = purified_tracklet_file_size
+            resultsObject.totalPurifiedTracklets[night] = total_purified_tracklets_num
+            resultsObject.truePurifiedTracklets[night] = true_purified_tracklets_num
+            resultsObject.falsePurifiedTracklets[night] = false_purified_tracklets_num
+            resultsObject.purifiedTrackletFileSizes[night] = purified_tracklet_file_size
 
         print "- Writing results to outfile..."
         outFileOut.write("Output Purified Tracklet File Summary:\n")
@@ -862,13 +424,13 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         prev_start_tracklet_id = start_tracklet_id
         start_tracklet_id = max(tracklet_ids) + 1
         
-        if analysisObject is not None:
+        if resultsObject is not None:
             print "- Updating analysis object..."
 
-            analysisObject.totalFinalTracklets[night] = total_final_tracklets_num
-            analysisObject.trueFinalTracklets[night] = true_final_tracklets_num
-            analysisObject.falseFinalTracklets[night] = false_final_tracklets_num
-            analysisObject.finalTrackletFileSizes[night] = remove_subset_tracklet_file_size
+            resultsObject.totalFinalTracklets[night] = total_final_tracklets_num
+            resultsObject.trueFinalTracklets[night] = true_final_tracklets_num
+            resultsObject.falseFinalTracklets[night] = false_final_tracklets_num
+            resultsObject.finalTrackletFileSizes[night] = remove_subset_tracklet_file_size
 
         print "- Writing results to outfile..."
         outFileOut.write("Output Final Tracklet File Summary:\n")
@@ -902,7 +464,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
     return outFile, allTrackletsDataframe, trackletMembersDataframe, tracklet_ids
 
 def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, removeSubsetTrackFile=None, minDetectionsPerNight=2, minNights=3, windowSize=15, 
-    snrLimit=-1, analyzeSubsets=True, analysisObject=None):
+    snrLimit=-1, analyzeSubsets=True, resultsObject=None):
     startTime = time.ctime()
     startNight, endNight = MopsReader.readWindow(detFile)
     print "Starting track analysis for window (nights: %s - %s) at %s" % (str(startNight), str(endNight), startTime)
@@ -942,9 +504,9 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
     print "- Counting findable objects..."
     findable_ssmids = countFindableObjects(dets_df, minDetectionsPerNight=minDetectionsPerNight, minNights=minNights, windowSize=windowSize, snrLimit=snrLimit)
 
-    if analysisObject is not None:
+    if resultsObject is not None:
         print "- Updating analysis object..."
-        analysisObject.windowDetectionFileSizes[night] = det_file_size
+        resultsObject.windowDetectionFileSizes[night] = det_file_size
 
     # Write detection file properties to outfile
     print "- Writing detection file summary to outfile..."
@@ -1070,13 +632,13 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
 
         print "- Appended new tracks to dataframes..."
 
-        if analysisObject is not None:
+        if resultsObject is not None:
             print "- Updating analysis object..."
 
-            analysisObject.totalFinalTracks[night] = total_final_tracks_num
-            analysisObject.trueFinalTracks[night] = true_final_tracks_num
-            analysisObject.falseFinalTracks[night] = false_final_tracks_num
-            analysisObject.finalTrackFileSizes[night] = final_track_file_size
+            resultsObject.totalFinalTracks[night] = total_final_tracks_num
+            resultsObject.trueFinalTracks[night] = true_final_tracks_num
+            resultsObject.falseFinalTracks[night] = false_final_tracks_num
+            resultsObject.finalTrackFileSizes[night] = final_track_file_size
 
         print "- Writing results to outfile..."
         outFileOut.write("Output Final Track File Summary:\n")
