@@ -699,10 +699,14 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
     return outFile, allTracksDataframe, trackMembersDataframe, track_ids
 
 def analyzeMultipleTracklets(trackletFiles, detFiles, outDir="results/", collapsedTrackletFiles=None, purifiedTrackletFiles=None, removeSubsetTrackletFiles=None,
-                            toDatabase=True, resultsObject=None):
+                            toDatabase=True, fullDetFile=None, resultsObject=None):
     
     if toDatabase:
         cursor, database = MopsDatabase.buildTrackletDatabase("nightly.db", outDir)
+
+        if fullDetFile is not None:
+            print "Reading detections into database..."
+            MopsReader.readDetectionsIntoDatabase(fullDetFile, cursor)
     else:
         database = None
         cursor = None
@@ -761,7 +765,7 @@ def analyzeMultipleTracks(trackFiles, detFiles, idsFiles, outDir="results/", rem
     return sorted(resultFiles), sorted(databases)
 
 def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatabase=True, resultsObject=None,
-            minDetectionsPerNight=2, minNights=3, windowSize=15, overwrite=False):
+            minDetectionsPerNight=2, minNights=3, windowSize=15, fullDetFile=None, overwrite=False):
 
     outDir = os.path.join(tracker.runDir, "results")
     tracker.resultsDir = outDir
@@ -784,7 +788,8 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
 
         resultFiles, database = analyzeMultipleTracklets(tracker.tracklets, tracker.diasources, outDir=outDir, 
             collapsedTrackletFiles=tracker.collapsedTrackletsById, purifiedTrackletFiles=tracker.purifiedTrackletsById,
-            removeSubsetTrackletFiles=tracker.finalTrackletsById, toDatabase=toDatabase, resultsObject=resultsObject)
+            removeSubsetTrackletFiles=tracker.finalTrackletsById, toDatabase=toDatabase, fullDetFile=fullDetFile, 
+            resultsObject=resultsObject)
 
         tracker.trackletResults = resultFiles
         tracker.trackletDatabase = database
