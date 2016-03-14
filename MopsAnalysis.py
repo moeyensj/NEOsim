@@ -79,9 +79,6 @@ class runAnalysis(object):
         self._startTime = 0
         self._endTime = 0
 
-        self.findNights()
-        self.findWindows()
-
     @property
     def parameters(self):
         return self._parameters
@@ -450,20 +447,9 @@ class runAnalysis(object):
     def endTime(self, value):
         print "Cannot edit analysis end time."
 
-    # Instance Methods
-
-    def findNights(self):
-        for detFile in self.tracker.diasources:
-            self._nights.append(MopsReader.readNight(detFile))
-
-    def findWindows(self):
-        for trackFile in self.tracker.tracks:
-            self._windows.append(MopsReader.readWindow(trackFile))
-
-    def analyze(self, tracklets=True, collapsedTracklets=True, purifiedTracklets=True, finalTracklets=True, tracks=True, finalTracks=True, analyzeSubsets=True):
+    def analyze(self):
 
         self._startTime = time.ctime()
-        # to be upgraded
         self._endTime = time.ctime()
 
         return
