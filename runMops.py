@@ -136,7 +136,7 @@ def runFindTracklets(diasources, outDir, vmax=defaults.vMax, vmin=defaults.vMin,
     for diasource in diasources:
         trackletsOut = _out(outDir, diasource, TRACKLET_SUFFIX)
 
-        call = ['findTracklets', '-i', diasource, '-o', trackletsOut, '-v', vmax, '-m', vmin]
+        call = ["findTracklets", "-i", diasource, "-o", trackletsOut, "-v", vmax, "-m", vmin]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         tracklets.append(trackletsOut)
@@ -173,8 +173,8 @@ def runIdsToIndices(tracklets, diasources, outDir, verbose=VERBOSE):
     for tracklet, diasource in zip(tracklets, diasources):
         byIndexOut = _out(outDir, diasource, TRACKLET_BY_INDEX_SUFFIX)
 
-        script = str(os.getenv('MOPS_DIR')) + '/bin/idsToIndices.py'
-        call = ['python', script, tracklet, diasource, byIndexOut]
+        script = str(os.getenv("MOPS_DIR")) + "/bin/idsToIndices.py"
+        call = ["python", script, tracklet, diasource, byIndexOut]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         byIndex.append(byIndexOut)
@@ -211,11 +211,11 @@ def runCollapseTracklets(trackletsByIndex, diasources, outDir, raTol=defaults.ra
     for tracklet, diasource in zip(trackletsByIndex, diasources):
         collapsedTracklet = _out(outDir, diasource, COLLAPSED_TRACKLET_SUFFIX)
 
-        call = ['collapseTracklets', diasource, tracklet, raTol, 
+        call = ["collapseTracklets", diasource, tracklet, raTol, 
             decTol, angTol, vTol, collapsedTracklet,
-            '--method', method,
-            '--useRMSFilt', useRMSfilt,
-            '--maxRMS', rmsMax]
+            "--method", method,
+            "--useRMSFilt", useRMSfilt,
+            "--maxRMS", rmsMax]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         collapsedTracklets.append(collapsedTracklet)
@@ -250,8 +250,8 @@ def runPurifyTracklets(collapsedTracklets, diasources, outDir, rmsMax=defaults.r
     for tracklet, diasource in zip(collapsedTracklets, diasources):
         purifiedTracklet = _out(outDir, diasource, PURIFIED_TRACKLET_SUFFIX)
 
-        call = ['purifyTracklets', '--detsFile', diasource, '--pairsFile', tracklet, 
-        '--maxRMS', rmsMax,'--outFile', purifiedTracklet]
+        call = ["purifyTracklets", "--detsFile", diasource, "--pairsFile", tracklet, 
+        "--maxRMS", rmsMax,"--outFile", purifiedTracklet]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         purifiedTracklets.append(purifiedTracklet)
@@ -287,9 +287,9 @@ def runRemoveSubsets(purifiedTracklets, diasources, outDir, rmSubsets=defaults.r
     for tracklet, diasource in zip(purifiedTracklets, diasources):
         finalTracklet = _out(outDir, tracklet, suffix)
 
-        call = ['removeSubsets', '--inFile', tracklet, '--outFile', finalTracklet,
-            '--removeSubsets', rmSubsets,
-            '--keepOnlyLongest', keepOnlyLongest]
+        call = ["removeSubsets", "--inFile", tracklet, "--outFile", finalTracklet,
+            "--removeSubsets", rmSubsets,
+            "--keepOnlyLongest", keepOnlyLongest]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         finalTracklets.append(finalTracklet)
@@ -317,8 +317,8 @@ def runIndicesToIds(finalTracklets, diasources, outDir, suffix, verbose=VERBOSE)
     function = "indicesToIds.py"
     byId = []
 
-    outfile = file(outDir + '/indicesToIds.out', 'w')
-    errfile = file(outDir + '/indicesToIds.err', 'w')
+    outfile = file(outDir + "/indicesToIds.out", "w")
+    errfile = file(outDir + "/indicesToIds.err", "w")
 
     if verbose:
         _status(function, True)
@@ -326,8 +326,8 @@ def runIndicesToIds(finalTracklets, diasources, outDir, suffix, verbose=VERBOSE)
     for tracklet, diasource in zip(finalTracklets, diasources):
         byIdOut = _out(outDir, diasource, suffix + TRACKLET_BY_ID_SUFFIX)
 
-        script = str(os.getenv('MOPS_DIR')) + '/bin/indicesToIds.py'
-        call = ['python', script, tracklet, diasource, byIdOut]
+        script = str(os.getenv("MOPS_DIR")) + "/bin/indicesToIds.py"
+        call = ["python", script, tracklet, diasource, byIdOut]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         byId.append(byIdOut)
@@ -360,12 +360,12 @@ def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir, diasSu
     if verbose:
         _status(function, True)
 
-    script = str(os.getenv('MOPS_DIR')) + '/bin/makeLinkTrackletsInput_byNight.py'
+    script = str(os.getenv("MOPS_DIR")) + "/bin/makeLinkTrackletsInput_byNight.py"
     call = ["python", script, "--windowSize", windowSize, "--diasSuffix", diasSuffix, "--trackletSuffix", trackletSuffix, diasourcesDir, trackletsDir, outDir]
     subprocess.call(call, stdout=outfile, stderr=errfile)
 
-    ids = glob.glob(outDir + '*.ids')
-    dets = glob.glob(outDir + '*.dets')
+    ids = glob.glob(outDir + "*.ids")
+    dets = glob.glob(outDir + "*.dets")
 
     if verbose:
         _status(function, False)
@@ -403,23 +403,23 @@ def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8,
         for detIn, idIn in zip(dets, ids):
             trackOut = _out(outDir, detIn, TRACK_SUFFIX)
 
-            call = ['linkTracklets', 
-                '-e', detErrThresh, 
-                '-D', decAccelMax,
-                '-R', raAccelMax,
-                '-u', nightMin,
-                '-s', detectMin,
-                '-b', bufferSize,
-                '-d', detIn, 
-                '-t', idIn,
-                '-o', trackOut]
+            call = ["linkTracklets", 
+                "-e", detErrThresh, 
+                "-D", decAccelMax,
+                "-R", raAccelMax,
+                "-u", nightMin,
+                "-s", detectMin,
+                "-b", bufferSize,
+                "-d", detIn, 
+                "-t", idIn,
+                "-o", trackOut]
 
             if latestFirstEnd != None:
-                call.extend(['-F', latestFirstEnd])
+                call.extend(["-F", latestFirstEnd])
             if earliestLastEnd != None:
-                call.extend(['-L', earliestLastEnd])
+                call.extend(["-L", earliestLastEnd])
             if leafNodeSizeMax != None:
-                call.extend(['-n', leafNodeSizeMax])
+                call.extend(["-n", leafNodeSizeMax])
 
             tracks.append(trackOut)
 
@@ -432,26 +432,26 @@ def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8,
 
         for detIn, idIn in zip(dets,ids):
             trackOut = _out(outDir, detIn, TRACK_SUFFIX)
-            outfile = file(trackOut + '.out', 'w')
-            errfile = file(trackOut + '.err', 'w')
+            outfile = file(trackOut + ".out", "w")
+            errfile = file(trackOut + ".err", "w")
 
-            call = ['linkTracklets', 
-                '-e', detErrThresh, 
-                '-D', decAccelMax,
-                '-R', raAccelMax,
-                '-u', nightMin,
-                '-s', detectMin,
-                '-b', bufferSize,
-                '-d', detIn, 
-                '-t', idIn,
-                '-o', trackOut]
+            call = ["linkTracklets", 
+                "-e", detErrThresh, 
+                "-D", decAccelMax,
+                "-R", raAccelMax,
+                "-u", nightMin,
+                "-s", detectMin,
+                "-b", bufferSize,
+                "-d", detIn, 
+                "-t", idIn,
+                "-o", trackOut]
 
             if latestFirstEnd != None:
-                call.extend(['-F', latestFirstEnd])
+                call.extend(["-F", latestFirstEnd])
             if earliestLastEnd != None:
-                call.extend(['-L', earliestLastEnd])
+                call.extend(["-L", earliestLastEnd])
             if leafNodeSizeMax != None:
-                call.extend(['-n', leafNodeSizeMax])
+                call.extend(["-n", leafNodeSizeMax])
 
             subprocess.call(call, stdout=outfile, stderr=errfile)
 
@@ -753,8 +753,8 @@ def _log(function, outDir):
     function = os.path.splitext(function)[0]
 
     # Create outfile and errfile streams
-    outfile = file(os.path.join(outDir, function + '.out'), 'w')
-    errfile = file(os.path.join(outDir, function + '.err'), 'w')
+    outfile = file(os.path.join(outDir, function + ".out"), "w")
+    errfile = file(os.path.join(outDir, function + ".err"), "w")
 
     return outfile, errfile
 
@@ -762,18 +762,18 @@ def _out(outDir, filename, suffix):
     # Retrieve base file name
     base = os.path.basename(filename)
     # Remove all suffixes from filename and add new
-    outName = base.split('.')[0] + suffix
+    outName = base.split(".")[0] + suffix
     # Create path 
     outFile = os.path.join(outDir, outName)
     return outFile
 
 def _runWindow(call):
-    # Unfortunately pool.map() can't map a function call of multiple arguments
+    # Unfortunately pool.map() can"t map a function call of multiple arguments
     # so we have to extract the trackOut name from the function call.
     # When python 3.3 is accepted as standard, pool.starmap() will be used instead.
     trackOut = call[18]
-    outfile = file(trackOut + '.out', 'w')
-    errfile = file(trackOut + '.err', 'w')
+    outfile = file(trackOut + ".out", "w")
+    errfile = file(trackOut + ".err", "w")
     subprocess.call(call, stdout=outfile, stderr=errfile)
     return
 
@@ -817,7 +817,7 @@ if __name__=="__main__":
         if verbose:
             print "Config file given. Reading parameters from file..."
             print ""
-        cfg = yaml.load(file(args.config_file,'r'))
+        cfg = yaml.load(file(args.config_file,"r"))
         parameters = MopsParameters(**cfg)
 
      # Initialize tracker
