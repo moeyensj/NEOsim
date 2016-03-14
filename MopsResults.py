@@ -436,11 +436,11 @@ class MopsResults(object):
         import yaml
 
         if outDir == None:
-            outname = "tracker.yaml"
+            outname = "results.yaml"
         else:
-            outname = os.path.join(outDir, "tracker.yaml")
+            outname = os.path.join(outDir, "results.yaml")
 
-        print "Saving tracker to %s" % (outname)
+        print "Saving results to %s" % (outname)
 
         stream = file(outname, "w")
         yaml.dump(self, stream)   
