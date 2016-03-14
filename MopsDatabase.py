@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-def buildTrackletDatabase(database, outDir, overwrite=False):
+def buildTrackletDatabase(database, outDir):
 
     database = os.path.join(os.path.abspath(outDir), "", database)
     con = sqlite3.connect(database)
@@ -74,6 +74,8 @@ def buildTrackletDatabase(database, outDir, overwrite=False):
         OR createdBy = 4
         """)
 
+    print ""
+
     return con, database
 
 def buildTrackDatabase(database, outDir):
@@ -120,5 +122,7 @@ def buildTrackDatabase(database, outDir):
         WHERE deletedBy = 6
         OR createdBy = 6
         """)
+
+    print ""
 
     return con, database
