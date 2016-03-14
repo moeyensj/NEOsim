@@ -9,9 +9,9 @@ def buildTrackletDatabase(database, outDir):
     print "Creating DiaSources table..."
     con.execute("""
         CREATE TABLE DiaSources (
-            diaid INTEGER PRIMARY KEY,
-            visitid INTEGER,
-            ssmid INTEGER,
+            diaId INTEGER PRIMARY KEY,
+            visitId INTEGER,
+            ssmId INTEGER,
             ra REAL,
             dec REAL,
             mjd REAL,
