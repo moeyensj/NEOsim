@@ -26,16 +26,16 @@ def runSSMID(ssmid, database=DATABASE, tableName=TABLE_NAME, outputDir=OUTPUT_DI
     
     dets = pd.read_sql_query("""
     SELECT * FROM %s
-    WHERE ssmid == %s
-    """ % (tableName, ssmid), con, index_col='diaid') 
+    WHERE ssmId == %s
+    """ % (tableName, ssmid), con, index_col="diaId") 
 
     if len(dets) == 0:
         raise ValueError("SSMID doesn't exist.")
 
     detsOut = os.path.join(new_data_dir, "%s.txt" % (ssmid))
-    dets.to_csv(detsOut, sep=" ", header=False, index='diaid')
+    dets.to_csv(detsOut, sep=" ", header=False, index="diaId")
     
-    nightly = os.path.join(new_data_dir, 'nightly/')
+    nightly = os.path.join(new_data_dir, "nightly/")
     os.mkdir(nightly)
     
     call = ["python", os.getenv("MOPS_DIR") + "/bin/splitByNight.py", "-n", nightly, detsOut]
@@ -52,7 +52,7 @@ def runSSMID(ssmid, database=DATABASE, tableName=TABLE_NAME, outputDir=OUTPUT_DI
     if delete:
         shutil.rmtree(run_dir)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     import argparse
 
@@ -61,8 +61,8 @@ if __name__ == '__main__':
     parser.add_argument("-o", "--outputDir", default=OUTPUT_DIR, help="Parent directory where to store output files.")
     parser.add_argument("-db", "--database", default=DATABASE, help="File path to database.")
     parser.add_argument("-t", "--tableName", default=TABLE_NAME, help="Name of table containing detections.")
-    parser.add_argument('-d', '--delete', action='store_true', help="Deletes MOPs output.")
-    parser.add_argument('-O', '--overwrite', action='store_true', help="Overwrites existing test output.")
+    parser.add_argument("-d", "--delete", action="store_true", help="Deletes MOPs output.")
+    parser.add_argument("-O", "--overwrite", action="store_true", help="Overwrites existing test output.")
 
     args = parser.parse_args()
 

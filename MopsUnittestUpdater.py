@@ -30,10 +30,10 @@ def updateUnittest(database, testDataDir, controlRunDir, tableName="testsources"
     # Gather detections and save them to a text file
     objs = pd.read_sql_query("""
     SELECT * FROM %s
-    """ % tableName, con, index_col='diaid')
+    """ % tableName, con, index_col="diaId")
     
     # Retrieve unique ssmids and limit to 3
-    ssmids = objs['ssmid'].unique()
+    ssmids = objs["ssmId"].unique()
     ssmids_sample = sorted(random.sample(ssmids, 3))
     
     createTestCase(con, testDataDir, controlRunDir, "full")
@@ -45,24 +45,24 @@ def createTestCase(con, testDataDir, controlRunDir, subDir, ssmid=None):
     new_data_dir = os.path.join(testDataDir, subDir)
     os.mkdir(new_data_dir)
     
-    nightly = os.path.join(new_data_dir, 'nightly/')
+    nightly = os.path.join(new_data_dir, "nightly/")
     os.mkdir(nightly)
     
     if ssmid == None:
         dets = pd.read_sql_query("""
         SELECT * FROM testsources
-        """, con, index_col='diaid')
+        """, con, index_col="diaId")
         
         detsOut = os.path.join(new_data_dir, "full.txt")
-        dets.to_csv(detsOut, sep=" ", header=False, index='diaid')
+        dets.to_csv(detsOut, sep=" ", header=False, index="diaId")
     else:
         dets = pd.read_sql_query("""
         SELECT * FROM testsources
-        WHERE ssmid = %s
-        """ % ssmid, con, index_col='diaid')
+        WHERE ssmId = %s
+        """ % ssmid, con, index_col="diaId")
     
         detsOut = os.path.join(new_data_dir, "source%s.txt" % (ssmid))
-        dets.to_csv(detsOut, sep=" ", header=False, index='diaid')
+        dets.to_csv(detsOut, sep=" ", header=False, index="diaId")
 
     call = ["python", os.getenv("MOPS_DIR") + "/bin/splitByNight.py", "-n", nightly, detsOut]
     subprocess.call(call);
@@ -72,5 +72,5 @@ def createTestCase(con, testDataDir, controlRunDir, subDir, ssmid=None):
     tracker = MopsTracker(runDir, verbose=True)
     runMops.runMops(parameters, tracker, nightly, runDir)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     updateUnittest(DATABASE, TEST_DATA_DIR, CONTROL_RUN_DIR)
