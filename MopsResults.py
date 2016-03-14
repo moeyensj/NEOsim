@@ -6,15 +6,19 @@ class MopsResults(object):
         self._parameters = parameters
         self._tracker = tracker
 
-        # General run overview
+        # General nightly overview
         self._nights = []
+        self._nightlyDetections = {}
+        self._nightlyDetectionFileSizes = {}
+
+        # General window overview
         self._windows = []
         self._uniqueObjects = {}
         self._findableObjects = {}
         self._foundObjects = {}
         self._missedObjects = {}
         self._performanceRatio = {}
-        self._nightlyDetectionFileSizes = {}
+        self._windowDetections = {}
         self._windowDetectionFileSizes = {}
 
         # Tracks
@@ -30,9 +34,6 @@ class MopsResults(object):
         self._totalFinalTracks = {}
         self._trueFinalTracks = {}
         self._falseFinalTracks = {}
-        self._subsetFinalTracks = {}
-        self._longestFinalTracks = {}
-        self._finalTrackIdFileSizes = {}
         self._finalTrackFileSizes = {}
 
         # Tracklets (post findTracklets)
@@ -79,7 +80,7 @@ class MopsResults(object):
     def tracker(self, value):
         self._tracker = value
 
-    # General run overview
+    # General nightly overview
 
     @property
     def nights(self):
@@ -88,6 +89,24 @@ class MopsResults(object):
     @nights.setter
     def nights(self, value):
         self._nights = value
+
+    @property
+    def nightlyDetections(self):
+        return self._nightlyDetections
+
+    @nightlyDetections.setter
+    def nightlyDetections(self, value):
+        self._nightlyDetections = value
+
+    @property
+    def nightlyDetectionFileSizes(self):
+        return self._nightlyDetectionFileSizes
+
+    @nightlyDetectionFileSizes.setter
+    def nightlyDetectionFileSizes(self, value):
+        self._nightlyDetectionFileSizes = value
+
+    # General window overview
 
     @property
     def windows(self):
@@ -146,12 +165,12 @@ class MopsResults(object):
         self._performanceRatio = value
 
     @property
-    def nightlyDetectionFileSizes(self):
-        return self._nightlyDetectionFileSizes
+    def windowDetections(self):
+        return self._windowDetections
 
-    @nightlyDetectionFileSizes.setter
-    def nightlyDetectionFileSizes(self, value):
-        self._nightlyDetectionFileSizes = value
+    @windowDetections.setter
+    def windowDetections(self, value):
+        self._windowDetections = value
 
     @property
     def windowDetectionFileSizes(self):
@@ -244,30 +263,6 @@ class MopsResults(object):
     @falseFinalTracks.setter
     def falseFinalTracks(self, value):
         self._falseFinalTracks = value
-
-    @property
-    def subsetFinalTracks(self):
-        return self._subsetFinalTracks
-
-    @subsetFinalTracks.setter
-    def subsetFinalTracks(self, value):
-        self._subsetFinalTracks = value
-
-    @property
-    def longestFinalTracks(self):
-        return self._longestFinalTracks
-
-    @longestFinalTracks.setter
-    def longestFinalTracks(self, value):
-        self._longestFinalTracks = value
-
-    @property
-    def finalTrackIdFileSizes(self):
-        return self._finalTrackIdFileSizes
-
-    @finalTrackIdFileSizes.setter
-    def finalTrackIdFileSizes(self, value):
-        self._finalTrackIdFileSizes = value
 
     @property
     def finalTrackFileSizes(self):
