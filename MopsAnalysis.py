@@ -254,7 +254,10 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
     print "- Appended new tracklets to dataframes..."
         
     prev_start_tracklet_id = trackletIdCountStart
-    start_tracklet_id = max(tracklet_ids) + 1
+    if len(tracklet_ids) >= 1:
+        start_tracklet_id = max(tracklet_ids) + 1
+    else:
+        start_tracklet_id = 1
     
     if resultsObject is not None:
         print "- Updating results object..."
@@ -310,7 +313,10 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         print "- Appended new tracklets to dataframes..."
         
         prev_start_tracklet_id = start_tracklet_id
-        start_tracklet_id = max(tracklet_ids) + 1
+        if len(tracklet_ids) >= 1:
+            start_tracklet_id = max(tracklet_ids) + 1
+        else:
+            start_tracklet_id = 1
         
         if resultsObject is not None:
             print "- Updating results object..."
@@ -369,7 +375,10 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         print "- Appended new tracklets to dataframes..."
            
         prev_start_tracklet_id = start_tracklet_id
-        start_tracklet_id = max(tracklet_ids) + 1
+        if len(tracklet_ids) >= 1:
+            start_tracklet_id = max(tracklet_ids) + 1
+        else:
+            start_tracklet_id = 1
         
         if resultsObject is not None:
             print "- Updating results object..."
@@ -429,7 +438,10 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         print "- Appended new tracklets to dataframes..."
         
         prev_start_tracklet_id = start_tracklet_id
-        start_tracklet_id = max(tracklet_ids) + 1
+        if len(tracklet_ids) >= 1:
+            start_tracklet_id = max(tracklet_ids) + 1
+        else:
+            start_tracklet_id = 1
         
         if resultsObject is not None:
             print "- Updating results object..."
@@ -575,8 +587,11 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
 
     print "- Appended new tracks to dataframes..."
 
-    start_track_id = max(track_ids) + 1
-    
+    if len(track_ids) >= 1:
+        start_track_id = max(track_ids) + 1
+    else:
+        start_track_id = 1
+
     longest_tracks_num = 0
     subset_tracks_num = 0
     if analyzeSubsets:
@@ -713,6 +728,7 @@ def analyzeMultipleTracklets(trackletFiles, detFiles, outDir="results/", collaps
 
     resultFiles = []
     tracklet_id_start_count = 1
+    all_tracklet_ids = []
     for i, (trackletFile, detFile) in enumerate(zip(trackletFiles, detFiles)):
         kwargs = {"collapsedTrackletFile": None, "purifiedTrackletFile": None, "removeSubsetTrackletFile": None}
 
@@ -729,7 +745,12 @@ def analyzeMultipleTracklets(trackletFiles, detFiles, outDir="results/", collaps
             outDir=outDir, trackletIdCountStart=tracklet_id_start_count, cursor=cursor, resultsObject=resultsObject, **kwargs)
 
         resultFiles.append(resultFile)
-        tracklet_id_start_count = max(tracklet_ids) + 1
+        all_tracklet_ids.extend(tracklet_ids)
+
+        if len(all_tracklet_ids) >= 1:
+            tracklet_id_start_count = max(all_tracklet_ids) + 1
+        else: 
+            tracklet_id_start_count = 1
 
     return sorted(resultFiles), database
 
@@ -739,6 +760,7 @@ def analyzeMultipleTracks(trackFiles, detFiles, idsFiles, outDir="results/", rem
     databases = []
     resultFiles = []
     track_id_start_count = 1
+    all_track_ids = []
 
     for i, (trackFile, detFile, idsFile) in enumerate(zip(trackFiles, detFiles, idsFiles)):
         if toDatabase:
@@ -756,11 +778,17 @@ def analyzeMultipleTracks(trackFiles, detFiles, idsFiles, outDir="results/", rem
         resultFile, allTracksDataframe, trackMembersDataframe, track_ids = analyzeTracks(trackFile, detFile, idsFile,
             outDir=outDir, trackIdCountStart=track_id_start_count, cursor=cursor, resultsObject=resultsObject, 
             minDetectionsPerNight=minDetectionsPerNight, minNights=minNights, windowSize=windowSize, snrLimit=-1, analyzeSubsets=True, **kwargs)
-
+       
         if toDatabase:
             databases.append(database)
+
         resultFiles.append(resultFile)
-        track_id_start_count = max(track_ids) + 1
+        all_track_ids.extend(track_ids)
+
+        if len(all_track_ids) >= 1:
+            track_id_start_count = max(all_track_ids) + 1
+        else:
+            track_id_start_count = 1
 
     return sorted(resultFiles), sorted(databases)
 
