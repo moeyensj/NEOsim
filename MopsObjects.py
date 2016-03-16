@@ -193,7 +193,7 @@ class track(object):
         self._numLinkedObjects = 0
         self._rms = 0
         self._isSubset = None
-        self._subsetOf = 0
+        self._subsetOf = -1
         self._startTime = 0
         self._endTime = 0
         self._createdBy = 5
