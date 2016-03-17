@@ -325,7 +325,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             else: 
                 false_collapsed_tracklets_num += 1
                 for ssmid in new_tracklet.diasources["ssmId"]:
-                    if ssmid in false_ssmid_dict:
+                    if ssmid in false_collapsed_ssmid_dict:
                         false_collapsed_ssmid_dict[ssmid] += 1
                     else:
                         false_collapsed_ssmid_dict[ssmid] = 1
@@ -408,7 +408,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             else: 
                 false_purified_tracklets_num += 1
                 for ssmid in new_tracklet.diasources["ssmId"]:
-                    if ssmid in false_ssmid_dict:
+                    if ssmid in false_purified_ssmid_dict:
                         false_purified_ssmid_dict[ssmid] += 1
                     else:
                         false_purified_ssmid_dict[ssmid] = 1
@@ -492,7 +492,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             else: 
                 false_final_tracklets_num += 1
                 for ssmid in new_tracklet.diasources["ssmId"]:
-                    if ssmid in false_ssmid_dict:
+                    if ssmid in false_final_ssmid_dict:
                         false_final_ssmid_dict[ssmid] += 1
                     else:
                         false_final_ssmid_dict[ssmid] = 1
