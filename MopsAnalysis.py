@@ -119,18 +119,13 @@ def countFindableObjects(dataframe, minDetectionsPerNight=2, minNights=3, window
        
     return findable_ssmids
 
-def _buildTracklet(dataframe, trackletId, diaids, night, ssmidDict, createdBy=1, calcRMS=True):
+def _buildTracklet(dataframe, trackletId, diaids, night, createdBy=1, calcRMS=True):
     new_tracklet = tracklet(trackletId, len(diaids), night)
 
     for i, diaid in enumerate(diaids):
         diasource = dataframe.loc[diaid]
         new_tracklet.addDiasource(i, diaid, diasource)
         new_tracklet.createdBy = createdBy
-        
-        if diasource["ssmId"] in ssmidDict:
-            ssmidDict[diasource["ssmId"]] += 1
-        else:
-            ssmidDict[diasource["ssmId"]] = 1
     
     if calcRMS:
         new_tracklet.updateRMS()
@@ -142,18 +137,13 @@ def _buildTracklet(dataframe, trackletId, diaids, night, ssmidDict, createdBy=1,
     
     return new_tracklet
 
-def _buildTrack(dataframe, trackId, diaids, window, ssmidDict, createdBy=5, calcRMS=True):
+def _buildTrack(dataframe, trackId, diaids, window, createdBy=5, calcRMS=True):
     new_track = track(trackId, len(diaids), window)
 
     for i, diaid in enumerate(diaids):
         diasource = dataframe.loc[diaid]
         new_track.addDiasource(i, diaid, diasource)
         new_track.createdBy = createdBy
-        
-        if diasource["ssmId"] in ssmidDict:
-            ssmidDict[diasource["ssmId"]] += 1
-        else:
-            ssmidDict[diasource["ssmId"]] = 1
     
     if calcRMS:
         new_track.updateRMS()
@@ -165,7 +155,8 @@ def _buildTrack(dataframe, trackId, diaids, window, ssmidDict, createdBy=5, calc
     
     return new_track
 
-def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, collapsedTrackletFile=None, purifiedTrackletFile=None, removeSubsetTrackletFile=None, trackletIdCountStart=1,  resultsObject=None):
+def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, collapsedTrackletFile=None, purifiedTrackletFile=None, 
+    removeSubsetTrackletFile=None, trackletIdCountStart=1, objectsDataframe=None, resultsObject=None):
     startTime = time.ctime()
     night = MopsReader.readNight(detFile)
     print "Starting tracklet analysis for night %s at %s" % (night, startTime)
@@ -217,7 +208,8 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
     outFileOut.write("Findable objects: %s\n\n" % (len(findable_ssmids)))
     
     trackletFileIn = open(trackletFile, "r")
-    ssmid_dict = {}
+    true_ssmid_dict = {}
+    false_ssmid_dict = {}
     
     # Initalize success (or failure) counters
     total_tracklets_num = 0
@@ -240,13 +232,23 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         tracklet_ids.append(tracklet_id)
         
         new_tracklet_diaids = MopsReader.readTracklet(line)
-        new_tracklet = _buildTracklet(dets_df, tracklet_id, new_tracklet_diaids, night, ssmid_dict, createdBy=1)
+        new_tracklet = _buildTracklet(dets_df, tracklet_id, new_tracklet_diaids, night, createdBy=1)
 
         total_tracklets_num += 1
         if new_tracklet.isTrue:
             true_tracklets_num += 1
+            if new_tracklet.diasources["ssmId"][0] in true_ssmid_dict:
+                true_ssmid_dict[new_tracklet.diasources["ssmId"][0]] += 1
+            else:
+                true_ssmid_dict[new_tracklet.diasources["ssmId"][0]] = 1
+
         else: 
             false_tracklets_num += 1
+            for ssmid in new_tracklet.diasources["ssmId"]:
+                if ssmid in false_ssmid_dict:
+                    false_ssmid_dict[ssmid] += 1
+                else:
+                    false_ssmid_dict[ssmid] = 1
             
         trackletMembersDataframe = trackletMembersDataframe.append(new_tracklet.toTrackletMembersDataframe())
         allTrackletsDataframe = allTrackletsDataframe.append(new_tracklet.toAllTrackletsDataframe())
@@ -267,11 +269,22 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         resultsObject.trackletFileSizes[night] = tracklet_file_size
         resultsObject.toYaml(outDir=outDir)
 
+    if objectsDataframe is not None:
+        print "- Updating objects dataframe..."
+        for ssmid in true_ssmid_dict:
+            objectsDataframe.loc[objectsDataframe["ssmId"] == ssmid, "numTrueTracklets"] += true_ssmid_dict[ssmid]
+
+        for ssmid in false_ssmid_dict:
+            objectsDataframe.loc[objectsDataframe["ssmId"] == ssmid, "numFalseTracklets"] += false_ssmid_dict[ssmid]
+
+
     print "- Writing results to outfile..."
     outFileOut.write("Output Tracklet File Summary:\n")
     outFileOut.write("File name: %s\n" % (trackletFile))
     outFileOut.write("File size (bytes): %s\n" % (tracklet_file_size))
-    outFileOut.write("Unique objects: %s\n" % (len(ssmid_dict)))
+    outFileOut.write("Unique objects in true tracklets: %s\n" % (len(true_ssmid_dict)))
+    outFileOut.write("Unique objects in false tracklets: %s\n" % (len(false_ssmid_dict)))
+    outFileOut.write("Total unique objects: %s\n" % (len(true_ssmid_dict) + len(false_ssmid_dict)))
     outFileOut.write("True tracklets: %s\n" % (true_tracklets_num))
     outFileOut.write("False tracklets: %s\n" % (false_tracklets_num))
     outFileOut.write("Total tracklets: %s\n\n" % (total_tracklets_num))
@@ -283,7 +296,8 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         created_by_collapse, deleted_by_collapse_ind = findNewLinesAndDeletedIndices(trackletFile, collapsedTrackletFile)
         print "collapseTracklets merged %s tracklets into %s collinear tracklets..." % (len(deleted_by_collapse_ind), len(created_by_collapse))
         
-        collapsed_ssmid_dict = {}
+        true_collapsed_ssmid_dict = {}
+        false_collapsed_ssmid_dict = {}
         
         total_collapsed_tracklets_num = 0
         true_collapsed_tracklets_num = 0
@@ -299,14 +313,23 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             tracklet_ids.append(tracklet_id) 
             
             new_tracklet_diaids = MopsReader.readTracklet(line)
-            new_tracklet = _buildTracklet(dets_df, tracklet_id, new_tracklet_diaids, night, collapsed_ssmid_dict, createdBy=2)
+            new_tracklet = _buildTracklet(dets_df, tracklet_id, new_tracklet_diaids, night, createdBy=2)
             
             total_collapsed_tracklets_num += 1
             if new_tracklet.isTrue:
                 true_collapsed_tracklets_num += 1
+                if new_tracklet.diasources["ssmId"][0] in true_collapsed_ssmid_dict:
+                    true_collapsed_ssmid_dict[new_tracklet.diasources["ssmId"][0]] += 1
+                else:
+                    true_collapsed_ssmid_dict[new_tracklet.diasources["ssmId"][0]] = 1
             else: 
                 false_collapsed_tracklets_num += 1
-                
+                for ssmid in new_tracklet.diasources["ssmId"]:
+                    if ssmid in false_ssmid_dict:
+                        false_collapsed_ssmid_dict[ssmid] += 1
+                    else:
+                        false_collapsed_ssmid_dict[ssmid] = 1
+               
             trackletMembersDataframe = trackletMembersDataframe.append(new_tracklet.toTrackletMembersDataframe())
             allTrackletsDataframe = allTrackletsDataframe.append(new_tracklet.toAllTrackletsDataframe())
             
@@ -325,12 +348,22 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             resultsObject.falseCollapsedTracklets[night] = false_collapsed_tracklets_num
             resultsObject.collapsedTrackletFileSizes[night] = collapsed_tracklet_file_size
             resultsObject.toYaml(outDir=outDir)
+
+        if objectsDataframe is not None:
+            print "- Updating objects dataframe..."
+            for ssmid in true_collapsed_ssmid_dict:
+                objectsDataframe.loc[objectsDataframe["ssmId"] == ssmid, "numTrueCollapsedTracklets"] += true_collapsed_ssmid_dict[ssmid]
+
+            for ssmid in false_collapsed_ssmid_dict:
+                objectsDataframe.loc[objectsDataframe["ssmId"] == ssmid, "numFalseCollapsedTracklets"] += false_collapsed_ssmid_dict[ssmid]
             
         print "- Writing results to outfile..."
         outFileOut.write("Output Collapsed Tracklet File Summary:\n")
         outFileOut.write("File name: %s\n" % (collapsedTrackletFile))
         outFileOut.write("File size (bytes): %s\n" % (collapsed_tracklet_file_size))
-        outFileOut.write("Unique objects: %s\n" % (len(collapsed_ssmid_dict)))
+        outFileOut.write("Unique objects in true collapsed tracklets: %s\n" % (len(true_collapsed_ssmid_dict)))
+        outFileOut.write("Unique objects in false collapsed tracklets: %s\n" % (len(false_collapsed_ssmid_dict)))
+        outFileOut.write("Total unique objects: %s\n" % (len(true_collapsed_ssmid_dict) + len(false_collapsed_ssmid_dict)))
         outFileOut.write("Tracklets collapsed: %s\n" % len(deleted_by_collapse_ind))
         outFileOut.write("Tracklets created: %s\n" % len(created_by_collapse))
         outFileOut.write("True collapsed tracklets: %s\n" % (true_collapsed_tracklets_num))
@@ -345,7 +378,8 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         created_by_purified, deleted_by_purified_ind = findNewLinesAndDeletedIndices(collapsedTrackletFile, purifiedTrackletFile)
         print "purifiedTracklets removed detections from %s tracklets and created %s tracklets..." % (len(deleted_by_purified_ind), len(created_by_purified))
         
-        purified_ssmid_dict = {}
+        true_purified_ssmid_dict = {}
+        false_purified_ssmid_dict = {}
         
         total_purified_tracklets_num = 0
         true_purified_tracklets_num = 0
@@ -361,13 +395,22 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             tracklet_ids.append(tracklet_id) 
             
             new_tracklet_diaids = MopsReader.readTracklet(line)
-            new_tracklet = _buildTracklet(dets_df, tracklet_id, new_tracklet_diaids, night, purified_ssmid_dict, createdBy=3)
+            new_tracklet = _buildTracklet(dets_df, tracklet_id, new_tracklet_diaids, night, createdBy=3)
             
             total_purified_tracklets_num += 1
             if new_tracklet.isTrue:
                 true_purified_tracklets_num += 1
+                if new_tracklet.diasources["ssmId"][0] in true_purified_ssmid_dict:
+                    true_purified_ssmid_dict[new_tracklet.diasources["ssmId"][0]] += 1
+                else:
+                    true_purified_ssmid_dict[new_tracklet.diasources["ssmId"][0]] = 1
             else: 
                 false_purified_tracklets_num += 1
+                for ssmid in new_tracklet.diasources["ssmId"]:
+                    if ssmid in false_ssmid_dict:
+                        false_purified_ssmid_dict[ssmid] += 1
+                    else:
+                        false_purified_ssmid_dict[ssmid] = 1
                 
             trackletMembersDataframe = trackletMembersDataframe.append(new_tracklet.toTrackletMembersDataframe())
             allTrackletsDataframe = allTrackletsDataframe.append(new_tracklet.toAllTrackletsDataframe())
@@ -388,11 +431,21 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             resultsObject.purifiedTrackletFileSizes[night] = purified_tracklet_file_size
             resultsObject.toYaml(outDir=outDir)
 
+        if objectsDataframe is not None:
+            print "- Updating objects dataframe..."
+            for ssmid in true_purified_ssmid_dict:
+                objectsDataframe.loc[objectsDataframe["ssmId"] == ssmid, "numTruePurifiedTracklets"] += true_purified_ssmid_dict[ssmid]
+
+            for ssmid in false_purified_ssmid_dict:
+                objectsDataframe.loc[objectsDataframe["ssmId"] == ssmid, "numFalsePurifiedTracklets"]+= false_purified_ssmid_dict[ssmid]
+
         print "- Writing results to outfile..."
         outFileOut.write("Output Purified Tracklet File Summary:\n")
         outFileOut.write("File name: %s\n" % (purifiedTrackletFile))
         outFileOut.write("File size (bytes): %s\n" % (purified_tracklet_file_size))
-        outFileOut.write("Unique objects: %s\n" % (len(purified_ssmid_dict)))
+        outFileOut.write("Unique objects in true purified tracklets: %s\n" % (len(true_purified_ssmid_dict)))
+        outFileOut.write("Unique objects in false purified tracklets: %s\n" % (len(false_purified_ssmid_dict)))
+        outFileOut.write("Total unique objects: %s\n" % (len(true_purified_ssmid_dict) + len(false_purified_ssmid_dict)))
         outFileOut.write("Tracklets purified: %s\n" % len(deleted_by_purified_ind))
         outFileOut.write("Tracklets created: %s\n" % len(created_by_purified))
         outFileOut.write("True purified tracklets: %s\n" % (true_purified_tracklets_num))
@@ -408,7 +461,8 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         created_by_removeSubsets, deleted_by_removeSubsets_ind = findNewLinesAndDeletedIndices(purifiedTrackletFile, removeSubsetTrackletFile)
         print "removeSubsets removed %s tracklets..." % (len(deleted_by_removeSubsets_ind))
         
-        final_ssmid_dict = {}
+        true_final_ssmid_dict = {}
+        false_final_ssmid_dict = {}
         
         total_final_tracklets_num = 0
         true_final_tracklets_num = 0
@@ -424,13 +478,22 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             tracklet_ids.append(tracklet_id)
             
             new_tracklet_diaids = MopsReader.readTracklet(line)
-            new_tracklet = _buildTracklet(dets_df, tracklet_id, new_tracklet_diaids, night, final_ssmid_dict, createdBy=4)
+            new_tracklet = _buildTracklet(dets_df, tracklet_id, new_tracklet_diaids, night, createdBy=4)
             
             total_final_tracklets_num += 1
             if new_tracklet.isTrue:
                 true_final_tracklets_num += 1
+                if new_tracklet.diasources["ssmId"][0] in true_final_ssmid_dict:
+                    true_final_ssmid_dict[new_tracklet.diasources["ssmId"][0]] += 1
+                else:
+                    true_final_ssmid_dict[new_tracklet.diasources["ssmId"][0]] = 1
             else: 
                 false_final_tracklets_num += 1
+                for ssmid in new_tracklet.diasources["ssmId"]:
+                    if ssmid in false_ssmid_dict:
+                        false_final_ssmid_dict[ssmid] += 1
+                    else:
+                        false_final_ssmid_dict[ssmid] = 1
                 
             trackletMembersDataframe = trackletMembersDataframe.append(new_tracklet.toTrackletMembersDataframe())
             allTrackletsDataframe = allTrackletsDataframe.append(new_tracklet.toAllTrackletsDataframe())
@@ -451,11 +514,21 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             resultsObject.finalTrackletFileSizes[night] = remove_subset_tracklet_file_size
             resultsObject.toYaml(outDir=outDir)
 
+        if objectsDataframe is not None:
+            print "- Updating objects dataframe..."
+            for ssmid in true_final_ssmid_dict:
+                objectsDataframe.loc[objectsDataframe["ssmId"] == ssmid, "numTrueFinalTracklets"] += true_final_ssmid_dict[ssmid]
+
+            for ssmid in false_final_ssmid_dict:
+                objectsDataframe.loc[objectsDataframe["ssmId"] == ssmid, "numFalseFinalTracklets"] += false_final_ssmid_dict[ssmid]
+
         print "- Writing results to outfile..."
         outFileOut.write("Output Final Tracklet File Summary:\n")
         outFileOut.write("File name: %s\n" % (removeSubsetTrackletFile))
         outFileOut.write("File size (bytes): %s\n" % (remove_subset_tracklet_file_size))
-        outFileOut.write("Unique objects: %s\n" % (len(final_ssmid_dict)))
+        outFileOut.write("Unique objects in true final tracklets: %s\n" % (len(true_final_ssmid_dict)))
+        outFileOut.write("Unique objects in false final tracklets: %s\n" % (len(false_final_ssmid_dict)))
+        outFileOut.write("Total unique objects: %s\n" % (len(true_final_ssmid_dict) + len(false_final_ssmid_dict)))
         outFileOut.write("Tracklets removed: %s\n" % len(deleted_by_removeSubsets_ind))
         outFileOut.write("True final tracklets: %s\n" % (true_final_tracklets_num))
         outFileOut.write("False final tracklets: %s\n" % (false_final_tracklets_num))
@@ -483,7 +556,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
     return outFile, allTrackletsDataframe, trackletMembersDataframe, tracklet_ids
 
 def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, removeSubsetTrackFile=None, minDetectionsPerNight=2, minNights=3, windowSize=15, 
-    snrLimit=-1, analyzeSubsets=True, trackIdCountStart=1, resultsObject=None):
+    snrLimit=-1, analyzeSubsets=True, trackIdCountStart=1, objectsDataframe=None, resultsObject=None):
     startTime = time.ctime()
     startNight, endNight = MopsReader.readWindow(detFile)
     window = str(startNight) + "-" + str(endNight)
@@ -546,7 +619,8 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
 
     trackFileIn = open(trackFile, "r")
     tracks = []
-    ssmid_dict = {}
+    true_ssmid_dict = {}
+    false_ssmid_dict = {}
     found_ssmids = []
     missed_ssmids = []
     
@@ -570,15 +644,25 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
         track_ids.append(track_id)
         
         new_track_diaids = MopsReader.readTrack(line)
-        new_track = _buildTrack(dets_df, track_id, new_track_diaids, startNight, ssmid_dict, createdBy=5)
+        new_track = _buildTrack(dets_df, track_id, new_track_diaids, startNight, createdBy=5)
 
         total_tracks_num += 1     
         if new_track.isTrue:
             true_tracks_num += 1
             if new_track.diasources["ssmId"][0] not in found_ssmids:
                 found_ssmids.append(new_track.diasources["ssmId"][0])
-        else:
+
+            if new_track.diasources["ssmId"][0] in true_ssmid_dict:
+                true_ssmid_dict[new_track.diasources["ssmId"][0]] += 1
+            else:
+                true_ssmid_dict[new_track.diasources["ssmId"][0]] = 1
+        else: 
             false_tracks_num += 1
+            for ssmid in new_track.diasources["ssmId"]:
+                if ssmid in false_ssmid_dict:
+                    false_ssmid_dict[ssmid] += 1
+                else:
+                    false_ssmid_dict[ssmid] = 1
 
         tracks.append(new_track)
 
@@ -629,6 +713,13 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
         resultsObject.longestTracks[window] = longest_tracks_num
         resultsObject.toYaml(outDir=outDir)
 
+    if objectsDataframe is not None:
+        print "- Updating objects dataframe..."
+        for ssmid in true_ssmid_dict:
+            objectsDataframe.loc[objectsDataframe["ssmId"] == ssmid, "numTrueTracks"] += true_ssmid_dict[ssmid]
+
+        for ssmid in false_ssmid_dict:
+            objectsDataframe.loc[objectsDataframe["ssmId"] == ssmid, "numFalseTracks"] += false_ssmid_dict[ssmid]
 
     print "- Writing results to outfile..."
     outFileOut.write("Output Track File Summary:\n")
@@ -636,6 +727,9 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
     outFileOut.write("File size (bytes): %s\n" % (track_file_size))
     outFileOut.write("Objects found: %s\n" % (len(found_ssmids)))
     outFileOut.write("Objects missed: %s\n" % (len(missed_ssmids)))
+    outFileOut.write("Unique objects in true tracks: %s\n" % (len(true_ssmid_dict)))
+    outFileOut.write("Unique objects in false tracks: %s\n" % (len(false_ssmid_dict)))
+    outFileOut.write("Total unique objects: %s\n" % (len(true_ssmid_dict) + len(false_ssmid_dict)))
     outFileOut.write("True tracks: %s\n" % (true_tracks_num))
     outFileOut.write("False tracks %s\n" % (false_tracks_num))
     outFileOut.write("Total tracks: %s\n" % (total_tracks_num))
@@ -650,13 +744,16 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
         created_by_removeSubsets, deleted_by_removeSubsets_ind = findNewLinesAndDeletedIndices(trackFile, removeSubsetTrackFile)
         print "removeSubsets removed %s tracks..." % (len(deleted_by_removeSubsets_ind))
 
+        true_final_ssmid_dict = {}
+        false_final_ssmid_dict = {}
+
         total_final_tracks_num = 0
         true_final_tracks_num = 0
         false_final_tracks_num = 0
 
         print "- Updating dataframe properties..."
         for ind in deleted_by_removeSubsets_ind:
-            allTracksDataframe.loc[allTracksDataframe["trackId"] == ind + 1, "deletedBy"] = 6
+            allTracksDataframe.loc[allTracksDataframe["trackId"] == ind + trackIdCountStart, "deletedBy"] = 6
 
         print "- Building final tracks..."
         for i, line in enumerate(created_by_removeSubsets):
@@ -664,13 +761,22 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
             track_ids.append(track_id)
             
             new_track_diaids = MopsReader.readTrack(line)
-            new_track = _buildTrack(dets_df, track_id, new_track_diaids, windowStart, ssmid_dict, createdBy=5)
+            new_track = _buildTrack(dets_df, track_id, new_track_diaids, startNight, createdBy=5)
 
             total_final_tracks_num += 1     
             if new_track.isTrue:
                 true_final_tracks_num += 1
-            else:
-                false_final_tracks_num += 1
+                if new_track.diasources["ssmId"][0] in true_final_ssmid_dict:
+                    true_final_ssmid_dict[new_track.diasources["ssmId"][0]] += 1
+                else:
+                    true_final_ssmid_dict[new_track.diasources["ssmId"][0]] = 1
+            else: 
+                false_tracks_num += 1
+                for ssmid in new_track.diasources["ssmId"]:
+                    if ssmid in false_ssmid_dict:
+                        false_final_ssmid_dict[ssmid] += 1
+                    else:
+                        false_final_ssmid_dict[ssmid] = 1
 
             trackMembersDataframe = trackMembersDataframe.append(new_track.toTrackMembersDataframe())
             allTracksDataframe = allTracksDataframe.append(new_track.toAllTracksDataframe())
@@ -685,10 +791,21 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
             resultsObject.finalTrackFileSizes[window] = final_track_file_size
             resultsObject.toYaml(outDir=outDir)
 
+        if objectsDataframe is not None:
+            print "- Updating objects dataframe..."
+            for ssmid in true_final_ssmid_dict:
+                objectsDataframe.loc[objectsDataframe["ssmId"] == ssmid, "numTrueFinalTracks"] += true_final_ssmid_dict[ssmid]
+
+            for ssmid in false_final_ssmid_dict:
+                objectsDataframe.loc[objectsDataframe["ssmId"] == ssmid, "numFalseFinalTracks"] += false_final_ssmid_dict[ssmid]
+
         print "- Writing results to outfile..."
         outFileOut.write("Output Final Track File Summary:\n")
         outFileOut.write("File name: %s\n" % (removeSubsetTrackFile))
         outFileOut.write("File size (bytes): %s\n" % (final_track_file_size))
+        outFileOut.write("Unique objects in true tracks: %s\n" % (len(true_final_ssmid_dict)))
+        outFileOut.write("Unique objects in false tracks: %s\n" % (len(false_final_ssmid_dict)))
+        outFileOut.write("Total unique objects: %s\n" % (len(true_final_ssmid_dict) + len(false_final_ssmid_dict)))
         outFileOut.write("True final tracks: %s\n" % (true_final_tracks_num))
         outFileOut.write("False final tracks %s\n" % (false_final_tracks_num))
         outFileOut.write("Total final tracks: %s\n" % (total_final_tracks_num))
@@ -698,9 +815,9 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
 
     if cursor is not None:
         print "Converting dataframes to sqlite tables..."
-        print "Updating TrackMembers tables..."
+        print "Updating TrackMembers table..."
         trackMembersDataframe.to_sql("TrackMembers", cursor, if_exists="append", index=False)
-        print "Updating AllTracks tables..."
+        print "Updating AllTracks table..."
         allTracksDataframe.to_sql("AllTracks", cursor, if_exists="append", index=False)
         
         print ""
@@ -714,18 +831,7 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
     return outFile, allTracksDataframe, trackMembersDataframe, track_ids
 
 def analyzeMultipleTracklets(trackletFiles, detFiles, outDir="results/", collapsedTrackletFiles=None, purifiedTrackletFiles=None, removeSubsetTrackletFiles=None,
-                            toDatabase=True, fullDetFile=None, resultsObject=None):
-    
-    if toDatabase:
-        cursor, database = MopsDatabase.buildTrackletDatabase("nightly.db", outDir)
-
-        if fullDetFile is not None:
-            print "Reading detections into database..."
-            MopsReader.readDetectionsIntoDatabase(fullDetFile, cursor)
-    else:
-        database = None
-        cursor = None
-
+                            cursor=None, objectsDataframe=None, resultsObject=None):
     resultFiles = []
     tracklet_id_start_count = 1
     all_tracklet_ids = []
@@ -742,7 +848,7 @@ def analyzeMultipleTracklets(trackletFiles, detFiles, outDir="results/", collaps
             kwargs["removeSubsetTrackletFile"] = removeSubsetTrackletFiles[i]
 
         resultFile, allTrackletsDataframe, trackletMembersDataframe, tracklet_ids = analyzeTracklets(trackletFile, detFile, 
-            outDir=outDir, trackletIdCountStart=tracklet_id_start_count, cursor=cursor, resultsObject=resultsObject, **kwargs)
+            outDir=outDir, trackletIdCountStart=tracklet_id_start_count, cursor=cursor, objectsDataframe=objectsDataframe, resultsObject=resultsObject, **kwargs)
 
         resultFiles.append(resultFile)
         all_tracklet_ids.extend(tracklet_ids)
@@ -752,10 +858,10 @@ def analyzeMultipleTracklets(trackletFiles, detFiles, outDir="results/", collaps
         else: 
             tracklet_id_start_count = 1
 
-    return sorted(resultFiles), database
+    return sorted(resultFiles)
 
 def analyzeMultipleTracks(trackFiles, detFiles, idsFiles, outDir="results/", removeSubsetTrackFiles=None,
-                            toDatabase=True, resultsObject=None, minDetectionsPerNight=2, minNights=3, windowSize=15):
+                            toDatabase=True, objectsDataframe=None, resultsObject=None, minDetectionsPerNight=2, minNights=3, windowSize=15):
 
     databases = []
     resultFiles = []
@@ -776,7 +882,7 @@ def analyzeMultipleTracks(trackFiles, detFiles, idsFiles, outDir="results/", rem
             kwargs["removeSubsetTrackFile"] = removeSubsetTrackFiles[i]
 
         resultFile, allTracksDataframe, trackMembersDataframe, track_ids = analyzeTracks(trackFile, detFile, idsFile,
-            outDir=outDir, trackIdCountStart=track_id_start_count, cursor=cursor, resultsObject=resultsObject, 
+            outDir=outDir, trackIdCountStart=track_id_start_count, cursor=cursor, objectsDataframe=objectsDataframe, resultsObject=resultsObject, 
             minDetectionsPerNight=minDetectionsPerNight, minNights=minNights, windowSize=windowSize, snrLimit=-1, analyzeSubsets=True, **kwargs)
        
         if toDatabase:
@@ -812,12 +918,54 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
         print "Initializing new results object..."
         resultsObject = MopsResults(parameters, tracker)
 
+    cursor = None
+    database = None
+    if toDatabase:
+        cursor, database = MopsDatabase.buildTrackletDatabase("nightly.db", outDir)
+
+    objects_df = None
+    if fullDetFile:
+        print "Reading full detections file into dataframe..."
+        full_dets_df = MopsReader.readDetectionsIntoDataframe(fullDetFile)
+        unique_ssmids, numDetections = np.unique(full_dets_df["ssmId"], return_counts=True)
+
+        print "Counting findable objects as tracklets..."
+        findable_ssmids_as_tracklets = countFindableObjects(full_dets_df, minDetectionsPerNight=2, minNights=1, windowSize=1, snrLimit=-1)
+
+        print "Counting findable objects as tracks..."
+        findable_ssmids_as_tracks = countFindableObjects(full_dets_df, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1)
+
+        print "Building objects dataframe..."
+        table = np.zeros(len(unique_ssmids), 
+            dtype={"names":["ssmId", "numDetections", "findableAsTracklet", "findableAsTrack", 
+                        "numFalseTracklets", "numTrueTracklets", "numFalseCollapsedTracklets", "numTrueCollapsedTracklets",
+                        "numFalsePurifiedTracklets", "numTruePurifiedTracklets", "numFalseFinalTracklets", "numTrueFinalTracklets",
+                        "numFalseTracks", "numTrueTracks", "numFalseFinalTracks", "numTrueFinalTracks"], 
+                    "formats":["int64","int64","bool","bool",
+                        "int64","int64","int64","int64",
+                        "int64","int64","int64","int64",
+                        "int64","int64","int64","int64"]})
+
+        table["ssmId"] = unique_ssmids
+        table["numDetections"] = numDetections
+        objects_df = pd.DataFrame(table)
+
+        print "Updating objects dataframe..."
+        for ssmid in findable_ssmids_as_tracklets:
+            objects_df.loc[objects_df["ssmId"] == ssmid, "findableAsTracklet"] = True
+
+        for ssmid in findable_ssmids_as_tracks:
+            objects_df.loc[objects_df["ssmId"] == ssmid, "findableAsTrack"] = True
+
+        if toDatabase:
+            print "Reading full detections file into database..."
+            MopsReader.readDetectionsIntoDatabase(fullDetFile, cursor, table="DiaSources", header=None)
+
     if tracklets:
 
-        resultFiles, database = analyzeMultipleTracklets(tracker.tracklets, tracker.diasources, outDir=outDir, 
+        resultFiles = analyzeMultipleTracklets(tracker.tracklets, tracker.diasources, outDir=outDir, 
             collapsedTrackletFiles=tracker.collapsedTrackletsById, purifiedTrackletFiles=tracker.purifiedTrackletsById,
-            removeSubsetTrackletFiles=tracker.finalTrackletsById, toDatabase=toDatabase, fullDetFile=fullDetFile, 
-            resultsObject=resultsObject)
+            removeSubsetTrackletFiles=tracker.finalTrackletsById, objectsDataframe=objects_df, resultsObject=resultsObject)
 
         tracker.trackletResults = resultFiles
         tracker.trackletDatabase = database
@@ -830,7 +978,7 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
     if tracks:
 
         resultFiles, databases = analyzeMultipleTracks(tracker.tracks, tracker.dets, tracker.ids, outDir=outDir, 
-          removeSubsetTrackFiles=tracker.finalTracks, toDatabase=toDatabase, resultsObject=resultsObject, 
+          removeSubsetTrackFiles=tracker.finalTracks, toDatabase=toDatabase, objectsDataframe=objects_df, resultsObject=resultsObject, 
           minDetectionsPerNight=minDetectionsPerNight, minNights=minNights, windowSize=windowSize)
 
         tracker.trackResults = resultFiles
@@ -841,5 +989,10 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
     resultsObject.toYaml(outDir=tracker.runDir)
     resultsObject.toYaml(outDir=tracker.resultsDir)
 
-    return resultsObject
+    if fullDetFile:        
+        print "Converting object dataframe to sqlite table..."
+        print "Updating AllObjects table..."
+        objects_df.to_sql("AllObjects", cursor, if_exists="append", index=False)
+
+    return resultsObject, objects_df
 
