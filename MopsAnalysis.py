@@ -368,7 +368,8 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         outFileOut.write("Tracklets created: %s\n" % len(created_by_collapse))
         outFileOut.write("True collapsed tracklets: %s\n" % (true_collapsed_tracklets_num))
         outFileOut.write("False collapsed tracklets: %s\n" % (false_collapsed_tracklets_num))
-        outFileOut.write("Total collapsed tracklets: %s\n" % (total_collapsed_tracklets_num))
+        outFileOut.write("Total collapsed tracklets: %s\n\n" % (total_collapsed_tracklets_num))
+        outFileOut.write("collapseTracklets merged %s tracklets into %s collinear tracklets...\n\n" % (len(deleted_by_collapse_ind), len(created_by_collapse)))
         outFileOut.write("*** Note: These numbers only reflect tracklets affected by collapseTracklets. ***\n")
         outFileOut.write("***            File may contain other unaffected tracklets.                   ***\n\n")
         print ""
@@ -450,7 +451,8 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         outFileOut.write("Tracklets created: %s\n" % len(created_by_purified))
         outFileOut.write("True purified tracklets: %s\n" % (true_purified_tracklets_num))
         outFileOut.write("False purified tracklets: %s\n" % (false_purified_tracklets_num))
-        outFileOut.write("Total purified tracklets: %s\n" % (total_purified_tracklets_num))
+        outFileOut.write("Total purified tracklets: %s\n\n" % (total_purified_tracklets_num))
+        outFileOut.write("purifiedTracklets removed detections from %s tracklets and created %s tracklets...\n\n" % (len(deleted_by_purified_ind), len(created_by_purified)))
         outFileOut.write("*** Note: These numbers only reflect tracklets affected by purifyTracklets. ***\n")
         outFileOut.write("***          File may contain other unaffected tracklets.                   ***\n\n")
         
@@ -532,7 +534,8 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         outFileOut.write("Tracklets removed: %s\n" % len(deleted_by_removeSubsets_ind))
         outFileOut.write("True final tracklets: %s\n" % (true_final_tracklets_num))
         outFileOut.write("False final tracklets: %s\n" % (false_final_tracklets_num))
-        outFileOut.write("Total final tracklets: %s\n" % (total_final_tracklets_num))
+        outFileOut.write("Total final tracklets: %s\n\n" % (total_final_tracklets_num))
+        outFileOut.write("removeSubsets removed %s tracklets...\n\n" % (len(deleted_by_removeSubsets_ind)))
         outFileOut.write("*** Note: These numbers only reflect tracklets affected by removeSubsets. ***\n")
         outFileOut.write("***          File may contain other unaffected tracklets.                 ***\n\n")
        
@@ -808,7 +811,8 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
         outFileOut.write("Total unique objects: %s\n" % (len(true_final_ssmid_dict) + len(false_final_ssmid_dict)))
         outFileOut.write("True final tracks: %s\n" % (true_final_tracks_num))
         outFileOut.write("False final tracks %s\n" % (false_final_tracks_num))
-        outFileOut.write("Total final tracks: %s\n" % (total_final_tracks_num))
+        outFileOut.write("Total final tracks: %s\n\n" % (total_final_tracks_num))
+        outFileOut.write("removeSubsets removed %s tracks...\n\n" % (len(deleted_by_removeSubsets_ind)))
         outFileOut.write("*** Note: These numbers only reflect tracks affected by removeSubsets. ***\n")
         outFileOut.write("***          File may contain other unaffected tracks.                 ***\n\n")
         print ""
@@ -989,10 +993,14 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
     resultsObject.toYaml(outDir=tracker.runDir)
     resultsObject.toYaml(outDir=tracker.resultsDir)
 
-    if fullDetFile:        
+    if fullDetFile:
+        print ""      
         print "Converting object dataframe to sqlite table..."
         print "Updating AllObjects table..."
         objects_df.to_sql("AllObjects", cursor, if_exists="append", index=False)
+        print ""
+
+    print "Analysis finished."
 
     return resultsObject, objects_df
 
