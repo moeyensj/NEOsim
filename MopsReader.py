@@ -12,7 +12,7 @@ def readIds(ids):
     return np.fromstring(track, sep=" ", dtype=int)
 
 def readDetectionsIntoDataframe(detsFile, header=None):
-    return pd.read_csv(detsFile, header=header, names=["diaId", "visitId", "ssmId", "ra", "dec", "mjd", "mag", "snr"], index_col="diaId", delim_whitespace=True)
+    return pd.read_csv(detsFile, header=header, names=["diaId", "visitId", "objectId", "ra", "dec", "mjd", "mag", "snr"], index_col="diaId", delim_whitespace=True)
 
 def readDetectionsIntoDatabase(detsFile, cursor, table="DiaSources", header=None):
     dets_df = readDetectionsIntoDataframe(detsFile, header=header)

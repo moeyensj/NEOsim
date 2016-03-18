@@ -7,7 +7,7 @@ class tracklet(object):
     def __init__(self, trackletId, diasources_num, night):
         self._trackletId = trackletId
         self._diasources = np.zeros(diasources_num, 
-            dtype={"names":["diaId", "visitId", "ssmId", "ra", "dec", "mjd", "mag", "snr"], 
+            dtype={"names":["diaId", "visitId", "objectId", "ra", "dec", "mjd", "mag", "snr"], 
                     "formats":["int64","int64","int64","float64","float64","float64","float64","float64"]})
         self._info = np.zeros(1, 
             dtype={"names":["trackletId", "linkedObjectId", "numLinkedObjects", "numMembers", "velocity", "rms", "night", "createdBy", "deletedBy"],
@@ -124,7 +124,7 @@ class tracklet(object):
     def addDiasource(self, diasource_num, diaid, diasource):
         self._diasources[diasource_num]["diaId"] = int(diaid)
         self._diasources[diasource_num]["visitId"] = diasource["visitId"]
-        self._diasources[diasource_num]["ssmId"] = diasource["ssmId"]
+        self._diasources[diasource_num]["objectId"] = diasource["objectId"]
         self._diasources[diasource_num]["ra"] = diasource["ra"]
         self._diasources[diasource_num]["dec"] = diasource["dec"]
         self._diasources[diasource_num]["mjd"] = diasource["mjd"]
@@ -138,9 +138,9 @@ class tracklet(object):
         self._velocity = calcVelocity(self._diasources)
 
     def updateQuality(self):
-        self._isTrue, num_unique_ids = checkSSMIDs(self._diasources["ssmId"])
+        self._isTrue, num_unique_ids = checkSSMIDs(self._diasources["objectId"])
         if self._isTrue:
-            self._linkedObjectId = self._diasources["ssmId"][0]
+            self._linkedObjectId = self._diasources["objectId"][0]
             self._numLinkedObjects = num_unique_ids
         else:
             self._linkedObjectId = -1
@@ -178,7 +178,7 @@ class track(object):
     def __init__(self, trackId, diasources_num, windowStart):
         self._trackId = trackId
         self._diasources = np.zeros(diasources_num, 
-            dtype={"names":["diaId", "visitId", "ssmId", "ra", "dec", "mjd", "mag", "snr"], 
+            dtype={"names":["diaId", "visitId", "objectId", "ra", "dec", "mjd", "mag", "snr"], 
                    "formats":["int64","int64","int64","float64","float64","float64","float64","float64"]})
         self._info = np.zeros(1, 
             dtype={"names":["trackId", "linkedObjectId", "numLinkedObjects", "numMembers", "rms", "windowStart", "startTime", "endTime", "subsetOf", "createdBy", "deletedBy"],
@@ -330,7 +330,7 @@ class track(object):
     def addDiasource(self, diasource_num, diaid, diasource):
         self._diasources[diasource_num]["diaId"] = int(diaid)
         self._diasources[diasource_num]["visitId"] = diasource["visitId"]
-        self._diasources[diasource_num]["ssmId"] = diasource["ssmId"]
+        self._diasources[diasource_num]["objectId"] = diasource["objectId"]
         self._diasources[diasource_num]["ra"] = diasource["ra"]
         self._diasources[diasource_num]["dec"] = diasource["dec"]
         self._diasources[diasource_num]["mjd"] = diasource["mjd"]
@@ -341,9 +341,9 @@ class track(object):
         self._rms = calcRMS(self._diasources)
 
     def updateQuality(self):
-        self._isTrue, num_unique_ids = checkSSMIDs(self._diasources["ssmId"])
+        self._isTrue, num_unique_ids = checkSSMIDs(self._diasources["objectId"])
         if self._isTrue:
-            self._linkedObjectId = self._diasources["ssmId"][0]
+            self._linkedObjectId = self._diasources["objectId"][0]
             self._numLinkedObjects = num_unique_ids
         else:
             self._linkedObjectId = -1

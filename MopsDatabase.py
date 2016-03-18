@@ -11,7 +11,7 @@ def buildTrackletDatabase(database, outDir):
         CREATE TABLE DiaSources (
             diaId INTEGER PRIMARY KEY,
             visitId INTEGER,
-            ssmId INTEGER,
+            objectId INTEGER,
             ra REAL,
             dec REAL,
             mjd REAL,
@@ -23,7 +23,7 @@ def buildTrackletDatabase(database, outDir):
     print "Creating AllObjects table..."
     con.execute("""
         CREATE TABLE AllObjects (
-            ssmId INTEGER PRIMARY KEY,
+            objectId INTEGER PRIMARY KEY,
             numDetections INTEGER,
             findableAsTracklet BOOL,
             findableAsTrack BOOL,
@@ -75,7 +75,7 @@ def buildTrackletDatabase(database, outDir):
     con.execute("""
         CREATE TABLE TrackletMembers (
             trackletId INTEGER,
-            diaid INTEGER
+            diaId INTEGER
         );
         """)
 
