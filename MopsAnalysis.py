@@ -160,6 +160,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
     startTime = time.ctime()
     night = MopsReader.readNight(detFile)
     print "Starting tracklet analysis for night %s at %s" % (night, startTime)
+    print ""
     
     # Create outfile to store results
     if not os.path.exists(outDir):
@@ -564,6 +565,7 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
     startNight, endNight = MopsReader.readWindow(detFile)
     window = str(startNight) + "-" + str(endNight)
     print "Starting track analysis for window (nights: %s - %s) at %s" % (str(startNight), str(endNight), startTime)
+    print ""
     
     # Create outfile to store results
     if not os.path.exists(outDir):
