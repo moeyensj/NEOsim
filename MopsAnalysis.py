@@ -969,7 +969,7 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
 
         resultFiles = analyzeMultipleTracklets(tracker.tracklets, tracker.diasources, outDir=outDir, 
             collapsedTrackletFiles=tracker.collapsedTrackletsById, purifiedTrackletFiles=tracker.purifiedTrackletsById,
-            removeSubsetTrackletFiles=tracker.finalTrackletsById, objectsDataframe=objects_df, resultsObject=resultsObject)
+            removeSubsetTrackletFiles=tracker.finalTrackletsById, cursor=cursor, objectsDataframe=objects_df, resultsObject=resultsObject)
 
         tracker.trackletResults = resultFiles
         tracker.trackletDatabase = database
