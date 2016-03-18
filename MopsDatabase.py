@@ -20,6 +20,42 @@ def buildTrackletDatabase(database, outDir):
         );
         """)
 
+    print "Creating AllObjects table..."
+    con.execute("""
+        CREATE TABLE AllObjects (
+            ssmId INTEGER PRIMARY KEY,
+            numDetections INTEGER,
+            findableAsTracklet BOOL,
+            findableAsTrack BOOL,
+            numFalseTracklets INTEGER,
+            numTrueTracklets INTEGER,
+            numFalseCollapsedTracklets INTEGER,
+            numTrueCollapsedTracklets INTEGER,
+            numFalsePurifiedTracklets INTEGER,
+            numTruePurifiedTracklets INTEGER,
+            numFalseFinalTracklets INTEGER,
+            numTrueFinalTracklets INTEGER,
+            numFalseTracks INTEGER,
+            numTrueTracks INTEGER,
+            numFalseFinalTracks INTEGER,
+            numTrueFinalTracks INTEGER
+        );
+        """)
+
+    print "Creating FoundObjects view..."
+    con.execute("""
+        CREATE VIEW FoundObjects AS
+        SELECT * FROM AllObjects
+        WHERE numTrueTracks > 0
+        """)
+
+    print "Creating MissedObjects view..."
+    con.execute("""
+        CREATE VIEW MissedObjects AS
+        SELECT * FROM AllObjects
+        WHERE numTrueTracks = 0
+        """)
+
     print "Creating AllTracklets table..."
     con.execute("""
         CREATE TABLE AllTracklets (

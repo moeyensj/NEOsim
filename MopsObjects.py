@@ -18,7 +18,7 @@ class tracklet(object):
         self._numMembers = diasources_num
         self._night = night
         self._isTrue = None
-        self._linkedObjectId = 0
+        self._linkedObjectId = -1
         self._numLinkedObjects = 0
         self._velocity = 0 
         self._rms = 0
@@ -143,7 +143,7 @@ class tracklet(object):
             self._linkedObjectId = self._diasources["ssmId"][0]
             self._numLinkedObjects = num_unique_ids
         else:
-            self._linkedObjectId = 0
+            self._linkedObjectId = -1
             self._numLinkedObjects = num_unique_ids
 
     def updateMembers(self):
@@ -189,11 +189,11 @@ class track(object):
         self._numMembers = diasources_num
         self._windowStart = windowStart
         self._isTrue = None
-        self._linkedObjectId = 0
+        self._linkedObjectId = -1
         self._numLinkedObjects = 0
         self._rms = 0
         self._isSubset = None
-        self._subsetOf = 0
+        self._subsetOf = -1
         self._startTime = 0
         self._endTime = 0
         self._createdBy = 5
@@ -346,7 +346,7 @@ class track(object):
             self._linkedObjectId = self._diasources["ssmId"][0]
             self._numLinkedObjects = num_unique_ids
         else:
-            self._linkedObjectId = 0
+            self._linkedObjectId = -1
             self._numLinkedObjects = num_unique_ids
 
     def updateTime(self):
