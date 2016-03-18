@@ -165,6 +165,12 @@ def buildTrackDatabase(database, outDir):
 
 def attachDatabases(con, databases):
     attached_names = []
+
+    if len(databases) > 10:
+        print "Warning: Cannot attach more than 10 databases..."
+        print "Proceeding with the first 10 databases..."
+        databases = databases[0:10]
+        
     for i, window in enumerate(databases):
         attached_names.append("db%s" % i)
         print "Attaching %s to con as db%s..." % (window, i)
