@@ -925,7 +925,7 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
     cursor = None
     database = None
     if toDatabase:
-        cursor, database = MopsDatabase.buildTrackletDatabase("nightly.db", outDir)
+        cursor, database = MopsDatabase.buildTrackletDatabase("main.db", outDir)
 
     objects_df = None
     if fullDetFile:
@@ -972,7 +972,7 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
             removeSubsetTrackletFiles=tracker.finalTrackletsById, cursor=cursor, objectsDataframe=objects_df, resultsObject=resultsObject)
 
         tracker.trackletResults = resultFiles
-        tracker.trackletDatabase = database
+        tracker.mainDatabase = database
         tracker.toYaml(outDir=tracker.runDir)
         tracker.toYaml(outDir=tracker.resultsDir)
 
@@ -986,7 +986,7 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
           minDetectionsPerNight=minDetectionsPerNight, minNights=minNights, windowSize=windowSize)
 
         tracker.trackResults = resultFiles
-        tracker.trackDatabases = databases
+        tracker.windowDatabases = databases
         tracker.toYaml(outDir=tracker.runDir)
         tracker.toYaml(outDir=tracker.resultsDir)
 
