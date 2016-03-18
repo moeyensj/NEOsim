@@ -162,3 +162,11 @@ def buildTrackDatabase(database, outDir):
     print ""
 
     return con, database
+
+def attachDatabases(con, databases):
+    attached_names = []
+    for i, window in enumerate(databases):
+        attached_names.append("db%s" % i)
+        print "Attaching %s to con as db%s..." % (window, i)
+        con.execute("""ATTACH DATABASE '%s' AS db%s;""" % (window, i))
+    return attached_names
