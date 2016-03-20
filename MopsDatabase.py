@@ -176,3 +176,62 @@ def attachDatabases(con, databases):
         print "Attaching %s to con as db%s..." % (window, i)
         con.execute("""ATTACH DATABASE '%s' AS db%s;""" % (window, i))
     return attached_names
+
+def arrayToSqlQuery(array):
+    sample = ""
+    for i in array:
+        sample += str(i) + ', '
+
+    sample = '(' + sample[0:-2] + ')'
+    return sample
+
+def findTrackletMembers(con, trackletId):
+    diaids = pd.read_sql("""SELECT diaId FROM TrackletMembers
+                            WHERE trackletId == %s""" % (trackletId), con)["diaId"].values
+    return diaids
+
+def findTrackMembers(con, trackId, window):
+    diaids = pd.read_sql("""SELECT diaId FROM %s.TrackMembers
+                            WHERE trackId == %s""" % (window, trackId), con)["diaId"].values
+    return diaids
+
+def findDetections(con, diaids):
+    diaids_query = arrayToSqlQuery(diaids)
+    detections = pd.read_sql("""SELECT * FROM DiaSources
+                                WHERE diaId IN %s""" % diaids_query, con)
+    return detections
+
+def findDetectionsWithObjectId(con, objectId):
+    detections = pd.read_sql("""SELECT * FROM DiaSources
+                                WHERE objectId = %s""" % objectId, con)
+    return detections
+
+def findTrackletDetections(con, trackletId):
+    diaids = findTrackletMembers(con, trackletId)
+    detections = findDetections(con, diaids)
+    return detections
+
+def findTrackDetections(con, trackId, window):
+    diaids = findTrackMembers(trackId, window, con)
+    detections = findDetections(diaids, con)
+    return detections
+
+def selectFalseTracklets(con):
+    falseTracklets = pd.read_sql("""SELECT trackletId FROM AllTracklets
+                                    WHERE linkedObjectId = -1""", con)["trackletId"].values
+    return falseTracklets
+
+def selectTrueTracklets(con):
+    trueTracklets = pd.read_sql("""SELECT trackletId FROM AllTracklets
+                                    WHERE linkedObjectId != -1""", con)["trackletId"].values
+    return trueTracklets
+
+def selectFalseTracks(con, window):
+    falseTracks = pd.read_sql("""SELECT trackId FROM %s.AllTracks
+                                    WHERE linkedObjectId = -1""" % (window), con)["trackId"].values
+    return falseTracks
+
+def selectTrueTracks(con, window):
+    trueTracks = pd.read_sql("""SELECT trackId FROM %s.AllTracks
+                                    WHERE linkedObjectId != -1""" % (window), con)["trackId"].values
+    return trueTracks
