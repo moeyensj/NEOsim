@@ -967,7 +967,12 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
             print "Reading full detections file into database..."
             MopsReader.readDetectionsIntoDatabase(fullDetFile, cursor, table="DiaSources", header=None)
 
+        print ""
+
     if tracklets:
+
+        print "Starting tracklet analysis for %s nights..." % (len(tracker.tracklets))
+        print ""
 
         resultFiles = analyzeMultipleTracklets(tracker.tracklets, tracker.diasources, outDir=outDir, 
             collapsedTrackletFiles=tracker.collapsedTrackletsById, purifiedTrackletFiles=tracker.purifiedTrackletsById,
@@ -978,10 +983,17 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
         tracker.toYaml(outDir=tracker.runDir)
         tracker.toYaml(outDir=tracker.resultsDir)
 
+        print ""
+
     resultsObject.toYaml(outDir=tracker.runDir)
     resultsObject.toYaml(outDir=tracker.resultsDir)
 
+    print ""
+
     if tracks:
+
+        print "Starting track analysis for %s windows..." % (len(tracker.tracks))
+        print ""
 
         resultFiles, databases = analyzeMultipleTracks(tracker.tracks, tracker.dets, tracker.ids, outDir=outDir, 
           removeSubsetTrackFiles=tracker.finalTracks, toDatabase=toDatabase, objectsDataframe=objects_df, resultsObject=resultsObject, 
@@ -992,11 +1004,14 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
         tracker.toYaml(outDir=tracker.runDir)
         tracker.toYaml(outDir=tracker.resultsDir)
 
+        print ""
+
     resultsObject.toYaml(outDir=tracker.runDir)
     resultsObject.toYaml(outDir=tracker.resultsDir)
 
+    print ""
+
     if fullDetFile:
-        print ""      
         print "Converting object dataframe to sqlite table..."
         print "Updating AllObjects table..."
         objects_df.to_sql("AllObjects", cursor, if_exists="append", index=False)
