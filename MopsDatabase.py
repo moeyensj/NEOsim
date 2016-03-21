@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import pandas as pd
 
 def buildTrackletDatabase(database, outDir):
 
@@ -218,20 +219,54 @@ def findTrackDetections(con, trackId, window):
 
 def selectFalseTracklets(con):
     falseTracklets = pd.read_sql("""SELECT trackletId FROM AllTracklets
-                                    WHERE linkedObjectId = -1""", con)["trackletId"].values
+                                    WHERE linkedObjectId = -1""", con)
     return falseTracklets
 
 def selectTrueTracklets(con):
     trueTracklets = pd.read_sql("""SELECT trackletId FROM AllTracklets
-                                    WHERE linkedObjectId != -1""", con)["trackletId"].values
+                                    WHERE linkedObjectId != -1""", con)
     return trueTracklets
 
 def selectFalseTracks(con, window):
     falseTracks = pd.read_sql("""SELECT trackId FROM %s.AllTracks
-                                    WHERE linkedObjectId = -1""" % (window), con)["trackId"].values
+                                    WHERE linkedObjectId = -1""" % (window), con)
     return falseTracks
 
 def selectTrueTracks(con, window):
     trueTracks = pd.read_sql("""SELECT trackId FROM %s.AllTracks
-                                    WHERE linkedObjectId != -1""" % (window), con)["trackId"].values
+                                    WHERE linkedObjectId != -1""" % (window), con)
     return trueTracks
+
+def selectFindableObjectsAsTracklets(con):
+    objects = pd.read_sql("""SELECT * FROM AllObjects
+                                WHERE findableAsTracklet = 1""", con)
+    return objects
+
+def selectFindableObjectsAsTracks(con):
+    objects = pd.read_sql("""SELECT * FROM AllObjects
+                                WHERE findableAsTrack = 1""", con)
+    return objects
+
+def selectFoundObjects(con):
+    objects = pd.read_sql("""SELECT * FROM AllObjects
+                                WHERE numTrueTracks > 0""", con)
+    return objects
+
+def selectMissedObjects(con):
+    objects = pd.read_sql("""SELECT * FROM AllObjects
+                                WHERE findableAsTrack = 1
+                                AND numTrueTracks = 0""", con)
+    return objects
+
+def findObjectLinkages(con, objectId, attachedWindows):
+    detections = findDetectionsWithObjectId(con, objectId)
+    diaids = detections["diaId"].values
+    tracklet_ids = pd.read_sql("""SELECT DISTINCT trackletId FROM trackletMembers
+                                    WHERE diaId IN %s""" % (arrayToSqlQuery(diaids)), con)["trackletId"].values
+    track_ids = {}
+    for window in attachedWindows:
+        track_ids_window = pd.read_sql("""SELECT DISTINCT trackId FROM %s.trackMembers
+                                    WHERE diaId IN %s""" % (window, arrayToSqlQuery(diaids)), con)["trackId"].values
+        track_ids[window] = track_ids_window 
+        
+    return tracklet_ids, track_ids
