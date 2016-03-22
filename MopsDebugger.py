@@ -8,12 +8,13 @@ import runMops
 import MopsAnalysis
 from MopsTracker import MopsTracker
 from MopsParameters import MopsParameters
+from MopsResults import MopsResults
 
 OUTPUT_DIR = "debug/debugSources/"
 DATABASE = "/Volumes/DataCenter/neosimData/ldm156/fullsky5year.db"
 TABLE_NAME = "noAstromErr"
 
-def runObject(objectId, database=DATABASE, tableName=TABLE_NAME, outputDir=OUTPUT_DIR, delete=False, deleteExisting=False):
+def runObject(objectId, database=DATABASE, tableName=TABLE_NAME, outputDir=OUTPUT_DIR, parameters=None, delete=False, deleteExisting=False):
 
     new_data_dir = os.path.join(outputDir, str(objectId))
 
@@ -42,12 +43,13 @@ def runObject(objectId, database=DATABASE, tableName=TABLE_NAME, outputDir=OUTPU
     subprocess.call(call);
     
     run_dir = os.path.join(new_data_dir, "run")
-    parameters = MopsParameters(verbose=True)
+    if parameters == None:
+        parameters = MopsParameters(verbose=True)
     tracker = MopsTracker(run_dir, verbose=True)
     tracker.getDetections(nightly)
     runMops.runMops(parameters, tracker)
 
-    results = MopsAnalysis.analyze(parameters, tracker, outDir=outputDir)
+    results, df = MopsAnalysis.analyze(parameters, tracker, outDir=outputDir)
 
     if delete:
         shutil.rmtree(run_dir)
@@ -68,4 +70,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    parameters, tracker = runObject(args.objectId, database=args.database, tableName=args.tableName, outputDir=args.outputDir, delete=args.delete, deleteExisting=args.overwrite)
+    parameters, tracker, results = runObject(args.objectId, database=args.database, tableName=args.tableName, outputDir=args.outputDir, delete=args.delete, deleteExisting=args.overwrite)
