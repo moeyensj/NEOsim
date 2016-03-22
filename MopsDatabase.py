@@ -217,6 +217,16 @@ def findTrackDetections(con, trackId, window):
     detections = findDetections(con, diaids)
     return detections
 
+def findTrackletInfo(con, trackletId):
+    info = pd.read_sql("""SELECT * FROM AllTracklets
+                        WHERE trackletId = %s""" % trackletId, con)
+    return info
+
+def findTrackInfo(con, trackId, window):
+    info = pd.read_sql("""SELECT * FROM %s.AllTracks
+                        WHERE trackId = %s""" % (window, trackId), con)
+    return info
+
 def selectFalseTracklets(con):
     falseTracklets = pd.read_sql("""SELECT trackletId FROM AllTracklets
                                     WHERE linkedObjectId = -1""", con)
