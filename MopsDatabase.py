@@ -268,15 +268,31 @@ def selectMissedObjects(con):
                                 AND numTrueTracks = 0""", con)
     return objects
 
-def findObjectLinkages(con, objectId, attachedWindows):
+def findObjectLinkages(con, objectId, attachedWindows, onlyFalseLinkages=False):
     detections = findDetectionsWithObjectId(con, objectId)
     diaids = detections["diaId"].values
-    tracklet_ids = pd.read_sql("""SELECT DISTINCT trackletId FROM trackletMembers
-                                    WHERE diaId IN %s""" % (arrayToSqlQuery(diaids)), con)["trackletId"].values
-    track_ids = {}
-    for window in attachedWindows:
-        track_ids_window = pd.read_sql("""SELECT DISTINCT trackId FROM %s.trackMembers
-                                    WHERE diaId IN %s""" % (window, arrayToSqlQuery(diaids)), con)["trackId"].values
-        track_ids[window] = track_ids_window 
+
+    if onlyFalseLinkages:
+        tracklet_ids_all = pd.read_sql("""SELECT DISTINCT trackletId FROM TrackletMembers
+                                        WHERE diaId IN %s""" % (arrayToSqlQuery(diaids)), con)["trackletId"].values
+        tracklet_ids  = pd.read_sql("""SELECT DISTINCT trackletId FROM AllTracklets
+                                    WHERE trackletId IN %s
+                                    AND linkedObjectId = -1""" % (arrayToSqlQuery(tracklet_ids_all)), con)["trackletId"].values
+        track_ids = {}
+        for window in attachedWindows:
+            track_ids_window = pd.read_sql("""SELECT DISTINCT trackId FROM %s.TrackMembers
+                                                WHERE diaId IN %s""" % (window, arrayToSqlQuery(diaids)), con)["trackId"].values
+            false_track_ids_window = pd.read_sql("""SELECT DISTINCT trackId FROM %s.AllTracks
+                                                        WHERE trackId IN %s
+                                                        AND linkedObjectId = -1""" % (window, arrayToSqlQuery(track_ids_window)), con)["trackId"].values
+            track_ids[window] = false_track_ids_window
+    else:
+        tracklet_ids = pd.read_sql("""SELECT DISTINCT trackletId FROM TrackletMembers
+                                        WHERE diaId IN %s""" % (arrayToSqlQuery(diaids)), con)["trackletId"].values
+        track_ids = {}
+        for window in attachedWindows:
+            track_ids_window = pd.read_sql("""SELECT DISTINCT trackId FROM %s.TrackMembers
+                                        WHERE diaId IN %s""" % (window, arrayToSqlQuery(diaids)), con)["trackId"].values
+            track_ids[window] = track_ids_window 
         
     return tracklet_ids, track_ids
