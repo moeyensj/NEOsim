@@ -213,8 +213,8 @@ def findTrackletDetections(con, trackletId):
     return detections
 
 def findTrackDetections(con, trackId, window):
-    diaids = findTrackMembers(trackId, window, con)
-    detections = findDetections(diaids, con)
+    diaids = findTrackMembers(con, trackId, window)
+    detections = findDetections(con, diaids)
     return detections
 
 def selectFalseTracklets(con):
