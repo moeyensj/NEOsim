@@ -207,6 +207,15 @@ def findDetectionsWithObjectId(con, objectId):
                                 WHERE objectId = %s""" % objectId, con)
     return detections
 
+def findNearbyDetections(con, ra0, dec0, ra1, dec1, night, windowSize=1):
+    night_min = night
+    night_max = night_min + windowSize
+    
+    nearby_detections = pd.read_sql_query("""SELECT * FROM DiaSources
+                                            WHERE (mjd BETWEEN %f AND %f) AND (dec BETWEEN %f and %f) AND (ra BETWEEN %f AND %f)
+                                            """ % (night_min, night_max, dec0, dec1, ra0, ra1), con)
+    return nearby_detections
+
 def findTrackletDetections(con, trackletId):
     diaids = findTrackletMembers(con, trackletId)
     detections = findDetections(con, diaids)
