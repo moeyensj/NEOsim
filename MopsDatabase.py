@@ -207,6 +207,11 @@ def findDetectionsWithObjectId(con, objectId):
                                 WHERE objectId = %s""" % objectId, con)
     return detections
 
+def findDetectionsWithObjectIds(con, objectIds):
+    detections = pd.read_sql("""SELECT * FROM DiaSources
+                                WHERE objectId IN %s""" % arrayToSqlQuery(objectIds), con)
+    return detections
+
 def findNearbyDetections(con, ra0, dec0, ra1, dec1, night, windowSize=1):
     night_min = night
     night_max = night_min + windowSize
