@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import pandas as pd
 
 def buildTrackletDatabase(database, outDir):
 
@@ -11,7 +12,7 @@ def buildTrackletDatabase(database, outDir):
         CREATE TABLE DiaSources (
             diaId INTEGER PRIMARY KEY,
             visitId INTEGER,
-            ssmId INTEGER,
+            objectId INTEGER,
             ra REAL,
             dec REAL,
             mjd REAL,
@@ -23,7 +24,7 @@ def buildTrackletDatabase(database, outDir):
     print "Creating AllObjects table..."
     con.execute("""
         CREATE TABLE AllObjects (
-            ssmId INTEGER PRIMARY KEY,
+            objectId INTEGER PRIMARY KEY,
             numDetections INTEGER,
             findableAsTracklet BOOL,
             findableAsTrack BOOL,
@@ -75,7 +76,7 @@ def buildTrackletDatabase(database, outDir):
     con.execute("""
         CREATE TABLE TrackletMembers (
             trackletId INTEGER,
-            diaid INTEGER
+            diaId INTEGER
         );
         """)
 
@@ -176,3 +177,136 @@ def attachDatabases(con, databases):
         print "Attaching %s to con as db%s..." % (window, i)
         con.execute("""ATTACH DATABASE '%s' AS db%s;""" % (window, i))
     return attached_names
+
+def arrayToSqlQuery(array):
+    sample = ""
+    for i in array:
+        sample += str(i) + ', '
+
+    sample = '(' + sample[0:-2] + ')'
+    return sample
+
+def findTrackletMembers(con, trackletId):
+    diaids = pd.read_sql("""SELECT diaId FROM TrackletMembers
+                            WHERE trackletId == %s""" % (trackletId), con)["diaId"].values
+    return diaids
+
+def findTrackMembers(con, trackId, window):
+    diaids = pd.read_sql("""SELECT diaId FROM %s.TrackMembers
+                            WHERE trackId == %s""" % (window, trackId), con)["diaId"].values
+    return diaids
+
+def findDetections(con, diaids):
+    diaids_query = arrayToSqlQuery(diaids)
+    detections = pd.read_sql("""SELECT * FROM DiaSources
+                                WHERE diaId IN %s""" % diaids_query, con)
+    return detections
+
+def findDetectionsWithObjectId(con, objectId):
+    detections = pd.read_sql("""SELECT * FROM DiaSources
+                                WHERE objectId = %s""" % objectId, con)
+    return detections
+
+def findDetectionsWithObjectIds(con, objectIds):
+    detections = pd.read_sql("""SELECT * FROM DiaSources
+                                WHERE objectId IN %s""" % arrayToSqlQuery(objectIds), con)
+    return detections
+
+def findNearbyDetections(con, ra0, dec0, ra1, dec1, night, windowSize=1):
+    night_min = night
+    night_max = night_min + windowSize
+    
+    nearby_detections = pd.read_sql_query("""SELECT * FROM DiaSources
+                                            WHERE (mjd BETWEEN %f AND %f) AND (dec BETWEEN %f and %f) AND (ra BETWEEN %f AND %f)
+                                            """ % (night_min, night_max, dec0, dec1, ra0, ra1), con)
+    return nearby_detections
+
+def findTrackletDetections(con, trackletId):
+    diaids = findTrackletMembers(con, trackletId)
+    detections = findDetections(con, diaids)
+    return detections
+
+def findTrackDetections(con, trackId, window):
+    diaids = findTrackMembers(con, trackId, window)
+    detections = findDetections(con, diaids)
+    return detections
+
+def findTrackletInfo(con, trackletId):
+    info = pd.read_sql("""SELECT * FROM AllTracklets
+                        WHERE trackletId = %s""" % trackletId, con)
+    return info
+
+def findTrackInfo(con, trackId, window):
+    info = pd.read_sql("""SELECT * FROM %s.AllTracks
+                        WHERE trackId = %s""" % (window, trackId), con)
+    return info
+
+def selectFalseTracklets(con):
+    falseTracklets = pd.read_sql("""SELECT trackletId FROM AllTracklets
+                                    WHERE linkedObjectId = -1""", con)
+    return falseTracklets
+
+def selectTrueTracklets(con):
+    trueTracklets = pd.read_sql("""SELECT trackletId FROM AllTracklets
+                                    WHERE linkedObjectId != -1""", con)
+    return trueTracklets
+
+def selectFalseTracks(con, window):
+    falseTracks = pd.read_sql("""SELECT trackId FROM %s.AllTracks
+                                    WHERE linkedObjectId = -1""" % (window), con)
+    return falseTracks
+
+def selectTrueTracks(con, window):
+    trueTracks = pd.read_sql("""SELECT trackId FROM %s.AllTracks
+                                    WHERE linkedObjectId != -1""" % (window), con)
+    return trueTracks
+
+def selectFindableObjectsAsTracklets(con):
+    objects = pd.read_sql("""SELECT * FROM AllObjects
+                                WHERE findableAsTracklet = 1""", con)
+    return objects
+
+def selectFindableObjectsAsTracks(con):
+    objects = pd.read_sql("""SELECT * FROM AllObjects
+                                WHERE findableAsTrack = 1""", con)
+    return objects
+
+def selectFoundObjects(con):
+    objects = pd.read_sql("""SELECT * FROM AllObjects
+                                WHERE numTrueTracks > 0""", con)
+    return objects
+
+def selectMissedObjects(con):
+    objects = pd.read_sql("""SELECT * FROM AllObjects
+                                WHERE findableAsTrack = 1
+                                AND numTrueTracks = 0""", con)
+    return objects
+
+def findObjectLinkages(con, objectId, attachedWindows, onlyFalseLinkages=False):
+    detections = findDetectionsWithObjectId(con, objectId)
+    diaids = detections["diaId"].values
+
+    if onlyFalseLinkages:
+        tracklet_ids_all = pd.read_sql("""SELECT DISTINCT trackletId FROM TrackletMembers
+                                        WHERE diaId IN %s""" % (arrayToSqlQuery(diaids)), con)["trackletId"].values
+        tracklet_ids  = pd.read_sql("""SELECT DISTINCT trackletId FROM AllTracklets
+                                    WHERE trackletId IN %s
+                                    AND linkedObjectId = -1""" % (arrayToSqlQuery(tracklet_ids_all)), con)["trackletId"].values
+        track_ids = {}
+        for window in attachedWindows:
+            track_ids_window = pd.read_sql("""SELECT DISTINCT trackId FROM %s.TrackMembers
+                                                WHERE diaId IN %s""" % (window, arrayToSqlQuery(diaids)), con)["trackId"].values
+            false_track_ids_window = pd.read_sql("""SELECT DISTINCT trackId FROM %s.AllTracks
+                                                        WHERE trackId IN %s
+                                                        AND linkedObjectId = -1""" % (window, arrayToSqlQuery(track_ids_window)), con)["trackId"].values
+            track_ids[window] = false_track_ids_window
+    else:
+        tracklet_ids = pd.read_sql("""SELECT DISTINCT trackletId FROM TrackletMembers
+                                        WHERE diaId IN %s""" % (arrayToSqlQuery(diaids)), con)["trackletId"].values
+        track_ids = {}
+        for window in attachedWindows:
+            track_ids_window = pd.read_sql("""SELECT DISTINCT trackId FROM %s.TrackMembers
+                                        WHERE diaId IN %s""" % (window, arrayToSqlQuery(diaids)), con)["trackId"].values
+            track_ids[window] = track_ids_window 
+        
+    return tracklet_ids, track_ids

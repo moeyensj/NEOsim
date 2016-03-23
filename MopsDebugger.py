@@ -8,31 +8,32 @@ import runMops
 import MopsAnalysis
 from MopsTracker import MopsTracker
 from MopsParameters import MopsParameters
+from MopsResults import MopsResults
 
 OUTPUT_DIR = "debug/debugSources/"
 DATABASE = "/Volumes/DataCenter/neosimData/ldm156/fullsky5year.db"
 TABLE_NAME = "noAstromErr"
 
-def runSSMID(ssmid, database=DATABASE, tableName=TABLE_NAME, outputDir=OUTPUT_DIR, delete=False, deleteExisting=False):
+def runObject(objectId, database=DATABASE, tableName=TABLE_NAME, outputDir=OUTPUT_DIR, parameters=None, delete=False, deleteExisting=False):
 
-    new_data_dir = os.path.join(outputDir, ssmid)
+    new_data_dir = os.path.join(outputDir, str(objectId))
 
     if deleteExisting:
         if os.path.exists(new_data_dir):
             shutil.rmtree(new_data_dir)
-    os.mkdir(new_data_dir)
+    os.makedirs(new_data_dir)
 
     con = sql.connect(database)
     
     dets = pd.read_sql_query("""
     SELECT * FROM %s
-    WHERE ssmId == %s
-    """ % (tableName, ssmid), con, index_col="diaId") 
+    WHERE objectId == %s
+    """ % (tableName, objectId), con, index_col="diaId") 
 
     if len(dets) == 0:
-        raise ValueError("SSMID doesn't exist.")
+        raise ValueError("ObjectId doesn't exist.")
 
-    detsOut = os.path.join(new_data_dir, "%s.txt" % (ssmid))
+    detsOut = os.path.join(new_data_dir, "%s.txt" % (objectId))
     dets.to_csv(detsOut, sep=" ", header=False, index="diaId")
     
     nightly = os.path.join(new_data_dir, "nightly/")
@@ -42,22 +43,25 @@ def runSSMID(ssmid, database=DATABASE, tableName=TABLE_NAME, outputDir=OUTPUT_DI
     subprocess.call(call);
     
     run_dir = os.path.join(new_data_dir, "run")
-    parameters = MopsParameters(verbose=True)
+    if parameters == None:
+        parameters = MopsParameters(verbose=True)
     tracker = MopsTracker(run_dir, verbose=True)
-    runMops.runMops(parameters, tracker, nightly, run_dir)
+    tracker.getDetections(nightly)
+    runMops.runMops(parameters, tracker)
 
-    analysis = MopsAnalysis.runAnalysis(parameters, tracker)
-    analysis.analyze()
+    results, df = MopsAnalysis.analyze(parameters, tracker, outDir=outputDir)
 
     if delete:
         shutil.rmtree(run_dir)
+
+    return parameters, tracker, results
 
 if __name__ == "__main__":
 
     import argparse
 
     parser = argparse.ArgumentParser(description="Runs MOPS on a single source")
-    parser.add_argument("ssmid", type=str, help="Object ID to run through MOPs.")
+    parser.add_argument("objectId", type=str, help="Object ID to run through MOPs.")
     parser.add_argument("-o", "--outputDir", default=OUTPUT_DIR, help="Parent directory where to store output files.")
     parser.add_argument("-db", "--database", default=DATABASE, help="File path to database.")
     parser.add_argument("-t", "--tableName", default=TABLE_NAME, help="Name of table containing detections.")
@@ -66,4 +70,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    runSSMID(args.ssmid, database=args.database, tableName=args.tableName, outputDir=args.outputDir, delete=args.delete, deleteExisting=args.overwrite)
+    parameters, tracker, results = runObject(args.objectId, database=args.database, tableName=args.tableName, outputDir=args.outputDir, delete=args.delete, deleteExisting=args.overwrite)
