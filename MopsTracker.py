@@ -1,5 +1,6 @@
 __all__ = ["MopsTracker"]
 
+
 class MopsTracker(object):
 
     def __init__(self, runDir, verbose=True):
@@ -20,8 +21,8 @@ class MopsTracker(object):
         self._runDir = runDir
         self._resultsDir = None
 
-        self._diasourcesDir = None 
-        self._trackletsDir = None 
+        self._diasourcesDir = None
+        self._trackletsDir = None
         self._trackletsByIndexDir = None
         self._collapsedTrackletsDir = None
         self._collapsedTrackletsByIdDir = None
@@ -71,7 +72,7 @@ class MopsTracker(object):
     @property
     def trackletsByIndex(self):
         return self._trackletsByIndex
-    
+
     @trackletsByIndex.setter
     def trackletsByIndex(self, value):
         self._trackletsByIndex = value
@@ -111,7 +112,7 @@ class MopsTracker(object):
     @property
     def finalTracklets(self):
         return self._finalTracklets
-    
+
     @finalTracklets.setter
     def finalTracklets(self, value):
         self._finalTracklets = value
@@ -127,7 +128,7 @@ class MopsTracker(object):
     @property
     def dets(self):
         return self._dets
-    
+
     @dets.setter
     def dets(self, value):
         self._dets = value
@@ -135,7 +136,7 @@ class MopsTracker(object):
     @property
     def ids(self):
         return self._ids
-    
+
     @ids.setter
     def ids(self, value):
         self._ids = value
@@ -175,7 +176,7 @@ class MopsTracker(object):
     @property
     def trackletsDir(self):
         return self._trackletsDir
-    
+
     @trackletsDir.setter
     def trackletsDir(self, value):
         self._trackletsDir = value
@@ -191,7 +192,7 @@ class MopsTracker(object):
     @property
     def collapsedTrackletsDir(self):
         return self._collapsedTrackletsDir
-    
+
     @collapsedTrackletsDir.setter
     def collapsedTrackletsDir(self, value):
         self._collapsedTrackletsDir = value
@@ -199,7 +200,7 @@ class MopsTracker(object):
     @property
     def collapsedTrackletsByIdDir(self):
         return self._collapsedTrackletsByIdDir
-    
+
     @collapsedTrackletsByIdDir.setter
     def collapsedTrackletsByIdDir(self, value):
         self._collapsedTrackletsByIdDir = value
@@ -207,7 +208,7 @@ class MopsTracker(object):
     @property
     def purifiedTrackletsDir(self):
         return self._purifiedTrackletsDir
-    
+
     @purifiedTrackletsDir.setter
     def purifiedTrackletsDir(self, value):
         self._purifiedTrackletsDir = value
@@ -215,7 +216,7 @@ class MopsTracker(object):
     @property
     def purifiedTrackletsByIdDir(self):
         return self._purifiedTrackletsByIdDir
-    
+
     @purifiedTrackletsByIdDir.setter
     def purifiedTrackletsByIdDir(self, value):
         self._purifiedTrackletsByIdDir = value
@@ -223,7 +224,7 @@ class MopsTracker(object):
     @property
     def finalTrackletsDir(self):
         return self._finalTrackletsDir
-    
+
     @finalTrackletsDir.setter
     def finalTrackletsDir(self, value):
         self._finalTrackletsDir = value
@@ -247,7 +248,7 @@ class MopsTracker(object):
     @property
     def tracksDir(self):
         return self._tracksDir
-    
+
     @tracksDir.setter
     def tracksDir(self, value):
         self._tracksDir = value
@@ -255,7 +256,7 @@ class MopsTracker(object):
     @property
     def finalTracksDir(self):
         return self._finalTracksDir
-    
+
     @finalTracksDir.setter
     def finalTracksDir(self, value):
         self._finalTracksDir = value
@@ -263,7 +264,7 @@ class MopsTracker(object):
     @property
     def resultsDir(self):
         return self._resultsDir
-    
+
     @resultsDir.setter
     def resultsDir(self, value):
         self._resultsDir = value
@@ -291,7 +292,7 @@ class MopsTracker(object):
     @ranIdsToIndices.setter
     def ranIdsToIndices(self, value):
         self._ranIdsToIndices = value
-    
+
     @property
     def ranCollapseTracklets(self):
         return self._ranCollapseTracklets
@@ -322,12 +323,12 @@ class MopsTracker(object):
 
     @ranIdsToIndices.setter
     def ranIdsToIndices(self, value):
-        self._ranIdsToIndices = value    
+        self._ranIdsToIndices = value
 
     @property
     def ranIndicesToIds(self):
         return self._ranIndicesToIds
-    
+
     @ranIndicesToIds.setter
     def ranIndicesToIds(self, value):
         self._ranIndicesToIds = value
@@ -339,7 +340,7 @@ class MopsTracker(object):
     @ranMakeLinkTrackletsInputByNight.setter
     def ranMakeLinkTrackletsInputByNight(self, value):
         self._ranMakeLinkTrackletsInputByNight = value
-    
+
     @property
     def ranLinkTracklets(self):
         return self._ranLinkTracklets
@@ -379,7 +380,7 @@ class MopsTracker(object):
     @trackletResults.setter
     def trackletResults(self, value):
         self._trackletResults = value
-    
+
     @property
     def trackResults(self):
         return self._trackResults
@@ -412,19 +413,19 @@ class MopsTracker(object):
         print "\tcollapseTracklets:                 %s" % (self._ranCollapseTracklets)
         print "\tpurifyTracklets:                   %s" % (self._ranPurifyTracklets)
         print "\tremoveSubsets (tracklets):         %s" % (self._ranRemoveSubsetTracklets)
-        print "\tindicesToIds.py:                   %s" % (self._ranIndicesToIds)        
+        print "\tindicesToIds.py:                   %s" % (self._ranIndicesToIds)
         print "\tmakeLinkTrackletsInputByNight.py:  %s" % (self._ranMakeLinkTrackletsInputByNight)
         print "\tlinkTracklets:                     %s" % (self._ranLinkTracklets)
         print "\tremoveSubsets (tracks):            %s" % (self._ranRemoveSubsetTracks)
         print ""
-        
+
         return
 
     def toYaml(self, outDir=None):
         import os
         import yaml
 
-        if outDir == None:
+        if outDir is None:
             outname = "tracker.yaml"
         else:
             outname = os.path.join(outDir, "tracker.yaml")
@@ -432,7 +433,7 @@ class MopsTracker(object):
         print "Saving tracker to %s" % (outname)
 
         stream = file(outname, "w")
-        yaml.dump(self, stream)   
+        yaml.dump(self, stream)
         stream.close()
 
         return
@@ -440,9 +441,9 @@ class MopsTracker(object):
     @classmethod
     def fromYaml(cls, yamlFile):
         import yaml
-        
+
         print "Loading tracker from %s" % (yamlFile)
-        
+
         cls = yaml.load(file(yamlFile, "r"))
-        
+
         return cls
