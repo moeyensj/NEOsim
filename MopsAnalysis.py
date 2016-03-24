@@ -1,6 +1,5 @@
 import os
 import time
-import yaml
 import shutil
 import difflib
 import numpy as np
