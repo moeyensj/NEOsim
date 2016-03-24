@@ -584,7 +584,7 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
     # Read ids file 
     print "- Counting number of input tracks..."
     track_num = 0
-    for track in open(idsFile, "r"):
+    for trackLine in open(idsFile, "r"):
         track_num += 1
 
     outFileOut.write("Input Track (Ids) File Summary:\n")
@@ -687,7 +687,7 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
         longest_tracks_num, subset_tracks_num, tracks = checkSubsets(tracks)
 
         print "- Updating AllTracks dataframe..."   
-        for track in tracks:
+        for trackLine in tracks:
             if track.isSubset:
                 allTracksDataframe.loc[allTracksDataframe["trackId"] == track.trackId, "subsetOf"] = track.subsetOf
             else:
