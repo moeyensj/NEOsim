@@ -14,6 +14,7 @@ TEST_DIR = "unittest/testRun/full/"
 
 VERBOSE = True
 
+
 class MopsTest(unittest.TestCase):
 
     @classmethod
@@ -28,17 +29,27 @@ class MopsTest(unittest.TestCase):
         parameters, tracker = runMops.runMops(cls.testParameters, cls.testTracker, verbose=VERBOSE)
 
     def test_directoryBuilder(self):
-        controlDirs = [self.controlTracker.trackletsDir, self.controlTracker.trackletsByIndexDir,
-        self.controlTracker.collapsedTrackletsDir, self.controlTracker.collapsedTrackletsByIdDir,
-        self.controlTracker.purifiedTrackletsDir, self.controlTracker.purifiedTrackletsByIdDir, 
-        self.controlTracker.finalTrackletsDir, self.controlTracker.finalTrackletsByIdDir,
-        self.controlTracker.trackletsByNightDir, self.controlTracker.tracksDir]
+        controlDirs = [self.controlTracker.trackletsDir,
+                       self.controlTracker.trackletsByIndexDir,
+                       self.controlTracker.collapsedTrackletsDir,
+                       self.controlTracker.collapsedTrackletsByIdDir,
+                       self.controlTracker.purifiedTrackletsDir,
+                       self.controlTracker.purifiedTrackletsByIdDir,
+                       self.controlTracker.finalTrackletsDir,
+                       self.controlTracker.finalTrackletsByIdDir,
+                       self.controlTracker.trackletsByNightDir,
+                       self.controlTracker.tracksDir]
 
-        testDirs = [self.testTracker.trackletsDir, self.testTracker.trackletsByIndexDir,
-        self.testTracker.collapsedTrackletsDir, self.testTracker.collapsedTrackletsByIdDir,
-        self.testTracker.purifiedTrackletsDir, self.testTracker.purifiedTrackletsByIdDir, 
-        self.testTracker.finalTrackletsDir, self.testTracker.finalTrackletsByIdDir,
-        self.testTracker.trackletsByNightDir, self.testTracker.tracksDir]
+        testDirs = [self.testTracker.trackletsDir,
+                    self.testTracker.trackletsByIndexDir,
+                    self.testTracker.collapsedTrackletsDir,
+                    self.testTracker.collapsedTrackletsByIdDir,
+                    self.testTracker.purifiedTrackletsDir,
+                    self.testTracker.purifiedTrackletsByIdDir,
+                    self.testTracker.finalTrackletsDir,
+                    self.testTracker.finalTrackletsByIdDir,
+                    self.testTracker.trackletsByNightDir,
+                    self.testTracker.tracksDir]
 
         for td, cd in zip(testDirs, controlDirs):
             self.assertEqual(os.path.basename(td), os.path.basename(cd))
@@ -127,27 +138,35 @@ class MopsTest(unittest.TestCase):
         for tt, ct in zip(testFinalTracks, controlFinalTracks):
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
+
 def suite():
-    tests = ["test_directoryBuilder", "test_findTracklets", "test_idsToIndices", "test_collapseTracklets", "test_collapsedTrackletsById", 
-        "test_purifyTracklets", "test_purifiedTrackletsById", "test_removeSubsetsTracklets", "test_finalTrackletsById", "test_makeLinkTrackletsInput_byNight", "test_linkTracklets", "test_removeSubsetsTracks"]
+    tests = ["test_directoryBuilder", "test_findTracklets",
+             "test_idsToIndices", "test_collapseTracklets",
+             "test_collapsedTrackletsById", "test_purifyTracklets",
+             "test_purifiedTrackletsById", "test_removeSubsetsTracklets",
+             "test_finalTrackletsById", "test_makeLinkTrackletsInput_byNight",
+             "test_linkTracklets", "test_removeSubsetsTracks"]
     return unittest.TestSuite(map(MopsTest, tests))
 
-if __name__=="__main__":
+if __name__ == "__main__":
 
     import argparse
 
-    parser = argparse.ArgumentParser(description="Runs MOPS on test data and compares the output of each MOPS function to a set of control files.",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(description="Runs MOPS on test data and compares the output of each"
+                                                 " MOPS function to a set of control files.",
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     group1 = parser.add_mutually_exclusive_group(required=False)
     group1.add_argument("-s1", "--source1", action="store_true", help="Run unittest only with source 1.")
     group1.add_argument("-s2", "--source2", action="store_true", help="Run unittest only with source 2.")
     group1.add_argument("-s3", "--source3", action="store_true", help="Run unittest only with source 3.")
 
     group2 = parser.add_mutually_exclusive_group(required=False)
-    group2.add_argument("-d", "--delete", action="store_true", help="Deletes MOPs output regardless of test results.")
-    group2.add_argument("-k", "--keep", action="store_true", help="Keeps MOPs output regardless of test results.")
-
-    parser.add_argument("-O", "--overwrite", action="store_true", help="Overwrites existing test output.")
+    group2.add_argument("-d", "--delete", action="store_true",
+                        help="Deletes MOPs output regardless of test results.")
+    group2.add_argument("-k", "--keep", action="store_true",
+                        help="Keeps MOPs output regardless of test results.")
+    parser.add_argument("-O", "--overwrite", action="store_true",
+                        help="Overwrites existing test output.")
 
     args = parser.parse_args()
 
@@ -156,7 +175,7 @@ if __name__=="__main__":
         TRACKER = "unittest/controlRun/source1/tracker.yaml"
         DATA_DIR = "unittest/testData/source1/nightly"
         TEST_DIR = "unittest/testRun/source1/"
-    elif args.source2: 
+    elif args.source2:
         PARAMETERS = "unittest/controlRun/source2/parameters.yaml"
         TRACKER = "unittest/controlRun/source2/tracker.yaml"
         DATA_DIR = "unittest/testData/source2/nightly"
@@ -165,7 +184,7 @@ if __name__=="__main__":
         PARAMETERS = "unittest/controlRun/source3/parameters.yaml"
         TRACKER = "unittest/controlRun/source3/tracker.yaml"
         DATA_DIR = "unittest/testData/source3/nightly"
-        TEST_DIR = "unittest/testRun/source3/" 
+        TEST_DIR = "unittest/testRun/source3/"
 
     if args.overwrite:
         if os.path.exists(TEST_DIR):
