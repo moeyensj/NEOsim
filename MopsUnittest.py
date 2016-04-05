@@ -9,7 +9,7 @@ from MopsParameters import MopsParameters
 
 PARAMETERS = "unittest/controlRun/full/parameters.yaml"
 TRACKER = "unittest/controlRun/full/tracker.yaml"
-DATA_DIR = "unittest/testData/full/nightly"
+DATA_DIR = "unittest/testData/full/nightly/"
 TEST_DIR = "unittest/testRun/full/"
 
 VERBOSE = True
@@ -59,7 +59,6 @@ class MopsTest(unittest.TestCase):
         controlTracklets = sorted(self.controlTracker.tracklets)
 
         for tt, ct in zip(testTracklets, controlTracklets):
-
             self.assertEqual(file(tt, "r").read(), file(ct, "r").read())
 
     def test_idsToIndices(self):
@@ -173,17 +172,17 @@ if __name__ == "__main__":
     if args.source1:
         PARAMETERS = "unittest/controlRun/source1/parameters.yaml"
         TRACKER = "unittest/controlRun/source1/tracker.yaml"
-        DATA_DIR = "unittest/testData/source1/nightly"
+        DATA_DIR = "unittest/testData/source1/nightly/"
         TEST_DIR = "unittest/testRun/source1/"
     elif args.source2:
         PARAMETERS = "unittest/controlRun/source2/parameters.yaml"
         TRACKER = "unittest/controlRun/source2/tracker.yaml"
-        DATA_DIR = "unittest/testData/source2/nightly"
+        DATA_DIR = "unittest/testData/source2/nightly/"
         TEST_DIR = "unittest/testRun/source2/"
     elif args.source3:
         PARAMETERS = "unittest/controlRun/source3/parameters.yaml"
         TRACKER = "unittest/controlRun/source3/tracker.yaml"
-        DATA_DIR = "unittest/testData/source3/nightly"
+        DATA_DIR = "unittest/testData/source3/nightly/"
         TEST_DIR = "unittest/testRun/source3/"
 
     if args.overwrite:
