@@ -2,6 +2,7 @@ import os
 import sqlite3
 import pandas as pd
 
+
 def buildTrackletDatabase(database, outDir):
 
     database = os.path.join(os.path.abspath(outDir), "", database)
@@ -115,6 +116,7 @@ def buildTrackletDatabase(database, outDir):
 
     return con, database
 
+
 def buildTrackDatabase(database, outDir):
 
     database = os.path.join(os.path.abspath(outDir), "", database)
@@ -131,7 +133,7 @@ def buildTrackDatabase(database, outDir):
             windowStart REAL,
             startTime REAL,
             endTime REAL,
-            subsetOf INTEGER, 
+            subsetOf INTEGER,
             createdBy INTEGER,
             deletedBy INTEGER
         );
@@ -164,6 +166,7 @@ def buildTrackDatabase(database, outDir):
 
     return con, database
 
+
 def attachDatabases(con, databases):
     attached_names = []
 
@@ -178,7 +181,40 @@ def attachDatabases(con, databases):
         con.execute("""ATTACH DATABASE '%s' AS db%s;""" % (window, i))
     return attached_names
 
+
 def findObjectDetections(con, objectId):
     detections = pd.read_sql("""SELECT * FROM DiaSources
                                 WHERE objectId = %s;""" % objectId, con)
     return detections
+
+def findObjectTracklets(con, objectId):
+    tracklets = pd.read_sql("""SELECT AllTracklets.trackletId,
+                                      AllTracklets.linkedObjectId,
+                                      AllTracklets.numLinkedObjects,
+                                      AllTracklets.numMembers,
+                                      AllTracklets.velocity,
+                                      AllTracklets.rms,
+                                      AllTracklets.night,
+                                      AllTracklets.createdBy,
+                                      AllTracklets.deletedBy,
+                                      DiaSources.diaId,
+                                      DiaSources.visitId,
+                                      DiaSources.objectId,
+                                      DiaSources.ra,
+                                      DiaSources.dec,
+                                      DiaSources.mjd,
+                                      DiaSources.mag,
+                                      DiaSources.snr
+                               FROM AllTracklets
+                               JOIN TrackletMembers ON
+                                    AllTracklets.trackletId = TrackletMembers.trackletId
+                               JOIN DiaSources ON
+                                        TrackletMembers.diaId = DiaSources.diaId
+                               WHERE AllTracklets.trackletId IN
+                                    (SELECT TrackletMembers.trackletId
+                                     FROM TrackletMembers
+                                     JOIN DiaSources ON
+                                         TrackletMembers.diaId = DiaSources.diaId
+                                     WHERE DiaSources.objectId = %s);
+                                    """ % objectId, con)
+    return tracklets
