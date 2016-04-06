@@ -171,9 +171,14 @@ def attachDatabases(con, databases):
         print "Warning: Cannot attach more than 10 databases..."
         print "Proceeding with the first 10 databases..."
         databases = databases[0:10]
-        
+
     for i, window in enumerate(databases):
         attached_names.append("db%s" % i)
         print "Attaching %s to con as db%s..." % (window, i)
         con.execute("""ATTACH DATABASE '%s' AS db%s;""" % (window, i))
     return attached_names
+
+def findObjectDetections(con, objectId):
+    detections = pd.read_sql("""SELECT * FROM DiaSources
+                                WHERE objectId = %s;""" % objectId, con)
+    return detections
