@@ -182,10 +182,17 @@ def attachDatabases(con, databases):
     return attached_names
 
 
+def findMissedObjects(con):
+    missed_objects = pd.read_sql("""SELECT * FROM AllObjects
+                                    WHERE numTrueTracks = 0;""", con)
+    return missed_objects
+
+
 def findObjectDetections(con, objectId):
     detections = pd.read_sql("""SELECT * FROM DiaSources
                                 WHERE objectId = %s;""" % objectId, con)
     return detections
+
 
 def findObjectTracklets(con, objectId):
     tracklets = pd.read_sql("""SELECT AllTracklets.trackletId,
