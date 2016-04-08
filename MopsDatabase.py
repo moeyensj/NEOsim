@@ -56,6 +56,7 @@ def buildTrackletDatabase(database, outDir):
         CREATE VIEW MissedObjects AS
         SELECT * FROM AllObjects
         WHERE numTrueTracks = 0
+        AND findableAsTrack = 1
         """)
 
     print "Creating AllTracklets table..."
@@ -184,7 +185,8 @@ def attachDatabases(con, databases):
 
 def findMissedObjects(con):
     missed_objects = pd.read_sql("""SELECT * FROM AllObjects
-                                    WHERE numTrueTracks = 0;""", con)
+                                    WHERE numTrueTracks = 0
+                                    AND findableAsTrack = 1;""", con)
     return missed_objects
 
 
