@@ -177,6 +177,28 @@ def plotTrack(con, trackId, attachedWindow, ax=None):
     
     return
 
+
+def plotDetections(con):
+    missed_objects_detections = MopsDatabase.findMissedObjectsDetections(con)
+    found_objects_detections = MopsDatabase.findFoundObjectsDetections(con)
+
+    fig, ax = plt.subplots(1,2)
+    fig.set_size_inches(14,7)
+
+    ax[0].scatter(found_objects_detections["ra"], found_objects_detections["dec"], c="b", label="%s Found objects" % found_objects_detections["objectId"].nunique())
+    ax[1].scatter(missed_objects_detections["ra"], missed_objects_detections["dec"], c="r",  label="%s Missed objects" % missed_objects_detections["objectId"].nunique())
+
+    for a in ax:
+        a.legend()
+        a.set_xlabel("RA", size=16);
+        a.set_ylabel("DEC", size=16);   
+    
+    ax[0].set_title("Found Objects and Their Detections")
+    ax[1].set_title("Missed Objects and Their Detections")
+
+    return
+
+
 def plotMagHist(con):
     found_objects_detections = MopsDatabase.findFoundObjectsDetections(con)
     missed_objects_detections = MopsDatabase.findMissedObjectsDetections(con)
@@ -246,6 +268,7 @@ def plotVelocityHist(con):
     return
 
 def plotHists(con):
+    plotDetections(con)
     plotMagHist(con)
     plotSnrHist(con)
     plotVelocityHist(con)
