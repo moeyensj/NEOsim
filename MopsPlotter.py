@@ -219,6 +219,28 @@ def plotSnrHist(con):
 
     return
 
+def plotVelocityHist(con):
+    missed_objects_tracklets = MopsDatabase.findMissedObjectsTracklets(con)
+    found_objects_tracklets = MopsDatabase.findFoundObjectsTracklets(con)
+    
+    total_tracketlets_num = float(len(missed_objects_tracklets["trackletId"].unique()) + len(found_objects_tracklets["trackletId"].unique()))
+
+    hist, bin_edges = np.histogram(found_objects_tracklets["velocity"].unique(), bins=np.linspace(0,2.5,15))
+    hist2, bins = np.histogram(missed_objects_tracklets["velocity"].unique(), bins=bin_edges)
+    width = 0.05
+
+    fig, ax = plt.subplots(1,1)
+    fig.set_size_inches(10,7)
+    ax.bar(bin_edges[1:], hist/total_tracketlets_num*100., width, label="Found")
+    ax.bar(bin_edges[1:] + width, hist2/total_tracketlets_num*100., width, color="r", label="Missed")
+    ax.legend(loc="upper right");
+    ax.grid();
+    ax.set_title("Velocity Distribution as Percent of Tracklets");
+    ax.set_xlabel("Velocity");
+    ax.set_ylabel("% Freq");
+
+    return
+
 def addVelocityRange(ax, ra_center, dec_center, vmax, dt=1.0):
     vrange = plt.Circle((ra_center, dec_center), vmax*dt, color='k', fill=False)
     ax.add_artist(vrange)
