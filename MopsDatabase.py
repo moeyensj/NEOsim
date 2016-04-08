@@ -201,7 +201,16 @@ def findMissedObjectsDetections(con):
                                                     WHERE numTrueTracks = 0)
                                                ORDER BY diaId;""", con)
     return missed_objects_detections
-    
+
+
+def findFoundObjectsDetections(con):
+    found_objects_detections = pd.read_sql("""SELECT * FROM DiaSources
+                                               WHERE objectId IN
+                                                   (SELECT objectId FROM AllObjects
+                                                    WHERE numTrueTracks > 0)
+                                               ORDER BY diaId;""", con)
+    return found_objects_detections
+
 
 def findObjectDetections(con, objectId):
     detections = pd.read_sql("""SELECT * FROM DiaSources
