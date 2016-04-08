@@ -248,6 +248,15 @@ def plotHists(con):
 
     return
 
+
+def plotObject(con, objectId):
+    fig, ax = plt.subplots(1,1)
+    _plotformatter(fig, ax)
+    detections = MopsDatabase.findObjectDetections(con, objectId)
+    ax.scatter(np.array(detections['ra']), np.array(detections['dec']));
+    return
+
+
 def addVelocityRange(ax, ra_center, dec_center, vmax, dt=1.0):
     vrange = plt.Circle((ra_center, dec_center), vmax*dt, color='k', fill=False)
     ax.add_artist(vrange)
