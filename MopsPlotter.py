@@ -198,6 +198,27 @@ def plotMagHist(con):
 
     return
 
+def plotSnrHist(con):
+    found_objects_detections = MopsDatabase.findFoundObjectsDetections(con)
+    missed_objects_detections = MopsDatabase.findMissedObjectsDetections(con)
+
+    hist, bin_edges = np.histogram(found_objects_detections["snr"].values, bins=np.linspace(0,60,20))
+    hist2, bins = np.histogram(missed_objects_detections["snr"].values, bins=bin_edges)
+    width = 0.75
+
+    fig, ax = plt.subplots(1,1)
+    fig.set_size_inches(10,7)
+    ax.bar(bin_edges[1:], hist/float(len(found_objects_detections))*100.0, width, label="Found")
+    ax.bar(bin_edges[1:] + width, hist2/float(len(missed_objects_detections))*100.0, width, color="r", label="Missed")
+    #ax.set_xticks(bin_edges[1:]);
+    ax.legend(loc="upper left");
+    ax.grid();
+    ax.set_title("SNR Distribution as Percent of Detections");
+    ax.set_xlabel("SNR");
+    ax.set_ylabel("% Freq");
+
+    return
+
 def addVelocityRange(ax, ra_center, dec_center, vmax, dt=1.0):
     vrange = plt.Circle((ra_center, dec_center), vmax*dt, color='k', fill=False)
     ax.add_artist(vrange)
