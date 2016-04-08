@@ -181,14 +181,16 @@ def plotMagHist(con):
     found_objects_detections = MopsDatabase.findFoundObjectsDetections(con)
     missed_objects_detections = MopsDatabase.findMissedObjectsDetections(con)
 
+    total_detections = float(len(found_objects_detections) + len(missed_objects_detections))
+
     hist, bin_edges = np.histogram(found_objects_detections["mag"].values, bins=np.linspace(12,26,15))
     hist2, bins = np.histogram(missed_objects_detections["mag"].values, bins=bin_edges)
     width = 0.4
 
     fig, ax = plt.subplots(1,1)
     fig.set_size_inches(10,7)
-    ax.bar(bin_edges[1:], hist/float(len(found_objects_detections))*100.0, width, label="Found")
-    ax.bar(bin_edges[1:] + width, hist2/float(len(missed_objects_detections))*100.0, width, color="r", label="Missed")
+    ax.bar(bin_edges[1:], hist/total_detections*100.0, width, label="Found")
+    ax.bar(bin_edges[1:] + width, hist2/total_detections*100.0, width, color="r", label="Missed")
     #ax.set_xticks(bin_edges[1:]);
     ax.legend(loc="upper left");
     ax.grid();
@@ -202,14 +204,16 @@ def plotSnrHist(con):
     found_objects_detections = MopsDatabase.findFoundObjectsDetections(con)
     missed_objects_detections = MopsDatabase.findMissedObjectsDetections(con)
 
+    total_detections = float(len(found_objects_detections) + len(missed_objects_detections))
+
     hist, bin_edges = np.histogram(found_objects_detections["snr"].values, bins=np.linspace(0,60,20))
     hist2, bins = np.histogram(missed_objects_detections["snr"].values, bins=bin_edges)
     width = 0.75
 
     fig, ax = plt.subplots(1,1)
     fig.set_size_inches(10,7)
-    ax.bar(bin_edges[1:], hist/float(len(found_objects_detections))*100.0, width, label="Found")
-    ax.bar(bin_edges[1:] + width, hist2/float(len(missed_objects_detections))*100.0, width, color="r", label="Missed")
+    ax.bar(bin_edges[1:], hist/total_detections*100.0, width, label="Found")
+    ax.bar(bin_edges[1:] + width, hist2/total_detections*100.0, width, color="r", label="Missed")
     #ax.set_xticks(bin_edges[1:]);
     ax.legend(loc="upper left");
     ax.grid();
