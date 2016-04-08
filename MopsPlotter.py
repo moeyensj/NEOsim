@@ -241,6 +241,13 @@ def plotVelocityHist(con):
 
     return
 
+def plotHists(con):
+    plotMagHist(con)
+    plotSnrHist(con)
+    plotVelocityHist(con)
+
+    return
+
 def addVelocityRange(ax, ra_center, dec_center, vmax, dt=1.0):
     vrange = plt.Circle((ra_center, dec_center), vmax*dt, color='k', fill=False)
     ax.add_artist(vrange)
