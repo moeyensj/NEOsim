@@ -177,7 +177,7 @@ def plotTrack(con, trackId, attachedWindow, ax=None):
     
     return
 
-def plotMagnitudeHist(con):
+def plotMagHist(con):
     found_objects_detections = MopsDatabase.findFoundObjectsDetections(con)
     missed_objects_detections = MopsDatabase.findMissedObjectsDetections(con)
 
