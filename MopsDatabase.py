@@ -215,6 +215,29 @@ def findFoundObjectsDetections(con):
     return found_objects_detections
 
 
+def findMissedObjectsTracklets(con):
+    missed_objects_tracklets = pd.read_sql("""SELECT AllTracklets.trackletId,
+                                                     DiaSources.objectId,
+                                                     DiaSources.diaId,
+                                                     DiaSources.ra,
+                                                     DiaSources.dec,
+                                                     AllTracklets.velocity,
+                                                     AllTracklets.rms,
+                                                     AllObjects.findableAsTrack,
+                                                     AllObjects.numTrueTracks
+                                               FROM AllTracklets
+                                               JOIN TrackletMembers ON
+                                                   AllTracklets.trackletId = TrackletMembers.trackletId
+                                               JOIN DiaSources ON
+                                                   TrackletMembers.diaId = DiaSources.diaId
+                                               JOIN AllObjects ON
+                                                   DiaSources.objectId = AllObjects.objectId
+                                               WHERE AllObjects.findableAsTrack = 1
+                                               AND AllObjects.numTrueTracks = 0;
+                                            """, con)
+    return missed_objects_tracklets
+
+
 def findObjectDetections(con, objectId):
     detections = pd.read_sql("""SELECT * FROM DiaSources
                                 WHERE objectId = %s;""" % objectId, con)
