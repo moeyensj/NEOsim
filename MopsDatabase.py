@@ -196,6 +196,12 @@ def findFoundObjects(con):
     return found_objects
 
 
+def findFindableObjects(con):
+    findable_objects = pd.read_sql("""SELECT * FROM AllObjects
+                                    WHERE findableAsTrack = 1;""", con)
+    return findable_objects
+
+
 def findMissedObjectsDetections(con):
     missed_objects_detections = pd.read_sql("""SELECT * FROM DiaSources
                                                WHERE objectId IN
