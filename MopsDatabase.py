@@ -330,4 +330,8 @@ def countTrueTracks(con):
     trueTracks = pd.read_sql("""SELECT AllObjects.numTrueTracks FROM AllObjects""", con)
     return trueTracks["numTrueTracks"].sum()
 
-    
+
+def countFalseTracks(con):
+    falseTracks = pd.read_sql("""SELECT AllObjects.numFalseTracks FROM AllObjects""", con)
+    return falseTracks["numFalseTracks"].sum()
+
