@@ -352,7 +352,5 @@ def countFalseTracks(con):
 
 
 def calcCompletion(con):
-    completion = (findFoundObjects(con)["objectId"].nunique() /
-                  float(findFindableObjects(con)["objectId"].nunique()))
+    completion = countFoundObjects(con) / float(countFindableObjects(con))
     return completion
-
