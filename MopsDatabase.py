@@ -331,6 +331,11 @@ def countMissedObjects(con):
     return missed_objects
 
 
+def countFoundObjects(con):
+    found_objects = findFoundObjects(con)["objectId"].nunique()
+    return found_objects
+
+
 def countTrueTracks(con):
     true_tracks = pd.read_sql("""SELECT AllObjects.numTrueTracks FROM AllObjects""", con)
     return true_tracks["numTrueTracks"].sum()
