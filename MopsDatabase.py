@@ -358,18 +358,24 @@ def countTracks(con):
     return tracks["numTrueTracks"].sum() + tracks["numFalseTracks"].sum()
 
 
+def calcLinkageEfficiency(con):
+    efficiency = countTrueTracks(con) / float(countTracks(con))
+    return efficiency
+
+
 def calcCompletion(con):
     completion = countFoundObjects(con) / float(countFindableObjects(con))
     return completion
 
 
 def results(con):
-    print "Completion:        %s" % calcCompletion(con)
-    print "Found Objects:     %s" % countFoundObjects(con)
-    print "Findable Objects:  %s" % countFindableObjects(con)
-    print "Missed Objects:    %s" % countMissedObjects(con)
-    print "True Tracks:       %s" % countTrueTracks(con)
-    print "False Tracks:      %s" % countFalseTracks(con)
-    print "Total Tracks:      %s" % countTracks(con)
+    print "Completion:         %s" % calcCompletion(con)
+    print "Found Objects:      %s" % countFoundObjects(con)
+    print "Findable Objects:   %s" % countFindableObjects(con)
+    print "Missed Objects:     %s" % countMissedObjects(con)
+    print "Linkage Efficiency: %s" % calcLinkageEfficiency(con)
+    print "True Tracks:        %s" % countTrueTracks(con)
+    print "False Tracks:       %s" % countFalseTracks(con)
+    print "Total Tracks:       %s" % countTracks(con)
     return
 
