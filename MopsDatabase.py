@@ -326,14 +326,19 @@ def findObjectTracklets(con, objectId):
     return tracklets
 
 
+def countMissedObjects(con):
+    missed_objects = findMissedObjects(con)["objectId"].nunique()
+    return missed_objects
+
+
 def countTrueTracks(con):
-    trueTracks = pd.read_sql("""SELECT AllObjects.numTrueTracks FROM AllObjects""", con)
-    return trueTracks["numTrueTracks"].sum()
+    true_tracks = pd.read_sql("""SELECT AllObjects.numTrueTracks FROM AllObjects""", con)
+    return true_tracks["numTrueTracks"].sum()
 
 
 def countFalseTracks(con):
-    falseTracks = pd.read_sql("""SELECT AllObjects.numFalseTracks FROM AllObjects""", con)
-    return falseTracks["numFalseTracks"].sum()
+    false_tracks = pd.read_sql("""SELECT AllObjects.numFalseTracks FROM AllObjects""", con)
+    return false_tracks["numFalseTracks"].sum()
 
 
 def calcCompletion(con):
