@@ -324,3 +324,10 @@ def findObjectTracklets(con, objectId):
                                      WHERE DiaSources.objectId = %s);
                                     """ % objectId, con)
     return tracklets
+
+
+def countTrueTracks(con):
+    trueTracks = pd.read_sql("""SELECT AllObjects.numTrueTracks FROM AllObjects""", con)
+    return trueTracks["numTrueTracks"].sum()
+
+    
