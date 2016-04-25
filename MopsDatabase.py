@@ -335,3 +335,9 @@ def countFalseTracks(con):
     falseTracks = pd.read_sql("""SELECT AllObjects.numFalseTracks FROM AllObjects""", con)
     return falseTracks["numFalseTracks"].sum()
 
+
+def calcCompletion(con):
+    completion = (findFoundObjects(con)["objectId"].nunique() /
+                  float(findFindableObjects(con)["objectId"].nunique()))
+    return completion
+
