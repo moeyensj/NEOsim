@@ -370,5 +370,6 @@ def results(con):
     print "Missed Objects:    %s" % countMissedObjects(con)
     print "True Tracks:       %s" % countTrueTracks(con)
     print "False Tracks:      %s" % countFalseTracks(con)
+    print "Total Tracks:      %s" % countTracks(con)
     return
 
