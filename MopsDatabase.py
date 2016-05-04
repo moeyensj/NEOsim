@@ -431,13 +431,24 @@ def calcCompleteness(con):
 
 
 def results(con):
-    print "Completeness:       %s" % calcCompleteness(con)
-    print "Found Objects:      %s" % countFoundObjects(con)
-    print "Findable Objects:   %s" % countFindableObjects(con)
-    print "Missed Objects:     %s" % countMissedObjects(con)
-    print "Linkage Efficiency: %s" % calcLinkageEfficiency(con)
-    print "True Tracks:        %s" % countTrueTracks(con)
-    print "False Tracks:       %s" % countFalseTracks(con)
-    print "Total Tracks:       %s" % countTracks(con)
+    print "Completeness:                %s" % calcCompleteness(con)
+    print "Findable Objects:            %s" % countFindableObjects(con)
+    print "Found Objects:               %s" % countFoundObjects(con)
+    print "Missed Objects:              %s" % countMissedObjects(con)
+    print ""
+    print "True Tracklets:              %s" % countTrueTracklets(con)
+    print "False Tracklets:             %s" % countFalseTracklets(con)
+    print "Total Tracklets:             %s" % countTracklets(con)
+    print "True Collapsed Tracklets:    %s" % countTrueCollapsedTracklets(con)
+    print "False Collapsed Tracklets:   %s" % countFalseCollapsedTracklets(con)
+    print "Total Collapsed Tracklets:   %s" % countCollapsedTracklets(con)
+    print "True Purified Tracklets:     %s" % countTruePurifiedTracklets(con)
+    print "False Purified Tracklets:    %s" % countFalsePurifiedTracklets(con)
+    print "Total Purified Tracklets:    %s" % countPurifiedTracklets(con)
+    print ""
+    print "Linkage Efficiency:          %s" % calcLinkageEfficiency(con)
+    print "True Tracks:                 %s" % countTrueTracks(con)
+    print "False Tracks:                %s" % countFalseTracks(con)
+    print "Total Tracks:                %s" % countTracks(con)
     return
 
