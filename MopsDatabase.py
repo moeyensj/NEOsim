@@ -373,6 +373,14 @@ def countFalseCollapsedTracklets(con):
     return false_collapsed_tracklets["numFalseCollapsedTracklets"].sum()
 
 
+def countCollapsedTracklets(con):
+    collapsed_tracklets = pd.read_sql("""SELECT AllObjects.numTrueCollapsedTracklets,
+                                   AllObjects.numFalseCollapsedTracklets
+                            FROM AllObjects""", con)
+    return (collapsed_tracklets["numTrueCollapsedTracklets"].sum() +
+            collapsed_tracklets["numFalseCollapsedTracklets"].sum())
+
+
 def countTrueTracks(con):
     true_tracks = pd.read_sql("""SELECT AllObjects.numTrueTracks
                                  FROM AllObjects""", con)
