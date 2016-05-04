@@ -341,13 +341,21 @@ def countFindableObjects(con):
     return findable_objects
 
 
+def countTrueTracklets(con):
+    true_tracklets = pd.read_sql("""SELECT AllObjects.numTrueTracklets
+                                    FROM AllObjects""", con)
+    return true_tracklets["numTrueTracklets"].sum()
+
+
 def countTrueTracks(con):
-    true_tracks = pd.read_sql("""SELECT AllObjects.numTrueTracks FROM AllObjects""", con)
+    true_tracks = pd.read_sql("""SELECT AllObjects.numTrueTracks
+                                 FROM AllObjects""", con)
     return true_tracks["numTrueTracks"].sum()
 
 
 def countFalseTracks(con):
-    false_tracks = pd.read_sql("""SELECT AllObjects.numFalseTracks FROM AllObjects""", con)
+    false_tracks = pd.read_sql("""SELECT AllObjects.numFalseTracks
+                                  FROM AllObjects""", con)
     return false_tracks["numFalseTracks"].sum()
 
 
