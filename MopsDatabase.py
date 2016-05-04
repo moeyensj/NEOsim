@@ -363,13 +363,13 @@ def calcLinkageEfficiency(con):
     return efficiency
 
 
-def calcCompletion(con):
-    completion = countFoundObjects(con) / float(countFindableObjects(con))
-    return completion
+def calcCompleteness(con):
+    completeness = countFoundObjects(con) / float(countFindableObjects(con))
+    return completeness
 
 
 def results(con):
-    print "Completion:         %s" % calcCompletion(con)
+    print "Completion:         %s" % calcCompleteness(con)
     print "Found Objects:      %s" % countFoundObjects(con)
     print "Findable Objects:   %s" % countFindableObjects(con)
     print "Missed Objects:     %s" % countMissedObjects(con)
