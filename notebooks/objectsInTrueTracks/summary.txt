@@ -1,0 +1,7 @@
+file summary:
+GoodRaGoodDec.txt: P(X^2) Ra > 0.9 & P(X^2) Dec > 0.9
+GoodRaBadDec.txt: P(X^2) Ra > 0.9 & P(X^2) Dec < 0.1
+BadRaGoodDec.txt: P(X^2) Ra < 0.1 & P(X^2) Dec > 0.9
+BadRaBadDect.txt: P(X^2) Ra < 0.1 & P(X^2) Dec < 0.1
+2Groups.txt: (P(X^2) Ra > 0.9 & P(X^2) Dec > 0.9) & (P(X^2) Ra < 0.1 & P(X^2) Dec < 0.1)
+4Groups.txt: (P(X^2) Ra > 0.9 & P(X^2) Dec > 0.9) & (P(X^2) Ra < 0.1 & P(X^2) Dec < 0.1) & (P(X^2) Ra > 0.9 & P(X^2) Dec < 0.1) & (P(X^2) Ra < 0.1 & P(X^2) Dec > 0.9)
