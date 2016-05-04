@@ -431,6 +431,12 @@ def calcCollapsedTrackletLinkageEfficiency(con):
     return efficiency
 
 
+def calcPurifiedTrackletLinkageEfficiency(con):
+    efficiency = (countTruePurifiedTracklets(con) /
+                  float(countPurifiedTracklets(con)))
+    return efficiency
+
+
 def calcTrackLinkageEfficiency(con):
     efficiency = countTrueTracks(con) / float(countTracks(con))
     return efficiency
