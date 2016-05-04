@@ -420,7 +420,7 @@ def countTracks(con):
     return tracks["numTrueTracks"].sum() + tracks["numFalseTracks"].sum()
 
 
-def calcLinkageEfficiency(con):
+def calcTrackLinkageEfficiency(con):
     efficiency = countTrueTracks(con) / float(countTracks(con))
     return efficiency
 
@@ -446,7 +446,7 @@ def results(con):
     print "False Purified Tracklets:    %s" % countFalsePurifiedTracklets(con)
     print "Total Purified Tracklets:    %s" % countPurifiedTracklets(con)
     print ""
-    print "Linkage Efficiency:          %s" % calcLinkageEfficiency(con)
+    print "Linkage Efficiency:          %s" % calcTrackLinkageEfficiency(con)
     print "True Tracks:                 %s" % countTrueTracks(con)
     print "False Tracks:                %s" % countFalseTracks(con)
     print "Total Tracks:                %s" % countTracks(con)
