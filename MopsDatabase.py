@@ -393,6 +393,14 @@ def countFalsePurifiedTracklets(con):
     return false_purified_tracklets["numFalsePurifiedTracklets"].sum()
 
 
+def countPurifiedTracklets(con):
+    purified_tracklets = pd.read_sql("""SELECT AllObjects.numTruePurifiedTracklets,
+                                   AllObjects.numFalsePurifiedTracklets
+                            FROM AllObjects""", con)
+    return (purified_tracklets["numTruePurifiedTracklets"].sum() +
+            purified_tracklets["numFalsePurifiedTracklets"].sum())
+
+
 def countTrueTracks(con):
     true_tracks = pd.read_sql("""SELECT AllObjects.numTrueTracks
                                  FROM AllObjects""", con)
