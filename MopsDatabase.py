@@ -420,24 +420,24 @@ def countTracks(con):
     return tracks["numTrueTracks"].sum() + tracks["numFalseTracks"].sum()
 
 
-def calcTrackletLinkageEfficiency(con):
+def calcFindTrackletsEfficiency(con):
     efficiency = countTrueTracklets(con) / float(countTracklets(con))
     return efficiency
 
 
-def calcCollapsedTrackletLinkageEfficiency(con):
+def calcCollapseTrackletsEfficiency(con):
     efficiency = (countTrueCollapsedTracklets(con) /
                   float(countCollapsedTracklets(con)))
     return efficiency
 
 
-def calcPurifiedTrackletLinkageEfficiency(con):
+def calcPurifyTrackletsEfficiency(con):
     efficiency = (countTruePurifiedTracklets(con) /
                   float(countPurifiedTracklets(con)))
     return efficiency
 
 
-def calcTrackLinkageEfficiency(con):
+def calcLinkTrackletsEfficiency(con):
     efficiency = countTrueTracks(con) / float(countTracks(con))
     return efficiency
 
@@ -453,22 +453,22 @@ def results(con):
     print "Found Objects:                 %s" % countFoundObjects(con)
     print "Missed Objects:                %s" % countMissedObjects(con)
     print ""
-    print "findTracklets Efficiency:      %s" % calcTrackletLinkageEfficiency(con)
+    print "findTracklets Efficiency:      %s" % calcFindTrackletsEfficiency(con)
     print "True Tracklets:                %s" % countTrueTracklets(con)
     print "False Tracklets:               %s" % countFalseTracklets(con)
     print "Total Tracklets:               %s" % countTracklets(con)
     print ""
-    print "collapsedTracklets Efficiency: %s" % calcCollapsedTrackletLinkageEfficiency(con)
+    print "collapsedTracklets Efficiency: %s" % calcCollapseTrackletsEfficiency(con)
     print "True Collapsed Tracklets:      %s" % countTrueCollapsedTracklets(con)
     print "False Collapsed Tracklets:     %s" % countFalseCollapsedTracklets(con)
     print "Total Collapsed Tracklets:     %s" % countCollapsedTracklets(con)
     print ""
-    print "purifyTracklets Efficiency:    %s" % calcPurifiedTrackletLinkageEfficiency(con)
+    print "purifyTracklets Efficiency:    %s" % calcPurifyTrackletsEfficiency(con)
     print "True Purified Tracklets:       %s" % countTruePurifiedTracklets(con)
     print "False Purified Tracklets:      %s" % countFalsePurifiedTracklets(con)
     print "Total Purified Tracklets:      %s" % countPurifiedTracklets(con)
     print ""
-    print "linkTracklets Efficiency:      %s" % calcTrackLinkageEfficiency(con)
+    print "linkTracklets Efficiency:      %s" % calcLinkTrackletsEfficiency(con)
     print "True Tracks:                   %s" % countTrueTracks(con)
     print "False Tracks:                  %s" % countFalseTracks(con)
     print "Total Tracks:                  %s" % countTracks(con)
