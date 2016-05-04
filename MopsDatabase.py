@@ -431,7 +431,7 @@ def calcCompleteness(con):
 
 
 def results(con):
-    print "Completion:         %s" % calcCompleteness(con)
+    print "Completeness:       %s" % calcCompleteness(con)
     print "Found Objects:      %s" % countFoundObjects(con)
     print "Findable Objects:   %s" % countFindableObjects(con)
     print "Missed Objects:     %s" % countMissedObjects(con)
