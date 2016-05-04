@@ -421,29 +421,32 @@ def countTracks(con):
 
 
 def calcFindTrackletsEfficiency(con):
-    efficiency = countTrueTracklets(con) / float(countTracklets(con))
+    efficiency = (countTrueTracklets(con) /
+                  float(_checkZero(countTracklets(con))))
     return efficiency
 
 
 def calcCollapseTrackletsEfficiency(con):
     efficiency = (countTrueCollapsedTracklets(con) /
-                  float(countCollapsedTracklets(con)))
+                  float(_checkZero(countCollapsedTracklets(con))))
     return efficiency
 
 
 def calcPurifyTrackletsEfficiency(con):
     efficiency = (countTruePurifiedTracklets(con) /
-                  float(countPurifiedTracklets(con)))
+                  float(_checkZero(countPurifiedTracklets(con))))
     return efficiency
 
 
 def calcLinkTrackletsEfficiency(con):
-    efficiency = countTrueTracks(con) / float(countTracks(con))
+    efficiency = (countTrueTracks(con) /
+                  float(_checkZero(countTracks(con))))
     return efficiency
 
 
 def calcCompleteness(con):
-    completeness = countFoundObjects(con) / float(countFindableObjects(con))
+    completeness = (countFoundObjects(con) /
+                    float(_checkZero(countFindableObjects(con))))
     return completeness
 
 
@@ -474,3 +477,9 @@ def results(con):
     print "Total Tracks:                  %s" % countTracks(con)
     return
 
+
+def _checkZero(num):
+    if num == 0:
+        return 1
+    else:
+        return num
