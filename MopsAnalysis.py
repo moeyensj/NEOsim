@@ -250,8 +250,8 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
                 else:
                     false_object_dict[unique_object] = 1
             
-        trackletMembersDataframe = trackletMembersDataframe.append(new_tracklet.toTrackletMembersDataframe())
-        allTrackletsDataframe = allTrackletsDataframe.append(new_tracklet.toAllTrackletsDataframe())
+        trackletMembersDataframe = pd.concat([trackletMembersDataframe, new_tracklet.toTrackletMembersDataframe()], ignore_index=True)
+        allTrackletsDataframe = pd.concat([allTrackletsDataframe, new_tracklet.toAllTrackletsDataframe()], ignore_index=True)
         
     print "- Appended new tracklets to dataframes..."
         
@@ -330,8 +330,8 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
                     else:
                         false_collapsed_object_dict[unique_object] = 1
                
-            trackletMembersDataframe = trackletMembersDataframe.append(new_tracklet.toTrackletMembersDataframe())
-            allTrackletsDataframe = allTrackletsDataframe.append(new_tracklet.toAllTrackletsDataframe())
+            trackletMembersDataframe = pd.concat([trackletMembersDataframe, new_tracklet.toTrackletMembersDataframe()], ignore_index=True)
+            allTrackletsDataframe = pd.concat([allTrackletsDataframe, new_tracklet.toAllTrackletsDataframe()], ignore_index=True)
             
         print "- Appended new tracklets to dataframes..."
         
@@ -413,8 +413,8 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
                     else:
                         false_purified_object_dict[unique_object] = 1
                 
-            trackletMembersDataframe = trackletMembersDataframe.append(new_tracklet.toTrackletMembersDataframe())
-            allTrackletsDataframe = allTrackletsDataframe.append(new_tracklet.toAllTrackletsDataframe())
+            trackletMembersDataframe = pd.concat([trackletMembersDataframe, new_tracklet.toTrackletMembersDataframe()], ignore_index=True)
+            allTrackletsDataframe = pd.concat([allTrackletsDataframe, new_tracklet.toAllTrackletsDataframe()], ignore_index=True)
             
         print "- Appended new tracklets to dataframes..."
            
@@ -497,8 +497,8 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
                     else:
                         false_final_object_dict[unique_object] = 1
                 
-            trackletMembersDataframe = trackletMembersDataframe.append(new_tracklet.toTrackletMembersDataframe())
-            allTrackletsDataframe = allTrackletsDataframe.append(new_tracklet.toAllTrackletsDataframe())
+            trackletMembersDataframe = pd.concat([trackletMembersDataframe, new_tracklet.toTrackletMembersDataframe()], ignore_index=True)
+            allTrackletsDataframe = pd.concat([allTrackletsDataframe, new_tracklet.toAllTrackletsDataframe()], ignore_index=True)
             
         print "- Appended new tracklets to dataframes..."
         
@@ -670,8 +670,8 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
 
         tracks.append(new_track)
 
-        trackMembersDataframe = trackMembersDataframe.append(new_track.toTrackMembersDataframe())
-        allTracksDataframe = allTracksDataframe.append(new_track.toAllTracksDataframe())
+        trackMembersDataframe = pd.concat([trackMembersDataframe, new_track.toTrackMembersDataframe()], ignore_index=True)
+        allTracksDataframe = pd.concat([allTracksDataframe, new_track.toAllTracksDataframe()], ignore_index=True)
 
     print "- Appended new tracks to dataframes..."
 
@@ -782,8 +782,8 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
                     else:
                         false_final_object_dict[unique_object] = 1
 
-            trackMembersDataframe = trackMembersDataframe.append(new_track.toTrackMembersDataframe())
-            allTracksDataframe = allTracksDataframe.append(new_track.toAllTracksDataframe())
+            trackMembersDataframe = pd.concat([trackMembersDataframe, new_track.toTrackMembersDataframe()], ignore_index=True)
+            allTracksDataframe = pd.concat([allTracksDataframe, new_track.toAllTracksDataframe()], ignore_index=True)
 
         print "- Appended new tracks to dataframes..."
 
