@@ -54,7 +54,17 @@ def directoryBuilder(runDir, findTracklets=True, collapseTracklets=True,
                      linkTracklets=True, removeSubsetTracks=True,
                      overwrite=False, verbose=VERBOSE):
     """
-    Builds the directory structure for MOPS output files.
+    Builds the directory structure for MOPS output files. Returns output
+    directory keyed dictionary of file paths.
+
+    Possible keys:
+        "trackletsDir",
+        "collapsedDir",
+        "purifiedDir",
+        "finalTrackletsDir",
+        "trackletsByNightDir",
+        "tracksDir",
+        "finalTracksDir"
 
     Parameters:
     ----------------------
@@ -70,9 +80,12 @@ def directoryBuilder(runDir, findTracklets=True, collapseTracklets=True,
         output directory?
     removeSubsetTracks: (boolean) [True], build removeSubsets tracks
         ouput directory?
+    overwrite: (boolean) [True], Use carefully!. If directory structure
+        exists delete it.
     ----------------------
     """
 
+    # Check if path exists, if it does only continue if overwrite is true
     if os.path.exists(runDir):
         if overwrite:
             shutil.rmtree(runDir)
@@ -83,28 +96,28 @@ def directoryBuilder(runDir, findTracklets=True, collapseTracklets=True,
             raise NameError("Run directory exists! Cannot continue!")
     else:
         os.mkdir(runDir)
-        
+
     dirsOut = {}
 
     if findTracklets:
         dirsOut["trackletsDir"] = TRACKLETS_DIR
-    
+
     if collapseTracklets:
         dirsOut["collapsedDir"] = COLLAPSED_TRACKLETS_DIR
 
     if purifyTracklets:
         dirsOut["purifiedDir"] = PURIFIED_TRACKLETS_DIR
-        
+
     if removeSubsetTracklets:
         dirsOut["finalTrackletsDir"] = FINAL_TRACKLETS_DIR
 
     if linkTracklets:
-        dirsOut["trackletsByNightDir"] = TRACKLETS_BY_NIGHT_DIR 
+        dirsOut["trackletsByNightDir"] = TRACKLETS_BY_NIGHT_DIR
         dirsOut["tracksDir"] = TRACKS_DIR
-        
+
     if removeSubsetTracks:
         dirsOut["finalTracksDir"] = FINAL_TRACKS_DIR
-        
+
     for d in dirsOut:
         newDir = os.path.join(runDir, dirsOut[d])
 
@@ -114,12 +127,14 @@ def directoryBuilder(runDir, findTracklets=True, collapseTracklets=True,
             os.mkdir(newDir)
 
         dirsOut[d] = newDir
-            
+
     return dirsOut
 
-def runFindTracklets(diasources, outDir, vmax=defaults.vMax, vmin=defaults.vMin, verbose=VERBOSE):
+
+def runFindTracklets(diasources, outDir, vmax=defaults.vMax,
+                     vmin=defaults.vMin, verbose=VERBOSE):
     """
-    Runs findTracklets. 
+    Runs findTracklets.
 
     Generates tracklets given a set of DIA sources.
 
@@ -127,8 +142,7 @@ def runFindTracklets(diasources, outDir, vmax=defaults.vMax, vmin=defaults.vMin,
     ----------------------
     parameter: (dtype) [default (if optional)], information
 
-    parameters: (MopsParameters object), user or default defined MOPS parameter object
-    diasources: (list), list of diasources
+    diasources: (list of strings), list of nightly diasource files
     outDir: (string), tracklet output directory
     ----------------------
     """
@@ -143,7 +157,8 @@ def runFindTracklets(diasources, outDir, vmax=defaults.vMax, vmin=defaults.vMin,
     for diasource in diasources:
         trackletsOut = _out(outDir, diasource, TRACKLET_SUFFIX)
 
-        call = ["findTracklets", "-i", diasource, "-o", trackletsOut, "-v", vmax, "-m", vmin]
+        call = [function, "-i", diasource, "-o",
+                trackletsOut, "-v", str(vmax), "-m", str(vmin)]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         tracklets.append(trackletsOut)
@@ -218,11 +233,11 @@ def runCollapseTracklets(trackletsByIndex, diasources, outDir, raTol=defaults.ra
     for tracklet, diasource in zip(trackletsByIndex, diasources):
         collapsedTracklet = _out(outDir, diasource, COLLAPSED_TRACKLET_SUFFIX)
 
-        call = ["collapseTracklets", diasource, tracklet, raTol, 
-            decTol, angTol, vTol, collapsedTracklet,
+        call = ["collapseTracklets", diasource, tracklet, str(raTol), 
+            str(decTol), str(angTol), str(vTol), collapsedTracklet,
             "--method", method,
-            "--useRMSFilt", useRMSfilt,
-            "--maxRMS", rmsMax]
+            "--useRMSFilt", str(useRMSfilt),
+            "--maxRMS", str(rmsMax)]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         collapsedTracklets.append(collapsedTracklet)
@@ -258,7 +273,7 @@ def runPurifyTracklets(collapsedTracklets, diasources, outDir, rmsMax=defaults.r
         purifiedTracklet = _out(outDir, diasource, PURIFIED_TRACKLET_SUFFIX)
 
         call = ["purifyTracklets", "--detsFile", diasource, "--pairsFile", tracklet, 
-        "--maxRMS", rmsMax,"--outFile", purifiedTracklet]
+        "--maxRMS", str(rmsMax), "--outFile", purifiedTracklet]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         purifiedTracklets.append(purifiedTracklet)
@@ -295,8 +310,8 @@ def runRemoveSubsets(purifiedTracklets, diasources, outDir, rmSubsets=defaults.r
         finalTracklet = _out(outDir, tracklet, suffix)
 
         call = ["removeSubsets", "--inFile", tracklet, "--outFile", finalTracklet,
-            "--removeSubsets", rmSubsets,
-            "--keepOnlyLongest", keepOnlyLongest]
+            "--removeSubsets", str(rmSubsets),
+            "--keepOnlyLongest", str(keepOnlyLongest)]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         finalTracklets.append(finalTracklet)
@@ -368,7 +383,7 @@ def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir, diasSu
         _status(function, True)
 
     script = str(os.getenv("MOPS_DIR")) + "/bin/makeLinkTrackletsInput_byNight.py"
-    call = ["python", script, "--windowSize", windowSize, "--diasSuffix", diasSuffix, "--trackletSuffix", trackletSuffix, diasourcesDir, trackletsDir, outDir]
+    call = ["python", script, "--windowSize", str(windowSize), "--diasSuffix", diasSuffix, "--trackletSuffix", trackletSuffix, diasourcesDir, trackletsDir, outDir]
     subprocess.call(call, stdout=outfile, stderr=errfile)
 
     ids = glob.glob(outDir + "*.ids")
@@ -410,23 +425,23 @@ def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8,
         for detIn, idIn in zip(dets, ids):
             trackOut = _out(outDir, detIn, TRACK_SUFFIX)
 
-            call = ["linkTracklets", 
-                "-e", detErrThresh, 
-                "-D", decAccelMax,
-                "-R", raAccelMax,
-                "-u", nightMin,
-                "-s", detectMin,
-                "-b", bufferSize,
-                "-d", detIn, 
-                "-t", idIn,
-                "-o", trackOut]
+            call = ["linkTracklets",
+                    "-e", str(detErrThresh),
+                    "-D", str(decAccelMax),
+                    "-R", str(raAccelMax),
+                    "-u", str(nightMin),
+                    "-s", str(detectMin),
+                    "-b", str(bufferSize),
+                    "-d", detIn,
+                    "-t", idIn,
+                    "-o", trackOut]
 
             if latestFirstEnd != None:
-                call.extend(["-F", latestFirstEnd])
+                call.extend(["-F", str(latestFirstEnd)])
             if earliestLastEnd != None:
-                call.extend(["-L", earliestLastEnd])
+                call.extend(["-L", str(earliestLastEnd)])
             if leafNodeSizeMax != None:
-                call.extend(["-n", leafNodeSizeMax])
+                call.extend(["-n", str(leafNodeSizeMax)])
 
             tracks.append(trackOut)
 
@@ -443,22 +458,22 @@ def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8,
             errfile = file(trackOut + ".err", "w")
 
             call = ["linkTracklets", 
-                "-e", detErrThresh, 
-                "-D", decAccelMax,
-                "-R", raAccelMax,
-                "-u", nightMin,
-                "-s", detectMin,
-                "-b", bufferSize,
-                "-d", detIn, 
-                "-t", idIn,
-                "-o", trackOut]
+                    "-e", str(detErrThresh),
+                    "-D", str(decAccelMax),
+                    "-R", str(raAccelMax),
+                    "-u", str(nightMin),
+                    "-s", str(detectMin),
+                    "-b", str(bufferSize),
+                    "-d", detIn,
+                    "-t", idIn,
+                    "-o", trackOut]
 
             if latestFirstEnd != None:
-                call.extend(["-F", latestFirstEnd])
+                call.extend(["-F", str(latestFirstEnd)])
             if earliestLastEnd != None:
-                call.extend(["-L", earliestLastEnd])
+                call.extend(["-L", str(earliestLastEnd)])
             if leafNodeSizeMax != None:
-                call.extend(["-n", leafNodeSizeMax])
+                call.extend(["-n", str(leafNodeSizeMax)])
 
             subprocess.call(call, stdout=outfile, stderr=errfile)
 
