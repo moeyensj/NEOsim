@@ -5,7 +5,7 @@
 A simple script to run MOPS. (Work in progress)
 
 Command-line call:
-python runMops.py {nightly DIA source directory} {output directory} 
+python runMops.py {nightly DIA source directory} {output directory}
 
 Requirements:
 MOPS setup (with MOPS_DIR path variable pointing to bin mops_daymops)
@@ -49,10 +49,15 @@ VERBOSE = True
 defaults = MopsParameters(verbose=False)
 
 
-def directoryBuilder(runDir, findTracklets=True, collapseTracklets=True,
-                     purifyTracklets=True, removeSubsetTracklets=True,
-                     linkTracklets=True, removeSubsetTracks=True,
-                     overwrite=False, verbose=VERBOSE):
+def directoryBuilder(runDir,
+                     findTracklets=True,
+                     collapseTracklets=True,
+                     purifyTracklets=True,
+                     removeSubsetTracklets=True,
+                     linkTracklets=True,
+                     removeSubsetTracks=True,
+                     overwrite=False,
+                     verbose=VERBOSE):
     """
     Builds the directory structure for MOPS output files. Returns output
     directory keyed dictionary of file paths.
@@ -131,8 +136,10 @@ def directoryBuilder(runDir, findTracklets=True, collapseTracklets=True,
     return dirsOut
 
 
-def runFindTracklets(diasources, outDir, vmax=defaults.vMax,
-                     vmin=defaults.vMin, verbose=VERBOSE):
+def runFindTracklets(diasources, outDir,
+                     vmax=defaults.vMax,
+                     vmin=defaults.vMin,
+                     verbose=VERBOSE):
     """
     Runs findTracklets.
 
@@ -168,11 +175,13 @@ def runFindTracklets(diasources, outDir, vmax=defaults.vMax,
 
     return sorted(tracklets)
 
-def runIdsToIndices(tracklets, diasources, outDir, verbose=VERBOSE):
+
+def runIdsToIndices(tracklets, diasources, outDir,
+                    verbose=VERBOSE):
     """
     Runs idsToIndices.py.
 
-    Rearranges tracklets by index as opposed to id. This format is required 
+    Rearranges tracklets by index as opposed to id. This format is required
     by collapseTracklets, purifyTracklets and removeSubsets.
 
     Parameters:
@@ -206,9 +215,16 @@ def runIdsToIndices(tracklets, diasources, outDir, verbose=VERBOSE):
 
     return sorted(byIndex)
 
-def runCollapseTracklets(trackletsByIndex, diasources, outDir, raTol=defaults.raTol,
-        decTol=defaults.decTol, angTol=defaults.angTol, vTol=defaults.vTol,
-        method=defaults.method, useRMSfilt=defaults.useRMSfilt, rmsMax=defaults.rmsMax, verbose=VERBOSE):
+
+def runCollapseTracklets(trackletsByIndex, diasources, outDir,
+                         raTol=defaults.raTol,
+                         decTol=defaults.decTol,
+                         angTol=defaults.angTol,
+                         vTol=defaults.vTol,
+                         method=defaults.method,
+                         useRMSfilt=defaults.useRMSfilt,
+                         rmsMax=defaults.rmsMax,
+                         verbose=VERBOSE):
     """
     Runs collapseTracklets.
 
@@ -216,7 +232,6 @@ def runCollapseTracklets(trackletsByIndex, diasources, outDir, raTol=defaults.ra
     ----------------------
     parameter: (dtype) [default (if optional)], information
 
-    parameters: (MopsParameters object), user or default defined MOPS parameter object
     trackletsByIndex: (list), list of tracklets
     diasources: (list), list of diasources
     outDir: (string), collapsed tracklet output directory
@@ -233,11 +248,11 @@ def runCollapseTracklets(trackletsByIndex, diasources, outDir, raTol=defaults.ra
     for tracklet, diasource in zip(trackletsByIndex, diasources):
         collapsedTracklet = _out(outDir, diasource, COLLAPSED_TRACKLET_SUFFIX)
 
-        call = ["collapseTracklets", diasource, tracklet, str(raTol), 
-            str(decTol), str(angTol), str(vTol), collapsedTracklet,
-            "--method", method,
-            "--useRMSFilt", str(useRMSfilt),
-            "--maxRMS", str(rmsMax)]
+        call = ["collapseTracklets", diasource, tracklet, str(raTol),
+                str(decTol), str(angTol), str(vTol), collapsedTracklet,
+                "--method", method,
+                "--useRMSFilt", str(useRMSfilt),
+                "--maxRMS", str(rmsMax)]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         collapsedTracklets.append(collapsedTracklet)
@@ -247,7 +262,10 @@ def runCollapseTracklets(trackletsByIndex, diasources, outDir, raTol=defaults.ra
 
     return sorted(collapsedTracklets)
 
-def runPurifyTracklets(collapsedTracklets, diasources, outDir, rmsMax=defaults.rmsMax, verbose=VERBOSE):
+
+def runPurifyTracklets(collapsedTracklets, diasources, outDir,
+                       rmsMax=defaults.rmsMax,
+                       verbose=VERBOSE):
     """
     Runs purifyTracklets.
 
@@ -255,7 +273,6 @@ def runPurifyTracklets(collapsedTracklets, diasources, outDir, rmsMax=defaults.r
     ----------------------
     parameter: (dtype) [default (if optional)], information
 
-    parameters: (MopsParameters object), user or default defined MOPS parameter object
     collapsedTrackets: (list), list of collapsed tracklets
     diasources: (list), list of diasources
     outDir: (string), purified tracklet output directory
@@ -272,8 +289,11 @@ def runPurifyTracklets(collapsedTracklets, diasources, outDir, rmsMax=defaults.r
     for tracklet, diasource in zip(collapsedTracklets, diasources):
         purifiedTracklet = _out(outDir, diasource, PURIFIED_TRACKLET_SUFFIX)
 
-        call = ["purifyTracklets", "--detsFile", diasource, "--pairsFile", tracklet, 
-        "--maxRMS", str(rmsMax), "--outFile", purifiedTracklet]
+        call = ["purifyTracklets",
+                "--detsFile", diasource,
+                "--pairsFile", tracklet,
+                "--maxRMS", str(rmsMax),
+                "--outFile", purifiedTracklet]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         purifiedTracklets.append(purifiedTracklet)
@@ -283,7 +303,12 @@ def runPurifyTracklets(collapsedTracklets, diasources, outDir, rmsMax=defaults.r
 
     return sorted(purifiedTracklets)
 
-def runRemoveSubsets(purifiedTracklets, diasources, outDir, rmSubsets=defaults.rmSubsetTracklets, keepOnlyLongest=defaults.keepOnlyLongestTracklets, suffix=FINAL_TRACKLET_SUFFIX, verbose=VERBOSE):
+
+def runRemoveSubsets(purifiedTracklets, diasources, outDir,
+                     rmSubsets=defaults.rmSubsetTracklets,
+                     keepOnlyLongest=defaults.keepOnlyLongestTracklets,
+                     suffix=FINAL_TRACKLET_SUFFIX,
+                     verbose=VERBOSE):
     """
     Runs removeSubsets.
 
@@ -291,7 +316,6 @@ def runRemoveSubsets(purifiedTracklets, diasources, outDir, rmSubsets=defaults.r
     ----------------------
     parameter: (dtype) [default (if optional)], information
 
-    parameters: (MopsParameters object), user or default defined MOPS parameter object
     purifiedTracklets: (list), list of purified tracklets
     diasources: (list), list of diasources
     diasourcesDir: (string), directory containing diasources
@@ -309,9 +333,11 @@ def runRemoveSubsets(purifiedTracklets, diasources, outDir, rmSubsets=defaults.r
     for tracklet, diasource in zip(purifiedTracklets, diasources):
         finalTracklet = _out(outDir, tracklet, suffix)
 
-        call = ["removeSubsets", "--inFile", tracklet, "--outFile", finalTracklet,
-            "--removeSubsets", str(rmSubsets),
-            "--keepOnlyLongest", str(keepOnlyLongest)]
+        call = ["removeSubsets",
+                "--inFile", tracklet,
+                "--outFile", finalTracklet,
+                "--removeSubsets", str(rmSubsets),
+                "--keepOnlyLongest", str(keepOnlyLongest)]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         finalTracklets.append(finalTracklet)
@@ -321,11 +347,13 @@ def runRemoveSubsets(purifiedTracklets, diasources, outDir, rmSubsets=defaults.r
 
     return sorted(finalTracklets)
 
-def runIndicesToIds(finalTracklets, diasources, outDir, suffix, verbose=VERBOSE):
+
+def runIndicesToIds(finalTracklets, diasources, outDir, suffix,
+                    verbose=VERBOSE):
     """
     Runs indicesToIds.py.
 
-    Convert back to original tracklet format. 
+    Convert back to original tracklet format.
 
     Parameters:
     ----------------------
@@ -359,7 +387,13 @@ def runIndicesToIds(finalTracklets, diasources, outDir, suffix, verbose=VERBOSE)
 
     return sorted(byId)
 
-def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir, diasSuffix=DIASOURCE_SUFFIX, trackletSuffix=FINAL_TRACKLET_SUFFIX + TRACKLET_BY_ID_SUFFIX, windowSize=defaults.windowSize, verbose=VERBOSE):
+
+def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir,
+                                     diasSuffix=DIASOURCE_SUFFIX,
+                                     trackletSuffix=(FINAL_TRACKLET_SUFFIX +
+                                                     TRACKLET_BY_ID_SUFFIX),
+                                     windowSize=defaults.windowSize,
+                                     verbose=VERBOSE):
     """
     Runs makeLinkTrackletsInput_byNight.py.
 
@@ -383,7 +417,13 @@ def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir, diasSu
         _status(function, True)
 
     script = str(os.getenv("MOPS_DIR")) + "/bin/makeLinkTrackletsInput_byNight.py"
-    call = ["python", script, "--windowSize", str(windowSize), "--diasSuffix", diasSuffix, "--trackletSuffix", trackletSuffix, diasourcesDir, trackletsDir, outDir]
+    call = ["python", script,
+            "--windowSize", str(windowSize),
+            "--diasSuffix", diasSuffix,
+            "--trackletSuffix", trackletSuffix,
+            diasourcesDir,
+            trackletsDir,
+            outDir]
     subprocess.call(call, stdout=outfile, stderr=errfile)
 
     ids = glob.glob(outDir + "*.ids")
@@ -394,10 +434,20 @@ def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir, diasSu
 
     return sorted(dets), sorted(ids)
 
-def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8, detErrThresh=defaults.detErrThresh, decAccelMax=defaults.decAccelMax, 
-    raAccelMax=defaults.raAccelMax, nightMin=defaults.nightMin, detectMin=defaults.detectMin, 
-    bufferSize=defaults.bufferSize, latestFirstEnd=defaults.latestFirstEnd, 
-    earliestLastEnd=defaults.earliestLastEnd, leafNodeSizeMax=defaults.leafNodeSizeMax, verbose=VERBOSE):
+
+def runLinkTracklets(dets, ids, outDir,
+                     enableMultiprocessing=True,
+                     processes=8,
+                     detErrThresh=defaults.detErrThresh,
+                     decAccelMax=defaults.decAccelMax,
+                     raAccelMax=defaults.raAccelMax,
+                     nightMin=defaults.nightMin,
+                     detectMin=defaults.detectMin,
+                     bufferSize=defaults.bufferSize,
+                     latestFirstEnd=defaults.latestFirstEnd,
+                     earliestLastEnd=defaults.earliestLastEnd,
+                     leafNodeSizeMax=defaults.leafNodeSizeMax,
+                     verbose=VERBOSE):
     """
     Runs linkTracklets.
 
@@ -436,11 +486,11 @@ def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8,
                     "-t", idIn,
                     "-o", trackOut]
 
-            if latestFirstEnd != None:
+            if latestFirstEnd is not None:
                 call.extend(["-F", str(latestFirstEnd)])
-            if earliestLastEnd != None:
+            if earliestLastEnd is not None:
                 call.extend(["-L", str(earliestLastEnd)])
-            if leafNodeSizeMax != None:
+            if leafNodeSizeMax is not None:
                 call.extend(["-n", str(leafNodeSizeMax)])
 
             tracks.append(trackOut)
@@ -452,12 +502,12 @@ def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8,
 
     else:
 
-        for detIn, idIn in zip(dets,ids):
+        for detIn, idIn in zip(dets, ids):
             trackOut = _out(outDir, detIn, TRACK_SUFFIX)
             outfile = file(trackOut + ".out", "w")
             errfile = file(trackOut + ".err", "w")
 
-            call = ["linkTracklets", 
+            call = ["linkTracklets",
                     "-e", str(detErrThresh),
                     "-D", str(decAccelMax),
                     "-R", str(raAccelMax),
@@ -468,11 +518,11 @@ def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8,
                     "-t", idIn,
                     "-o", trackOut]
 
-            if latestFirstEnd != None:
+            if latestFirstEnd is not None:
                 call.extend(["-F", str(latestFirstEnd)])
-            if earliestLastEnd != None:
+            if earliestLastEnd is not None:
                 call.extend(["-L", str(earliestLastEnd)])
-            if leafNodeSizeMax != None:
+            if leafNodeSizeMax is not None:
                 call.extend(["-n", str(leafNodeSizeMax)])
 
             subprocess.call(call, stdout=outfile, stderr=errfile)
@@ -483,6 +533,7 @@ def runLinkTracklets(dets, ids, outDir, enableMultiprocessing=True, processes=8,
         _status(function, False)
 
     return sorted(tracks)
+
 
 def runArgs():
 
@@ -574,8 +625,18 @@ def runArgs():
 
     return args
 
-def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, purifyTracklets=True, removeSubsetTracklets=True, 
-    linkTracklets=True, removeSubsetTracks=True, enableMultiprocessing=True, processes=8, overwrite=False, verbose=VERBOSE):
+
+def runMops(parameters, tracker,
+            findTracklets=True,
+            collapseTracklets=True,
+            purifyTracklets=True,
+            removeSubsetTracklets=True,
+            linkTracklets=True,
+            removeSubsetTracks=True,
+            enableMultiprocessing=True,
+            processes=8,
+            overwrite=False,
+            verbose=VERBOSE):
     """
     Runs Moving Object Pipeline.
 
@@ -612,9 +673,16 @@ def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, pur
         tracker.getDetections(diasourcesDir)
 
     # Build directory structure
-    dirs = directoryBuilder(runDir, findTracklets=findTracklets, collapseTracklets=collapseTracklets, purifyTracklets=purifyTracklets, 
-        removeSubsetTracklets=removeSubsetTracklets, linkTracklets=linkTracklets, removeSubsetTracks=removeSubsetTracks, 
-        overwrite=overwrite, verbose=verbose)
+    dirs = directoryBuilder(
+            runDir,
+            findTracklets=findTracklets,
+            collapseTracklets=collapseTracklets,
+            purifyTracklets=purifyTracklets,
+            removeSubsetTracklets=removeSubsetTracklets,
+            linkTracklets=linkTracklets,
+            removeSubsetTracks=removeSubsetTracks,
+            overwrite=overwrite,
+            verbose=verbose)
     tracker.ranDirectoryBuilder = True
 
     # Save parameters
@@ -623,8 +691,12 @@ def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, pur
 
     # Run findTracklets
     if findTracklets:
-        if tracker.ranFindTracklets == False:
-            tracklets = runFindTracklets(diasources, dirs["trackletsDir"], vmax=parameters.vMax, vmin=parameters.vMin, verbose=verbose)
+        if tracker.ranFindTracklets is False:
+            tracklets = runFindTracklets(
+                            diasources, dirs["trackletsDir"],
+                            vmax=parameters.vMax,
+                            vmin=parameters.vMin,
+                            verbose=verbose)
             tracker.ranFindTracklets = True
             tracker.tracklets = tracklets
             tracker.trackletsDir = dirs["trackletsDir"]
@@ -633,26 +705,42 @@ def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, pur
             tracker.toYaml(outDir=runDir)
         else:
             print "findTracklets has already completed, moving on..."
-        
+
         print ""
 
     if collapseTracklets:
-        if tracker.ranIdsToIndices == False:
+        if tracker.ranIdsToIndices is False:
             # Run idsToIndices
-            trackletsByIndex = runIdsToIndices(tracklets, diasources, dirs["trackletsDir"], verbose=verbose)
+            trackletsByIndex = runIdsToIndices(
+                                tracklets, diasources, dirs["trackletsDir"],
+                                verbose=verbose)
             tracker.ranIdsToIndices = True
             tracker.trackletsByIndex = trackletsByIndex
             tracker.trackletsByIndexDir = dirs["trackletsDir"]
             tracker.toYaml(outDir=runDir)
         else:
             print "idsToIndices has already completed, moving on..."
-        
+
         print ""
 
         # Run collapseTracklets
-        if tracker.ranCollapseTracklets == False:
-            collapsedTracklets = runCollapseTracklets(trackletsByIndex, diasources, dirs["collapsedDir"], raTol=parameters.raTol, decTol=parameters.decTol, angTol=parameters.angTol, vTol=parameters.vTol, method=parameters.method, useRMSfilt=parameters.useRMSfilt, rmsMax=parameters.rmsMax, verbose=verbose)
-            collapsedTrackletsById = runIndicesToIds(collapsedTracklets, diasources, dirs["collapsedDir"], COLLAPSED_TRACKLET_SUFFIX, verbose=verbose)
+        if tracker.ranCollapseTracklets is False:
+            collapsedTracklets = runCollapseTracklets(
+                                    trackletsByIndex, diasources,
+                                    dirs["collapsedDir"],
+                                    raTol=parameters.raTol,
+                                    decTol=parameters.decTol,
+                                    angTol=parameters.angTol,
+                                    vTol=parameters.vTol,
+                                    method=parameters.method,
+                                    useRMSfilt=parameters.useRMSfilt,
+                                    rmsMax=parameters.rmsMax,
+                                    verbose=verbose)
+            collapsedTrackletsById = runIndicesToIds(
+                                        collapsedTracklets, diasources,
+                                        dirs["collapsedDir"],
+                                        COLLAPSED_TRACKLET_SUFFIX,
+                                        verbose=verbose)
             tracker.ranCollapseTracklets = True
             tracker.collapsedTracklets = collapsedTracklets
             tracker.collapsedTrackletsDir = dirs["collapsedDir"]
@@ -663,42 +751,59 @@ def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, pur
             tracker.toYaml(outDir=runDir)
         else:
             print "collapseTracklets has already completed, moving on..."
-        
+
         print ""
 
-    if purifyTracklets: 
+    if purifyTracklets:
         # Run purifyTracklets
-        if tracker.ranPurifyTracklets == False:
-            purifiedTracklets = runPurifyTracklets(collapsedTracklets, diasources, dirs["purifiedDir"], rmsMax=parameters.rmsMax, verbose=verbose)
-            purifiedTrackletsById = runIndicesToIds(purifiedTracklets, diasources, dirs["purifiedDir"], PURIFIED_TRACKLET_SUFFIX, verbose=verbose)
+        if tracker.ranPurifyTracklets is False:
+            purifiedTracklets = runPurifyTracklets(
+                                    collapsedTracklets, diasources,
+                                    dirs["purifiedDir"],
+                                    rmsMax=parameters.rmsMax,
+                                    verbose=verbose)
+            purifiedTrackletsById = runIndicesToIds(
+                                        purifiedTracklets, diasources,
+                                        dirs["purifiedDir"],
+                                        PURIFIED_TRACKLET_SUFFIX,
+                                        verbose=verbose)
             tracker.ranPurifyTracklets = True
             tracker.purifiedTracklets = purifiedTracklets
             tracker.purifiedTrackletsDir = dirs["purifiedDir"]
-            tracker.purifiedTrackletsById =  purifiedTrackletsById
-            tracker.purifiedTrackletsByIdDir =  dirs["purifiedDir"]
+            tracker.purifiedTrackletsById = purifiedTrackletsById
+            tracker.purifiedTrackletsByIdDir = dirs["purifiedDir"]
             inputTrackletsDir = dirs["purifiedDir"]
             tracker.toYaml(outDir=runDir)
-        else: 
+        else:
             print "purifyTracklets has already completed, moving on..."
-        
+
         print ""
 
     if removeSubsetTracklets:
         # Run removeSubsets
-        if tracker.ranRemoveSubsetTracklets == False:
-            finalTracklets = runRemoveSubsets(purifiedTracklets, diasources, dirs["finalTrackletsDir"], rmSubsets=parameters.rmSubsetTracklets, keepOnlyLongest=parameters.keepOnlyLongestTracklets, verbose=verbose)
+        if tracker.ranRemoveSubsetTracklets is False:
+            finalTracklets = runRemoveSubsets(
+                                purifiedTracklets, diasources,
+                                dirs["finalTrackletsDir"],
+                                rmSubsets=parameters.rmSubsetTracklets,
+                                keepOnlyLongest=parameters.keepOnlyLongestTracklets,
+                                verbose=verbose)
             tracker.ranRemoveSubsetTracklets = True
             tracker.finalTracklets = finalTracklets
             tracker.finalTrackletsDir = dirs["finalTrackletsDir"]
             tracker.toYaml(outDir=runDir)
         else:
             print "removeSubsets (tracklets) has already completed, moving on..."
-        
+
         print ""
 
         # Run indicesToIds
-        if tracker.ranIndicesToIds == False:
-            finalTrackletsById = runIndicesToIds(finalTracklets, diasources, dirs["finalTrackletsDir"], FINAL_TRACKLET_SUFFIX, verbose=verbose)
+        if tracker.ranIndicesToIds is False:
+            finalTrackletsById = runIndicesToIds(
+                                    finalTracklets, diasources,
+                                    dirs["finalTrackletsDir"],
+                                    FINAL_TRACKLET_SUFFIX,
+                                    verbose=verbose)
             tracker.ranIndicesToIds = True
             tracker.finalTrackletsById = finalTrackletsById
             tracker.finalTrackletsByIdDir = dirs["finalTrackletsDir"]
@@ -712,9 +817,13 @@ def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, pur
 
     if linkTracklets:
         # Run makeLinkTrackletsInputByNight
-        if tracker.ranMakeLinkTrackletsInputByNight == False:
-            dets, ids = runMakeLinkTrackletsInputByNight(diasourcesDir, inputTrackletsDir, dirs["trackletsByNightDir"], 
-                trackletSuffix=inputTrackletSuffix, windowSize=parameters.windowSize, verbose=verbose)
+        if tracker.ranMakeLinkTrackletsInputByNight is False:
+            dets, ids = runMakeLinkTrackletsInputByNight(
+                            diasourcesDir, inputTrackletsDir,
+                            dirs["trackletsByNightDir"],
+                            trackletSuffix=inputTrackletSuffix,
+                            windowSize=parameters.windowSize,
+                            verbose=verbose)
             tracker.ranMakeLinkTrackletsInputByNight = True
             tracker.dets = dets
             tracker.ids = ids
@@ -722,36 +831,50 @@ def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, pur
             tracker.toYaml(outDir=runDir)
         else:
             print "makeLinkTrackletsInput_byNight has already completed, moving on..."
-        
+
         print ""
 
         # Run linkTracklets
-        if tracker.ranLinkTracklets == False:
-            tracks = runLinkTracklets(dets, ids, dirs["tracksDir"], enableMultiprocessing=enableMultiprocessing, processes=processes,
-                detErrThresh=parameters.detErrThresh, decAccelMax=parameters.decAccelMax, raAccelMax=parameters.raAccelMax, 
-                nightMin=parameters.nightMin, detectMin=parameters.detectMin, bufferSize=parameters.bufferSize, 
-                latestFirstEnd=parameters.latestFirstEnd, earliestLastEnd=parameters.earliestLastEnd, 
-                leafNodeSizeMax=parameters.leafNodeSizeMax, verbose=verbose)
+        if tracker.ranLinkTracklets is False:
+            tracks = runLinkTracklets(
+                        dets, ids, dirs["tracksDir"],
+                        enableMultiprocessing=enableMultiprocessing,
+                        processes=processes,
+                        detErrThresh=parameters.detErrThresh,
+                        decAccelMax=parameters.decAccelMax,
+                        raAccelMax=parameters.raAccelMax,
+                        nightMin=parameters.nightMin,
+                        detectMin=parameters.detectMin,
+                        bufferSize=parameters.bufferSize,
+                        latestFirstEnd=parameters.latestFirstEnd,
+                        earliestLastEnd=parameters.earliestLastEnd,
+                        leafNodeSizeMax=parameters.leafNodeSizeMax,
+                        verbose=verbose)
             tracker.ranLinkTracklets = True
             tracker.tracks = tracks
             tracker.tracksDir = dirs["tracksDir"]
             tracker.toYaml(outDir=runDir)
         else:
             print "linkTracklets has already completed, moving on..."
-        
+
         print ""
 
     if removeSubsetTracks:
         # Run removeSubsets (tracks)
-        if tracker.ranRemoveSubsetTracks == False:
-            finalTracks = runRemoveSubsets(tracks, diasources, dirs["finalTracksDir"], rmSubsets=parameters.rmSubsetTracks, keepOnlyLongest=parameters.keepOnlyLongestTracks, suffix=FINAL_TRACK_SUFFIX, verbose=verbose)
+        if tracker.ranRemoveSubsetTracks is False:
+            finalTracks = runRemoveSubsets(
+                            tracks, diasources, dirs["finalTracksDir"],
+                            rmSubsets=parameters.rmSubsetTracks,
+                            keepOnlyLongest=parameters.keepOnlyLongestTracks,
+                            suffix=FINAL_TRACK_SUFFIX,
+                            verbose=verbose)
             tracker.ranRemoveSubsetTracks = True
             tracker.finalTracks = finalTracks
             tracker.finalTracksDir = dirs["finalTracksDir"]
             tracker.toYaml(outDir=runDir)
         else:
             print "removeSubsets (tracks) has already completed, moving on..."
-        
+
         print ""
 
     # Print status and save tracker
@@ -759,6 +882,7 @@ def runMops(parameters, tracker, findTracklets=True, collapseTracklets=True, pur
     tracker.toYaml(outDir=runDir)
 
     return parameters, tracker
+
 
 def _status(function, current):
 
@@ -770,6 +894,7 @@ def _status(function, current):
         print ""
     return
 
+
 def _log(function, outDir):
     # Split function name to get rid of possible .py
     function = os.path.splitext(function)[0]
@@ -780,6 +905,7 @@ def _log(function, outDir):
 
     return outfile, errfile
 
+
 def _out(outDir, filename, suffix):
     # Retrieve base file name
     base = os.path.basename(filename)
@@ -788,6 +914,7 @@ def _out(outDir, filename, suffix):
     # Create path 
     outFile = os.path.join(outDir, outName)
     return outFile
+
 
 def _runWindow(call):
     # Unfortunately pool.map() can"t map a function call of multiple arguments
@@ -799,7 +926,7 @@ def _runWindow(call):
     subprocess.call(call, stdout=outfile, stderr=errfile)
     return
 
-if __name__=="__main__":
+if __name__ == "__main__":
 
     # Run command line arg parser and retrieve args
     args = runArgs()
@@ -811,38 +938,39 @@ if __name__=="__main__":
 
     # Initialize MopsParameters and MopsTracker
     if args.config_file == None:
-        parameters = MopsParameters(velocity_max=args.velocity_max, 
-                    velocity_min=args.velocity_min, 
-                    ra_tolerance=args.ra_tolerance,
-                    dec_tolerance=args.dec_tolerance,
-                    angular_tolerance=args.angular_tolerance,
-                    velocity_tolerance=args.velocity_tolerance,
-                    method=args.method,
-                    use_rms_filter=args.use_rms_filter,
-                    rms_max=args.rms_max,
-                    remove_subset_tracklets=args.remove_subset_tracklets,
-                    keep_only_longest_tracklets=args.keep_only_longest_tracklets,
-                    window_size=args.window_size,
-                    detection_error_threshold=args.detection_error_threshold,
-                    dec_acceleration_max=args.dec_acceleration_max,
-                    ra_acceleration_max=args.ra_acceleration_max,
-                    latest_first_endpoint=args.latest_first_endpoint,
-                    earliest_last_endpoint=args.earliest_last_endpoint,
-                    nights_min=args.nights_min,
-                    detections_min=args.detections_min,
-                    output_buffer_size=args.output_buffer_size,
-                    leaf_node_size_max=args.leaf_node_size_max,
-                    remove_subset_tracks=args.remove_subset_tracks,
-                    keep_only_longest_tracks=args.keep_only_longest_tracks,
-                    verbose=verbose)
+        parameters = MopsParameters(
+                        velocity_max=args.velocity_max,
+                        velocity_min=args.velocity_min,
+                        ra_tolerance=args.ra_tolerance,
+                        dec_tolerance=args.dec_tolerance,
+                        angular_tolerance=args.angular_tolerance,
+                        velocity_tolerance=args.velocity_tolerance,
+                        method=args.method,
+                        use_rms_filter=args.use_rms_filter,
+                        rms_max=args.rms_max,
+                        remove_subset_tracklets=args.remove_subset_tracklets,
+                        keep_only_longest_tracklets=args.keep_only_longest_tracklets,
+                        window_size=args.window_size,
+                        detection_error_threshold=args.detection_error_threshold,
+                        dec_acceleration_max=args.dec_acceleration_max,
+                        ra_acceleration_max=args.ra_acceleration_max,
+                        latest_first_endpoint=args.latest_first_endpoint,
+                        earliest_last_endpoint=args.earliest_last_endpoint,
+                        nights_min=args.nights_min,
+                        detections_min=args.detections_min,
+                        output_buffer_size=args.output_buffer_size,
+                        leaf_node_size_max=args.leaf_node_size_max,
+                        remove_subset_tracks=args.remove_subset_tracks,
+                        keep_only_longest_tracks=args.keep_only_longest_tracks,
+                        verbose=verbose)
     else:
         if verbose:
             print "Config file given. Reading parameters from file..."
             print ""
-        cfg = yaml.load(file(args.config_file,"r"))
+        cfg = yaml.load(file(args.config_file, "r"))
         parameters = MopsParameters(**cfg)
 
-     # Initialize tracker
+    # Initialize tracker
     tracker = MopsTracker(runDir, verbose=verbose)
     tracker.getDetections(diasourcesDir)
 
