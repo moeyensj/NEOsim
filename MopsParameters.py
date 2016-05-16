@@ -4,39 +4,39 @@ __all__ = ["MopsParameters"]
 class DefaultMopsParameters:
 
     # findTracklets
-    velocity_max = "0.5"
-    velocity_min = "0.0"
+    velocity_max = 0.5
+    velocity_min = 0.0
 
     # collapseTracklets, purifyTracklets
-    ra_tolerance = "0.002"
-    dec_tolerance = "0.002"
-    angular_tolerance = "5"
-    velocity_tolerance = "0.05"
+    ra_tolerance = 0.002
+    dec_tolerance = 0.002
+    angular_tolerance = 5
+    velocity_tolerance = 0.05
     method = "greedy"
-    use_rms_filter = "True"
-    rms_max = "0.001"
+    use_rms_filter = True
+    rms_max = 0.001
 
     # removeSubsets (tracklets)
-    remove_subset_tracklets = "False"
-    keep_only_longest_tracklets = "False"
+    remove_subset_tracklets = False
+    keep_only_longest_tracklets = False
 
     # makeLinkTrackletsInput_byNight
-    window_size = "15"
+    window_size = 15
 
     # linkTracklets
-    detection_error_threshold = "0.0004"
-    dec_acceleration_max = "0.02"
-    ra_acceleration_max = "0.02"
+    detection_error_threshold = 0.0004
+    dec_acceleration_max = 0.02
+    ra_acceleration_max = 0.02
     latest_first_endpoint = None
     earliest_last_endpoint = None
-    nights_min = "3"
-    detections_min = "6"
-    output_buffer_size = "1000"
+    nights_min = 3
+    detections_min = 6
+    output_buffer_size = 1000
     leaf_node_size_max = None
 
     # removeSubsets (tracks)
-    remove_subset_tracks = "True"
-    keep_only_longest_tracks = "False"
+    remove_subset_tracks = True
+    keep_only_longest_tracks = False
 
 
 class MopsParameters(object):
