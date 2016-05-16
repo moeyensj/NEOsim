@@ -48,8 +48,11 @@ VERBOSE = True
 
 defaults = MopsParameters(verbose=False)
 
-def directoryBuilder(runDir, findTracklets=True, collapseTracklets=True, purifyTracklets=True, removeSubsetTracklets=True, 
-    linkTracklets=True, removeSubsetTracks=True, overwrite=False, verbose=VERBOSE):
+
+def directoryBuilder(runDir, findTracklets=True, collapseTracklets=True,
+                     purifyTracklets=True, removeSubsetTracklets=True,
+                     linkTracklets=True, removeSubsetTracks=True,
+                     overwrite=False, verbose=VERBOSE):
     """
     Builds the directory structure for MOPS output files.
 
@@ -58,10 +61,15 @@ def directoryBuilder(runDir, findTracklets=True, collapseTracklets=True, purifyT
     parameter: (dtype) [default (if optional)], information
 
     runDir: (string), name of the top folder
-    collapse: (boolean) [True], build collapse directory?
-    purify: (boolean) [True], build purify directory?
-    removeSubsetTracklets: (boolean) [True], build final tracklets directory?
-    removeSubsetTracks: (boolean) [True], build final tracks directory?
+    findTracklets: (boolean) [True], build findTracklets output directory?
+    collapseTracklets: (boolean) [True], build collapseTracklets
+        output directory?
+    purifyTracklets: (boolean) [True], build purifyTracklets
+        output directory?
+    removeSubsetTracklets: (boolean) [True], build removeSubsets tracklets
+        output directory?
+    removeSubsetTracks: (boolean) [True], build removeSubsets tracks
+        ouput directory?
     ----------------------
     """
 
