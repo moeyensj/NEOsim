@@ -15,7 +15,6 @@ Contact moeyensj@uw.edu with questions and / or concerns.
 """
 
 import os
-import sys
 import subprocess
 import glob
 import argparse
@@ -37,9 +36,9 @@ TRACKLET_BY_ID_SUFFIX = ".byDiaIds"
 TRACK_SUFFIX = ".track"
 FINAL_TRACK_SUFFIX = TRACK_SUFFIX + ".final"
 
-TRACKLETS_DIR = "tracklets/" 
+TRACKLETS_DIR = "tracklets/"
 COLLAPSED_TRACKLETS_DIR = "trackletsCollapsed/"
-PURIFIED_TRACKLETS_DIR = "trackletsPurified/" 
+PURIFIED_TRACKLETS_DIR = "trackletsPurified/"
 FINAL_TRACKLETS_DIR = "trackletsFinal/"
 TRACKLETS_BY_NIGHT_DIR = "trackletsByNight/"
 TRACKS_DIR = "tracks/"
