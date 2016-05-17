@@ -3,24 +3,35 @@ import pandas as pd
 
 __all__ = ["tracklet", "track"]
 
+
 class tracklet(object):
     def __init__(self, trackletId, diasources_num, night):
         self._trackletId = trackletId
-        self._diasources = np.zeros(diasources_num, 
-            dtype={"names":["diaId", "visitId", "objectId", "ra", "dec", "mjd", "mag", "snr"], 
-                    "formats":["int64","int64","int64","float64","float64","float64","float64","float64"]})
-        self._info = np.zeros(1, 
-            dtype={"names":["trackletId", "linkedObjectId", "numLinkedObjects", "numMembers", "velocity", "rms", "night", "createdBy", "deletedBy"],
-                    "formats":["int64","int64","int64","int64","float64","float64","float64","float64","int64","int64"]})
+        self._diasources = np.zeros(diasources_num,
+            dtype={"names": ["diaId", "visitId", "objectId", "ra",
+                             "dec", "mjd", "mag", "snr"],
+                   "formats": ["int64", "int64", "int64", "float64",
+                               "float64", "float64", "float64", "float64"]})
+        self._info = np.zeros(1,
+            dtype={"names": ["trackletId", "linkedObjectId",
+                             "numLinkedObjects", "numMembers",
+                             "velocity", "rms",
+                             "night", "createdBy",
+                             "deletedBy"],
+                   "formats": ["int64", "int64",
+                               "int64", "int64",
+                               "float64", "float64",
+                               "float64", "int64",
+                               "int64"]})
         self._members = np.ones(diasources_num,
-            dtype={"names":["trackletId", "diaId"],
-                    "formats":["int64","int64"]})
+            dtype={"names": ["trackletId", "diaId"],
+                   "formats": ["int64","int64"]})
         self._numMembers = diasources_num
         self._night = night
         self._isTrue = None
         self._linkedObjectId = -1
         self._numLinkedObjects = 0
-        self._velocity = 0 
+        self._velocity = 0
         self._rms = 0
         self._createdBy = 1
         self._deletedBy = 0
@@ -32,7 +43,7 @@ class tracklet(object):
     @trackletId.setter
     def trackletId(self, value):
         print "Cannot set trackletId!"
-        
+
     @property
     def diasources(self):
         return self._diasources
@@ -48,7 +59,7 @@ class tracklet(object):
     @info.setter
     def info(self, value):
         print "Cannot set info!"
-        
+
     @property
     def members(self):
         return self._members
@@ -80,7 +91,7 @@ class tracklet(object):
     @isTrue.setter
     def isTrue(self, value):
         self._isTrue = value
-        
+
     @property
     def linkedObjectId(self):
         return self._linkedObjectId
@@ -151,14 +162,14 @@ class tracklet(object):
         self._members["diaId"] = self._diasources["diaId"]
 
     def updateInfo(self):
-        self._info["trackletId"] = self._trackletId 
-        self._info["linkedObjectId"] = self._linkedObjectId 
-        self._info["numLinkedObjects"] = self._numLinkedObjects 
+        self._info["trackletId"] = self._trackletId
+        self._info["linkedObjectId"] = self._linkedObjectId
+        self._info["numLinkedObjects"] = self._numLinkedObjects
         self._info["numMembers"] = self._numMembers
-        self._info["velocity"] = self._velocity 
-        self._info["rms"] = self._rms 
-        self._info["night"] = self._night 
-        self._info["createdBy"] = self._createdBy 
+        self._info["velocity"] = self._velocity
+        self._info["rms"] = self._rms
+        self._info["night"] = self._night
+        self._info["createdBy"] = self._createdBy
         self._info["deletedBy"] = self._deletedBy
 
     def update(self):
@@ -173,6 +184,7 @@ class tracklet(object):
 
     def toTrackletMembersDataframe(self):
         return pd.DataFrame(self._members)
+
 
 class track(object):
     def __init__(self, trackId, diasources_num, windowStart):
@@ -206,14 +218,14 @@ class track(object):
     @trackId.setter
     def trackId(self, value):
         print "Cannot set trackId!"
-    
+
     @property
     def diasources(self):
         return self._diasources
 
     @diasources.setter
     def diasources(self, value):
-        print "Cannot set diasources!" 
+        print "Cannot set diasources!"
 
     @property
     def info(self):
@@ -246,7 +258,7 @@ class track(object):
     @windowStart.setter
     def windowStart(self, value):
         print "Cannot set windowStart!"
-        
+
     @property
     def isTrue(self):
         return self._isTrue
@@ -254,7 +266,7 @@ class track(object):
     @isTrue.setter
     def isTrue(self, value):
         self._isTrue = value
-        
+
     @property
     def linkedObjectId(self):
         return self._linkedObjectId
@@ -358,16 +370,16 @@ class track(object):
         self._members["diaId"] = self._diasources["diaId"]
 
     def updateInfo(self):
-        self._info["trackId"] = self._trackId 
-        self._info["linkedObjectId"] = self._linkedObjectId 
-        self._info["numLinkedObjects"] = self._numLinkedObjects 
+        self._info["trackId"] = self._trackId
+        self._info["linkedObjectId"] = self._linkedObjectId
+        self._info["numLinkedObjects"] = self._numLinkedObjects
         self._info["numMembers"] = self._numMembers
-        self._info["rms"] = self._rms 
+        self._info["rms"] = self._rms
         self._info["windowStart"] = self._windowStart
-        self._info["startTime"] = self._startTime 
-        self._info["endTime"] = self._endTime 
+        self._info["startTime"] = self._startTime
+        self._info["endTime"] = self._endTime
         self._info["subsetOf"] = self._subsetOf
-        self._info["createdBy"] = self._createdBy 
+        self._info["createdBy"] = self._createdBy
         self._info["deletedBy"] = self._deletedBy
 
     def update(self):
@@ -383,12 +395,14 @@ class track(object):
     def toTrackMembersDataframe(self):
         return pd.DataFrame(self._members)
 
+
 def checkSSMIDs(ssmids):
     uniqueIds = np.unique(ssmids)
     if len(uniqueIds) == 1:
         return True, len(uniqueIds)
     else:
         return False, len(uniqueIds)
+
 
 def makeContiguous(angles):
     a0 = angles[0]
@@ -402,6 +416,7 @@ def makeContiguous(angles):
         output.append(angle)
     return output
 
+
 def convertToStandardDegrees(angle):
     while angle > 360.:
         angle -= 360.
@@ -409,11 +424,14 @@ def convertToStandardDegrees(angle):
         angle += 360.
     return angle
 
+
 def calcDegToRad(angle):
     return angle*(np.pi/180.0)
 
+
 def calcRadToDeg(angle):
     return angle*(180.0/np.pi)
+
 
 def calcAngularDistance(a, b):
     while abs(a - b) > 180:
@@ -423,17 +441,19 @@ def calcAngularDistance(a, b):
             a += 360.
     return a - b
 
+
 def calcGreatCircleDistance(ra0, dec0, ra1, dec1):
-    ra_dist = calcAngularDistance(ra0, ra1);
-    dec_dist = calcAngularDistance(dec0, dec1);    
+    ra_dist = calcAngularDistance(ra0, ra1)
+    dec_dist = calcAngularDistance(dec0, dec1) 
     # Convert all factors to radians
-    ra_dist = calcDegToRad(convertToStandardDegrees(ra_dist));
-    dec_dist = calcDegToRad(convertToStandardDegrees(dec_dist));
-    dec0 = calcDegToRad(convertToStandardDegrees(dec0));
-    dec1 = calcDegToRad(convertToStandardDegrees(dec1));
+    ra_dist = calcDegToRad(convertToStandardDegrees(ra_dist))
+    dec_dist = calcDegToRad(convertToStandardDegrees(dec_dist))
+    dec0 = calcDegToRad(convertToStandardDegrees(dec0))
+    dec1 = calcDegToRad(convertToStandardDegrees(dec1))
     r = 2*np.arcsin(np.sqrt((np.sin(dec_dist/2.))**2 + np.cos(dec0)*np.cos(dec1)*(np.sin(ra_dist/2))**2));
     # Back to degrees
-    return calcRadToDeg(r);
+    return calcRadToDeg(r)
+
 
 def calcVelocity(diasources):
     dt = max(diasources["mjd"]) - min(diasources["mjd"])
@@ -441,7 +461,8 @@ def calcVelocity(diasources):
         diasources["ra"][-1], diasources["dec"][-1])
     velocity_deg_day = dist_deg / dt
     return velocity_deg_day
-    
+
+
 def calcRMS(diasources):
     t0 = min(diasources["mjd"])
     mjds = diasources["mjd"] - t0
@@ -453,7 +474,8 @@ def calcRMS(diasources):
     raFunc = np.poly1d(raFunc)
     decFunc = np.poly1d(decFunc)
 
-    #now get the euclidean distance between predicted and observed for each point
+    # now get the euclidean distance between predicted and
+    # observed for each point
     netSqDist = 0.0
     dists = []
     for i, mjd in enumerate(mjds):
@@ -468,7 +490,7 @@ def calcRMS(diasources):
             print "all RAs were ", ras
             print "all decs were ", decs
         sqDist = dist**2
-        #print "got euclidean distance was ", sqDist
+        # print "got euclidean distance was ", sqDist
         netSqDist += sqDist
 
     rms = np.sqrt(netSqDist / len(diasources))
