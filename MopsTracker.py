@@ -1,3 +1,6 @@
+import os
+import yaml
+
 __all__ = ["MopsTracker"]
 
 
@@ -390,8 +393,6 @@ class MopsTracker(object):
         self._trackResults = value
 
     def getDetections(self, diasourcesDir):
-        import os
-
         diasourceList = sorted(os.listdir(diasourcesDir))
         diasources = []
 
@@ -422,9 +423,6 @@ class MopsTracker(object):
         return
 
     def toYaml(self, outDir=None):
-        import os
-        import yaml
-
         if outDir is None:
             outname = "tracker.yaml"
         else:
@@ -440,8 +438,6 @@ class MopsTracker(object):
 
     @classmethod
     def fromYaml(cls, yamlFile):
-        import yaml
-
         print "Loading tracker from %s" % (yamlFile)
 
         cls = yaml.load(file(yamlFile, "r"))

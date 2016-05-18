@@ -1,3 +1,6 @@
+import os
+import yaml
+
 __all__ = ["MopsParameters"]
 
 
@@ -387,9 +390,6 @@ class MopsParameters(object):
         return
 
     def toYaml(self, outDir=None):
-        import os
-        import yaml
-
         if outDir is None:
             outname = "parameters.yaml"
         else:
@@ -405,8 +405,6 @@ class MopsParameters(object):
 
     @classmethod
     def fromYaml(cls, yamlFile):
-        import yaml
-
         print "Loading parameters from %s" % (yamlFile)
 
         cls = yaml.load(file(yamlFile, "r"))
