@@ -5,10 +5,10 @@ import difflib
 import numpy as np
 import pandas as pd
 
-import moMetrics
 import MopsPlotter
 import MopsReader
 import MopsDatabase
+import lsst.sims.maf.metrics as metrics
 from MopsObjects import tracklet
 from MopsObjects import track
 from MopsParameters import MopsParameters
@@ -99,7 +99,7 @@ def countFindableObjects(dataframe, minDetectionsPerNight=2, minNights=3, window
     unique_objects = dataframe["objectId"].unique()
     findable_objects = []
     
-    discoverMet = moMetrics.DiscoveryChancesMetric(nObsPerNight=minDetectionsPerNight, tNight=90./60./24., nNightsPerWindow=minNights, tWindow=windowSize, snrLimit=snrLimit)
+    discoverMet = metrics.DiscoveryChancesMetric(nObsPerNight=minDetectionsPerNight, tNight=90./60./24., nNightsPerWindow=minNights, tWindow=windowSize, snrLimit=snrLimit)
     
     for unique_object in unique_objects:
         detections = dataframe[dataframe["objectId"] == unique_object]
