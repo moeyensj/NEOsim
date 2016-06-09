@@ -129,7 +129,7 @@ def countUniqueObjects(dataframe):
     ----------------------
     parameter: (dtype) [default (if optional)], information
 
-    dataframe: (object), Pandas dataframe with objectId column
+    dataframe: (DataFrame), Pandas dataframe with objectId column
     ----------------------
     """
     # for each track in tracks, check subsets, if subset remove from array and add to subset array
@@ -137,10 +137,35 @@ def countUniqueObjects(dataframe):
     return dataframe["objectId"].nunique()
 
 def countMissedObjects(foundObjects, findableObjects):
+    """
+    Return a list of missed objects
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    foundObjects: (list of ints), list of found objectIds
+    findableObjects: (list of ints), list of findable objectIds
+    ----------------------
+    """
     missedObjects = set(findableObjects) - set(foundObjects)
     return list(missedObjects)
 
 def countFindableObjects(dataframe, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1):
+    """
+    Count the number of findable objects. Uses sims_maf metric.
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    dataframe: (DataFrame), dataframe containing detections 
+    minDetectionsPerNight: (int) [2], minimum number of detections required for a tracklet
+    minNights: (int) [3], minimum number of tracklets per window
+    windowSize: (int) [15], number of nights per window
+    snrLimit: (int) [-1], SNR limit for detections
+    ----------------------
+    """
     unique_objects = dataframe["objectId"].unique()
     findable_objects = []
     
