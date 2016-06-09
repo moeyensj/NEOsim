@@ -18,11 +18,33 @@ from MopsResults import MopsResults
 LSST_MIDNIGHT = 0.166
 
 def calcNight(mjd, midnight=LSST_MIDNIGHT):
-    """Determine night number for any MJD."""
+    """
+    Calculate the integer night for any MJD.
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    mjd: (float), MJD to convert
+    midNight: (float) [LSST_MIDNIGHT], midnight at LSST site
+    ----------------------
+    """
     night = mjd + 0.5 - midnight
     return night.astype(int)
 
 def findNewLinesAndDeletedIndices(file1, file2):
+    """
+    Find new lines and the indices of deleted lines between two files. Compares file one and 
+    two, and return the new lines in file two and the indices of lines deleted in file one. 
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    file1: (str), path to file one
+    file2: (str), path to file two
+    ----------------------
+    """
     file1In = open(file1, "r")
     file2In = open(file2, "r")
     
@@ -60,6 +82,17 @@ def findNewLinesAndDeletedIndices(file1, file2):
     return new_lines, deleted_linenums
 
 def checkSubsets(tracks):
+    """
+    Count the number of tracks that are subsets of others and number of tracks that are not subsets.
+    Will uupdate their isSubset attributes.
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    tracks: (list of objects), list of MopsObjects tracks
+    ----------------------
+    """
     # for each track in tracks, check subsets, if subset remove from array and add to subset array
     # remaining tracks are the longest tracks
     longest_tracks_num = 0
@@ -89,6 +122,18 @@ def checkSubsets(tracks):
     return longest_tracks_num, subset_tracks_num, tracks
  
 def countUniqueObjects(dataframe):
+    """
+    Count number of unique objects in a Pandas dataframe.
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    dataframe: (object), Pandas dataframe with objectId column
+    ----------------------
+    """
+    # for each track in tracks, check subsets, if subset remove from array and add to subset array
+    # remaining tracks are the longest tracks
     return dataframe["objectId"].nunique()
 
 def countMissedObjects(foundObjects, findableObjects):
