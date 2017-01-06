@@ -3,7 +3,6 @@ import pandas as pd
 
 __all__ = ["tracklet", "track"]
 
-
 class tracklet(object):
     def __init__(self, trackletId, diasources_num, night):
         self._trackletId = trackletId
