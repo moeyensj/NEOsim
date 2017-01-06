@@ -1,6 +1,6 @@
-__all__ = ["MopsResults"]
+__all__ = ["Results"]
 
-class MopsResults(object):
+class Results(object):
 
     def __init__(self, parameters, tracker):
         self._parameters = parameters

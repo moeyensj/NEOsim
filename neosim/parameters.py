@@ -1,10 +1,10 @@
 import os
 import yaml
 
-__all__ = ["MopsParameters"]
+__all__ = ["Parameters"]
 
 
-class DefaultMopsParameters:
+class DefaultParameters:
 
     # findTracklets
     velocity_max = 0.5
@@ -42,7 +42,7 @@ class DefaultMopsParameters:
     keep_only_longest_tracks = False
 
 
-class MopsParameters(object):
+class Parameters(object):
     def __init__(self, velocity_max=None,
                  velocity_min=None,
                  ra_tolerance=None,
@@ -92,7 +92,7 @@ class MopsParameters(object):
         self._rmSubsetTracks = remove_subset_tracks
         self._keepOnlyLongestTracks = keep_only_longest_tracks
 
-        defaults = DefaultMopsParameters()
+        defaults = DefaultParameters()
 
         if velocity_max is None:
             self._vMax = defaults.velocity_max
