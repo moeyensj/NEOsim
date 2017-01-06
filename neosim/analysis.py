@@ -5,14 +5,15 @@ import difflib
 import numpy as np
 import pandas as pd
 
-import reader as reader
-import database as database
 import lsst.sims.maf.metrics as metrics
-from linkages import tracklet
-from linkages import track
-from parameters import Parameters
-from tracker import Tracker
-from results import Results
+
+from reader import Reader
+from database import Database
+from .linkages import Tracklet
+from .linkages import Track
+from .parameters import Parameters
+from .tracker import Tracker
+from .results import Results
 
 LSST_MIDNIGHT = 0.166
 
@@ -227,19 +228,19 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
     removeSubsetTrackletFile=None, trackletIdCountStart=1, objectsDataframe=None, resultsObject=None):
     startTime = time.ctime()
     night = reader.readNight(detFile)
-    print "Starting tracklet analysis for night %s at %s" % (night, startTime)
-    print ""
+    print("Starting tracklet analysis for night {} at {}").format(night, startTime)
+    print()
     
     # Create outfile to store results
     if not os.path.exists(outDir):
         os.mkdir(outDir)
     outFile = os.path.join(os.path.abspath(outDir), "", str(night) + ".results")
     outFileOut = open(outFile, "w", 0)
-    outFileOut.write("Start time: %s\n\n" % (startTime))
-    print "- Writing results to %s" % (outFile)
+    outFileOut.write("Start time: {}\n\n").format(startTime)
+    print("- Writing results to {}").format(outFile)
 
     # Get file sizes
-    print "- Checking file sizes..."
+    print("- Checking file sizes...")
     det_file_size = os.path.getsize(detFile)
     tracklet_file_size = os.path.getsize(trackletFile)
     if collapsedTrackletFile is not None:
@@ -250,31 +251,31 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         remove_subset_tracklet_file_size = os.path.getsize(removeSubsetTrackletFile)
 
     # Read detections into a dataframe
-    print "- Reading input detections..."
+    print("- Reading input detections...")
     dets_df = reader.readDetectionsIntoDataframe(detFile)
     detections_num = len(dets_df.index)
     unique_objects = dets_df["objectId"].nunique()
     
     # Count number of true tracklets and findable objects in dataframe
-    print "- Counting findable objects..."
+    print("- Counting findable objects...")
     findable_objects = countFindableObjects(dets_df, minDetectionsPerNight=2, minNights=1, windowSize=1, snrLimit=-1)
     
     if resultsObject is not None:
-        print "- Updating results object..."
+        print("- Updating results object...")
         resultsObject.nights.append(night)
         resultsObject.nightlyDetections[night] = detections_num
         resultsObject.nightlyDetectionFileSizes[night] = det_file_size
         resultsObject.toYaml(outDir=outDir)
     
     # Write detection file properties to outfile
-    print "- Writing detection file summary to outfile..."
-    print ""
+    print("- Writing detection file summary to outfile...")
+    print()
     outFileOut.write("Input Detection File Summary:\n")
-    outFileOut.write("File name: %s\n" % (detFile))
-    outFileOut.write("File size (bytes): %s\n" % (det_file_size))
-    outFileOut.write("Detections: %s\n" % (detections_num))
-    outFileOut.write("Unique objects: %s\n" % (unique_objects))
-    outFileOut.write("Findable objects: %s\n\n" % (len(findable_objects)))
+    outFileOut.write("File name: {}\n").format(detFile)
+    outFileOut.write("File size (bytes): {}\n").format(det_file_size)
+    outFileOut.write("Detections: {}\n").format(detections_num)
+    outFileOut.write("Unique objects: {}\n").format(unique_objects)
+    outFileOut.write("Findable objects: {}\n\n").format(len(findable_objects))
     
     trackletFileIn = open(trackletFile, "r")
     true_object_dict = {}
@@ -287,15 +288,15 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
     tracklet_ids = []
     
     # Initialize tracklet dataframes
-    print "Analyzing tracklet file..."
-    print "- Building dataframes..."
+    print("Analyzing tracklet file...")
+    print("- Building dataframes...")
     allTrackletsDataframe = pd.DataFrame(columns=["trackletId", "linkedObjectId", "numLinkedObjects", "numMembers", "velocity", "rms", "night", "createdBy", "deletedBy"])
     trackletMembersDataframe = pd.DataFrame(columns=["trackletId", "diaId"])
     
     # Examine each line in trackletFile and read in every line
     #  as a track object. If track contains new detections (diasource)
     #  then add new source to diasource_dict.
-    print "- Building tracklets..."
+    print("- Building tracklets...")
     for i, line in enumerate(trackletFileIn):
         tracklet_id = trackletIdCountStart + i
         tracklet_ids.append(tracklet_id)
@@ -322,7 +323,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         trackletMembersDataframe = pd.concat([trackletMembersDataframe, new_tracklet.toTrackletMembersDataframe()], ignore_index=True)
         allTrackletsDataframe = pd.concat([allTrackletsDataframe, new_tracklet.toAllTrackletsDataframe()], ignore_index=True)
         
-    print "- Appended new tracklets to dataframes..."
+    print("- Appended new tracklets to dataframes...")
         
     prev_start_tracklet_id = trackletIdCountStart
     if len(tracklet_ids) >= 1:
@@ -331,7 +332,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         start_tracklet_id = 1
     
     if resultsObject is not None:
-        print "- Updating results object..."
+        print("- Updating results object...")
         resultsObject.totalTracklets[night] = total_tracklets_num
         resultsObject.trueTracklets[night] = true_tracklets_num
         resultsObject.falseTracklets[night] = false_tracklets_num
@@ -339,7 +340,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         resultsObject.toYaml(outDir=outDir)
 
     if objectsDataframe is not None:
-        print "- Updating objects dataframe..."
+        print("- Updating objects dataframe...")
         for unique_object in true_object_dict:
             objectsDataframe.loc[objectsDataframe["objectId"] == unique_object, "numTrueTracklets"] += true_object_dict[unique_object]
 
@@ -347,23 +348,23 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             objectsDataframe.loc[objectsDataframe["objectId"] == unique_object, "numFalseTracklets"] += false_object_dict[unique_object]
 
 
-    print "- Writing results to outfile..."
+    print("- Writing results to outfile...")
     outFileOut.write("Output Tracklet File Summary:\n")
-    outFileOut.write("File name: %s\n" % (trackletFile))
-    outFileOut.write("File size (bytes): %s\n" % (tracklet_file_size))
-    outFileOut.write("Unique objects in true tracklets: %s\n" % (len(true_object_dict)))
-    outFileOut.write("Unique objects in false tracklets: %s\n" % (len(false_object_dict)))
-    outFileOut.write("Total unique objects: %s\n" % (len(true_object_dict) + len(false_object_dict)))
-    outFileOut.write("True tracklets: %s\n" % (true_tracklets_num))
-    outFileOut.write("False tracklets: %s\n" % (false_tracklets_num))
-    outFileOut.write("Total tracklets: %s\n\n" % (total_tracklets_num))
+    outFileOut.write("File name: {}\n").format(trackletFile)
+    outFileOut.write("File size (bytes): {}\n").format(tracklet_file_size)
+    outFileOut.write("Unique objects in true tracklets: {}\n").format(len(true_object_dict))
+    outFileOut.write("Unique objects in false tracklets: {}\n").format(len(false_object_dict))
+    outFileOut.write("Total unique objects: {}\n").format(len(true_object_dict) + len(false_object_dict))
+    outFileOut.write("True tracklets: {}\n").format(true_tracklets_num)
+    outFileOut.write("False tracklets: {}\n").format(false_tracklets_num)
+    outFileOut.write("Total tracklets: {}\n\n").format(total_tracklets_num)
         
-    print ""
+    print()
     
     if collapsedTrackletFile is not None:
-        print "Analyzing collapsed tracklets..."
+        print("Analyzing collapsed tracklets...")
         created_by_collapse, deleted_by_collapse_ind = findNewLinesAndDeletedIndices(trackletFile, collapsedTrackletFile)
-        print "collapseTracklets merged %s tracklets into %s collinear tracklets..." % (len(deleted_by_collapse_ind), len(created_by_collapse))
+        print("collapseTracklets merged {} tracklets into {} collinear tracklets...").format(len(deleted_by_collapse_ind), len(created_by_collapse))
         
         true_collapsed_object_dict = {}
         false_collapsed_object_dict = {}
@@ -372,11 +373,11 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         true_collapsed_tracklets_num = 0
         false_collapsed_tracklets_num = 0
         
-        print "- Updating dataframe properties..."
+        print("- Updating dataframe properties...")
         for ind in deleted_by_collapse_ind:
             allTrackletsDataframe.loc[allTrackletsDataframe["trackletId"] == (ind + prev_start_tracklet_id), "deletedBy"] = 2
             
-        print "- Building collapsed tracklets..."
+        print("- Building collapsed tracklets...")
         for i, line in enumerate(created_by_collapse):
             tracklet_id = start_tracklet_id + i
             tracklet_ids.append(tracklet_id) 
@@ -402,7 +403,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             trackletMembersDataframe = pd.concat([trackletMembersDataframe, new_tracklet.toTrackletMembersDataframe()], ignore_index=True)
             allTrackletsDataframe = pd.concat([allTrackletsDataframe, new_tracklet.toAllTrackletsDataframe()], ignore_index=True)
             
-        print "- Appended new tracklets to dataframes..."
+        print("- Appended new tracklets to dataframes...")
         
         prev_start_tracklet_id = start_tracklet_id
         if len(tracklet_ids) >= 1:
@@ -411,7 +412,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             start_tracklet_id = 1
         
         if resultsObject is not None:
-            print "- Updating results object..."
+            print("- Updating results object...")
             resultsObject.totalCollapsedTracklets[night] = total_collapsed_tracklets_num
             resultsObject.trueCollapsedTracklets[night] = true_collapsed_tracklets_num
             resultsObject.falseCollapsedTracklets[night] = false_collapsed_tracklets_num
@@ -419,34 +420,34 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             resultsObject.toYaml(outDir=outDir)
 
         if objectsDataframe is not None:
-            print "- Updating objects dataframe..."
+            print("- Updating objects dataframe...")
             for unique_object in true_collapsed_object_dict:
                 objectsDataframe.loc[objectsDataframe["objectId"] == unique_object, "numTrueCollapsedTracklets"] += true_collapsed_object_dict[unique_object]
 
             for unique_object in false_collapsed_object_dict:
                 objectsDataframe.loc[objectsDataframe["objectId"] == unique_object, "numFalseCollapsedTracklets"] += false_collapsed_object_dict[unique_object]
             
-        print "- Writing results to outfile..."
+        print("- Writing results to outfile...")
         outFileOut.write("Output Collapsed Tracklet File Summary:\n")
-        outFileOut.write("File name: %s\n" % (collapsedTrackletFile))
-        outFileOut.write("File size (bytes): %s\n" % (collapsed_tracklet_file_size))
-        outFileOut.write("Unique objects in true collapsed tracklets: %s\n" % (len(true_collapsed_object_dict)))
-        outFileOut.write("Unique objects in false collapsed tracklets: %s\n" % (len(false_collapsed_object_dict)))
-        outFileOut.write("Total unique objects: %s\n" % (len(true_collapsed_object_dict) + len(false_collapsed_object_dict)))
-        outFileOut.write("Tracklets collapsed: %s\n" % len(deleted_by_collapse_ind))
-        outFileOut.write("Tracklets created: %s\n" % len(created_by_collapse))
-        outFileOut.write("True collapsed tracklets: %s\n" % (true_collapsed_tracklets_num))
-        outFileOut.write("False collapsed tracklets: %s\n" % (false_collapsed_tracklets_num))
-        outFileOut.write("Total collapsed tracklets: %s\n\n" % (total_collapsed_tracklets_num))
-        outFileOut.write("collapseTracklets merged %s tracklets into %s collinear tracklets...\n\n" % (len(deleted_by_collapse_ind), len(created_by_collapse)))
+        outFileOut.write("File name: {}\n").format(collapsedTrackletFile)
+        outFileOut.write("File size (bytes): {}\n").format(collapsed_tracklet_file_size)
+        outFileOut.write("Unique objects in true collapsed tracklets: {}\n").format(len(true_collapsed_object_dict))
+        outFileOut.write("Unique objects in false collapsed tracklets: {}\n").format(len(false_collapsed_object_dict))
+        outFileOut.write("Total unique objects: {}\n").format(len(true_collapsed_object_dict) + len(false_collapsed_object_dict))
+        outFileOut.write("Tracklets collapsed: {}\n").formatlen(deleted_by_collapse_ind)
+        outFileOut.write("Tracklets created: {}\n").formatlen(created_by_collapse)
+        outFileOut.write("True collapsed tracklets: {}\n").format(true_collapsed_tracklets_num)
+        outFileOut.write("False collapsed tracklets: {}\n").format(false_collapsed_tracklets_num)
+        outFileOut.write("Total collapsed tracklets: {}\n\n").format(total_collapsed_tracklets_num)
+        outFileOut.write("collapseTracklets merged {} tracklets into {} collinear tracklets...\n\n").format(len(deleted_by_collapse_ind), len(created_by_collapse))
         outFileOut.write("*** Note: These numbers only reflect tracklets affected by collapseTracklets. ***\n")
         outFileOut.write("***            File may contain other unaffected tracklets.                   ***\n\n")
-        print ""
+        print()
         
     if purifiedTrackletFile is not None:
-        print "Analyzing purified tracklets..."
+        print("Analyzing purified tracklets...")
         created_by_purified, deleted_by_purified_ind = findNewLinesAndDeletedIndices(collapsedTrackletFile, purifiedTrackletFile)
-        print "purifiedTracklets removed detections from %s tracklets and created %s tracklets..." % (len(deleted_by_purified_ind), len(created_by_purified))
+        print("purifiedTracklets removed detections from {} tracklets and created {} tracklets...").format(len(deleted_by_purified_ind), len(created_by_purified))
         
         true_purified_object_dict = {}
         false_purified_object_dict = {}
@@ -455,11 +456,11 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         true_purified_tracklets_num = 0
         false_purified_tracklets_num = 0
         
-        print "- Updating dataframe properties..."
+        print("- Updating dataframe properties...")
         for ind in deleted_by_purified_ind:
             allTrackletsDataframe.loc[allTrackletsDataframe["trackletId"] == (ind + prev_start_tracklet_id), "deletedBy"] = 3
             
-        print "- Building purified tracklets..."
+        print("- Building purified tracklets...")
         for i, line in enumerate(created_by_purified):
             tracklet_id = start_tracklet_id + i 
             tracklet_ids.append(tracklet_id) 
@@ -485,7 +486,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             trackletMembersDataframe = pd.concat([trackletMembersDataframe, new_tracklet.toTrackletMembersDataframe()], ignore_index=True)
             allTrackletsDataframe = pd.concat([allTrackletsDataframe, new_tracklet.toAllTrackletsDataframe()], ignore_index=True)
             
-        print "- Appended new tracklets to dataframes..."
+        print("- Appended new tracklets to dataframes...")
            
         prev_start_tracklet_id = start_tracklet_id
         if len(tracklet_ids) >= 1:
@@ -494,7 +495,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             start_tracklet_id = 1
         
         if resultsObject is not None:
-            print "- Updating results object..."
+            print("- Updating results object...")
             resultsObject.totalPurifiedTracklets[night] = total_purified_tracklets_num
             resultsObject.truePurifiedTracklets[night] = true_purified_tracklets_num
             resultsObject.falsePurifiedTracklets[night] = false_purified_tracklets_num
@@ -502,35 +503,35 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             resultsObject.toYaml(outDir=outDir)
 
         if objectsDataframe is not None:
-            print "- Updating objects dataframe..."
+            print("- Updating objects dataframe...")
             for unique_object in true_purified_object_dict:
                 objectsDataframe.loc[objectsDataframe["objectId"] == unique_object, "numTruePurifiedTracklets"] += true_purified_object_dict[unique_object]
 
             for unique_object in false_purified_object_dict:
                 objectsDataframe.loc[objectsDataframe["objectId"] == unique_object, "numFalsePurifiedTracklets"]+= false_purified_object_dict[unique_object]
 
-        print "- Writing results to outfile..."
+        print("- Writing results to outfile...")
         outFileOut.write("Output Purified Tracklet File Summary:\n")
-        outFileOut.write("File name: %s\n" % (purifiedTrackletFile))
-        outFileOut.write("File size (bytes): %s\n" % (purified_tracklet_file_size))
-        outFileOut.write("Unique objects in true purified tracklets: %s\n" % (len(true_purified_object_dict)))
-        outFileOut.write("Unique objects in false purified tracklets: %s\n" % (len(false_purified_object_dict)))
-        outFileOut.write("Total unique objects: %s\n" % (len(true_purified_object_dict) + len(false_purified_object_dict)))
-        outFileOut.write("Tracklets purified: %s\n" % len(deleted_by_purified_ind))
-        outFileOut.write("Tracklets created: %s\n" % len(created_by_purified))
-        outFileOut.write("True purified tracklets: %s\n" % (true_purified_tracklets_num))
-        outFileOut.write("False purified tracklets: %s\n" % (false_purified_tracklets_num))
-        outFileOut.write("Total purified tracklets: %s\n\n" % (total_purified_tracklets_num))
-        outFileOut.write("purifiedTracklets removed detections from %s tracklets and created %s tracklets...\n\n" % (len(deleted_by_purified_ind), len(created_by_purified)))
+        outFileOut.write("File name: {}\n").format(purifiedTrackletFile)
+        outFileOut.write("File size (bytes): {}\n").format(purified_tracklet_file_size)
+        outFileOut.write("Unique objects in true purified tracklets: {}\n").format(len(true_purified_object_dict))
+        outFileOut.write("Unique objects in false purified tracklets: {}\n").format(len(false_purified_object_dict))
+        outFileOut.write("Total unique objects: {}\n").format(len(true_purified_object_dict) + len(false_purified_object_dict))
+        outFileOut.write("Tracklets purified: {}\n").formatlen(deleted_by_purified_ind)
+        outFileOut.write("Tracklets created: {}\n").formatlen(created_by_purified)
+        outFileOut.write("True purified tracklets: {}\n").format(true_purified_tracklets_num)
+        outFileOut.write("False purified tracklets: {}\n").format(false_purified_tracklets_num)
+        outFileOut.write("Total purified tracklets: {}\n\n").format(total_purified_tracklets_num)
+        outFileOut.write("purifiedTracklets removed detections from {} tracklets and created {} tracklets...\n\n").format(len(deleted_by_purified_ind), len(created_by_purified))
         outFileOut.write("*** Note: These numbers only reflect tracklets affected by purifyTracklets. ***\n")
         outFileOut.write("***          File may contain other unaffected tracklets.                   ***\n\n")
         
-        print ""
+        print()
 
     if removeSubsetTrackletFile is not None:
-        print "Analyzing final tracklets..."
+        print("Analyzing final tracklets...")
         created_by_removeSubsets, deleted_by_removeSubsets_ind = findNewLinesAndDeletedIndices(purifiedTrackletFile, removeSubsetTrackletFile)
-        print "removeSubsets removed %s tracklets..." % (len(deleted_by_removeSubsets_ind))
+        print("removeSubsets removed {} tracklets...").format(len(deleted_by_removeSubsets_ind))
         
         true_final_object_dict = {}
         false_final_object_dict = {}
@@ -539,11 +540,11 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         true_final_tracklets_num = 0
         false_final_tracklets_num = 0
         
-        print "- Updating dataframe properties..."
+        print("- Updating dataframe properties...")
         for ind in deleted_by_purified_ind:
             allTrackletsDataframe.loc[allTrackletsDataframe["trackletId"] == (ind + prev_start_tracklet_id), "deletedBy"] = 4
             
-        print "- Building final tracklets..."
+        print("- Building final tracklets...")
         for i, line in enumerate(created_by_removeSubsets):
             tracklet_id = start_tracklet_id + i 
             tracklet_ids.append(tracklet_id)
@@ -569,7 +570,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             trackletMembersDataframe = pd.concat([trackletMembersDataframe, new_tracklet.toTrackletMembersDataframe()], ignore_index=True)
             allTrackletsDataframe = pd.concat([allTrackletsDataframe, new_tracklet.toAllTrackletsDataframe()], ignore_index=True)
             
-        print "- Appended new tracklets to dataframes..."
+        print("- Appended new tracklets to dataframes...")
         
         prev_start_tracklet_id = start_tracklet_id
         if len(tracklet_ids) >= 1:
@@ -578,7 +579,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             start_tracklet_id = 1
         
         if resultsObject is not None:
-            print "- Updating results object..."
+            print("- Updating results object...")
             resultsObject.totalFinalTracklets[night] = total_final_tracklets_num
             resultsObject.trueFinalTracklets[night] = true_final_tracklets_num
             resultsObject.falseFinalTracklets[night] = false_final_tracklets_num
@@ -586,44 +587,44 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             resultsObject.toYaml(outDir=outDir)
 
         if objectsDataframe is not None:
-            print "- Updating objects dataframe..."
+            print("- Updating objects dataframe...")
             for unique_object in true_final_object_dict:
                 objectsDataframe.loc[objectsDataframe["objectId"] == unique_object, "numTrueFinalTracklets"] += true_final_object_dict[unique_object]
 
             for unique_object in false_final_object_dict:
                 objectsDataframe.loc[objectsDataframe["objectId"] == unique_object, "numFalseFinalTracklets"] += false_final_object_dict[unique_object]
 
-        print "- Writing results to outfile..."
+        print("- Writing results to outfile...")
         outFileOut.write("Output Final Tracklet File Summary:\n")
-        outFileOut.write("File name: %s\n" % (removeSubsetTrackletFile))
-        outFileOut.write("File size (bytes): %s\n" % (remove_subset_tracklet_file_size))
-        outFileOut.write("Unique objects in true final tracklets: %s\n" % (len(true_final_object_dict)))
-        outFileOut.write("Unique objects in false final tracklets: %s\n" % (len(false_final_object_dict)))
-        outFileOut.write("Total unique objects: %s\n" % (len(true_final_object_dict) + len(false_final_object_dict)))
-        outFileOut.write("Tracklets removed: %s\n" % len(deleted_by_removeSubsets_ind))
-        outFileOut.write("True final tracklets: %s\n" % (true_final_tracklets_num))
-        outFileOut.write("False final tracklets: %s\n" % (false_final_tracklets_num))
-        outFileOut.write("Total final tracklets: %s\n\n" % (total_final_tracklets_num))
-        outFileOut.write("removeSubsets removed %s tracklets...\n\n" % (len(deleted_by_removeSubsets_ind)))
+        outFileOut.write("File name: {}\n").format(removeSubsetTrackletFile)
+        outFileOut.write("File size (bytes): {}\n").format(remove_subset_tracklet_file_size)
+        outFileOut.write("Unique objects in true final tracklets: {}\n").format(len(true_final_object_dict))
+        outFileOut.write("Unique objects in false final tracklets: {}\n").format(len(false_final_object_dict))
+        outFileOut.write("Total unique objects: {}\n").format(len(true_final_object_dict) + len(false_final_object_dict))
+        outFileOut.write("Tracklets removed: {}\n").formatlen(deleted_by_removeSubsets_ind)
+        outFileOut.write("True final tracklets: {}\n").format(true_final_tracklets_num)
+        outFileOut.write("False final tracklets: {}\n").format(false_final_tracklets_num)
+        outFileOut.write("Total final tracklets: {}\n\n").format(total_final_tracklets_num)
+        outFileOut.write("removeSubsets removed {} tracklets...\n\n").format(len(deleted_by_removeSubsets_ind))
         outFileOut.write("*** Note: These numbers only reflect tracklets affected by removeSubsets. ***\n")
         outFileOut.write("***          File may contain other unaffected tracklets.                 ***\n\n")
        
-        print ""
+        print()
         
     if cursor is not None:
-        print "Converting dataframes to sqlite tables..."
-        print "Updating TrackletMembers tables..."
+        print("Converting dataframes to sqlite tables...")
+        print("Updating TrackletMembers tables...")
         trackletMembersDataframe.to_sql("TrackletMembers", cursor, if_exists="append", index=False)
-        print "Updating AllTracklets tables..."
+        print("Updating AllTracklets tables...")
         allTrackletsDataframe.to_sql("AllTracklets", cursor, if_exists="append", index=False)
         
-        print ""
+        print()
         
     endTime = time.ctime()
-    outFileOut.write("End time: %s\n" % (endTime))
+    outFileOut.write("End time: {}\n").format(endTime)
         
-    print "Finished tracklet analysis for night %s at %s" % (night, endTime)
-    print ""
+    print("Finished tracklet analysis for night {} at {}").format(night, endTime)
+    print()
     
     return outFile, allTrackletsDataframe, trackletMembersDataframe, tracklet_ids
 
@@ -632,18 +633,18 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
     startTime = time.ctime()
     startNight, endNight = reader.readWindow(detFile)
     window = str(startNight) + "-" + str(endNight)
-    print "Starting track analysis for window (nights: %s - %s) at %s" % (str(startNight), str(endNight), startTime)
-    print ""
+    print("Starting track analysis for window (nights: {} - {}) at {}").format(str(startNight), str(endNight), startTime)
+    print()
     
     # Create outfile to store results
     if not os.path.exists(outDir):
         os.mkdir(outDir)
     outFile = os.path.join(os.path.abspath(outDir), "", window + ".results")
     outFileOut = open(outFile, "w", 0)
-    outFileOut.write("Start time: %s\n\n" % (startTime))
-    print "- Writing results to %s" % (outFile)
+    outFileOut.write("Start time: {}\n\n").format(startTime)
+    print("- Writing results to {}").format(outFile)
 
-    print "- Checking file sizes..."
+    print("- Checking file sizes...")
     ids_file_size = os.path.getsize(idsFile)
     det_file_size = os.path.getsize(detFile)
     track_file_size = os.path.getsize(trackFile)
@@ -651,28 +652,28 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
         final_track_file_size = os.path.getsize(removeSubsetTrackFile)
 
     # Read ids file 
-    print "- Counting number of input tracks..."
+    print("- Counting number of input tracks...")
     track_num = 0
     for trackLine in open(idsFile, "r"):
         track_num += 1
 
     outFileOut.write("Input Track (Ids) File Summary:\n")
-    outFileOut.write("File name: %s\n" % (idsFile))
-    outFileOut.write("File size (bytes): %s\n" % (ids_file_size))
-    outFileOut.write("Tracks: %s\n\n" % (track_num))
+    outFileOut.write("File name: {}\n").format(idsFile)
+    outFileOut.write("File size (bytes): {}\n").format(ids_file_size)
+    outFileOut.write("Tracks: {}\n\n").format(track_num)
     
     # Read detections into a dataframe
-    print "- Reading input detections..."
+    print("- Reading input detections...")
     dets_df = reader.readDetectionsIntoDataframe(detFile)
     detections_num = len(dets_df.index)
     unique_objects = dets_df["objectId"].nunique()
 
     # Count number of true tracks and findable objects in dataframe
-    print "- Counting findable objects..."
+    print("- Counting findable objects...")
     findable_objects = countFindableObjects(dets_df, minDetectionsPerNight=minDetectionsPerNight, minNights=minNights, windowSize=windowSize, snrLimit=snrLimit)
 
     if resultsObject is not None:
-        print "- Updating results object..."
+        print("- Updating results object...")
         resultsObject.windows.append(window)
         resultsObject.windowDetections[window] = detections_num
         resultsObject.windowDetectionFileSizes[window] = det_file_size
@@ -681,14 +682,14 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
         resultsObject.toYaml(outDir=outDir)
 
     # Write detection file properties to outfile
-    print "- Writing detection file summary to outfile..."
-    print ""
+    print("- Writing detection file summary to outfile...")
+    print()
     outFileOut.write("Input Detection File Summary:\n")
-    outFileOut.write("File name: %s\n" % (detFile))
-    outFileOut.write("File size (bytes): %s\n" % (det_file_size))
-    outFileOut.write("Detections: %s\n" % (detections_num))
-    outFileOut.write("Unique objects: %s\n" % (unique_objects))
-    outFileOut.write("Findable objects: %s\n\n" % (len(findable_objects)))
+    outFileOut.write("File name: {}\n").format(detFile)
+    outFileOut.write("File size (bytes): {}\n").format(det_file_size)
+    outFileOut.write("Detections: {}\n").format(detections_num)
+    outFileOut.write("Unique objects: {}\n").format(unique_objects)
+    outFileOut.write("Findable objects: {}\n\n").format(len(findable_objects))
 
     trackFileIn = open(trackFile, "r")
     tracks = []
@@ -703,15 +704,15 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
     false_tracks_num = 0
     track_ids = []
 
-    print "Analyzing track file..."
-    print "- Building dataframes..."
+    print("Analyzing track file...")
+    print("- Building dataframes...")
     allTracksDataframe = pd.DataFrame(columns=["trackId", "linkedObjectId", "numLinkedObjects", "numMembers", "rms", "windowStart", "startTime", "endTime", "subsetOf", "createdBy", "deletedBy"])
     trackMembersDataframe = pd.DataFrame(columns=["trackId", "diaId"])
 
     # Examine each line in trackFile and read in every line
     #  as a track object. If track contains new detections (diasource)
     #  then add new source to diasource_dict. 
-    print "- Building tracks..."
+    print("- Building tracks...")
     for i, line in enumerate(trackFileIn):
         track_id = trackIdCountStart + i 
         track_ids.append(track_id)
@@ -742,7 +743,7 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
         trackMembersDataframe = pd.concat([trackMembersDataframe, new_track.toTrackMembersDataframe()], ignore_index=True)
         allTracksDataframe = pd.concat([allTracksDataframe, new_track.toAllTracksDataframe()], ignore_index=True)
 
-    print "- Appended new tracks to dataframes..."
+    print("- Appended new tracks to dataframes...")
 
     if len(track_ids) >= 1:
         start_track_id = max(track_ids) + 1
@@ -752,27 +753,27 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
     longest_tracks_num = 0
     subset_tracks_num = 0
     if analyzeSubsets:
-        print "- Counting subset tracks..."   
+        print("- Counting subset tracks...")
         longest_tracks_num, subset_tracks_num, tracks = checkSubsets(tracks)
 
-        print "- Updating AllTracks dataframe..."   
+        print("- Updating AllTracks dataframe...")
         for trackLine in tracks:
             if track.isSubset:
                 allTracksDataframe.loc[allTracksDataframe["trackId"] == track.trackId, "subsetOf"] = track.subsetOf
             else:
                 continue
 
-    print "- Counting missed objects..."
+    print("- Counting missed objects...")
     missed_objects = countMissedObjects(found_objects, findable_objects)
 
-    print "- Calculating performance..."
+    print("- Calculating performance...")
     if len(findable_objects) != 0:
         performance_ratio = float(len(found_objects))/len(findable_objects)
     else:
         performance_ratio = 0.0
 
     if resultsObject is not None:
-        print "- Updating results object..."
+        print("- Updating results object...")
         resultsObject.uniqueObjects[window] = unique_objects
         resultsObject.findableObjects[window] = len(findable_objects)
         resultsObject.foundObjects[window] = len(found_objects)
@@ -787,35 +788,35 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
         resultsObject.toYaml(outDir=outDir)
 
     if objectsDataframe is not None:
-        print "- Updating objects dataframe..."
+        print("- Updating objects dataframe...")
         for unique_object in true_object_dict:
             objectsDataframe.loc[objectsDataframe["objectId"] == unique_object, "numTrueTracks"] += true_object_dict[unique_object]
 
         for unique_object in false_object_dict:
             objectsDataframe.loc[objectsDataframe["objectId"] == unique_object, "numFalseTracks"] += false_object_dict[unique_object]
 
-    print "- Writing results to outfile..."
+    print("- Writing results to outfile...")
     outFileOut.write("Output Track File Summary:\n")
-    outFileOut.write("File name: %s\n" % (trackFile))
-    outFileOut.write("File size (bytes): %s\n" % (track_file_size))
-    outFileOut.write("Objects found: %s\n" % (len(found_objects)))
-    outFileOut.write("Objects missed: %s\n" % (len(missed_objects)))
-    outFileOut.write("Unique objects in true tracks: %s\n" % (len(true_object_dict)))
-    outFileOut.write("Unique objects in false tracks: %s\n" % (len(false_object_dict)))
-    outFileOut.write("Total unique objects: %s\n" % (len(true_object_dict) + len(false_object_dict)))
-    outFileOut.write("True tracks: %s\n" % (true_tracks_num))
-    outFileOut.write("False tracks %s\n" % (false_tracks_num))
-    outFileOut.write("Total tracks: %s\n" % (total_tracks_num))
-    outFileOut.write("Subset tracks: %s\n" % (subset_tracks_num))
-    outFileOut.write("Longest tracks: %s\n\n" % (longest_tracks_num))
-    outFileOut.write("MOPs Performance Ratio (found/findable): %.5f\n\n" % (performance_ratio))
+    outFileOut.write("File name: {}\n").format(trackFile)
+    outFileOut.write("File size (bytes): {}\n").format(track_file_size)
+    outFileOut.write("Objects found: {}\n").format(len(found_objects))
+    outFileOut.write("Objects missed: {}\n").format(len(missed_objects))
+    outFileOut.write("Unique objects in true tracks: {}\n").format(len(true_object_dict))
+    outFileOut.write("Unique objects in false tracks: {}\n").format(len(false_object_dict))
+    outFileOut.write("Total unique objects: {}\n").format(len(true_object_dict) + len(false_object_dict))
+    outFileOut.write("True tracks: {}\n").format(true_tracks_num)
+    outFileOut.write("False tracks {}\n").format(false_tracks_num)
+    outFileOut.write("Total tracks: {}\n").format(total_tracks_num)
+    outFileOut.write("Subset tracks: {}\n").format(subset_tracks_num)
+    outFileOut.write("Longest tracks: {}\n\n").format(longest_tracks_num)
+    outFileOut.write("MOPs Performance Ratio (found/findable): %.5f\n\n").format(performance_ratio)
 
-    print ""
+    print()
 
     if removeSubsetTrackFile is not None:
-        print "Analyzing final tracks..."
+        print("Analyzing final tracks...")
         created_by_removeSubsets, deleted_by_removeSubsets_ind = findNewLinesAndDeletedIndices(trackFile, removeSubsetTrackFile)
-        print "removeSubsets removed %s tracks..." % (len(deleted_by_removeSubsets_ind))
+        print("removeSubsets removed {} tracks...").format(len(deleted_by_removeSubsets_ind))
 
         true_final_object_dict = {}
         false_final_object_dict = {}
@@ -824,11 +825,11 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
         true_final_tracks_num = 0
         false_final_tracks_num = 0
 
-        print "- Updating dataframe properties..."
+        print("- Updating dataframe properties...")
         for ind in deleted_by_removeSubsets_ind:
             allTracksDataframe.loc[allTracksDataframe["trackId"] == ind + trackIdCountStart, "deletedBy"] = 6
 
-        print "- Building final tracks..."
+        print("- Building final tracks...")
         for i, line in enumerate(created_by_removeSubsets):
             track_id = start_track_id + i
             track_ids.append(track_id)
@@ -854,10 +855,10 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
             trackMembersDataframe = pd.concat([trackMembersDataframe, new_track.toTrackMembersDataframe()], ignore_index=True)
             allTracksDataframe = pd.concat([allTracksDataframe, new_track.toAllTracksDataframe()], ignore_index=True)
 
-        print "- Appended new tracks to dataframes..."
+        print("- Appended new tracks to dataframes...")
 
         if resultsObject is not None:
-            print "- Updating results object..."
+            print("- Updating results object...")
             resultsObject.totalFinalTracks[window] = total_final_tracks_num
             resultsObject.trueFinalTracks[window] = true_final_tracks_num
             resultsObject.falseFinalTracks[window] = false_final_tracks_num
@@ -865,42 +866,42 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
             resultsObject.toYaml(outDir=outDir)
 
         if objectsDataframe is not None:
-            print "- Updating objects dataframe..."
+            print("- Updating objects dataframe...")
             for unique_object in true_final_object_dict:
                 objectsDataframe.loc[objectsDataframe["objectId"] == unique_object, "numTrueFinalTracks"] += true_final_object_dict[unique_object]
 
             for unique_object in false_final_object_dict:
                 objectsDataframe.loc[objectsDataframe["objectId"] == unique_object, "numFalseFinalTracks"] += false_final_object_dict[unique_object]
 
-        print "- Writing results to outfile..."
+        print("- Writing results to outfile...")
         outFileOut.write("Output Final Track File Summary:\n")
-        outFileOut.write("File name: %s\n" % (removeSubsetTrackFile))
-        outFileOut.write("File size (bytes): %s\n" % (final_track_file_size))
-        outFileOut.write("Unique objects in true tracks: %s\n" % (len(true_final_object_dict)))
-        outFileOut.write("Unique objects in false tracks: %s\n" % (len(false_final_object_dict)))
-        outFileOut.write("Total unique objects: %s\n" % (len(true_final_object_dict) + len(false_final_object_dict)))
-        outFileOut.write("True final tracks: %s\n" % (true_final_tracks_num))
-        outFileOut.write("False final tracks %s\n" % (false_final_tracks_num))
-        outFileOut.write("Total final tracks: %s\n\n" % (total_final_tracks_num))
-        outFileOut.write("removeSubsets removed %s tracks...\n\n" % (len(deleted_by_removeSubsets_ind)))
+        outFileOut.write("File name: {}\n").format(removeSubsetTrackFile)
+        outFileOut.write("File size (bytes): {}\n").format(final_track_file_size)
+        outFileOut.write("Unique objects in true tracks: {}\n").format(len(true_final_object_dict))
+        outFileOut.write("Unique objects in false tracks: {}\n").format(len(false_final_object_dict))
+        outFileOut.write("Total unique objects: {}\n").format(len(true_final_object_dict) + len(false_final_object_dict))
+        outFileOut.write("True final tracks: {}\n").format(true_final_tracks_num)
+        outFileOut.write("False final tracks {}\n").format(false_final_tracks_num)
+        outFileOut.write("Total final tracks: {}\n\n").format(total_final_tracks_num)
+        outFileOut.write("removeSubsets removed {} tracks...\n\n").format(len(deleted_by_removeSubsets_ind))
         outFileOut.write("*** Note: These numbers only reflect tracks affected by removeSubsets. ***\n")
         outFileOut.write("***          File may contain other unaffected tracks.                 ***\n\n")
-        print ""
+        print()
 
     if cursor is not None:
-        print "Converting dataframes to sqlite tables..."
-        print "Updating TrackMembers table..."
+        print("Converting dataframes to sqlite tables...")
+        print("Updating TrackMembers table...")
         trackMembersDataframe.to_sql("TrackMembers", cursor, if_exists="append", index=False)
-        print "Updating AllTracks table..."
+        print("Updating AllTracks table...")
         allTracksDataframe.to_sql("AllTracks", cursor, if_exists="append", index=False)
         
-        print ""
+        print()
 
     endTime = time.ctime()
-    outFileOut.write("End time: %s\n" % (endTime))
+    outFileOut.write("End time: {}\n").format(endTime)
 
-    print "Finished track analysis for window (nights: %s - %s) at %s" % (str(startNight), str(endNight), endTime)
-    print ""
+    print("Finished track analysis for window (nights: {} - {}) at {}").format(str(startNight), str(endNight), endTime)
+    print()
     
     return outFile, allTracksDataframe, trackMembersDataframe, track_ids
 
@@ -981,15 +982,15 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
         if overwrite:
             shutil.rmtree(outDir)
             os.mkdir(outDir)
-            print "Overwrite triggered: deleting existing results directory..."
-            print ""
+            print("Overwrite triggered: deleting existing results directory...")
+            print()
         else:
             raise NameError("Results directory exists! Cannot continue!")
     else:
         os.mkdir(outDir)
 
     if resultsObject is None:
-        print "Initializing new results object..."
+        print("Initializing new results object...")
         resultsObject = Results(parameters, tracker)
 
     cursor = None
@@ -999,17 +1000,17 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
 
     objects_df = None
     if fullDetFile:
-        print "Reading full detections file into dataframe..."
+        print("Reading full detections file into dataframe...")
         full_dets_df = reader.readDetectionsIntoDataframe(fullDetFile)
         unique_objects, numDetections = np.unique(full_dets_df["objectId"], return_counts=True)
 
-        print "Counting findable objects as tracklets..."
+        print("Counting findable objects as tracklets...")
         findable_objects_as_tracklets = countFindableObjects(full_dets_df, minDetectionsPerNight=2, minNights=1, windowSize=1, snrLimit=-1)
 
-        print "Counting findable objects as tracks..."
+        print("Counting findable objects as tracks...")
         findable_objects_as_tracks = countFindableObjects(full_dets_df, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1)
 
-        print "Building objects dataframe..."
+        print("Building objects dataframe...")
         table = np.zeros(len(unique_objects), 
             dtype={"names":["objectId", "numDetections", "findableAsTracklet", "findableAsTrack", 
                         "numFalseTracklets", "numTrueTracklets", "numFalseCollapsedTracklets", "numTrueCollapsedTracklets",
@@ -1024,7 +1025,7 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
         table["numDetections"] = numDetections
         objects_df = pd.DataFrame(table)
 
-        print "Updating objects dataframe..."
+        print("Updating objects dataframe...")
         for unique_object in findable_objects_as_tracklets:
             objects_df.loc[objects_df["objectId"] == unique_object, "findableAsTracklet"] = True
 
@@ -1032,15 +1033,15 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
             objects_df.loc[objects_df["objectId"] == unique_object, "findableAsTrack"] = True
 
         if toDatabase:
-            print "Reading full detections file into database..."
+            print("Reading full detections file into database...")
             reader.readDetectionsIntoDatabase(fullDetFile, cursor, table="DiaSources", header=None)
 
-        print ""
+        print()
 
     if tracklets:
 
-        print "Starting tracklet analysis for %s nights..." % (len(tracker.tracklets))
-        print ""
+        print("Starting tracklet analysis for {} nights...").format(len(tracker.tracklets))
+        print()
 
         resultFiles = analyzeMultipleTracklets(tracker.tracklets, tracker.diasources, outDir=outDir, 
             collapsedTrackletFiles=tracker.collapsedTrackletsById, purifiedTrackletFiles=tracker.purifiedTrackletsById,
@@ -1051,17 +1052,17 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
         tracker.toYaml(outDir=tracker.runDir)
         tracker.toYaml(outDir=tracker.resultsDir)
 
-        print ""
+        print()
 
     resultsObject.toYaml(outDir=tracker.runDir)
     resultsObject.toYaml(outDir=tracker.resultsDir)
 
-    print ""
+    print()
 
     if tracks:
 
-        print "Starting track analysis for %s windows..." % (len(tracker.tracks))
-        print ""
+        print("Starting track analysis for {} windows...").format(len(tracker.tracks))
+        print()
 
         resultFiles, databases = analyzeMultipleTracks(tracker.tracks, tracker.dets, tracker.ids, outDir=outDir, 
           removeSubsetTrackFiles=tracker.finalTracks, toDatabase=toDatabase, objectsDataframe=objects_df, resultsObject=resultsObject, 
@@ -1072,20 +1073,20 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
         tracker.toYaml(outDir=tracker.runDir)
         tracker.toYaml(outDir=tracker.resultsDir)
 
-        print ""
+        print()
 
     resultsObject.toYaml(outDir=tracker.runDir)
     resultsObject.toYaml(outDir=tracker.resultsDir)
 
-    print ""
+    print()
 
     if fullDetFile:
-        print "Converting object dataframe to sqlite table..."
-        print "Updating AllObjects table..."
+        print("Converting object dataframe to sqlite table...")
+        print("Updating AllObjects table...")
         objects_df.to_sql("AllObjects", cursor, if_exists="append", index=False)
-        print ""
+        print()
 
-    print "Analysis finished."
+    print("Analysis finished.")
 
     return resultsObject, objects_df
 

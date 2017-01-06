@@ -351,41 +351,41 @@ class Parameters(object):
         self._keepOnlyLongestTracks = value
 
     def info(self):
-        print "------- MOPS Parameters --------"
-        print "Current Parameter Values:"
-        print ""
-        print "---- findTracklets ----"
-        print "\tMaximum velocity:                         %s" % (self._vMax)
-        print "\tMinimum velocity:                         %s" % (self._vMin)
-        print "---- collapseTracklets ----"
-        print "\tRight Ascension tolerance:                %s" % (self._raTol)
-        print "\tDeclination tolerance:                    %s" % (self._decTol)
-        print "\tAngular tolerance:                        %s" % (self._angTol)
-        print "\tVelocity tolerance:                       %s" % (self._vTol)
-        print "\tMethod:                                   %s" % (self._method)
-        print "\tUse RMS filter:                           %s" % (self._useRMSfilt)
-        print "\tMaximum RMS:                              %s" % (self._rmsMax)
-        print "---- purifyTracklets ----"
-        print "\tMaximum RMS:                              %s" % (self._rmsMax)
-        print "---- removeSubsets (tracklets) ----"
-        print "\tRemove subsets:                           %s" % (self._rmSubsetTracklets)
-        print "\tKeep only longest:                        %s" % (self._keepOnlyLongestTracklets)
-        print "---- makeLinkTrackletsInput_byNight.py ----"
-        print "\tWindow size:                              %s" % (self._windowSize)
-        print "---- linkTracklets ----"
-        print "\tDetection error threshold:                %s" % (self._detErrThresh)
-        print "\tMaximum right ascension acceleration:     %s" % (self._raAccelMax)
-        print "\tMaximum declination acceleration:         %s" % (self._decAccelMax)
-        print "\tLatest first endpoint:                    %s" % (self._latestFirstEnd)
-        print "\tEarliest last endpoint:                   %s" % (self._earliestLastEnd)
-        print "\tMinimum nights:                           %s" % (self._nightMin)
-        print "\tMinimum detections:                       %s" % (self._detectMin)
-        print "\tOutput buffer size:                       %s" % (self._bufferSize)
-        print "\tMaximum leaf node size:                   %s" % (self._leafNodeSizeMax)
-        print "---- removeSubsets (tracks) ----"
-        print "\tRemove subsets:                           %s" % (self._rmSubsetTracks)
-        print "\tKeep only longest:                        %s" % (self._keepOnlyLongestTracks)
-        print ""
+        print("------- MOPS Parameters --------")
+        print("Current Parameter Values:")
+        print()
+        print("---- findTracklets ----")
+        print("\tMaximum velocity:                         {}").format(self._vMax)
+        print("\tMinimum velocity:                         {}").format(self._vMin)
+        print("---- collapseTracklets ----")
+        print("\tRight Ascension tolerance:                {}").format(self._raTol)
+        print("\tDeclination tolerance:                    {}").format(self._decTol)
+        print("\tAngular tolerance:                        {}").format(self._angTol)
+        print("\tVelocity tolerance:                       {}").format(self._vTol)
+        print("\tMethod:                                   {}").format(self._method)
+        print("\tUse RMS filter:                           {}").format(self._useRMSfilt)
+        print("\tMaximum RMS:                              {}").format(self._rmsMax)
+        print("---- purifyTracklets ----")
+        print("\tMaximum RMS:                              {}").format(self._rmsMax)
+        print("---- removeSubsets (tracklets) ----")
+        print("\tRemove subsets:                           {}").format(self._rmSubsetTracklets)
+        print("\tKeep only longest:                        {}").format(self._keepOnlyLongestTracklets)
+        print("---- makeLinkTrackletsInput_byNight.py ----")
+        print("\tWindow size:                              {}").format(self._windowSize)
+        print("---- linkTracklets ----")
+        print("\tDetection error threshold:                {}").format(self._detErrThresh)
+        print("\tMaximum right ascension acceleration:     {}").format(self._raAccelMax)
+        print("\tMaximum declination acceleration:         {}").format(self._decAccelMax)
+        print("\tLatest first endpoint:                    {}").format(self._latestFirstEnd)
+        print("\tEarliest last endpoint:                   {}").format(self._earliestLastEnd)
+        print("\tMinimum nights:                           {}").format(self._nightMin)
+        print("\tMinimum detections:                       {}").format(self._detectMin)
+        print("\tOutput buffer size:                       {}").format(self._bufferSize)
+        print("\tMaximum leaf node size:                   {}").format(self._leafNodeSizeMax)
+        print("---- removeSubsets (tracks) ----")
+        print("\tRemove subsets:                           {}").format(self._rmSubsetTracks)
+        print("\tKeep only longest:                        {}").format(self._keepOnlyLongestTracks)
+        print()
 
         return
 
@@ -395,7 +395,7 @@ class Parameters(object):
         else:
             outname = os.path.join(outDir, "parameters.yaml")
 
-        print "Saving parameters to %s" % (outname)
+        print("Saving parameters to {}").format(outname)
 
         stream = file(outname, "w")
         yaml.dump(self, stream)
@@ -405,7 +405,7 @@ class Parameters(object):
 
     @classmethod
     def fromYaml(cls, yamlFile):
-        print "Loading parameters from %s" % (yamlFile)
+        print("Loading parameters from {}").format(yamlFile)
 
         cls = yaml.load(file(yamlFile, "r"))
 

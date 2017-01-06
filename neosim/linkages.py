@@ -483,11 +483,11 @@ def calcRMS(diasources):
         dist = calcGreatCircleDistance(predRa, predDec, ras[i], decs[i])
         dists.append(dist)
         if (dist > .1):
-            print "Unexpected wierdness, diasource had angular distance of %f from best-fit curve prediction" % (dist)
-            print "Predicted RA, Dec were ", predRa, predDec
-            print "observed RA, Dec were ", ras[i], decs[i]
-            print "all RAs were ", ras
-            print "all decs were ", decs
+            print("Unexpected wierdness, diasource had angular distance of {} from best-fit curve prediction").format(dist)
+            print("Predicted RA, Dec were {} {}").format(predRa, predDec)
+            print("observed RA, Dec were {} {}").format(ras[i], decs[i])
+            print("all RAs were {}").format(ras)
+            print("all decs were {}").format(decs)
         sqDist = dist**2
         # print "got euclidean distance was ", sqDist
         netSqDist += sqDist

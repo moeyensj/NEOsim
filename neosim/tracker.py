@@ -402,23 +402,23 @@ class Tracker(object):
         self._diasources = diasources
         self._diasourcesDir = diasourcesDir
 
-        print "Found %s detection files in %s." % (len(diasourceList), diasourcesDir)
-        print ""
+        print("Found {} detection files in {}.").format(len(diasourceList), diasourcesDir)
+        print()
 
     def info(self):
-        print "------- MOPS Tracker --------"
-        print "Current run status:"
-        print ""
-        print "\tfindTracklets:                     %s" % (self._ranFindTracklets)
-        print "\tidsToIndices.py:                   %s" % (self._ranIdsToIndices)
-        print "\tcollapseTracklets:                 %s" % (self._ranCollapseTracklets)
-        print "\tpurifyTracklets:                   %s" % (self._ranPurifyTracklets)
-        print "\tremoveSubsets (tracklets):         %s" % (self._ranRemoveSubsetTracklets)
-        print "\tindicesToIds.py:                   %s" % (self._ranIndicesToIds)
-        print "\tmakeLinkTrackletsInputByNight.py:  %s" % (self._ranMakeLinkTrackletsInputByNight)
-        print "\tlinkTracklets:                     %s" % (self._ranLinkTracklets)
-        print "\tremoveSubsets (tracks):            %s" % (self._ranRemoveSubsetTracks)
-        print ""
+        print("------- MOPS Tracker --------")
+        print("Current run status:")
+        print()
+        print("\tfindTracklets:                     {}").format(self._ranFindTracklets)
+        print("\tidsToIndices.py:                   {}").format(self._ranIdsToIndices)
+        print("\tcollapseTracklets:                 {}").format(self._ranCollapseTracklets)
+        print("\tpurifyTracklets:                   {}").format(self._ranPurifyTracklets)
+        print("\tremoveSubsets (tracklets):         {}").format(self._ranRemoveSubsetTracklets)
+        print("\tindicesToIds.py:                   {}").format(self._ranIndicesToIds)
+        print("\tmakeLinkTrackletsInputByNight.py:  {}").format(self._ranMakeLinkTrackletsInputByNight)
+        print("\tlinkTracklets:                     {}").format(self._ranLinkTracklets)
+        print("\tremoveSubsets (tracks):            {}").format(self._ranRemoveSubsetTracks)
+        print()
 
         return
 
@@ -428,7 +428,7 @@ class Tracker(object):
         else:
             outname = os.path.join(outDir, "tracker.yaml")
 
-        print "Saving tracker to %s" % (outname)
+        print("Saving tracker to {}").format(outname)
 
         stream = file(outname, "w")
         yaml.dump(self, stream)
@@ -438,7 +438,7 @@ class Tracker(object):
 
     @classmethod
     def fromYaml(cls, yamlFile):
-        print "Loading tracker from %s" % (yamlFile)
+        print("Loading tracker from {}").format(yamlFile)
 
         cls = yaml.load(file(yamlFile, "r"))
 

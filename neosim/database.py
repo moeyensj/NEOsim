@@ -8,7 +8,7 @@ def buildTrackletDatabase(database, outDir):
     database = os.path.join(os.path.abspath(outDir), "", database)
     con = sqlite3.connect(database)
 
-    print "Creating DiaSources table..."
+    print("Creating DiaSources table...")
     con.execute("""
         CREATE TABLE DiaSources (
             diaId INTEGER PRIMARY KEY,
@@ -22,7 +22,7 @@ def buildTrackletDatabase(database, outDir):
         );
         """)
 
-    print "Creating AllObjects table..."
+    print("Creating AllObjects table...")
     con.execute("""
         CREATE TABLE AllObjects (
             objectId INTEGER PRIMARY KEY,
@@ -44,14 +44,14 @@ def buildTrackletDatabase(database, outDir):
         );
         """)
 
-    print "Creating FoundObjects view..."
+    print("Creating FoundObjects view...")
     con.execute("""
         CREATE VIEW FoundObjects AS
         SELECT * FROM AllObjects
         WHERE numTrueTracks > 0
         """)
 
-    print "Creating MissedObjects view..."
+    print("Creating MissedObjects view...")
     con.execute("""
         CREATE VIEW MissedObjects AS
         SELECT * FROM AllObjects
@@ -59,7 +59,7 @@ def buildTrackletDatabase(database, outDir):
         AND findableAsTrack = 1
         """)
 
-    print "Creating AllTracklets table..."
+    print("Creating AllTracklets table...")
     con.execute("""
         CREATE TABLE AllTracklets (
             trackletId INTEGER PRIMARY KEY,
@@ -74,7 +74,7 @@ def buildTrackletDatabase(database, outDir):
         );
         """)
 
-    print "Creating TrackletMembers table..."
+    print("Creating TrackletMembers table...")
     con.execute("""
         CREATE TABLE TrackletMembers (
             trackletId INTEGER,
@@ -82,14 +82,14 @@ def buildTrackletDatabase(database, outDir):
         );
         """)
 
-    print "Creating Tracklets view..."
+    print("Creating Tracklets view...")
     con.execute("""
         CREATE VIEW Tracklets AS
         SELECT * FROM AllTracklets
         WHERE createdBy = 1
         """)
 
-    print "Creating CollapsedTracklets view..."
+    print("Creating CollapsedTracklets view...")
     con.execute("""
         CREATE VIEW CollapsedTracklets AS
         SELECT * FROM AllTracklets
@@ -97,7 +97,7 @@ def buildTrackletDatabase(database, outDir):
         OR createdBy = 2
         """)
 
-    print "Creating PurifiedTracklets view..."
+    print("Creating PurifiedTracklets view...")
     con.execute("""
         CREATE VIEW PurifiedTracklets AS
         SELECT * FROM AllTracklets
@@ -105,7 +105,7 @@ def buildTrackletDatabase(database, outDir):
         OR createdBy = 3
         """)
 
-    print "Creating FinalTracklets view..."
+    print("Creating FinalTracklets view...")
     con.execute("""
         CREATE VIEW FinalTracklets AS
         SELECT * FROM AllTracklets
@@ -113,7 +113,7 @@ def buildTrackletDatabase(database, outDir):
         OR createdBy = 4
         """)
 
-    print ""
+    print()
 
     return con, database
 
@@ -123,7 +123,7 @@ def buildTrackDatabase(database, outDir):
     database = os.path.join(os.path.abspath(outDir), "", database)
     con = sqlite3.connect(database)
 
-    print "Creating AllTracks table..."
+    print("Creating AllTracks table...")
     con.execute("""
         CREATE TABLE AllTracks (
             trackId INTEGER PRIMARY KEY,
@@ -140,7 +140,7 @@ def buildTrackDatabase(database, outDir):
         );
         """)
 
-    print "Creating TrackMembers table..."
+    print("Creating TrackMembers table...")
     con.execute("""
         CREATE TABLE TrackMembers (
             trackId INTEGER,
@@ -148,14 +148,14 @@ def buildTrackDatabase(database, outDir):
         );
         """)
 
-    print "Creating Tracks view..."
+    print("Creating Tracks view...")
     con.execute("""
         CREATE VIEW Tracks AS
         SELECT * FROM AllTracks
         WHERE createdBy = 5
         """)
 
-    print "Creating FinalTracks view..."
+    print("Creating FinalTracks view...")
     con.execute("""
         CREATE VIEW FinalTracks AS
         SELECT * FROM AllTracks
@@ -163,7 +163,7 @@ def buildTrackDatabase(database, outDir):
         OR createdBy = 6
         """)
 
-    print ""
+    print()
 
     return con, database
 
@@ -172,14 +172,14 @@ def attachDatabases(con, databases):
     attached_names = []
 
     if len(databases) > 10:
-        print "Warning: Cannot attach more than 10 databases..."
-        print "Proceeding with the first 10 databases..."
+        print("Warning: Cannot attach more than 10 databases...")
+        print("Proceeding with the first 10 databases...")
         databases = databases[0:10]
 
     for i, window in enumerate(databases):
-        attached_names.append("db%s" % i)
-        print "Attaching %s to con as db%s..." % (window, i)
-        con.execute("""ATTACH DATABASE '%s' AS db%s;""" % (window, i))
+        attached_names.append("db{}.").format(i)
+        print("Attaching {} to con as db{}...").format(window, i)
+        con.execute("""ATTACH DATABASE '{}' AS db{};""").format(window, i)
     return attached_names
 
 
@@ -451,30 +451,30 @@ def calcCompleteness(con):
 
 
 def results(con):
-    print "Completeness:                  %s" % calcCompleteness(con)
-    print "Findable Objects:              %s" % countFindableObjects(con)
-    print "Found Objects:                 %s" % countFoundObjects(con)
-    print "Missed Objects:                %s" % countMissedObjects(con)
-    print ""
-    print "findTracklets Efficiency:      %s" % calcFindTrackletsEfficiency(con)
-    print "True Tracklets:                %s" % countTrueTracklets(con)
-    print "False Tracklets:               %s" % countFalseTracklets(con)
-    print "Total Tracklets:               %s" % countTracklets(con)
-    print ""
-    print "collapsedTracklets Efficiency: %s" % calcCollapseTrackletsEfficiency(con)
-    print "True Collapsed Tracklets:      %s" % countTrueCollapsedTracklets(con)
-    print "False Collapsed Tracklets:     %s" % countFalseCollapsedTracklets(con)
-    print "Total Collapsed Tracklets:     %s" % countCollapsedTracklets(con)
-    print ""
-    print "purifyTracklets Efficiency:    %s" % calcPurifyTrackletsEfficiency(con)
-    print "True Purified Tracklets:       %s" % countTruePurifiedTracklets(con)
-    print "False Purified Tracklets:      %s" % countFalsePurifiedTracklets(con)
-    print "Total Purified Tracklets:      %s" % countPurifiedTracklets(con)
-    print ""
-    print "linkTracklets Efficiency:      %s" % calcLinkTrackletsEfficiency(con)
-    print "True Tracks:                   %s" % countTrueTracks(con)
-    print "False Tracks:                  %s" % countFalseTracks(con)
-    print "Total Tracks:                  %s" % countTracks(con)
+    print("Completeness:                  {}.").format(calcCompleteness(con))
+    print("Findable Objects:              {}.").format(countFindableObjects(con))
+    print("Found Objects:                 {}.").format(countFoundObjects(con))
+    print("Missed Objects:                {}.").format(countMissedObjects(con))
+    print()
+    print("findTracklets Efficiency:      {}.").format(calcFindTrackletsEfficiency(con))
+    print("True Tracklets:                {}.").format(countTrueTracklets(con))
+    print("False Tracklets:               {}.").format(countFalseTracklets(con))
+    print("Total Tracklets:               {}.").format(countTracklets(con))
+    print()
+    print("collapsedTracklets Efficiency: {}.").format(calcCollapseTrackletsEfficiency(con))
+    print("True Collapsed Tracklets:      {}.").format(countTrueCollapsedTracklets(con))
+    print("False Collapsed Tracklets:     {}.").format(countFalseCollapsedTracklets(con))
+    print("Total Collapsed Tracklets:     {}.").format(countCollapsedTracklets(con))
+    print()
+    print("purifyTracklets Efficiency:    {}.").format(calcPurifyTrackletsEfficiency(con))
+    print("True Purified Tracklets:       {}.").format(countTruePurifiedTracklets(con))
+    print("False Purified Tracklets:      {}.").format(countFalsePurifiedTracklets(con))
+    print("Total Purified Tracklets:      {}.").format(countPurifiedTracklets(con))
+    print()
+    print("linkTracklets Efficiency:      {}.").format(calcLinkTrackletsEfficiency(con))
+    print("True Tracks:                   {}.").format(countTrueTracks(con))
+    print("False Tracks:                  {}.").format(countFalseTracks(con))
+    print("Total Tracks:                  {}.").format(countTracks(con))
     return
 
 
