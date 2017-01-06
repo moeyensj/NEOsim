@@ -4,8 +4,8 @@ import shutil
 import os
 
 import runMops
-from MopsTracker import MopsTracker
-from MopsParameters import MopsParameters
+from tracker import Tracker
+from parameters import Parameters
 
 PARAMETERS = "unittest/controlRun/full/parameters.yaml"
 TRACKER = "unittest/controlRun/full/tracker.yaml"
@@ -19,9 +19,9 @@ class MopsTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.testTracker = MopsTracker(TEST_DIR)
+        cls.testTracker = Tracker(TEST_DIR)
         cls.testTracker.getDetections(DATA_DIR)
-        cls.testParameters = MopsParameters(verbose=VERBOSE)
+        cls.testParameters = Parameters(verbose=VERBOSE)
 
         cls.controlParameters = yaml.load(file(PARAMETERS, "r"))
         cls.controlTracker = yaml.load(file(TRACKER, "r"))

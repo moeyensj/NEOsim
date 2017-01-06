@@ -6,8 +6,8 @@ import sqlite3 as sql
 import pandas as pd
  
 import runMops
-from MopsTracker import MopsTracker
-from MopsParameters import MopsParameters
+from tracker import Tracker
+from parameters import Parameters
 
 TEST_DATA_DIR = "unittest/testData/"
 CONTROL_RUN_DIR = "unittest/controlRun/"
@@ -68,8 +68,8 @@ def createTestCase(con, testDataDir, controlRunDir, subDir, ssmid=None):
     subprocess.call(call);
     
     runDir = os.path.join(controlRunDir, subDir)
-    parameters = MopsParameters(verbose=True)
-    tracker = MopsTracker(runDir, verbose=True)
+    parameters = Parameters(verbose=True)
+    tracker = Tracker(runDir, verbose=True)
     runMops.runMops(parameters, tracker, nightly, runDir)
 
 if __name__ == "__main__":

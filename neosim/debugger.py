@@ -5,10 +5,9 @@ import sqlite3 as sql
 import pandas as pd
  
 import runMops
-import MopsAnalysis
-from MopsTracker import MopsTracker
-from MopsParameters import MopsParameters
-from MopsResults import MopsResults
+import analysis
+from tracker import Tracker
+from parameters import Parameters
 
 OUTPUT_DIR = "debug/debugSources/"
 DATABASE = "/Volumes/DataCenter/neosimData/ldm156/fullsky5year.db"
@@ -44,12 +43,12 @@ def runObject(objectId, database=DATABASE, tableName=TABLE_NAME, outputDir=OUTPU
     
     run_dir = os.path.join(new_data_dir, "run")
     if parameters == None:
-        parameters = MopsParameters(verbose=True)
-    tracker = MopsTracker(run_dir, verbose=True)
+        parameters = Parameters(verbose=True)
+    tracker = Tracker(run_dir, verbose=True)
     tracker.getDetections(nightly)
     runMops.runMops(parameters, tracker)
 
-    results, df = MopsAnalysis.analyze(parameters, tracker, outDir=outputDir)
+    results, df = analysis.analyze(parameters, tracker, outDir=outputDir)
 
     if delete:
         shutil.rmtree(run_dir)

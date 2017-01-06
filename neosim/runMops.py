@@ -22,8 +22,8 @@ import yaml
 import shutil
 import multiprocessing
 
-from MopsParameters import MopsParameters
-from MopsTracker import MopsTracker
+from parameters import Parameters
+from tracker import Tracker
 
 # File suffixes
 DIASOURCE_SUFFIX = ".dias"
@@ -46,7 +46,7 @@ FINAL_TRACKS_DIR = "tracksFinal/"
 
 VERBOSE = True
 
-defaults = MopsParameters(verbose=False)
+defaults = Parameters(verbose=False)
 
 
 def directoryBuilder(runDir,
@@ -403,7 +403,7 @@ def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir,
     ----------------------
     parameter: (dtype) [default (if optional)], information
 
-    parameters: (MopsParameters object), user or default defined MOPS parameter object
+    parameters: (Parameters object), user or default defined MOPS parameter object
     diasourcesDir: (string), directory containing diasources
     trackletsDir: (string), directory containing final (subset removed) tracklets
     outDir: (string), dets and ids file output directory
@@ -537,7 +537,7 @@ def runLinkTracklets(dets, ids, outDir,
 
 def runArgs():
 
-    default = MopsParameters(verbose=False)
+    default = Parameters(verbose=False)
 
     parser = argparse.ArgumentParser(
         prog="runMops",
@@ -549,7 +549,7 @@ def runArgs():
 
     # Config file, load parameters from config file if given
     parser.add_argument("-cfg", "--config_file", default=None,
-        help="""If given, will read parameter values from file to overwrite default values defined in MopsParameters. 
+        help="""If given, will read parameter values from file to overwrite default values defined in Parameters. 
         Parameter values not-defined in config file will be set to default. See default.cfg for sample config file.""")
 
     # Verbosity 
@@ -644,8 +644,8 @@ def runMops(parameters, tracker,
     ----------------------
     parameter: (dtype) [default (if optional)], information
 
-    parameters: (MopsParameters object), user or default defined MOPS parameter object
-    tracker: (MopsTracker object), object keeps track of output files and directories
+    parameters: (Parameters object), user or default defined MOPS parameter object
+    tracker: (Tracker object), object keeps track of output files and directories
     findTracklets: (boolean) [True], run findTracklets?
     collapse: (boolean) [True], run collapseTracklets?
     purify: (boolean) [True], run purifyTracklets?
@@ -669,7 +669,7 @@ def runMops(parameters, tracker,
     if overwrite:
         print "Overwrite triggered: clearing tracker..."
         print ""
-        tracker = MopsTracker(runDir, verbose=False)
+        tracker = Tracker(runDir, verbose=False)
         tracker.getDetections(diasourcesDir)
 
     # Build directory structure
@@ -936,9 +936,9 @@ if __name__ == "__main__":
     runDir = os.path.join(os.path.abspath(args.outputDir), "")
     diasourcesDir = os.path.join(os.path.abspath(args.diasourcesDir), "")
 
-    # Initialize MopsParameters and MopsTracker
+    # Initialize Parameters and Tracker
     if args.config_file == None:
-        parameters = MopsParameters(
+        parameters = Parameters(
                         velocity_max=args.velocity_max,
                         velocity_min=args.velocity_min,
                         ra_tolerance=args.ra_tolerance,
@@ -968,10 +968,10 @@ if __name__ == "__main__":
             print "Config file given. Reading parameters from file..."
             print ""
         cfg = yaml.load(file(args.config_file, "r"))
-        parameters = MopsParameters(**cfg)
+        parameters = Parameters(**cfg)
 
     # Initialize tracker
-    tracker = MopsTracker(runDir, verbose=verbose)
+    tracker = Tracker(runDir, verbose=verbose)
     tracker.getDetections(diasourcesDir)
 
     # Run MOPs

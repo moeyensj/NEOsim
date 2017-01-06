@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-import MopsReader
-import MopsDatabase
+import reader
+import database
 
 HW = 0.00005
 HL = 0.00005
@@ -24,7 +24,7 @@ def _textLocation(ax):
 def plotData(detFile):
     fig, ax = plt.subplots(1,1)
     _plotformatter(fig, ax)
-    df = MopsReader.readDetectionsIntoDataframe(detFile)
+    df = reader.readDetectionsIntoDataframe(detFile)
     ax.scatter(np.array(df['ra']), np.array(df['dec']));
     return
 
@@ -43,11 +43,11 @@ def plotTracklets(detFiles, trackletFiles):
     tracklet_num = 0
 
     for detFile, trackletFile in zip(detFiles, trackletFiles):
-        df = MopsReader.readDetectionsIntoDataframe(detFile)
+        df = reader.readDetectionsIntoDataframe(detFile)
         ax.scatter(df['ra'], df['dec'], color='k', s=0.005);
 
         for line in open(trackletFile, "r"):
-            tracklets = MopsReader.readTracklet(line)
+            tracklets = reader.readTracklet(line)
             tracklet_num += 1
         
             p1 = df.loc[tracklets[0]]
@@ -72,11 +72,11 @@ def plotTracks(detFiles, trackFiles):
     track_num = 0
 
     for detFile, trackFile in zip(detFiles, trackFiles):
-        df = MopsReader.readDetectionsIntoDataframe(detFile)
+        df = reader.readDetectionsIntoDataframe(detFile)
         ax.scatter(df['ra'], df['dec'], color='k', s=0.005);
 
         for line in open(trackFile, 'r'):
-            track = MopsReader.readTrack(line)
+            track = reader.readTrack(line)
             track_num += 1
             ra = []
             dec = []
@@ -96,8 +96,8 @@ def plotTracklet(con, trackletId, ax=None):
         fig, ax = plt.subplots(1,1)
         _plotformatter(fig, ax)
         
-    detections = MopsDatabase.findTrackletDetections(con, trackletId)
-    info = MopsDatabase.findTrackletInfo(con, trackletId)
+    detections = database.findTrackletDetections(con, trackletId)
+    info = database.findTrackletInfo(con, trackletId)
     
     ax.scatter(detections["ra"], detections["dec"], color="b", s=2)
     ax.plot(detections["ra"], detections["dec"], color="b",lw=1)
@@ -105,7 +105,7 @@ def plotTracklet(con, trackletId, ax=None):
     ymin, ymax = ax.get_ylim()
     xmin, xmax = ax.get_xlim()
     
-    nearby_detections = MopsDatabase.findNearbyDetections(con, xmin, ymin, xmax, ymax, detections["mjd"][0])
+    nearby_detections = database.findNearbyDetections(con, xmin, ymin, xmax, ymax, detections["mjd"][0])
     ax.scatter(nearby_detections["ra"], nearby_detections["dec"], color="k", s=0.3, alpha=0.3)
     
     ax.set_xlim(xmin, xmax)
@@ -139,15 +139,15 @@ def plotTrack(con, trackId, attachedWindow, ax=None):
         fig, ax = plt.subplots(1,1)
         _plotformatter(fig, ax)
         
-    detections = MopsDatabase.findTrackDetections(con, trackId, attachedWindow)
-    info = MopsDatabase.findTrackInfo(con, trackId, attachedWindow)
+    detections = database.findTrackDetections(con, trackId, attachedWindow)
+    info = database.findTrackInfo(con, trackId, attachedWindow)
     ax.scatter(detections["ra"], detections["dec"], color="b", s=2)
     ax.plot(detections["ra"], detections["dec"], color="b", lw=1)
     
     ymin, ymax = ax.get_ylim()
     xmin, xmax = ax.get_xlim()
     
-    nearby_detections = MopsDatabase.findNearbyDetections(con, xmin, ymin, xmax, ymax, detections["mjd"][0], windowSize=15)
+    nearby_detections = database.findNearbyDetections(con, xmin, ymin, xmax, ymax, detections["mjd"][0], windowSize=15)
     ax.scatter(nearby_detections["ra"], nearby_detections["dec"], color="k", s=0.3, alpha=0.3)
     
     ax.set_xlim(xmin, xmax)
@@ -179,8 +179,8 @@ def plotTrack(con, trackId, attachedWindow, ax=None):
 
 
 def plotDetections(con):
-    missed_objects_detections = MopsDatabase.findMissedObjectsDetections(con)
-    found_objects_detections = MopsDatabase.findFoundObjectsDetections(con)
+    missed_objects_detections = database.findMissedObjectsDetections(con)
+    found_objects_detections = database.findFoundObjectsDetections(con)
 
     fig, ax = plt.subplots(1,2)
     fig.set_size_inches(14,7)
@@ -200,8 +200,8 @@ def plotDetections(con):
 
 
 def plotMagHist(con):
-    found_objects_detections = MopsDatabase.findFoundObjectsDetections(con)
-    missed_objects_detections = MopsDatabase.findMissedObjectsDetections(con)
+    found_objects_detections = database.findFoundObjectsDetections(con)
+    missed_objects_detections = database.findMissedObjectsDetections(con)
 
     total_detections = float(len(found_objects_detections) + len(missed_objects_detections))
 
@@ -223,8 +223,8 @@ def plotMagHist(con):
     return
 
 def plotSnrHist(con):
-    found_objects_detections = MopsDatabase.findFoundObjectsDetections(con)
-    missed_objects_detections = MopsDatabase.findMissedObjectsDetections(con)
+    found_objects_detections = database.findFoundObjectsDetections(con)
+    missed_objects_detections = database.findMissedObjectsDetections(con)
 
     total_detections = float(len(found_objects_detections) + len(missed_objects_detections))
 
@@ -246,8 +246,8 @@ def plotSnrHist(con):
     return
 
 def plotVelocityHist(con):
-    missed_objects_tracklets = MopsDatabase.findMissedObjectsTracklets(con)
-    found_objects_tracklets = MopsDatabase.findFoundObjectsTracklets(con)
+    missed_objects_tracklets = database.findMissedObjectsTracklets(con)
+    found_objects_tracklets = database.findFoundObjectsTracklets(con)
     
     total_tracketlets_num = float(len(missed_objects_tracklets["trackletId"].unique()) + len(found_objects_tracklets["trackletId"].unique()))
 
@@ -279,7 +279,7 @@ def plotHists(con):
 def plotObject(con, objectId):
     fig, ax = plt.subplots(1,1)
     _plotformatter(fig, ax)
-    detections = MopsDatabase.findObjectDetections(con, objectId)
+    detections = database.findObjectDetections(con, objectId)
     ax.scatter(np.array(detections['ra']), np.array(detections['dec']));
     return
 

@@ -5,15 +5,14 @@ import difflib
 import numpy as np
 import pandas as pd
 
-import MopsPlotter
-import MopsReader
-import MopsDatabase
+import reader as reader
+import database as database
 import lsst.sims.maf.metrics as metrics
-from MopsObjects import tracklet
-from MopsObjects import track
-from MopsParameters import MopsParameters
-from MopsTracker import MopsTracker
-from MopsResults import MopsResults
+from linkages import tracklet
+from linkages import track
+from parameters import Parameters
+from tracker import Tracker
+from results import Results
 
 LSST_MIDNIGHT = 0.166
 
@@ -227,7 +226,7 @@ def _buildTrack(dataframe, trackId, diaids, window, createdBy=5, calcRMS=True):
 def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, collapsedTrackletFile=None, purifiedTrackletFile=None, 
     removeSubsetTrackletFile=None, trackletIdCountStart=1, objectsDataframe=None, resultsObject=None):
     startTime = time.ctime()
-    night = MopsReader.readNight(detFile)
+    night = reader.readNight(detFile)
     print "Starting tracklet analysis for night %s at %s" % (night, startTime)
     print ""
     
@@ -252,7 +251,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
 
     # Read detections into a dataframe
     print "- Reading input detections..."
-    dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
+    dets_df = reader.readDetectionsIntoDataframe(detFile)
     detections_num = len(dets_df.index)
     unique_objects = dets_df["objectId"].nunique()
     
@@ -301,7 +300,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         tracklet_id = trackletIdCountStart + i
         tracklet_ids.append(tracklet_id)
         
-        new_tracklet_diaids = MopsReader.readTracklet(line)
+        new_tracklet_diaids = reader.readTracklet(line)
         new_tracklet = _buildTracklet(dets_df, tracklet_id, new_tracklet_diaids, night, createdBy=1)
 
         total_tracklets_num += 1
@@ -382,7 +381,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             tracklet_id = start_tracklet_id + i
             tracklet_ids.append(tracklet_id) 
             
-            new_tracklet_diaids = MopsReader.readTracklet(line)
+            new_tracklet_diaids = reader.readTracklet(line)
             new_tracklet = _buildTracklet(dets_df, tracklet_id, new_tracklet_diaids, night, createdBy=2)
             
             total_collapsed_tracklets_num += 1
@@ -465,7 +464,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             tracklet_id = start_tracklet_id + i 
             tracklet_ids.append(tracklet_id) 
             
-            new_tracklet_diaids = MopsReader.readTracklet(line)
+            new_tracklet_diaids = reader.readTracklet(line)
             new_tracklet = _buildTracklet(dets_df, tracklet_id, new_tracklet_diaids, night, createdBy=3)
             
             total_purified_tracklets_num += 1
@@ -549,7 +548,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
             tracklet_id = start_tracklet_id + i 
             tracklet_ids.append(tracklet_id)
             
-            new_tracklet_diaids = MopsReader.readTracklet(line)
+            new_tracklet_diaids = reader.readTracklet(line)
             new_tracklet = _buildTracklet(dets_df, tracklet_id, new_tracklet_diaids, night, createdBy=4)
             
             total_final_tracklets_num += 1
@@ -631,7 +630,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
 def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, removeSubsetTrackFile=None, minDetectionsPerNight=2, minNights=3, windowSize=15, 
     snrLimit=-1, analyzeSubsets=True, trackIdCountStart=1, objectsDataframe=None, resultsObject=None):
     startTime = time.ctime()
-    startNight, endNight = MopsReader.readWindow(detFile)
+    startNight, endNight = reader.readWindow(detFile)
     window = str(startNight) + "-" + str(endNight)
     print "Starting track analysis for window (nights: %s - %s) at %s" % (str(startNight), str(endNight), startTime)
     print ""
@@ -664,7 +663,7 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
     
     # Read detections into a dataframe
     print "- Reading input detections..."
-    dets_df = MopsReader.readDetectionsIntoDataframe(detFile)
+    dets_df = reader.readDetectionsIntoDataframe(detFile)
     detections_num = len(dets_df.index)
     unique_objects = dets_df["objectId"].nunique()
 
@@ -717,7 +716,7 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
         track_id = trackIdCountStart + i 
         track_ids.append(track_id)
         
-        new_track_diaids = MopsReader.readTrack(line)
+        new_track_diaids = reader.readTrack(line)
         new_track = _buildTrack(dets_df, track_id, new_track_diaids, startNight, createdBy=5)
 
         total_tracks_num += 1     
@@ -834,7 +833,7 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
             track_id = start_track_id + i
             track_ids.append(track_id)
             
-            new_track_diaids = MopsReader.readTrack(line)
+            new_track_diaids = reader.readTrack(line)
             new_track = _buildTrack(dets_df, track_id, new_track_diaids, startNight, createdBy=5)
 
             total_final_tracks_num += 1     
@@ -945,9 +944,9 @@ def analyzeMultipleTracks(trackFiles, detFiles, idsFiles, outDir="results/", rem
 
     for i, (trackFile, detFile, idsFile) in enumerate(zip(trackFiles, detFiles, idsFiles)):
         if toDatabase:
-            startNight, endNight = MopsReader.readWindow(detFile)
+            startNight, endNight = reader.readWindow(detFile)
             windowDatabase = str(startNight) + "-" + str(endNight) + ".db"
-            cursor, database = MopsDatabase.buildTrackDatabase(windowDatabase, outDir)
+            cursor, database = database.buildTrackDatabase(windowDatabase, outDir)
         else:
             cursor = None
 
@@ -991,17 +990,17 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
 
     if resultsObject is None:
         print "Initializing new results object..."
-        resultsObject = MopsResults(parameters, tracker)
+        resultsObject = Results(parameters, tracker)
 
     cursor = None
     database = None
     if toDatabase:
-        cursor, database = MopsDatabase.buildTrackletDatabase("main.db", outDir)
+        cursor, database = database.buildTrackletDatabase("main.db", outDir)
 
     objects_df = None
     if fullDetFile:
         print "Reading full detections file into dataframe..."
-        full_dets_df = MopsReader.readDetectionsIntoDataframe(fullDetFile)
+        full_dets_df = reader.readDetectionsIntoDataframe(fullDetFile)
         unique_objects, numDetections = np.unique(full_dets_df["objectId"], return_counts=True)
 
         print "Counting findable objects as tracklets..."
@@ -1034,7 +1033,7 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
 
         if toDatabase:
             print "Reading full detections file into database..."
-            MopsReader.readDetectionsIntoDatabase(fullDetFile, cursor, table="DiaSources", header=None)
+            reader.readDetectionsIntoDatabase(fullDetFile, cursor, table="DiaSources", header=None)
 
         print ""
 
