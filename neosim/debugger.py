@@ -4,10 +4,10 @@ import subprocess
 import sqlite3 as sql
 import pandas as pd
  
-import runMops
-import analysis
-from tracker import Tracker
-from parameters import Parameters
+import neosim.runMops as runMops
+import neosim.analysis as analysis
+from neosim.tracker import Tracker
+from neosim.parameters import Parameters
 
 OUTPUT_DIR = "debug/debugSources/"
 DATABASE = "/Volumes/DataCenter/neosimData/ldm156/fullsky5year.db"

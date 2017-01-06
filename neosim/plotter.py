@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-import reader
-import database
+import neosim.reader as reader
+import neosim.database as database
 
 HW = 0.00005
 HL = 0.00005

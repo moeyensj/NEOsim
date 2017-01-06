@@ -7,13 +7,13 @@ import pandas as pd
 
 import lsst.sims.maf.metrics as metrics
 
-from reader import Reader
-from database import Database
-from .linkages import Tracklet
-from .linkages import Track
-from .parameters import Parameters
-from .tracker import Tracker
-from .results import Results
+import neosim.reader as reader
+import neosim.database as database
+from neosim.linkages import Tracklet
+from neosim.linkages import Track
+from neosim.parameters import Parameters
+from neosim.tracker import Tracker
+from neosim.results import Results
 
 LSST_MIDNIGHT = 0.166
 

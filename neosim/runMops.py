@@ -22,8 +22,8 @@ import yaml
 import shutil
 import multiprocessing
 
-from parameters import Parameters
-from tracker import Tracker
+from neosim.parameters import Parameters
+from neosim.tracker import Tracker
 
 # File suffixes
 DIASOURCE_SUFFIX = ".dias"
