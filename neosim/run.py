@@ -626,7 +626,7 @@ def runArgs():
     return args
 
 
-def runMops(parameters, tracker,
+def run(parameters, tracker,
             findTracklets=True,
             collapseTracklets=True,
             purifyTracklets=True,
@@ -975,4 +975,4 @@ if __name__ == "__main__":
     tracker.getDetections(diasourcesDir)
 
     # Run MOPs
-    parameters, tracker = runMops(parameters, tracker, verbose=verbose)
+    parameters, tracker = run(parameters, tracker, verbose=verbose)
