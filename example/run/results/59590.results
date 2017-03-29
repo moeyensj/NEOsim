@@ -1,4 +1,4 @@
-Start time: Wed Mar 29 09:00:11 2017
+Start time: Wed Mar 29 09:21:20 2017
 
 Input Detection File Summary:
 File name: /Users/joachim/repos/neosim/example/nightly/59590.dias
@@ -67,4 +67,4 @@ removeSubsets removed 0 tracklets...
 *** Note: These numbers only reflect tracklets affected by removeSubsets. ***
 ***          File may contain other unaffected tracklets.                 ***
 
-End time: Wed Mar 29 09:00:11 2017
+End time: Wed Mar 29 09:21:21 2017

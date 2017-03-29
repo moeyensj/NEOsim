@@ -1,4 +1,4 @@
-Start time: Wed Mar 29 09:00:24 2017
+Start time: Wed Mar 29 09:21:34 2017
 
 Input Track (Ids) File Summary:
 File name: /Users/joachim/repos/neosim/example/run/trackletsByNight/night_59582_through_59597.ids
@@ -43,4 +43,4 @@ removeSubsets removed 227 tracks...
 *** Note: These numbers only reflect tracks affected by removeSubsets. ***
 ***          File may contain other unaffected tracks.                 ***
 
-End time: Wed Mar 29 09:00:26 2017
+End time: Wed Mar 29 09:21:36 2017

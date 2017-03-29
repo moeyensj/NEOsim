@@ -11,614 +11,614 @@ Setting tracklet velocities.
 Sorting tracklets by image time and creating trees.
 Doing the linking.
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59595.160000000003 (image 1 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490792260.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490793147.000000000000 seconds. 
  so far, we have found 0 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59596.160000000003 (image 2 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490792019.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490792921.000000000000 seconds. 
  so far, we have found 2 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59597.160000000003 (image 3 / 16)  (with 2 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490791550.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490792451.000000000000 seconds. 
  so far, we have found 4 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59598.160000000003 (image 4 / 16)  (with 3 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490791161.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490792081.000000000000 seconds. 
  so far, we have found 6 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59599.160000000003 (image 5 / 16)  (with 4 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490790801.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490791718.000000000000 seconds. 
  so far, we have found 7 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59600.160000000003 (image 6 / 16)  (with 5 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490790393.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490791306.000000000000 seconds. 
  so far, we have found 9 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59601.160000000003 (image 7 / 16)  (with 6 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490789991.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490790902.000000000000 seconds. 
  so far, we have found 11 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59602.160000000003 (image 8 / 16)  (with 7 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490789523.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490790446.000000000000 seconds. 
  so far, we have found 13 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59603.160000000003 (image 9 / 16)  (with 8 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490789068.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490789890.000000000000 seconds. 
  so far, we have found 15 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59604.160000000003 (image 10 / 16)  (with 9 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490788523.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490789342.000000000000 seconds. 
  so far, we have found 17 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59605.160000000003 (image 11 / 16)  (with 10 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490788006.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490788808.000000000000 seconds. 
  so far, we have found 19 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59606.160000000003 (image 12 / 16)  (with 11 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490787364.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490788188.000000000000 seconds. 
  so far, we have found 21 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59607.160000000003 (image 13 / 16)  (with 12 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490786758.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490787542.000000000000 seconds. 
  so far, we have found 22 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59608.160000000003 (image 14 / 16)  (with 13 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490786162.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490786890.000000000000 seconds. 
  so far, we have found 23 tracks.
 
 Looking for tracks between images at times 59594.160000000003 (image 0 / 16) and 59609.160000000003 (image 15 / 16)  (with 14 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490785420.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490786274.000000000000 seconds. 
  so far, we have found 24 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59596.160000000003 (image 2 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490784766.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490785649.000000000000 seconds. 
  so far, we have found 24 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59597.160000000003 (image 3 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490784743.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490785627.000000000000 seconds. 
  so far, we have found 26 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59598.160000000003 (image 4 / 16)  (with 2 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490784417.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490785307.000000000000 seconds. 
  so far, we have found 28 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59599.160000000003 (image 5 / 16)  (with 3 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490784056.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490784922.000000000000 seconds. 
  so far, we have found 30 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59600.160000000003 (image 6 / 16)  (with 4 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490783711.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490784544.000000000000 seconds. 
  so far, we have found 31 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59601.160000000003 (image 7 / 16)  (with 5 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490783291.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490784126.000000000000 seconds. 
  so far, we have found 33 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59602.160000000003 (image 8 / 16)  (with 6 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490782888.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490783713.000000000000 seconds. 
  so far, we have found 35 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59603.160000000003 (image 9 / 16)  (with 7 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490782431.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490783249.000000000000 seconds. 
  so far, we have found 37 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59604.160000000003 (image 10 / 16)  (with 8 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490781969.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490782764.000000000000 seconds. 
  so far, we have found 39 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59605.160000000003 (image 11 / 16)  (with 9 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490781469.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490782244.000000000000 seconds. 
  so far, we have found 41 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59606.160000000003 (image 12 / 16)  (with 10 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490780969.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490781745.000000000000 seconds. 
  so far, we have found 43 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59607.160000000003 (image 13 / 16)  (with 11 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490780415.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490781193.000000000000 seconds. 
  so far, we have found 45 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59608.160000000003 (image 14 / 16)  (with 12 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490779849.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490780628.000000000000 seconds. 
  so far, we have found 46 tracks.
 
 Looking for tracks between images at times 59595.160000000003 (image 1 / 16) and 59609.160000000003 (image 15 / 16)  (with 13 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490779258.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490780039.000000000000 seconds. 
  so far, we have found 47 tracks.
 
 Looking for tracks between images at times 59596.160000000003 (image 2 / 16) and 59597.160000000003 (image 3 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490778654.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490779441.000000000000 seconds. 
  so far, we have found 47 tracks.
 
 Looking for tracks between images at times 59596.160000000003 (image 2 / 16) and 59598.160000000003 (image 4 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490778632.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490779418.000000000000 seconds. 
  so far, we have found 49 tracks.
 
 Looking for tracks between images at times 59596.160000000003 (image 2 / 16) and 59599.160000000003 (image 5 / 16)  (with 2 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490778314.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490779104.000000000000 seconds. 
  so far, we have found 51 tracks.
 
 Looking for tracks between images at times 59596.160000000003 (image 2 / 16) and 59600.160000000003 (image 6 / 16)  (with 3 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490777956.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490778748.000000000000 seconds. 
  so far, we have found 53 tracks.
 
 Looking for tracks between images at times 59596.160000000003 (image 2 / 16) and 59601.160000000003 (image 7 / 16)  (with 4 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490777595.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490778386.000000000000 seconds. 
  so far, we have found 55 tracks.
 
 Looking for tracks between images at times 59596.160000000003 (image 2 / 16) and 59602.160000000003 (image 8 / 16)  (with 5 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490777197.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490777990.000000000000 seconds. 
  so far, we have found 57 tracks.
 
 Looking for tracks between images at times 59596.160000000003 (image 2 / 16) and 59603.160000000003 (image 9 / 16)  (with 6 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490776790.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490777587.000000000000 seconds. 
  so far, we have found 59 tracks.
 
 Looking for tracks between images at times 59596.160000000003 (image 2 / 16) and 59604.160000000003 (image 10 / 16)  (with 7 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490776337.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490777140.000000000000 seconds. 
  so far, we have found 61 tracks.
 
 Looking for tracks between images at times 59596.160000000003 (image 2 / 16) and 59605.160000000003 (image 11 / 16)  (with 8 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490775867.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490776678.000000000000 seconds. 
  so far, we have found 63 tracks.
 
 Looking for tracks between images at times 59596.160000000003 (image 2 / 16) and 59606.160000000003 (image 12 / 16)  (with 9 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490775374.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490776180.000000000000 seconds. 
  so far, we have found 65 tracks.
 
 Looking for tracks between images at times 59596.160000000003 (image 2 / 16) and 59607.160000000003 (image 13 / 16)  (with 10 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490774869.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490775676.000000000000 seconds. 
  so far, we have found 67 tracks.
 
 Looking for tracks between images at times 59596.160000000003 (image 2 / 16) and 59608.160000000003 (image 14 / 16)  (with 11 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490774290.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490775140.000000000000 seconds. 
  so far, we have found 69 tracks.
 
 Looking for tracks between images at times 59596.160000000003 (image 2 / 16) and 59609.160000000003 (image 15 / 16)  (with 12 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490773665.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490774576.000000000000 seconds. 
  so far, we have found 70 tracks.
 
 Looking for tracks between images at times 59597.160000000003 (image 3 / 16) and 59598.160000000003 (image 4 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490773061.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490773939.000000000000 seconds. 
  so far, we have found 70 tracks.
 
 Looking for tracks between images at times 59597.160000000003 (image 3 / 16) and 59599.160000000003 (image 5 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490773039.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490773915.000000000000 seconds. 
  so far, we have found 72 tracks.
 
 Looking for tracks between images at times 59597.160000000003 (image 3 / 16) and 59600.160000000003 (image 6 / 16)  (with 2 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490772718.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490773590.000000000000 seconds. 
  so far, we have found 74 tracks.
 
 Looking for tracks between images at times 59597.160000000003 (image 3 / 16) and 59601.160000000003 (image 7 / 16)  (with 3 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490772366.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490773226.000000000000 seconds. 
  so far, we have found 76 tracks.
 
 Looking for tracks between images at times 59597.160000000003 (image 3 / 16) and 59602.160000000003 (image 8 / 16)  (with 4 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490772004.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490772832.000000000000 seconds. 
  so far, we have found 77 tracks.
 
 Looking for tracks between images at times 59597.160000000003 (image 3 / 16) and 59603.160000000003 (image 9 / 16)  (with 5 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490771584.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490772410.000000000000 seconds. 
  so far, we have found 79 tracks.
 
 Looking for tracks between images at times 59597.160000000003 (image 3 / 16) and 59604.160000000003 (image 10 / 16)  (with 6 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490771173.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490771991.000000000000 seconds. 
  so far, we have found 81 tracks.
 
 Looking for tracks between images at times 59597.160000000003 (image 3 / 16) and 59605.160000000003 (image 11 / 16)  (with 7 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490770704.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490771522.000000000000 seconds. 
  so far, we have found 83 tracks.
 
 Looking for tracks between images at times 59597.160000000003 (image 3 / 16) and 59606.160000000003 (image 12 / 16)  (with 8 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490770235.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490771050.000000000000 seconds. 
  so far, we have found 85 tracks.
 
 Looking for tracks between images at times 59597.160000000003 (image 3 / 16) and 59607.160000000003 (image 13 / 16)  (with 9 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490769721.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490770528.000000000000 seconds. 
  so far, we have found 87 tracks.
 
 Looking for tracks between images at times 59597.160000000003 (image 3 / 16) and 59608.160000000003 (image 14 / 16)  (with 10 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490769203.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490769982.000000000000 seconds. 
  so far, we have found 89 tracks.
 
 Looking for tracks between images at times 59597.160000000003 (image 3 / 16) and 59609.160000000003 (image 15 / 16)  (with 11 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490768649.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490769413.000000000000 seconds. 
  so far, we have found 90 tracks.
 
 Looking for tracks between images at times 59598.160000000003 (image 4 / 16) and 59599.160000000003 (image 5 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490768102.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490768854.000000000000 seconds. 
  so far, we have found 90 tracks.
 
 Looking for tracks between images at times 59598.160000000003 (image 4 / 16) and 59600.160000000003 (image 6 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490768079.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490768831.000000000000 seconds. 
  so far, we have found 92 tracks.
 
 Looking for tracks between images at times 59598.160000000003 (image 4 / 16) and 59601.160000000003 (image 7 / 16)  (with 2 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490767750.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490768494.000000000000 seconds. 
  so far, we have found 94 tracks.
 
 Looking for tracks between images at times 59598.160000000003 (image 4 / 16) and 59602.160000000003 (image 8 / 16)  (with 3 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490767374.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490768114.000000000000 seconds. 
  so far, we have found 96 tracks.
 
 Looking for tracks between images at times 59598.160000000003 (image 4 / 16) and 59603.160000000003 (image 9 / 16)  (with 4 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490767008.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490767747.000000000000 seconds. 
  so far, we have found 98 tracks.
 
 Looking for tracks between images at times 59598.160000000003 (image 4 / 16) and 59604.160000000003 (image 10 / 16)  (with 5 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490766595.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490767330.000000000000 seconds. 
  so far, we have found 100 tracks.
 
 Looking for tracks between images at times 59598.160000000003 (image 4 / 16) and 59605.160000000003 (image 11 / 16)  (with 6 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490766179.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490766906.000000000000 seconds. 
  so far, we have found 102 tracks.
 
 Looking for tracks between images at times 59598.160000000003 (image 4 / 16) and 59606.160000000003 (image 12 / 16)  (with 7 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490765677.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490766433.000000000000 seconds. 
  so far, we have found 104 tracks.
 
 Looking for tracks between images at times 59598.160000000003 (image 4 / 16) and 59607.160000000003 (image 13 / 16)  (with 8 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490765201.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490765960.000000000000 seconds. 
  so far, we have found 106 tracks.
 
 Looking for tracks between images at times 59598.160000000003 (image 4 / 16) and 59608.160000000003 (image 14 / 16)  (with 9 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490764718.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490765465.000000000000 seconds. 
  so far, we have found 108 tracks.
 
 Looking for tracks between images at times 59598.160000000003 (image 4 / 16) and 59609.160000000003 (image 15 / 16)  (with 10 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490764210.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490764948.000000000000 seconds. 
  so far, we have found 110 tracks.
 
 Looking for tracks between images at times 59599.160000000003 (image 5 / 16) and 59600.160000000003 (image 6 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490763666.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490764354.000000000000 seconds. 
  so far, we have found 110 tracks.
 
 Looking for tracks between images at times 59599.160000000003 (image 5 / 16) and 59601.160000000003 (image 7 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490763643.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490764330.000000000000 seconds. 
  so far, we have found 112 tracks.
 
 Looking for tracks between images at times 59599.160000000003 (image 5 / 16) and 59602.160000000003 (image 8 / 16)  (with 2 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490763312.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490763997.000000000000 seconds. 
  so far, we have found 114 tracks.
 
 Looking for tracks between images at times 59599.160000000003 (image 5 / 16) and 59603.160000000003 (image 9 / 16)  (with 3 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490762960.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490763641.000000000000 seconds. 
  so far, we have found 116 tracks.
 
 Looking for tracks between images at times 59599.160000000003 (image 5 / 16) and 59604.160000000003 (image 10 / 16)  (with 4 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490762586.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490763276.000000000000 seconds. 
  so far, we have found 117 tracks.
 
 Looking for tracks between images at times 59599.160000000003 (image 5 / 16) and 59605.160000000003 (image 11 / 16)  (with 5 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490762159.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490762842.000000000000 seconds. 
  so far, we have found 119 tracks.
 
 Looking for tracks between images at times 59599.160000000003 (image 5 / 16) and 59606.160000000003 (image 12 / 16)  (with 6 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490761732.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490762410.000000000000 seconds. 
  so far, we have found 121 tracks.
 
 Looking for tracks between images at times 59599.160000000003 (image 5 / 16) and 59607.160000000003 (image 13 / 16)  (with 7 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490761268.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490761940.000000000000 seconds. 
  so far, we have found 123 tracks.
 
 Looking for tracks between images at times 59599.160000000003 (image 5 / 16) and 59608.160000000003 (image 14 / 16)  (with 8 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490760810.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490761492.000000000000 seconds. 
  so far, we have found 125 tracks.
 
 Looking for tracks between images at times 59599.160000000003 (image 5 / 16) and 59609.160000000003 (image 15 / 16)  (with 9 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490760296.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490760967.000000000000 seconds. 
  so far, we have found 127 tracks.
 
 Looking for tracks between images at times 59600.160000000003 (image 6 / 16) and 59601.160000000003 (image 7 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490759783.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490760450.000000000000 seconds. 
  so far, we have found 127 tracks.
 
 Looking for tracks between images at times 59600.160000000003 (image 6 / 16) and 59602.160000000003 (image 8 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490759760.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490760427.000000000000 seconds. 
  so far, we have found 129 tracks.
 
 Looking for tracks between images at times 59600.160000000003 (image 6 / 16) and 59603.160000000003 (image 9 / 16)  (with 2 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490759448.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490760110.000000000000 seconds. 
  so far, we have found 131 tracks.
 
 Looking for tracks between images at times 59600.160000000003 (image 6 / 16) and 59604.160000000003 (image 10 / 16)  (with 3 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490759079.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490759739.000000000000 seconds. 
  so far, we have found 133 tracks.
 
 Looking for tracks between images at times 59600.160000000003 (image 6 / 16) and 59605.160000000003 (image 11 / 16)  (with 4 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490758713.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490759366.000000000000 seconds. 
  so far, we have found 135 tracks.
 
 Looking for tracks between images at times 59600.160000000003 (image 6 / 16) and 59606.160000000003 (image 12 / 16)  (with 5 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490758295.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490758950.000000000000 seconds. 
  so far, we have found 137 tracks.
 
 Looking for tracks between images at times 59600.160000000003 (image 6 / 16) and 59607.160000000003 (image 13 / 16)  (with 6 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490757870.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490758525.000000000000 seconds. 
  so far, we have found 139 tracks.
 
 Looking for tracks between images at times 59600.160000000003 (image 6 / 16) and 59608.160000000003 (image 14 / 16)  (with 7 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490757380.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490758060.000000000000 seconds. 
  so far, we have found 141 tracks.
 
 Looking for tracks between images at times 59600.160000000003 (image 6 / 16) and 59609.160000000003 (image 15 / 16)  (with 8 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490756923.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490757607.000000000000 seconds. 
  so far, we have found 143 tracks.
 
 Looking for tracks between images at times 59601.160000000003 (image 7 / 16) and 59602.160000000003 (image 8 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490756411.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490757085.000000000000 seconds. 
  so far, we have found 143 tracks.
 
 Looking for tracks between images at times 59601.160000000003 (image 7 / 16) and 59603.160000000003 (image 9 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490756388.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490757062.000000000000 seconds. 
  so far, we have found 145 tracks.
 
 Looking for tracks between images at times 59601.160000000003 (image 7 / 16) and 59604.160000000003 (image 10 / 16)  (with 2 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490756064.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490756736.000000000000 seconds. 
  so far, we have found 147 tracks.
 
 Looking for tracks between images at times 59601.160000000003 (image 7 / 16) and 59605.160000000003 (image 11 / 16)  (with 3 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490755709.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490756379.000000000000 seconds. 
  so far, we have found 149 tracks.
 
 Looking for tracks between images at times 59601.160000000003 (image 7 / 16) and 59606.160000000003 (image 12 / 16)  (with 4 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490755344.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490756011.000000000000 seconds. 
  so far, we have found 151 tracks.
 
 Looking for tracks between images at times 59601.160000000003 (image 7 / 16) and 59607.160000000003 (image 13 / 16)  (with 5 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490754930.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490755591.000000000000 seconds. 
  so far, we have found 153 tracks.
 
 Looking for tracks between images at times 59601.160000000003 (image 7 / 16) and 59608.160000000003 (image 14 / 16)  (with 6 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490754514.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490755174.000000000000 seconds. 
  so far, we have found 155 tracks.
 
 Looking for tracks between images at times 59601.160000000003 (image 7 / 16) and 59609.160000000003 (image 15 / 16)  (with 7 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490754080.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490754732.000000000000 seconds. 
  so far, we have found 157 tracks.
 
 Looking for tracks between images at times 59602.160000000003 (image 8 / 16) and 59603.160000000003 (image 9 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490753655.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490754275.000000000000 seconds. 
  so far, we have found 157 tracks.
 
 Looking for tracks between images at times 59602.160000000003 (image 8 / 16) and 59604.160000000003 (image 10 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490753631.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490754252.000000000000 seconds. 
  so far, we have found 159 tracks.
 
 Looking for tracks between images at times 59602.160000000003 (image 8 / 16) and 59605.160000000003 (image 11 / 16)  (with 2 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490753312.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490753937.000000000000 seconds. 
  so far, we have found 161 tracks.
 
 Looking for tracks between images at times 59602.160000000003 (image 8 / 16) and 59606.160000000003 (image 12 / 16)  (with 3 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490752958.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490753583.000000000000 seconds. 
  so far, we have found 163 tracks.
 
 Looking for tracks between images at times 59602.160000000003 (image 8 / 16) and 59607.160000000003 (image 13 / 16)  (with 4 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490752589.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490753217.000000000000 seconds. 
  so far, we have found 165 tracks.
 
 Looking for tracks between images at times 59602.160000000003 (image 8 / 16) and 59608.160000000003 (image 14 / 16)  (with 5 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490752178.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490752770.000000000000 seconds. 
  so far, we have found 167 tracks.
 
 Looking for tracks between images at times 59602.160000000003 (image 8 / 16) and 59609.160000000003 (image 15 / 16)  (with 6 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490751762.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490752343.000000000000 seconds. 
  so far, we have found 169 tracks.
 
 Looking for tracks between images at times 59603.160000000003 (image 9 / 16) and 59604.160000000003 (image 10 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490751295.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490751874.000000000000 seconds. 
  so far, we have found 169 tracks.
 
 Looking for tracks between images at times 59603.160000000003 (image 9 / 16) and 59605.160000000003 (image 11 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490751261.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490751841.000000000000 seconds. 
  so far, we have found 171 tracks.
 
 Looking for tracks between images at times 59603.160000000003 (image 9 / 16) and 59606.160000000003 (image 12 / 16)  (with 2 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490750943.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490751522.000000000000 seconds. 
  so far, we have found 173 tracks.
 
 Looking for tracks between images at times 59603.160000000003 (image 9 / 16) and 59607.160000000003 (image 13 / 16)  (with 3 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490750588.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490751171.000000000000 seconds. 
  so far, we have found 175 tracks.
 
 Looking for tracks between images at times 59603.160000000003 (image 9 / 16) and 59608.160000000003 (image 14 / 16)  (with 4 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490750223.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490750808.000000000000 seconds. 
  so far, we have found 177 tracks.
 
 Looking for tracks between images at times 59603.160000000003 (image 9 / 16) and 59609.160000000003 (image 15 / 16)  (with 5 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490749799.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490750395.000000000000 seconds. 
  so far, we have found 179 tracks.
 
 Looking for tracks between images at times 59604.160000000003 (image 10 / 16) and 59605.160000000003 (image 11 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490749388.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490749975.000000000000 seconds. 
  so far, we have found 179 tracks.
 
 Looking for tracks between images at times 59604.160000000003 (image 10 / 16) and 59606.160000000003 (image 12 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490749367.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490749952.000000000000 seconds. 
  so far, we have found 181 tracks.
 
 Looking for tracks between images at times 59604.160000000003 (image 10 / 16) and 59607.160000000003 (image 13 / 16)  (with 2 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490749027.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490749615.000000000000 seconds. 
  so far, we have found 183 tracks.
 
 Looking for tracks between images at times 59604.160000000003 (image 10 / 16) and 59608.160000000003 (image 14 / 16)  (with 3 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490748686.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490749281.000000000000 seconds. 
  so far, we have found 185 tracks.
 
 Looking for tracks between images at times 59604.160000000003 (image 10 / 16) and 59609.160000000003 (image 15 / 16)  (with 4 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490748322.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490748928.000000000000 seconds. 
  so far, we have found 187 tracks.
 
 Looking for tracks between images at times 59605.160000000003 (image 11 / 16) and 59606.160000000003 (image 12 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490747913.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490748531.000000000000 seconds. 
  so far, we have found 187 tracks.
 
 Looking for tracks between images at times 59605.160000000003 (image 11 / 16) and 59607.160000000003 (image 13 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490747891.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490748509.000000000000 seconds. 
  so far, we have found 189 tracks.
 
 Looking for tracks between images at times 59605.160000000003 (image 11 / 16) and 59608.160000000003 (image 14 / 16)  (with 2 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490747581.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490748208.000000000000 seconds. 
  so far, we have found 191 tracks.
 
 Looking for tracks between images at times 59605.160000000003 (image 11 / 16) and 59609.160000000003 (image 15 / 16)  (with 3 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490747243.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490747883.000000000000 seconds. 
  so far, we have found 193 tracks.
 
 Looking for tracks between images at times 59606.160000000003 (image 12 / 16) and 59607.160000000003 (image 13 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490746884.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490747547.000000000000 seconds. 
  so far, we have found 193 tracks.
 
 Looking for tracks between images at times 59606.160000000003 (image 12 / 16) and 59608.160000000003 (image 14 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490746862.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490747526.000000000000 seconds. 
  so far, we have found 195 tracks.
 
 Looking for tracks between images at times 59606.160000000003 (image 12 / 16) and 59609.160000000003 (image 15 / 16)  (with 2 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490746556.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490747236.000000000000 seconds. 
  so far, we have found 197 tracks.
 
 Looking for tracks between images at times 59607.160000000003 (image 13 / 16) and 59608.160000000003 (image 14 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490746229.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490746930.000000000000 seconds. 
  so far, we have found 197 tracks.
 
 Looking for tracks between images at times 59607.160000000003 (image 13 / 16) and 59609.160000000003 (image 15 / 16)  (with 1 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490746207.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490746910.000000000000 seconds. 
  so far, we have found 199 tracks.
 
 Looking for tracks between images at times 59608.160000000003 (image 14 / 16) and 59609.160000000003 (image 15 / 16)  (with 0 support images).
- current wall-clock time is Wed Mar 29 08:59:49 2017
-That iteration took 1490745908.000000000000 seconds. 
+ current wall-clock time is Wed Mar 29 09:15:16 2017
+That iteration took 1490746618.000000000000 seconds. 
  so far, we have found 199 tracks.
 
 Found 120 valid start/end image pairs.
 Finished linking.
-Linking took 1490792264.000000000000 seconds.
+Linking took 1490793150.000000000000 seconds.
 TrackSet: purgeToFile called.
 TrackSet: clearing component tracks from memory.
 Results successfully written to disk.
 Done. Exiting successfully.
 Completed after 0.0000000000 seconds.
-This process (41617) memory usage: 
+This process (42800) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
