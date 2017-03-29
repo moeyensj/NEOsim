@@ -5,70 +5,30 @@ Reading detections file
 Calculating topocentric correction 
 Reading tracklets file 
 Reading input took 0.0000000000 seconds.
-Recentering all detections on (180, 0).
-   Bounds were (in deg) R=[229.7250304660,  511.4890869330], D=[ -24.8317269676,  16.6339441186]
-Setting tracklet velocities.
-Sorting tracklets by image time and creating trees.
-Doing the linking.
-Looking for tracks between images at times 59605.160000000003 (image 0 / 5) and 59606.160000000003 (image 1 / 5)  (with 0 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490793597.000000000000 seconds. 
- so far, we have found 0 tracks.
-
-Looking for tracks between images at times 59605.160000000003 (image 0 / 5) and 59607.160000000003 (image 2 / 5)  (with 1 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490793349.000000000000 seconds. 
- so far, we have found 2 tracks.
-
-Looking for tracks between images at times 59605.160000000003 (image 0 / 5) and 59608.160000000003 (image 3 / 5)  (with 2 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490792914.000000000000 seconds. 
- so far, we have found 4 tracks.
-
-Looking for tracks between images at times 59605.160000000003 (image 0 / 5) and 59609.160000000003 (image 4 / 5)  (with 3 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490792525.000000000000 seconds. 
- so far, we have found 6 tracks.
-
-Looking for tracks between images at times 59606.160000000003 (image 1 / 5) and 59607.160000000003 (image 2 / 5)  (with 0 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490792188.000000000000 seconds. 
- so far, we have found 6 tracks.
-
-Looking for tracks between images at times 59606.160000000003 (image 1 / 5) and 59608.160000000003 (image 3 / 5)  (with 1 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490792165.000000000000 seconds. 
- so far, we have found 8 tracks.
-
-Looking for tracks between images at times 59606.160000000003 (image 1 / 5) and 59609.160000000003 (image 4 / 5)  (with 2 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490791883.000000000000 seconds. 
- so far, we have found 10 tracks.
-
-Looking for tracks between images at times 59607.160000000003 (image 2 / 5) and 59608.160000000003 (image 3 / 5)  (with 0 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490791568.000000000000 seconds. 
- so far, we have found 10 tracks.
-
-Looking for tracks between images at times 59607.160000000003 (image 2 / 5) and 59609.160000000003 (image 4 / 5)  (with 1 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490791547.000000000000 seconds. 
- so far, we have found 12 tracks.
-
-Looking for tracks between images at times 59608.160000000003 (image 3 / 5) and 59609.160000000003 (image 4 / 5)  (with 0 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490791258.000000000000 seconds. 
- so far, we have found 12 tracks.
-
-Found 10 valid start/end image pairs.
-Finished linking.
-Linking took 1490793601.000000000000 seconds.
+1.0000000000 0.9999835572
+0.8769992728 0.9999999740
+0.9988841651 0.9999999776
+1.0000000000 1.0000000000
+0.7697895102 0.9999923141
+0.9993272325 0.9999999984
+1.0000000000 1.0000000000
+0.7994947468 1.0000000000
+0.9998711686 1.0000000000
+1.0000000000 0.9999835871
+0.8710438773 1.0000000000
+0.9990339874 0.9999999533
+1.0000000000 1.0000000000
+0.7582983750 0.9999925972
+0.9994457082 0.9999999987
+1.0000000000 0.9999836430
+0.8649388658 0.9999999998
+0.9991728709 0.9999999989
 TrackSet: purgeToFile called.
 TrackSet: clearing component tracks from memory.
 Results successfully written to disk.
 Done. Exiting successfully.
 Completed after 0.0000000000 seconds.
-This process (42823) memory usage: 
+This process (13328) memory usage: 
 ------------------------------------------
 ------------------------------------------
 

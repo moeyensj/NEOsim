@@ -6,21 +6,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:16 2017
+Reading infile, starting at Wed Mar 29 13:14:34 2017
 
-Finished reading infile at Wed Mar 29 09:15:16 2017
+Finished reading infile at Wed Mar 29 13:14:34 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:16 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:34 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:16 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:34 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:16 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:34 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:16 2017
+Finished successfully finished at Wed Mar 29 13:14:34 2017
 
-This process (42834) memory usage: 
+This process (13339) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -32,21 +32,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:16 2017
+Reading infile, starting at Wed Mar 29 13:14:34 2017
 
-Finished reading infile at Wed Mar 29 09:15:16 2017
+Finished reading infile at Wed Mar 29 13:14:34 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:16 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:34 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:16 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:34 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:16 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:34 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:16 2017
+Finished successfully finished at Wed Mar 29 13:14:34 2017
 
-This process (42836) memory usage: 
+This process (13341) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -58,21 +58,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:16 2017
+Reading infile, starting at Wed Mar 29 13:14:34 2017
 
-Finished reading infile at Wed Mar 29 09:15:16 2017
+Finished reading infile at Wed Mar 29 13:14:34 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:16 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:34 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:16 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:34 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:16 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:34 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:16 2017
+Finished successfully finished at Wed Mar 29 13:14:34 2017
 
-This process (42838) memory usage: 
+This process (13343) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -84,21 +84,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:16 2017
+Reading infile, starting at Wed Mar 29 13:14:34 2017
 
-Finished reading infile at Wed Mar 29 09:15:16 2017
+Finished reading infile at Wed Mar 29 13:14:34 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:16 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:34 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:16 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:34 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:16 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:34 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:16 2017
+Finished successfully finished at Wed Mar 29 13:14:34 2017
 
-This process (42840) memory usage: 
+This process (13345) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -110,21 +110,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:16 2017
+Reading infile, starting at Wed Mar 29 13:14:34 2017
 
-Finished reading infile at Wed Mar 29 09:15:16 2017
+Finished reading infile at Wed Mar 29 13:14:34 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:16 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:34 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:16 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:34 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:16 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:34 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:16 2017
+Finished successfully finished at Wed Mar 29 13:14:34 2017
 
-This process (42842) memory usage: 
+This process (13347) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -136,21 +136,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:16 2017
+Reading infile, starting at Wed Mar 29 13:14:34 2017
 
-Finished reading infile at Wed Mar 29 09:15:16 2017
+Finished reading infile at Wed Mar 29 13:14:34 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:16 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:34 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:16 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:34 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:16 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:34 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:16 2017
+Finished successfully finished at Wed Mar 29 13:14:34 2017
 
-This process (42844) memory usage: 
+This process (13349) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -162,21 +162,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:16 2017
+Reading infile, starting at Wed Mar 29 13:14:34 2017
 
-Finished reading infile at Wed Mar 29 09:15:16 2017
+Finished reading infile at Wed Mar 29 13:14:34 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:16 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:34 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:16 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:34 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:16 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:34 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:16 2017
+Finished successfully finished at Wed Mar 29 13:14:34 2017
 
-This process (42846) memory usage: 
+This process (13351) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -188,21 +188,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:34 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:34 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:34 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:34 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:34 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:34 2017
 
-This process (42848) memory usage: 
+This process (13353) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -214,21 +214,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:34 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:34 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:34 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:34 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:34 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:34 2017
 
-This process (42850) memory usage: 
+This process (13355) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -240,21 +240,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42852) memory usage: 
+This process (13357) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -266,21 +266,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42854) memory usage: 
+This process (13359) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -292,21 +292,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42856) memory usage: 
+This process (13361) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -318,21 +318,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42858) memory usage: 
+This process (13363) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -344,21 +344,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42860) memory usage: 
+This process (13365) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -370,21 +370,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42862) memory usage: 
+This process (13367) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -396,21 +396,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42864) memory usage: 
+This process (13369) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -422,21 +422,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42866) memory usage: 
+This process (13371) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -448,21 +448,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42868) memory usage: 
+This process (13373) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -474,21 +474,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42870) memory usage: 
+This process (13375) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -500,21 +500,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42872) memory usage: 
+This process (13377) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -526,21 +526,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42874) memory usage: 
+This process (13379) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -552,21 +552,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42876) memory usage: 
+This process (13381) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -578,21 +578,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42878) memory usage: 
+This process (13383) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -604,21 +604,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42880) memory usage: 
+This process (13385) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -630,21 +630,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42882) memory usage: 
+This process (13387) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -656,21 +656,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42884) memory usage: 
+This process (13389) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -682,21 +682,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42886) memory usage: 
+This process (13391) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
@@ -708,21 +708,21 @@ RemoveSubsets:                               true
 Short-circuit if possible:                   true
 Sort sets by size before set intersection:   false
 Keep only longest tracklet(s) per detection: true
-Reading infile, starting at Wed Mar 29 09:15:17 2017
+Reading infile, starting at Wed Mar 29 13:14:35 2017
 
-Finished reading infile at Wed Mar 29 09:15:17 2017
+Finished reading infile at Wed Mar 29 13:14:35 2017
 
 Reading input took 0.0000000000 seconds.
-Building detection-to-track map, starting at Wed Mar 29 09:15:17 2017
+Building detection-to-track map, starting at Wed Mar 29 13:14:35 2017
 
-Finished detection-to-track map, filtering tracks starting at Wed Mar 29 09:15:17 2017
+Finished detection-to-track map, filtering tracks starting at Wed Mar 29 13:14:35 2017
 
-Finished filtering, writing output starting at Wed Mar 29 09:15:17 2017
+Finished filtering, writing output starting at Wed Mar 29 13:14:35 2017
 
 Completed after 0.0000000000 seconds.
-Finished successfully finished at Wed Mar 29 09:15:17 2017
+Finished successfully finished at Wed Mar 29 13:14:35 2017
 
-This process (42888) memory usage: 
+This process (13393) memory usage: 
 ------------------------------------------
 ------------------------------------------
 

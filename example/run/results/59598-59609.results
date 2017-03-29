@@ -1,4 +1,4 @@
-Start time: Wed Mar 29 09:22:06 2017
+Start time: Wed Mar 29 13:15:37 2017
 
 Input Track (Ids) File Summary:
 File name: /Users/joachim/repos/neosim/example/run/trackletsByNight/night_59598_through_59609.ids
@@ -14,23 +14,23 @@ Findable objects: 3
 
 Output Track File Summary:
 File name: /Users/joachim/repos/neosim/example/run/tracks/night_59598_through_59609.track
-File size (bytes): 5285
-Objects found: 2
-Objects missed: 1
-Unique objects in true tracks: 2
+File size (bytes): 7367
+Objects found: 3
+Objects missed: 0
+Unique objects in true tracks: 3
 Unique objects in false tracks: 0
-Total unique objects: 2
-True tracks: 109
+Total unique objects: 3
+True tracks: 165
 False tracks 0
-Total tracks: 109
-Subset tracks: 107
-Longest tracks: 2
+Total tracks: 165
+Subset tracks: 162
+Longest tracks: 3
 
-MOPs Performance Ratio (found/findable): 0.66667
+MOPs Performance Ratio (found/findable): 1.00000
 
 Output Final Track File Summary:
 File name: /Users/joachim/repos/neosim/example/run/tracksFinal/night_59598_through_59609.track.final
-File size (bytes): 190
+File size (bytes): 263
 Unique objects in true tracks: 0
 Unique objects in false tracks: 0
 Total unique objects: 0
@@ -38,9 +38,9 @@ True final tracks: 0
 False final tracks 0
 Total final tracks: 0
 
-removeSubsets removed 107 tracks...
+removeSubsets removed 162 tracks...
 
 *** Note: These numbers only reflect tracks affected by removeSubsets. ***
 ***          File may contain other unaffected tracks.                 ***
 
-End time: Wed Mar 29 09:22:07 2017
+End time: Wed Mar 29 13:15:39 2017

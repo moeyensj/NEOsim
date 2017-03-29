@@ -5,50 +5,21 @@ Reading detections file
 Calculating topocentric correction 
 Reading tracklets file 
 Reading input took 0.0000000000 seconds.
-Recentering all detections on (180, 0).
-   Bounds were (in deg) R=[230.0429659650,  511.3297579900], D=[ -24.8317269676,  16.6339441186]
-Setting tracklet velocities.
-Sorting tracklets by image time and creating trees.
-Doing the linking.
-Looking for tracks between images at times 59606.160000000003 (image 0 / 4) and 59607.160000000003 (image 1 / 4)  (with 0 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490793935.000000000000 seconds. 
- so far, we have found 0 tracks.
-
-Looking for tracks between images at times 59606.160000000003 (image 0 / 4) and 59608.160000000003 (image 2 / 4)  (with 1 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490793639.000000000000 seconds. 
- so far, we have found 2 tracks.
-
-Looking for tracks between images at times 59606.160000000003 (image 0 / 4) and 59609.160000000003 (image 3 / 4)  (with 2 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490793202.000000000000 seconds. 
- so far, we have found 4 tracks.
-
-Looking for tracks between images at times 59607.160000000003 (image 1 / 4) and 59608.160000000003 (image 2 / 4)  (with 0 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490792883.000000000000 seconds. 
- so far, we have found 4 tracks.
-
-Looking for tracks between images at times 59607.160000000003 (image 1 / 4) and 59609.160000000003 (image 3 / 4)  (with 1 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490792862.000000000000 seconds. 
- so far, we have found 6 tracks.
-
-Looking for tracks between images at times 59608.160000000003 (image 2 / 4) and 59609.160000000003 (image 3 / 4)  (with 0 support images).
- current wall-clock time is Wed Mar 29 09:15:16 2017
-That iteration took 1490792561.000000000000 seconds. 
- so far, we have found 6 tracks.
-
-Found 6 valid start/end image pairs.
-Finished linking.
-Linking took 1490793939.000000000000 seconds.
+1.0000000000 0.9999835871
+0.8710438773 1.0000000000
+0.9990339874 0.9999999533
+1.0000000000 1.0000000000
+0.7582983750 0.9999925972
+0.9994457082 0.9999999987
+1.0000000000 0.9999836430
+0.8649388658 0.9999999998
+0.9991728709 0.9999999989
 TrackSet: purgeToFile called.
 TrackSet: clearing component tracks from memory.
 Results successfully written to disk.
 Done. Exiting successfully.
 Completed after 0.0000000000 seconds.
-This process (42824) memory usage: 
+This process (13329) memory usage: 
 ------------------------------------------
 ------------------------------------------
 
