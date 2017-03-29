@@ -1,0 +1,70 @@
+Start time: Wed Mar 29 09:00:08 2017
+
+Input Detection File Summary:
+File name: /Users/joachim/repos/neosim/example/nightly/59581.dias
+File size (bytes): 373
+Detections: 6
+Unique objects: 3
+Findable objects: 3
+
+Output Tracklet File Summary:
+File name: /Users/joachim/repos/neosim/example/run/tracklets/59581.tracklets
+File size (bytes): 21
+Unique objects in true tracklets: 3
+Unique objects in false tracklets: 0
+Total unique objects: 3
+True tracklets: 3
+False tracklets: 0
+Total tracklets: 3
+
+Output Collapsed Tracklet File Summary:
+File name: /Users/joachim/repos/neosim/example/run/trackletsCollapsed/59581.tracklets.collapsed.byDiaIds
+File size (bytes): 21
+Unique objects in true collapsed tracklets: 0
+Unique objects in false collapsed tracklets: 0
+Total unique objects: 0
+Tracklets collapsed: 0
+Tracklets created: 0
+True collapsed tracklets: 0
+False collapsed tracklets: 0
+Total collapsed tracklets: 0
+
+collapseTracklets merged 0 tracklets into 0 collinear tracklets...
+
+*** Note: These numbers only reflect tracklets affected by collapseTracklets. ***
+***            File may contain other unaffected tracklets.                   ***
+
+Output Purified Tracklet File Summary:
+File name: /Users/joachim/repos/neosim/example/run/trackletsPurified/59581.tracklets.purified.byDiaIds
+File size (bytes): 21
+Unique objects in true purified tracklets: 0
+Unique objects in false purified tracklets: 0
+Total unique objects: 0
+Tracklets purified: 0
+Tracklets created: 0
+True purified tracklets: 0
+False purified tracklets: 0
+Total purified tracklets: 0
+
+purifiedTracklets removed detections from 0 tracklets and created 0 tracklets...
+
+*** Note: These numbers only reflect tracklets affected by purifyTracklets. ***
+***          File may contain other unaffected tracklets.                   ***
+
+Output Final Tracklet File Summary:
+File name: /Users/joachim/repos/neosim/example/run/trackletsFinal/59581.tracklets.final.byDiaIds
+File size (bytes): 21
+Unique objects in true final tracklets: 0
+Unique objects in false final tracklets: 0
+Total unique objects: 0
+Tracklets removed: 0
+True final tracklets: 0
+False final tracklets: 0
+Total final tracklets: 0
+
+removeSubsets removed 0 tracklets...
+
+*** Note: These numbers only reflect tracklets affected by removeSubsets. ***
+***          File may contain other unaffected tracklets.                 ***
+
+End time: Wed Mar 29 09:00:08 2017
