@@ -48,10 +48,17 @@ class MopsTracker(object):
         self._ranLinkTracklets = False
         self._ranRemoveSubsetTracks = False
 
+        self._analysisStarted = False
         self._mainDatabase = None
         self._windowDatabases = None
+        self._objectsFile = None
+        self._analyzedTracklets = None
+        self._analyzedTracks = None
+        self._trackletId = 1
+        self._trackId = 1
         self._trackletResults = None
         self._trackResults = None
+        self._analysisFinished = False
 
         if verbose:
             self.info()
@@ -361,6 +368,14 @@ class MopsTracker(object):
         self._ranRemoveSubsetTracks = value
 
     @property
+    def analysisStarted(self):
+        return self._analysisStarted
+
+    @analysisStarted.setter
+    def analysisStarted(self, value):
+        self._analysisStarted = value   
+
+    @property
     def mainDatabase(self):
         return self._mainDatabase
 
@@ -377,6 +392,46 @@ class MopsTracker(object):
         self._windowDatabases = value
 
     @property
+    def objectsFile(self):
+        return self._objectsFile
+
+    @objectsFile.setter
+    def objectsFile(self, value):
+        self._objectsFile = value
+
+    @property
+    def analyzedTracklets(self):
+        return self._analyzedTracklets
+
+    @analyzedTracklets.setter
+    def analyzedTracklets(self, value):
+        self._analyzedTracklets = value
+
+    @property
+    def analyzedTracks(self):
+        return self._analyzedTracks
+
+    @analyzedTracks.setter
+    def analyzedTracks(self, value):
+        self._analyzedTracks = value
+
+    @property
+    def trackletId(self):
+        return self._trackletId
+
+    @trackletId.setter
+    def trackletId(self, value):
+        self._trackletId = value
+
+    @property
+    def trackId(self):
+        return self._trackId
+
+    @trackId.setter
+    def trackId(self, value):
+        self._trackId = value
+
+    @property
     def trackletResults(self):
         return self._trackletResults
 
@@ -391,6 +446,14 @@ class MopsTracker(object):
     @trackResults.setter
     def trackResults(self, value):
         self._trackResults = value
+
+    @property
+    def analysisFinished(self):
+        return self._analysisFinished
+
+    @analysisFinished.setter
+    def analysisFinished(self, value):
+        self._analysisFinished = value  
 
     def getDetections(self, diasourcesDir):
         diasourceList = sorted(os.listdir(diasourcesDir))

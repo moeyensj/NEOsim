@@ -2,6 +2,7 @@ import os
 import time
 import shutil
 import difflib
+import sqlite3
 import numpy as np
 import pandas as pd
 
@@ -622,6 +623,7 @@ def analyzeTracklets(trackletFile, detFile, outDir="results/", cursor=None, coll
         
     endTime = time.ctime()
     outFileOut.write("End time: %s\n" % (endTime))
+    outFileOut.close()
         
     print "Finished tracklet analysis for night %s at %s" % (night, endTime)
     print ""
@@ -899,49 +901,179 @@ def analyzeTracks(trackFile, detFile, idsFile, outDir="results/", cursor=None, r
 
     endTime = time.ctime()
     outFileOut.write("End time: %s\n" % (endTime))
+    outFileOut.close()
 
     print "Finished track analysis for window (nights: %s - %s) at %s" % (str(startNight), str(endNight), endTime)
     print ""
     
     return outFile, allTracksDataframe, trackMembersDataframe, track_ids
 
-def analyzeMultipleTracklets(trackletFiles, detFiles, outDir="results/", collapsedTrackletFiles=None, purifiedTrackletFiles=None, removeSubsetTrackletFiles=None,
-                            cursor=None, objectsDataframe=None, resultsObject=None):
+def analyzeMultipleTracklets(tracker,
+                             outDir="results/",
+                             cursor=None,
+                             objectsDataframe=None,
+                             resultsObject=None,
+                             reAnalyze=False):
     resultFiles = []
-    tracklet_id_start_count = 1
+    tracklet_id_start_count = tracker.trackletId
     all_tracklet_ids = []
+    collapsedTrackletsById = None
+    purifiedTrackletsById = None
+    finalTrackletsById = None
+
+    if tracker.analyzedTracklets is not None and reAnalyze is False:
+
+        trackletFiles = list(np.setdiff1d(tracker.tracklets, tracker.analyzedTracklets))
+        detFiles = tracker.diasources[len(tracker.analyzedTracklets):]
+        if tracker.collapsedTrackletsById is not None:
+            collapsedTrackletsById = tracker.collapsedTrackletsById[len(tracker.analyzedTracklets):]
+        if tracker.purifiedTrackletsById is not None:
+            purifiedTrackletsById = tracker.purifiedTrackletsById[len(tracker.analyzedTracklets):]
+        if tracker.finalTrackletsById is not None:
+            finalTrackletsById = tracker.finalTrackletsById[len(tracker.analyzedTracklets):]
+
+        print "%s tracklet files have been analyzed previously." % (len(tracker.analyzedTracklets))
+        if len(trackletFiles) is 0:
+            print "No tracklet files left to analyze. Moving on..."
+            return tracker
+        else:
+            print "Continuing analysis on %s remaining tracklet files..." % (len(trackletFiles))
+        print ""
+
+    elif tracker.analyzedTracklets is not None and reAnalyze is True:
+
+        trackletFiles = list(np.setdiff1d(tracker.tracklets, tracker.analyzedTracklets))
+        detFiles = tracker.diasources[len(trackletFiles)-1:]
+       
+        print "%s tracklet files have been analyzed previously." % (len(tracker.analyzedTracklets))
+        print "Re-analyze is enabled."
+        print "Restarting analysis on %s tracklet files..." % (len(tracker.tracklets))
+        print ""
+
+        tracker.analyzedTracklets = []
+        tracker.trackletResults = []
+        trackletFiles = tracker.tracklets
+        detFiles = tracker.diasources
+        collapsedTrackletsById = tracker.collapsedTrackletsById
+        purifiedTrackletsById = tracker.purifiedTrackletsById
+        finalTrackletsById = tracker.finalTrackletsById
+       
+    else:
+
+        tracker.analyzedTracklets = []
+        tracker.trackletResults = []
+        trackletFiles = tracker.tracklets
+        detFiles = tracker.diasources
+        collapsedTrackletsById = tracker.collapsedTrackletsById
+        purifiedTrackletsById = tracker.purifiedTrackletsById
+        finalTrackletsById = tracker.finalTrackletsById
+
     for i, (trackletFile, detFile) in enumerate(zip(trackletFiles, detFiles)):
         kwargs = {"collapsedTrackletFile": None, "purifiedTrackletFile": None, "removeSubsetTrackletFile": None}
 
-        if collapsedTrackletFiles is not None:
-            kwargs["collapsedTrackletFile"] = collapsedTrackletFiles[i]
+        if collapsedTrackletsById is not None:
+            kwargs["collapsedTrackletFile"] = collapsedTrackletsById[i]
 
-        if purifiedTrackletFiles is not None:
-            kwargs["purifiedTrackletFile"] = purifiedTrackletFiles[i]
+        if tracker.purifiedTrackletsById is not None:
+            kwargs["purifiedTrackletFile"] = purifiedTrackletsById[i]
 
-        if removeSubsetTrackletFiles is not None:
-            kwargs["removeSubsetTrackletFile"] = removeSubsetTrackletFiles[i]
+        if tracker.finalTrackletsById is not None:
+            kwargs["removeSubsetTrackletFile"] = finalTrackletsById[i]
 
         resultFile, allTrackletsDataframe, trackletMembersDataframe, tracklet_ids = analyzeTracklets(trackletFile, detFile, 
             outDir=outDir, trackletIdCountStart=tracklet_id_start_count, cursor=cursor, objectsDataframe=objectsDataframe, resultsObject=resultsObject, **kwargs)
 
-        resultFiles.append(resultFile)
+        del allTrackletsDataframe
+        del trackletMembersDataframe
+
         all_tracklet_ids.extend(tracklet_ids)
-
         if len(all_tracklet_ids) >= 1:
-            tracklet_id_start_count = max(all_tracklet_ids) + 1
-        else: 
-            tracklet_id_start_count = 1
+            tracker.trackletId = max(all_tracklet_ids) + 1
+        tracklet_id_start_count = tracker.trackletId
 
-    return sorted(resultFiles)
+        tracker.analyzedTracklets.append(trackletFile)
+        tracker.analyzedTracklets = sorted(tracker.analyzedTracklets)
+        tracker.trackletResults.append(resultFile)
+        tracker.trackletResults = sorted(tracker.trackletResults)
+        tracker.toYaml(outDir=tracker.runDir)
+        tracker.toYaml(outDir=tracker.resultsDir)
 
-def analyzeMultipleTracks(trackFiles, detFiles, idsFiles, outDir="results/", removeSubsetTrackFiles=None,
-                            toDatabase=True, objectsDataframe=None, resultsObject=None, minDetectionsPerNight=2, minNights=3, windowSize=15):
+        if resultsObject is not None:
+            resultsObject.toYaml(outDir=tracker.runDir)
+            resultsObject.toYaml(outDir=tracker.resultsDir)
 
+        if objectsDataframe is not None:
+            if cursor is not None:
+                print "Converting object dataframe to sqlite table..."
+                print "Updating AllObjects table..."
+                objectsDataframe.to_sql("AllObjects", cursor, if_exists="replace", index=False)
+            print "Saving AllObjects table as file..."
+            objectsDataframe.to_csv(tracker.resultsDir + "/AllObjects.txt", sep=" ", index=False)
+            print ""
+
+    return tracker
+
+def analyzeMultipleTracks(tracker, 
+                          outDir="results/",
+                          toDatabase=True,
+                          objectsDataframe=None,
+                          resultsObject=None,
+                          minDetectionsPerNight=2,
+                          minNights=3,
+                          windowSize=15,
+                          reAnalyze=False):
     databases = []
     resultFiles = []
-    track_id_start_count = 1
+    track_id_start_count = tracker.trackId
     all_track_ids = []
+    finalTracks = None
+
+    if tracker.analyzedTracks is not None and reAnalyze is False:
+
+        trackFiles = list(np.setdiff1d(tracker.tracks, tracker.analyzedTracks))
+        detFiles = tracker.dets[len(tracker.analyzedTracks):]
+        idsFiles = tracker.ids[len(tracker.analyzedTracks):]
+        if tracker.finalTracks is not None:
+            finalTracks = tracker.finalTracks[len(tracker.analyzedTracks):]
+
+        print "%s track files have been analyzed previously." % (len(tracker.analyzedTracks))
+        if len(trackFiles) is 0:
+            print "No track files left to analyze. Moving on..."
+            return tracker
+        else:
+            print "Continuing analysis on %s remaining track files..." % (len(trackFiles))
+        print ""
+
+    elif tracker.analyzedTracks is not None and reAnalyze is True:
+
+        trackFiles = list(np.setdiff1d(tracker.tracks, tracker.analyzedTracks))
+        detFiles = tracker.dets[len(tracker.analyzedTracks):]
+        idsFiles = tracker.ids[len(tracker.analyzedTracks):]
+        if tracker.finalTracks is not None:
+            finalTracks = tracker.finalTracks[len(tracker.analyzedTracks):]
+
+        print "%s track files have been analyzed previously." % (len(tracker.analyzedTracks))
+        print "Re-analyze is enabled."
+        print "Restarting analysis on %s track files..." % (len(tracker.tracks))
+        print ""
+
+        tracker.analyzedTracks = []
+        tracker.trackResults = []
+        tracker.windowDatabases = []
+        trackFiles = tracker.tracks
+        detFiles = tracker.dets
+        idsFiles = tracker.ids
+        finalTracks = tracker.finalTracks
+
+    else:
+
+        tracker.analyzedTracks = []
+        tracker.trackResults = []
+        tracker.windowDatabases = []
+        trackFiles = tracker.tracks
+        detFiles = tracker.dets
+        idsFiles = tracker.ids
+        finalTracks = tracker.finalTracks
 
     for i, (trackFile, detFile, idsFile) in enumerate(zip(trackFiles, detFiles, idsFiles)):
         if toDatabase:
@@ -953,109 +1085,313 @@ def analyzeMultipleTracks(trackFiles, detFiles, idsFiles, outDir="results/", rem
 
         kwargs = {"removeSubsetTrackFile": None}
 
-        if removeSubsetTrackFiles is not None:
-            kwargs["removeSubsetTrackFile"] = removeSubsetTrackFiles[i]
+        if finalTracks is not None:
+            kwargs["removeSubsetTrackFile"] = finalTracks[i]
 
         resultFile, allTracksDataframe, trackMembersDataframe, track_ids = analyzeTracks(trackFile, detFile, idsFile,
             outDir=outDir, trackIdCountStart=track_id_start_count, cursor=cursor, objectsDataframe=objectsDataframe, resultsObject=resultsObject, 
             minDetectionsPerNight=minDetectionsPerNight, minNights=minNights, windowSize=windowSize, snrLimit=-1, analyzeSubsets=True, **kwargs)
        
-        if toDatabase:
-            databases.append(database)
+        del allTracksDataframe
+        del trackMembersDataframe
 
-        resultFiles.append(resultFile)
         all_track_ids.extend(track_ids)
-
         if len(all_track_ids) >= 1:
-            track_id_start_count = max(all_track_ids) + 1
-        else:
-            track_id_start_count = 1
+            tracker.trackId = max(all_track_ids) + 1
+        track_id_start_count = tracker.trackId
 
-    return sorted(resultFiles), sorted(databases)
-
-def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatabase=True, resultsObject=None,
-            minDetectionsPerNight=2, minNights=3, windowSize=15, fullDetFile=None, overwrite=False):
-
-    outDir = os.path.join(tracker.runDir, "results")
-    tracker.resultsDir = outDir
-    if os.path.exists(outDir):
-        if overwrite:
-            shutil.rmtree(outDir)
-            os.mkdir(outDir)
-            print "Overwrite triggered: deleting existing results directory..."
-            print ""
-        else:
-            raise NameError("Results directory exists! Cannot continue!")
-    else:
-        os.mkdir(outDir)
-
-    if resultsObject is None:
-        print "Initializing new results object..."
-        resultsObject = MopsResults(parameters, tracker)
-
-    cursor = None
-    database = None
-    if toDatabase:
-        cursor, database = MopsDatabase.buildTrackletDatabase("main.db", outDir)
-
-    objects_df = None
-    if fullDetFile:
-        print "Reading full detections file into dataframe..."
-        full_dets_df = MopsReader.readDetectionsIntoDataframe(fullDetFile)
-        unique_objects, numDetections = np.unique(full_dets_df["objectId"], return_counts=True)
-
-        print "Counting findable objects as tracklets..."
-        findable_objects_as_tracklets = countFindableObjects(full_dets_df, minDetectionsPerNight=2, minNights=1, windowSize=1, snrLimit=-1)
-
-        print "Counting findable objects as tracks..."
-        findable_objects_as_tracks = countFindableObjects(full_dets_df, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1)
-
-        print "Building objects dataframe..."
-        table = np.zeros(len(unique_objects), 
-            dtype={"names":["objectId", "numDetections", "findableAsTracklet", "findableAsTrack", 
-                        "numFalseTracklets", "numTrueTracklets", "numFalseCollapsedTracklets", "numTrueCollapsedTracklets",
-                        "numFalsePurifiedTracklets", "numTruePurifiedTracklets", "numFalseFinalTracklets", "numTrueFinalTracklets",
-                        "numFalseTracks", "numTrueTracks", "numFalseFinalTracks", "numTrueFinalTracks"], 
-                    "formats":["int64","int64","bool","bool",
-                        "int64","int64","int64","int64",
-                        "int64","int64","int64","int64",
-                        "int64","int64","int64","int64"]})
-
-        table["objectId"] = unique_objects
-        table["numDetections"] = numDetections
-        objects_df = pd.DataFrame(table)
-
-        print "Updating objects dataframe..."
-        for unique_object in findable_objects_as_tracklets:
-            objects_df.loc[objects_df["objectId"] == unique_object, "findableAsTracklet"] = True
-
-        for unique_object in findable_objects_as_tracks:
-            objects_df.loc[objects_df["objectId"] == unique_object, "findableAsTrack"] = True
-
+        tracker.analyzedTracks.append(trackFile)
+        tracker.analyzedTracks = sorted(tracker.analyzedTracks)
+        tracker.trackResults.append(resultFile)
+        tracker.trackResults = sorted(tracker.trackResults)
         if toDatabase:
-            print "Reading full detections file into database..."
-            MopsReader.readDetectionsIntoDatabase(fullDetFile, cursor, table="DiaSources", header=None)
+            tracker.windowDatabases.append(database)
+            tracker.windowDatabases = sorted(tracker.windowDatabases)
+        tracker.toYaml(outDir=tracker.runDir)
+        tracker.toYaml(outDir=tracker.resultsDir)
 
+        if resultsObject is not None:
+            resultsObject.toYaml(outDir=tracker.runDir)
+            resultsObject.toYaml(outDir=tracker.resultsDir)
+
+        if objectsDataframe is not None and cursor is not None:
+            if cursor is not None:
+                print "Converting object dataframe to sqlite table..."
+                print "Updating AllObjects table..."
+                objectsDataframe.to_sql("AllObjects", cursor, if_exists="replace", index=False)
+            print "Saving AllObjects table as file..."
+            objectsDataframe.to_csv(tracker.resultsDir + "/AllObjects.txt", sep=" ", index=False)
+            print ""
+
+    return tracker
+
+def analyze(parameters,
+            tracker,
+            outDir="results/",
+            tracklets=True,
+            tracks=True,
+            toDatabase=True,
+            resultsObject=None,
+            minDetectionsPerNight=2,
+            minNights=3,
+            windowSize=15,
+            fullDetFile=None,
+            overwrite=False,
+            reAnalyze=False):
+
+    if tracker.analysisFinished is True:
+        print "Analysis was previously completed. Nothing to do."
+        return 0
+
+    if tracker.analysisStarted is True and reAnalyze is True:
+
+        print "Analysis has been started previously."
+        print "Re-analyze is enabled."
+        print "Restarting analysis."
         print ""
+        tracker.analysisStarted = False
+        tracker.mainDatabase = None
+        tracker.windowDatabases = None
+        tracker.analyzedTracklets = None
+        tracker.analyzedTracks = None
+        tracker.trackletResults = None
+        tracker.trackResults = None
+        tracker.analysisFinished = False
+
+        outDir = os.path.join(tracker.runDir, "results")
+        tracker.resultsDir = outDir
+        if os.path.exists(outDir):
+            if overwrite:
+                shutil.rmtree(outDir)
+                os.mkdir(outDir)
+                print "Overwrite triggered: deleting existing results directory..."
+                print ""
+            else:
+                raise NameError("Results directory exists! Cannot continue!")
+        else:
+            os.mkdir(outDir)
+
+        if resultsObject is None:
+            print "Initializing new results object..."
+            resultsObject = MopsResults(parameters, tracker)
+
+        tracker.analysisStarted = True
+        cursor = None
+        database = None
+        if toDatabase:
+            cursor, database = MopsDatabase.buildTrackletDatabase("main.db", outDir)
+        
+        tracker.mainDatabase = database
+        tracker.toYaml(outDir=tracker.runDir)
+        tracker.toYaml(outDir=tracker.resultsDir)
+        print ""
+
+        objects_df = None
+        if fullDetFile:
+            print "Reading full detections file into dataframe..."
+            full_dets_df = MopsReader.readDetectionsIntoDataframe(fullDetFile)
+            unique_objects, numDetections = np.unique(full_dets_df["objectId"], return_counts=True)
+
+            print "Counting findable objects as tracklets..."
+            findable_objects_as_tracklets = countFindableObjects(full_dets_df, minDetectionsPerNight=2, minNights=1, windowSize=1, snrLimit=-1)
+
+            print "Counting findable objects as tracks..."
+            findable_objects_as_tracks = countFindableObjects(full_dets_df, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1)
+
+            print "Building objects dataframe..."
+            table = np.zeros(len(unique_objects), 
+                dtype={"names":["objectId", "numDetections", "findableAsTracklet", "findableAsTrack", 
+                            "numFalseTracklets", "numTrueTracklets", "numFalseCollapsedTracklets", "numTrueCollapsedTracklets",
+                            "numFalsePurifiedTracklets", "numTruePurifiedTracklets", "numFalseFinalTracklets", "numTrueFinalTracklets",
+                            "numFalseTracks", "numTrueTracks", "numFalseFinalTracks", "numTrueFinalTracks"], 
+                        "formats":["int64","int64","bool","bool",
+                            "int64","int64","int64","int64",
+                            "int64","int64","int64","int64",
+                            "int64","int64","int64","int64"]})
+
+            table["objectId"] = unique_objects
+            table["numDetections"] = numDetections
+            objects_df = pd.DataFrame(table)
+
+            print "Updating objects dataframe..."
+            for unique_object in findable_objects_as_tracklets:
+                objects_df.loc[objects_df["objectId"] == unique_object, "findableAsTracklet"] = True
+
+            for unique_object in findable_objects_as_tracks:
+                objects_df.loc[objects_df["objectId"] == unique_object, "findableAsTrack"] = True
+
+            if toDatabase:
+                print "Reading full detections file into database..."
+                MopsReader.readDetectionsIntoDatabase(fullDetFile, cursor, table="DiaSources", header=None)
+
+            print "Saving AllObjects table as file..."
+            objects_df.to_csv(tracker.resultsDir + "/AllObjects.txt", sep=" ", index=False)
+            tracker.objectsFile = tracker.resultsDir + "/AllObjects.txt"
+            print ""
+
+            tracker.toYaml(outDir=tracker.runDir)
+            tracker.toYaml(outDir=tracker.resultsDir)
+            print ""
+
+    elif tracker.analysisStarted is True and reAnalyze is False:
+
+        print "Analysis has been started previously."
+        print "Continuing analysis."
+        print ""
+
+        outDir = tracker.resultsDir 
+
+        if tracker.mainDatabase is not None:
+            toDatabase = True
+            database = tracker.mainDatabase
+            cursor = sqlite3.connect(database)
+        else:
+            cursor = None
+            database = None
+            if toDatabase:
+                cursor, database = MopsDatabase.buildTrackletDatabase("main.db", outDir)
+            tracker.mainDatabase = database
+
+        tracker.mainDatabase = database
+        tracker.toYaml(outDir=tracker.runDir)
+        tracker.toYaml(outDir=tracker.resultsDir)
+        print ""
+
+        if tracker.objectsFile is not None:
+            objects_df = pd.read_csv(tracker.objectsFile, sep=" ")
+        else:
+            objects_df = None
+            if fullDetFile:
+                print "Reading full detections file into dataframe..."
+                full_dets_df = MopsReader.readDetectionsIntoDataframe(fullDetFile)
+                unique_objects, numDetections = np.unique(full_dets_df["objectId"], return_counts=True)
+
+                print "Counting findable objects as tracklets..."
+                findable_objects_as_tracklets = countFindableObjects(full_dets_df, minDetectionsPerNight=2, minNights=1, windowSize=1, snrLimit=-1)
+
+                print "Counting findable objects as tracks..."
+                findable_objects_as_tracks = countFindableObjects(full_dets_df, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1)
+
+                print "Building objects dataframe..."
+                table = np.zeros(len(unique_objects), 
+                    dtype={"names":["objectId", "numDetections", "findableAsTracklet", "findableAsTrack", 
+                                "numFalseTracklets", "numTrueTracklets", "numFalseCollapsedTracklets", "numTrueCollapsedTracklets",
+                                "numFalsePurifiedTracklets", "numTruePurifiedTracklets", "numFalseFinalTracklets", "numTrueFinalTracklets",
+                                "numFalseTracks", "numTrueTracks", "numFalseFinalTracks", "numTrueFinalTracks"], 
+                            "formats":["int64","int64","bool","bool",
+                                "int64","int64","int64","int64",
+                                "int64","int64","int64","int64",
+                                "int64","int64","int64","int64"]})
+
+                table["objectId"] = unique_objects
+                table["numDetections"] = numDetections
+                objects_df = pd.DataFrame(table)
+
+                print "Updating objects dataframe..."
+                for unique_object in findable_objects_as_tracklets:
+                    objects_df.loc[objects_df["objectId"] == unique_object, "findableAsTracklet"] = True
+
+                for unique_object in findable_objects_as_tracks:
+                    objects_df.loc[objects_df["objectId"] == unique_object, "findableAsTrack"] = True
+
+                if toDatabase:
+                    print "Reading full detections file into database..."
+                    MopsReader.readDetectionsIntoDatabase(fullDetFile, cursor, table="DiaSources", header=None)
+
+                print "Saving AllObjects table as file..."
+                objects_df.to_csv(tracker.resultsDir + "/AllObjects.txt", sep=" ", index=False)
+                tracker.objectsFile = tracker.resultsDir + "/AllObjects.txt"
+                print ""
+
+            tracker.toYaml(outDir=tracker.runDir)
+            tracker.toYaml(outDir=tracker.resultsDir)
+            print ""
+
+    else:
+        outDir = os.path.join(tracker.runDir, "results")
+        tracker.resultsDir = outDir
+        if os.path.exists(outDir):
+            if overwrite:
+                shutil.rmtree(outDir)
+                os.mkdir(outDir)
+                print "Overwrite triggered: deleting existing results directory..."
+                print ""
+            else:
+                raise NameError("Results directory exists! Cannot continue!")
+        else:
+            os.mkdir(outDir)
+
+        if resultsObject is None:
+            print "Initializing new results object..."
+            resultsObject = MopsResults(parameters, tracker)
+
+        tracker.analysisStarted = True
+        cursor = None
+        database = None
+        if toDatabase:
+            cursor, database = MopsDatabase.buildTrackletDatabase("main.db", outDir)
+        
+        tracker.mainDatabase = database
+        tracker.toYaml(outDir=tracker.runDir)
+        tracker.toYaml(outDir=tracker.resultsDir)
+        print ""
+
+        objects_df = None
+        if fullDetFile:
+            print "Reading full detections file into dataframe..."
+            full_dets_df = MopsReader.readDetectionsIntoDataframe(fullDetFile)
+            unique_objects, numDetections = np.unique(full_dets_df["objectId"], return_counts=True)
+
+            print "Counting findable objects as tracklets..."
+            findable_objects_as_tracklets = countFindableObjects(full_dets_df, minDetectionsPerNight=2, minNights=1, windowSize=1, snrLimit=-1)
+
+            print "Counting findable objects as tracks..."
+            findable_objects_as_tracks = countFindableObjects(full_dets_df, minDetectionsPerNight=2, minNights=3, windowSize=15, snrLimit=-1)
+
+            print "Building objects dataframe..."
+            table = np.zeros(len(unique_objects), 
+                dtype={"names":["objectId", "numDetections", "findableAsTracklet", "findableAsTrack", 
+                            "numFalseTracklets", "numTrueTracklets", "numFalseCollapsedTracklets", "numTrueCollapsedTracklets",
+                            "numFalsePurifiedTracklets", "numTruePurifiedTracklets", "numFalseFinalTracklets", "numTrueFinalTracklets",
+                            "numFalseTracks", "numTrueTracks", "numFalseFinalTracks", "numTrueFinalTracks"], 
+                        "formats":["int64","int64","bool","bool",
+                            "int64","int64","int64","int64",
+                            "int64","int64","int64","int64",
+                            "int64","int64","int64","int64"]})
+
+            table["objectId"] = unique_objects
+            table["numDetections"] = numDetections
+            objects_df = pd.DataFrame(table)
+
+            print "Updating objects dataframe..."
+            for unique_object in findable_objects_as_tracklets:
+                objects_df.loc[objects_df["objectId"] == unique_object, "findableAsTracklet"] = True
+
+            for unique_object in findable_objects_as_tracks:
+                objects_df.loc[objects_df["objectId"] == unique_object, "findableAsTrack"] = True
+
+            if toDatabase:
+                print "Reading full detections file into database..."
+                MopsReader.readDetectionsIntoDatabase(fullDetFile, cursor, table="DiaSources", header=None)
+ 
+            print "Saving AllObjects table as file..."
+            objects_df.to_csv(tracker.resultsDir + "/AllObjects.txt", sep=" ", index=False)
+            tracker.objectsFile = tracker.resultsDir + "/AllObjects.txt"
+            print ""
+
+            tracker.toYaml(outDir=tracker.runDir)
+            tracker.toYaml(outDir=tracker.resultsDir)
+            print ""
+
 
     if tracklets:
 
         print "Starting tracklet analysis for %s nights..." % (len(tracker.tracklets))
         print ""
 
-        resultFiles = analyzeMultipleTracklets(tracker.tracklets, tracker.diasources, outDir=outDir, 
-            collapsedTrackletFiles=tracker.collapsedTrackletsById, purifiedTrackletFiles=tracker.purifiedTrackletsById,
-            removeSubsetTrackletFiles=tracker.finalTrackletsById, cursor=cursor, objectsDataframe=objects_df, resultsObject=resultsObject)
-
-        tracker.trackletResults = resultFiles
-        tracker.mainDatabase = database
-        tracker.toYaml(outDir=tracker.runDir)
-        tracker.toYaml(outDir=tracker.resultsDir)
+        tracker = analyzeMultipleTracklets(tracker, outDir=outDir, cursor=cursor, objectsDataframe=objects_df, resultsObject=resultsObject, reAnalyze=reAnalyze)
 
         print ""
-
-    resultsObject.toYaml(outDir=tracker.runDir)
-    resultsObject.toYaml(outDir=tracker.resultsDir)
 
     print ""
 
@@ -1064,29 +1400,26 @@ def analyze(parameters, tracker, outDir="", tracklets=True, tracks=True, toDatab
         print "Starting track analysis for %s windows..." % (len(tracker.tracks))
         print ""
 
-        resultFiles, databases = analyzeMultipleTracks(tracker.tracks, tracker.dets, tracker.ids, outDir=outDir, 
-          removeSubsetTrackFiles=tracker.finalTracks, toDatabase=toDatabase, objectsDataframe=objects_df, resultsObject=resultsObject, 
-          minDetectionsPerNight=minDetectionsPerNight, minNights=minNights, windowSize=windowSize)
-
-        tracker.trackResults = resultFiles
-        tracker.windowDatabases = databases
-        tracker.toYaml(outDir=tracker.runDir)
-        tracker.toYaml(outDir=tracker.resultsDir)
+        tracker = analyzeMultipleTracks(tracker, outDir=outDir, toDatabase=toDatabase, objectsDataframe=objects_df, resultsObject=resultsObject, 
+            minDetectionsPerNight=minDetectionsPerNight, minNights=minNights, windowSize=windowSize, reAnalyze=reAnalyze)
 
         print ""
-
-    resultsObject.toYaml(outDir=tracker.runDir)
-    resultsObject.toYaml(outDir=tracker.resultsDir)
 
     print ""
 
     if fullDetFile:
         print "Converting object dataframe to sqlite table..."
         print "Updating AllObjects table..."
-        objects_df.to_sql("AllObjects", cursor, if_exists="append", index=False)
+        objects_df.to_sql("AllObjects", cursor, if_exists="replace", index=False)
+        print "Saving AllObjects table as file..."
+        objects_df.to_csv(tracker.resultsDir + "/AllObjects.txt", sep=" ", index=False)
         print ""
 
+    tracker.analysisFinished = True
     print "Analysis finished."
 
-    return resultsObject, objects_df
+    tracker.toYaml(outDir=tracker.runDir)
+    tracker.toYaml(outDir=tracker.resultsDir)
+
+    return resultsObject
 
