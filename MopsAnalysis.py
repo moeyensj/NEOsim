@@ -943,7 +943,7 @@ def analyzeMultipleTracklets(tracker,
     elif tracker.analyzedTracklets is not None and reAnalyze is True:
 
         trackletFiles = list(np.setdiff1d(tracker.tracklets, tracker.analyzedTracklets))
-        detFiles = tracker.diasources[len(trackletFiles)-1:]
+        detFiles = tracker.diasources[len(tracker.analyzedTracklets):]
        
         print "%s tracklet files have been analyzed previously." % (len(tracker.analyzedTracklets))
         print "Re-analyze is enabled."
