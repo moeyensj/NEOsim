@@ -1,7 +1,7 @@
 import os
 import yaml
 
-__all__ = ["tracker"]
+__all__ = ["Tracker"]
 
 
 class Tracker(object):
