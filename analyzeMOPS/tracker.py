@@ -1,10 +1,10 @@
 import os
 import yaml
 
-__all__ = ["MopsTracker"]
+__all__ = ["tracker"]
 
 
-class MopsTracker(object):
+class Tracker(object):
 
     def __init__(self, runDir, verbose=True):
 
