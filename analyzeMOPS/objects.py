@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 
-__all__ = ["tracklet", "track"]
+__all__ = ["Tracklet", "Track"]
 
 
-class tracklet(object):
+class Tracklet(object):
     def __init__(self, trackletId, diasources_num, night):
         self._trackletId = trackletId
         self._diasources = np.zeros(diasources_num,
@@ -186,7 +186,7 @@ class tracklet(object):
         return pd.DataFrame(self._members)
 
 
-class track(object):
+class Track(object):
     def __init__(self, trackId, diasources_num, windowStart):
         self._trackId = trackId
         self._diasources = np.zeros(diasources_num, 
