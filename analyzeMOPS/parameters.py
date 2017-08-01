@@ -17,7 +17,7 @@ class DefaultParameters:
     velocity_tolerance = 0.05
     method = "greedy"
     use_rms_filter = True
-    rms_max = 0.001
+    tracklet_rms_max = 0.001
 
     # removeSubsets (tracklets)
     remove_subset_tracklets = False
@@ -36,6 +36,14 @@ class DefaultParameters:
     detections_min = 6
     output_buffer_size = 1000
     leaf_node_size_max = None
+    track_rms_max = 0.05
+    track_addition_threshold = 0.5
+    default_astrometric_error = 0.2 / 3600
+    track_chi_square_minimum = 0.0
+    sky_center_ra = 340.0
+    sky_center_dec = -15.0
+    observatory_lat = -30.169
+    observatory_lon = -70.804
 
     # removeSubsets (tracks)
     remove_subset_tracks = True
@@ -51,7 +59,7 @@ class Parameters(object):
                  velocity_tolerance=None,
                  method=None,
                  use_rms_filter=None,
-                 rms_max=None,
+                 tracklet_rms_max=None,
                  remove_subset_tracklets=None,
                  keep_only_longest_tracklets=None,
                  window_size=None,
@@ -64,6 +72,14 @@ class Parameters(object):
                  detections_min=None,
                  output_buffer_size=None,
                  leaf_node_size_max=None,
+                 track_rms_max=None,
+                 track_addition_threshold=None,
+                 default_astrometric_error=None,
+                 track_chi_square_minimum=None,
+                 sky_center_ra=None,
+                 sky_center_dec=None,
+                 observatory_lat=None,
+                 observatory_lon=None,
                  remove_subset_tracks=None,
                  keep_only_longest_tracks=None,
                  verbose=True):
@@ -76,7 +92,7 @@ class Parameters(object):
         self._vTol = velocity_tolerance
         self._method = method
         self._useRMSfilt = use_rms_filter
-        self._rmsMax = rms_max
+        self._trackletRMSmax = tracklet_rms_max
         self._rmSubsetTracklets = remove_subset_tracklets
         self._keepOnlyLongestTracklets = keep_only_longest_tracklets
         self._windowSize = window_size
@@ -89,6 +105,14 @@ class Parameters(object):
         self._detectMin = detections_min
         self._bufferSize = output_buffer_size
         self._leafNodeSizeMax = leaf_node_size_max
+        self._trackRMSmax = track_rms_max
+        self._trackAdditionThresh = track_addition_threshold
+        self._defaultAstromErr = default_astrometric_error
+        self._trackChiSqMin = track_chi_square_minimum
+        self._skyCenterRA = sky_center_ra
+        self._skyCenterDec = sky_center_dec
+        self._obsLat = observatory_lat
+        self._obsLon = observatory_lon
         self._rmSubsetTracks = remove_subset_tracks
         self._keepOnlyLongestTracks = keep_only_longest_tracks
 
@@ -118,8 +142,8 @@ class Parameters(object):
         if use_rms_filter is None:
             self._useRMSfilt = defaults.use_rms_filter
 
-        if rms_max is None:
-            self._rmsMax = defaults.rms_max
+        if tracklet_rms_max is None:
+            self._trackletRMSmax = defaults.tracklet_rms_max
 
         if remove_subset_tracklets is None:
             self._rmSubsetTracklets = defaults.remove_subset_tracklets
@@ -156,6 +180,30 @@ class Parameters(object):
 
         if leaf_node_size_max is None:
             self._leafNodeSizeMax = defaults.leaf_node_size_max
+
+        if track_rms_max is None:
+            self._trackRMSmax = defaults.track_rms_max
+
+        if track_addition_threshold is None:
+            self._trackAdditionThresh = defaults.track_addition_threshold
+ 
+        if default_astrometric_error is None:
+            self._defaultAstromErr = defaults.default_astrometric_error
+
+        if track_chi_square_minimum is None:
+            self._trackChiSqMin = defaults.track_chi_square_minimum
+
+        if sky_center_ra is None:
+            self._skyCenterRA = defaults.sky_center_ra
+
+        if sky_center_dec is None: 
+            self._skyCenterDec = defaults.sky_center_dec
+
+        if observatory_lat is None:
+            self._obsLat = defaults.observatory_lat
+
+        if observatory_lon is None:
+            self._obsLon = defaults.observatory_lon
 
         if remove_subset_tracks is None:
             self._rmSubsetTracks = defaults.remove_subset_tracks
@@ -231,12 +279,12 @@ class Parameters(object):
         self._useRMSfilt = value
 
     @property
-    def rmsMax(self):
-        return self._rmsMax
+    def trackletRMSmax(self):
+        return self._trackletRMSmax
 
-    @rmsMax.setter
-    def rmsMax(self, value):
-        self._rmsMax = value
+    @trackletRMSmax.setter
+    def trackletRMSmax(self, value):
+        self._trackletRMSmax = value
 
     @property
     def rmSubsetTracklets(self):
@@ -335,6 +383,70 @@ class Parameters(object):
         self._leafNodeSizeMax = value
 
     @property
+    def trackRMSmax(self):
+        return self._trackRMSmax
+
+    @trackRMSmax.setter
+    def trackRMSmax(self, value):
+        self._trackRMSmax = value
+
+    @property
+    def trackAdditionThresh(self):
+        return self._trackAdditionThresh
+
+    @trackAdditionThresh.setter
+    def trackAdditionThresh(self, value):
+        self._trackAdditionThresh = value
+
+    @property
+    def defaultAstromErr(self):
+        return self._defaultAstromErr
+
+    @defaultAstromErr.setter
+    def defaultAstromErr(self, value):
+        self._defaultAstromErr = value
+
+    @property
+    def trackChiSqMin(self):
+        return self._trackChiSqMin
+
+    @trackChiSqMin.setter
+    def trackChiSqMin(self, value):
+        self._trackChiSqMin = value
+
+    @property
+    def skyCenterRA(self):
+        return self._skyCenterRA
+
+    @skyCenterRA.setter
+    def skyCenterRA(self, value):
+        self._skyCenterRA = value
+
+    @property
+    def skyCenterDec(self):
+        return self._skyCenterDec
+
+    @skyCenterDec.setter
+    def skyCenterDec(self, value):
+        self._skyCenterDec = value
+
+    @property
+    def obsLat(self):
+        return self._obsLat
+
+    @obsLat.setter
+    def obsLat(self, value):
+        self._obsLat = value
+
+    @property
+    def obsLon(self):
+        return self._obsLon
+
+    @obsLon.setter
+    def obsLon(self, value):
+        self._obsLon = value
+
+    @property
     def rmSubsetTracks(self):
         return self._rmSubsetTracks
 
@@ -351,41 +463,49 @@ class Parameters(object):
         self._keepOnlyLongestTracks = value
 
     def info(self):
-        print "------- MOPS Parameters --------"
-        print "Current Parameter Values:"
-        print ""
-        print "---- findTracklets ----"
-        print "\tMaximum velocity:                         %s" % (self._vMax)
-        print "\tMinimum velocity:                         %s" % (self._vMin)
-        print "---- collapseTracklets ----"
-        print "\tRight Ascension tolerance:                %s" % (self._raTol)
-        print "\tDeclination tolerance:                    %s" % (self._decTol)
-        print "\tAngular tolerance:                        %s" % (self._angTol)
-        print "\tVelocity tolerance:                       %s" % (self._vTol)
-        print "\tMethod:                                   %s" % (self._method)
-        print "\tUse RMS filter:                           %s" % (self._useRMSfilt)
-        print "\tMaximum RMS:                              %s" % (self._rmsMax)
-        print "---- purifyTracklets ----"
-        print "\tMaximum RMS:                              %s" % (self._rmsMax)
-        print "---- removeSubsets (tracklets) ----"
-        print "\tRemove subsets:                           %s" % (self._rmSubsetTracklets)
-        print "\tKeep only longest:                        %s" % (self._keepOnlyLongestTracklets)
-        print "---- makeLinkTrackletsInput_byNight.py ----"
-        print "\tWindow size:                              %s" % (self._windowSize)
-        print "---- linkTracklets ----"
-        print "\tDetection error threshold:                %s" % (self._detErrThresh)
-        print "\tMaximum right ascension acceleration:     %s" % (self._raAccelMax)
-        print "\tMaximum declination acceleration:         %s" % (self._decAccelMax)
-        print "\tLatest first endpoint:                    %s" % (self._latestFirstEnd)
-        print "\tEarliest last endpoint:                   %s" % (self._earliestLastEnd)
-        print "\tMinimum nights:                           %s" % (self._nightMin)
-        print "\tMinimum detections:                       %s" % (self._detectMin)
-        print "\tOutput buffer size:                       %s" % (self._bufferSize)
-        print "\tMaximum leaf node size:                   %s" % (self._leafNodeSizeMax)
-        print "---- removeSubsets (tracks) ----"
-        print "\tRemove subsets:                           %s" % (self._rmSubsetTracks)
-        print "\tKeep only longest:                        %s" % (self._keepOnlyLongestTracks)
-        print ""
+        print("------- MOPS Parameters --------")
+        print("Current Parameter Values:")
+        print("")
+        print("---- findTracklets ----")
+        print("\tMaximum velocity:                         {}".format(self._vMax))
+        print("\tMinimum velocity:                         {}".format(self._vMin))
+        print("---- collapseTracklets ----")
+        print("\tRight Ascension tolerance:                {}".format(self._raTol))
+        print("\tDeclination tolerance:                    {}".format(self._decTol))
+        print("\tAngular tolerance:                        {}".format(self._angTol))
+        print("\tVelocity tolerance:                       {}".format(self._vTol))
+        print("\tMethod:                                   {}".format(self._method))
+        print("\tUse RMS filter:                           {}".format(self._useRMSfilt))
+        print("\tTracklet RMS maximum:                     {}".format(self._trackletRMSmax))
+        print("---- purifyTracklets ----")
+        print("\tTracklet RMS maximum:                     {}".format(self._trackletRMSmax))
+        print("---- removeSubsets (tracklets) ----")
+        print("\tRemove subsets:                           {}".format(self._rmSubsetTracklets))
+        print("\tKeep only longest:                        {}".format(self._keepOnlyLongestTracklets))
+        print("---- makeLinkTrackletsInput_byNight.py ----")
+        print("\tWindow size:                              {}".format(self._windowSize))
+        print("---- linkTracklets ----")
+        print("\tDetection error threshold:                {}".format(self._detErrThresh))
+        print("\tMaximum right ascension acceleration:     {}".format(self._raAccelMax))
+        print("\tMaximum declination acceleration:         {}".format(self._decAccelMax))
+        print("\tLatest first endpoint:                    {}".format(self._latestFirstEnd))
+        print("\tEarliest last endpoint:                   {}".format(self._earliestLastEnd))
+        print("\tMinimum nights:                           {}".format(self._nightMin))
+        print("\tMinimum detections:                       {}".format(self._detectMin))
+        print("\tOutput buffer size:                       {}".format(self._bufferSize))
+        print("\tMaximum leaf node size:                   {}".format(self._leafNodeSizeMax))
+        print("\tTrack RMS maximum:                        {}".format(self._trackRMSmax))
+        print("\tTrack addition threshold:                 {}".format(self._trackAdditionThresh))
+        print("\tDefault astrometric error:                {}".format(self._defaultAstromErr))
+        print("\tTrack chi-squared minimum:                {}".format(self._trackChiSqMin))
+        print("\tSky center RA                             {}".format(self._skyCenterRA))
+        print("\tSky center Dec                            {}".format(self._skyCenterDec))
+        print("\tObservatory latitude                      {}".format(self._obsLat))
+        print("\tObservatory longitude                     {}".format(self._obsLon))
+        print("---- removeSubsets (tracks) ----")
+        print("\tRemove subsets:                           {}".format(self._rmSubsetTracks))
+        print("\tKeep only longest:                        {}".format(self._keepOnlyLongestTracks))
+        print("")
 
         return
 
