@@ -245,10 +245,10 @@ class Parameters(object):
                           "\tTrack addition threshold:                 {}\n" + 
                           "\tDefault astrometric error:                {}\n" + 
                           "\tTrack chi-squared minimum:                {}\n" + 
-                          "\tSky center RA                             {}\n" + 
-                          "\tSky center Dec                            {}\n" + 
-                          "\tObservatory latitude                      {}\n" + 
-                          "\tObservatory longitude                     {}\n" + 
+                          "\tSky center Right Ascension:               {}\n" + 
+                          "\tSky center Declination:                   {}\n" + 
+                          "\tObservatory latitude:                     {}\n" + 
+                          "\tObservatory longitude:                    {}\n" + 
                           "---- removeSubsets (tracks) ----\n" + 
                           "\tRemove subsets:                           {}\n" + 
                           "\tKeep only longest:                        {}\n\n")
