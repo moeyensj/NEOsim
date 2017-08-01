@@ -6,7 +6,7 @@ __all__ = ["Tracker"]
 
 class Tracker(object):
 
-    def __init__(self, runDir, verbose=True):
+    def __init__(self, runDir):
 
         self._diasources = None
         self._tracklets = None
@@ -60,8 +60,28 @@ class Tracker(object):
         self._trackResults = None
         self._analysisFinished = False
 
-        if verbose:
-            self.info()
+    def __repr__(self):
+        representation = ("------- MOPS Tracker --------\n" +
+                          "Current run status:\n\n" +
+                          "\tfindTracklets:                     {}\n" +
+                          "\tidsToIndices.py:                   {}\n" +
+                          "\tcollapseTracklets:                 {}\n" +
+                          "\tpurifyTracklets:                   {}\n" +
+                          "\tremoveSubsets (tracklets):         {}\n" +
+                          "\tindicesToIds.py:                   {}\n" +
+                          "\tmakeLinkTrackletsInputByNight.py:  {}\n" +
+                          "\tlinkTracklets:                     {}\n" +
+                          "\tremoveSubsets (tracks):            {}\n")
+        return representation.format(self._ranFindTracklets, 
+                                     self._ranIdsToIndices,
+                                     self._ranCollapseTracklets,
+                                     self._ranPurifyTracklets,
+                                     self._ranRemoveSubsetTracklets,
+                                     self._ranIndicesToIds,
+                                     self._ranMakeLinkTrackletsInputByNight,
+                                     self._ranLinkTracklets,
+                                     self._ranRemoveSubsetTracks)
+
 
     @property
     def diasources(self):
@@ -467,23 +487,6 @@ class Tracker(object):
 
         print "Found %s detection files in %s." % (len(diasourceList), diasourcesDir)
         print ""
-
-    def info(self):
-        print "------- MOPS Tracker --------"
-        print "Current run status:"
-        print ""
-        print "\tfindTracklets:                     %s" % (self._ranFindTracklets)
-        print "\tidsToIndices.py:                   %s" % (self._ranIdsToIndices)
-        print "\tcollapseTracklets:                 %s" % (self._ranCollapseTracklets)
-        print "\tpurifyTracklets:                   %s" % (self._ranPurifyTracklets)
-        print "\tremoveSubsets (tracklets):         %s" % (self._ranRemoveSubsetTracklets)
-        print "\tindicesToIds.py:                   %s" % (self._ranIndicesToIds)
-        print "\tmakeLinkTrackletsInputByNight.py:  %s" % (self._ranMakeLinkTrackletsInputByNight)
-        print "\tlinkTracklets:                     %s" % (self._ranLinkTracklets)
-        print "\tremoveSubsets (tracks):            %s" % (self._ranRemoveSubsetTracks)
-        print ""
-
-        return
 
     def toYaml(self, outDir=None):
         if outDir is None:
