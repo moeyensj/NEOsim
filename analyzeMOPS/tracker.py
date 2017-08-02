@@ -35,6 +35,8 @@ class Tracker(object):
         self._finalTrackletsByIdDir = None
         self._trackletsByNightDir = None
         self._tracksDir = None
+        self._trackErrs = None
+        self._trackOuts = None
         self._finalTracksDir = None
 
         self._ranDirectoryBuilder = False
@@ -178,6 +180,22 @@ class Tracker(object):
     @tracks.setter
     def tracks(self, value):
         self._tracks = value
+
+    @property
+    def trackErrs(self):
+        return self._trackErrs
+
+    @trackErrs.setter
+    def trackErrs(self, value):
+        self._trackErrs = value
+
+    @property
+    def trackOuts(self):
+        return self._trackOuts
+
+    @trackOuts.setter
+    def trackOuts(self, value):
+        self._trackOuts = value
 
     @property
     def finalTracks(self):

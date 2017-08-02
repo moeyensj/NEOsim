@@ -469,6 +469,8 @@ def runLinkTracklets(dets, ids, outDir,
     """
     function = "linkTracklets"
     tracks = []
+    outfiles = []
+    errfiles = []
 
     if verbose:
         _status(function, True)
@@ -481,6 +483,8 @@ def runLinkTracklets(dets, ids, outDir,
 
         for detIn, idIn in zip(dets, ids):
             trackOut = _out(outDir, detIn, TRACK_SUFFIX)
+            outfileName = trackOut + ".out"
+            errfileName = trackOut + ".err"
 
             call = ["linkTracklets",
                     "-e", str(detErrThresh),
@@ -509,6 +513,8 @@ def runLinkTracklets(dets, ids, outDir,
                 call.extend(["-n", str(leafNodeSizeMax)])
 
             tracks.append(trackOut)
+            outfiles.append(outfileName)
+            errfiles.append(errfileName)
 
             calls.append(call)
 
@@ -519,8 +525,10 @@ def runLinkTracklets(dets, ids, outDir,
 
         for detIn, idIn in zip(dets, ids):
             trackOut = _out(outDir, detIn, TRACK_SUFFIX)
-            outfile = open(trackOut + ".out", "w")
-            errfile = open(trackOut + ".err", "w")
+            outfileName = trackOut + ".out"
+            errfileName = trackOut + ".err"
+            outfile = open(outfileName, "w")
+            errfile = open(errfileName, "w")
 
             call = ["linkTracklets",
                     "-e", str(detErrThresh),
@@ -551,11 +559,13 @@ def runLinkTracklets(dets, ids, outDir,
             subprocess.call(call, stdout=outfile, stderr=errfile)
 
             tracks.append(trackOut)
+            outfiles.append(outfileName)
+            errfiles.append(errfileName)
 
     if verbose:
         _status(function, False)
 
-    return sorted(tracks)
+    return sorted(tracks), sorted(outfiles), sorted(errfiles)
 
 
 def runArgs():
@@ -875,30 +885,32 @@ def runMops(parameters, tracker,
 
         # Run linkTracklets
         if tracker.ranLinkTracklets is False:
-            tracks = runLinkTracklets(
-                        dets, ids, dirs["tracksDir"],
-                        enableMultiprocessing=enableMultiprocessing,
-                        processes=processes,
-                        detErrThresh=parameters.detErrThresh,
-                        decAccelMax=parameters.decAccelMax,
-                        raAccelMax=parameters.raAccelMax,
-                        nightMin=parameters.nightMin,
-                        detectMin=parameters.detectMin,
-                        bufferSize=parameters.bufferSize,
-                        latestFirstEnd=parameters.latestFirstEnd,
-                        earliestLastEnd=parameters.earliestLastEnd,
-                        leafNodeSizeMax=parameters.leafNodeSizeMax,
-                        trackRMSmax=parameters.trackRMSmax, 
-                        trackAdditionThresh=parameters.trackAdditionThresh,
-                        defaultAstromErr=parameters.defaultAstromErr,
-                        trackChiSqMin=parameters.trackChiSqMin,
-                        skyCenterRA=parameters.skyCenterRA,
-                        skyCenterDec=parameters.skyCenterDec,
-                        obsLat=parameters.obsLat,
-                        obsLon=parameters.obsLon,
-                        verbose=verbose)
+            tracks, outfiles, errfiles = runLinkTracklets(
+                                            dets, ids, dirs["tracksDir"],
+                                            enableMultiprocessing=enableMultiprocessing,
+                                            processes=processes,
+                                            detErrThresh=parameters.detErrThresh,
+                                            decAccelMax=parameters.decAccelMax,
+                                            raAccelMax=parameters.raAccelMax,
+                                            nightMin=parameters.nightMin,
+                                            detectMin=parameters.detectMin,
+                                            bufferSize=parameters.bufferSize,
+                                            latestFirstEnd=parameters.latestFirstEnd,
+                                            earliestLastEnd=parameters.earliestLastEnd,
+                                            leafNodeSizeMax=parameters.leafNodeSizeMax,
+                                            trackRMSmax=parameters.trackRMSmax, 
+                                            trackAdditionThresh=parameters.trackAdditionThresh,
+                                            defaultAstromErr=parameters.defaultAstromErr,
+                                            trackChiSqMin=parameters.trackChiSqMin,
+                                            skyCenterRA=parameters.skyCenterRA,
+                                            skyCenterDec=parameters.skyCenterDec,
+                                            obsLat=parameters.obsLat,
+                                            obsLon=parameters.obsLon,
+                                            verbose=verbose)
             tracker.ranLinkTracklets = True
             tracker.tracks = tracks
+            tracker.trackOuts = outfiles
+            tracker.trackErrs = errfiles
             tracker.tracksDir = dirs["tracksDir"]
             tracker.toYaml(outDir=runDir)
         else:
