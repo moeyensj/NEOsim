@@ -22,8 +22,8 @@ import yaml
 import shutil
 import multiprocessing
 
-from MopsParameters import MopsParameters
-from MopsTracker import MopsTracker
+from analyzeMOPS.parameters import Parameters
+from analyzeMOPS.tracker import Tracker
 
 # File suffixes
 DIASOURCE_SUFFIX = ".dias"
@@ -46,8 +46,7 @@ FINAL_TRACKS_DIR = "tracksFinal/"
 
 VERBOSE = True
 
-defaults = MopsParameters(verbose=False)
-
+defaults = Parameters()
 
 def directoryBuilder(runDir,
                      findTracklets=True,
@@ -223,7 +222,7 @@ def runCollapseTracklets(trackletsByIndex, diasources, outDir,
                          vTol=defaults.vTol,
                          method=defaults.method,
                          useRMSfilt=defaults.useRMSfilt,
-                         rmsMax=defaults.rmsMax,
+                         trackletRMSmax=defaults.trackletRMSmax,
                          verbose=VERBOSE):
     """
     Runs collapseTracklets.
@@ -252,7 +251,7 @@ def runCollapseTracklets(trackletsByIndex, diasources, outDir,
                 str(decTol), str(angTol), str(vTol), collapsedTracklet,
                 "--method", method,
                 "--useRMSFilt", str(useRMSfilt),
-                "--maxRMS", str(rmsMax)]
+                "--maxRMS", str(trackletRMSmax)]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
         collapsedTracklets.append(collapsedTracklet)
@@ -264,7 +263,7 @@ def runCollapseTracklets(trackletsByIndex, diasources, outDir,
 
 
 def runPurifyTracklets(collapsedTracklets, diasources, outDir,
-                       rmsMax=defaults.rmsMax,
+                       trackletRMSmax=defaults.trackletRMSmax,
                        verbose=VERBOSE):
     """
     Runs purifyTracklets.
@@ -292,7 +291,7 @@ def runPurifyTracklets(collapsedTracklets, diasources, outDir,
         call = ["purifyTracklets",
                 "--detsFile", diasource,
                 "--pairsFile", tracklet,
-                "--maxRMS", str(rmsMax),
+                "--maxRMS", str(trackletRMSmax),
                 "--outFile", purifiedTracklet]
         subprocess.call(call, stdout=outfile, stderr=errfile)
 
@@ -403,7 +402,7 @@ def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir,
     ----------------------
     parameter: (dtype) [default (if optional)], information
 
-    parameters: (MopsParameters object), user or default defined MOPS parameter object
+    parameters: (Parameters object), user or default defined MOPS parameter object
     diasourcesDir: (string), directory containing diasources
     trackletsDir: (string), directory containing final (subset removed) tracklets
     outDir: (string), dets and ids file output directory
@@ -447,6 +446,14 @@ def runLinkTracklets(dets, ids, outDir,
                      latestFirstEnd=defaults.latestFirstEnd,
                      earliestLastEnd=defaults.earliestLastEnd,
                      leafNodeSizeMax=defaults.leafNodeSizeMax,
+                     trackRMSmax=defaults.trackRMSmax, 
+                     trackAdditionThresh=defaults.trackAdditionThresh,
+                     defaultAstromErr=defaults.defaultAstromErr,
+                     trackChiSqMin=defaults.trackChiSqMin,
+                     skyCenterRA=defaults.skyCenterRA,
+                     skyCenterDec=defaults.skyCenterDec,
+                     obsLat=defaults.obsLat,
+                     obsLon=defaults.obsLon,
                      verbose=VERBOSE):
     """
     Runs linkTracklets.
@@ -482,6 +489,14 @@ def runLinkTracklets(dets, ids, outDir,
                     "-u", str(nightMin),
                     "-s", str(detectMin),
                     "-b", str(bufferSize),
+                    "-r", str(trackRMSmax),
+                    "-T", str(trackAdditionThresh),
+                    "-a", str(defaultAstromErr),
+                    "-q", str(trackChiSqMin),
+                    "-x", str(skyCenterRA),
+                    "-y", str(skyCenterDec),
+                    "-z", str(obsLat),
+                    "-w", str(obsLon),
                     "-d", detIn,
                     "-t", idIn,
                     "-o", trackOut]
@@ -514,6 +529,14 @@ def runLinkTracklets(dets, ids, outDir,
                     "-u", str(nightMin),
                     "-s", str(detectMin),
                     "-b", str(bufferSize),
+                    "-r", str(trackRMSmax),
+                    "-T", str(trackAdditionThresh),
+                    "-a", str(defaultAstromErr),
+                    "-q", str(trackChiSqMin),
+                    "-x", str(skyCenterRA),
+                    "-y", str(skyCenterDec),
+                    "-z", str(obsLat),
+                    "-w", str(obsLon),
                     "-d", detIn,
                     "-t", idIn,
                     "-o", trackOut]
@@ -537,7 +560,7 @@ def runLinkTracklets(dets, ids, outDir,
 
 def runArgs():
 
-    default = MopsParameters(verbose=False)
+    default = Parameters(verbose=False)
 
     parser = argparse.ArgumentParser(
         prog="runMops",
@@ -549,7 +572,7 @@ def runArgs():
 
     # Config file, load parameters from config file if given
     parser.add_argument("-cfg", "--config_file", default=None,
-        help="""If given, will read parameter values from file to overwrite default values defined in MopsParameters. 
+        help="""If given, will read parameter values from file to overwrite default values defined in Parameters. 
         Parameter values not-defined in config file will be set to default. See default.cfg for sample config file.""")
 
     # Verbosity 
@@ -580,7 +603,7 @@ def runArgs():
         each possible tracklet. (used in collapseTracklets)""")
     parser.add_argument("-rF","--use_rms_filter", default=default.useRMSfilt,
         help="Enforce a maximum RMS distance for any tracklet which is the product of collapsing (used in collapseTracklets)")
-    parser.add_argument("-rM", "--rms_max", default=default.rmsMax,
+    parser.add_argument("-rM", "--tracklet_rms_max", default=default.trackletRMS_max,
         help="""Only used if useRMSfilt == true. Describes the function for RMS filtering.  
         Tracklets will not be collapsed unless the resulting tracklet would have RMS <= maxRMSm * average magnitude + maxRMSb 
         (used in collapseTracklets and purifyTracklets""")
@@ -614,6 +637,22 @@ def runArgs():
         help="If specified, only search for tracks with last endpoint after time specified (used in linkTracklets)")
     parser.add_argument("-n", "--leaf_node_size_max", default=default.leafNodeSizeMax,
         help="Set max leaf node size for nodes in KDTree (used in linkTracklets)")
+    parser.add_arugment("-r", "--track_RMS_max", default=default.trackRMSmax,
+        help="Maximum RMS for adding individual track detections to a track (used in linkTracklets)")
+    parser.add_arugment("-T", "--track_addition_threshold", default=default.trackAdditionThresh,
+        help="[purpose not clear] in radians (used in linkTracklets)")
+    parser.add_arugment("-a", "--default_astrometric_error", default=default.defaultAstromErr,
+        help="[purpose not clear] in degrees (used in linkTracklets)")
+    parser.add_arugment("-q", "--track_chi_square_minimum", default=default.trackChiSqMin,
+        help="Minimum chi-squared fit for track to be accepted (used in linkTracklets)")
+    parser.add_arugment("-x", "--sky_center_RA", default=default.skyCenterRA,
+        help="Topocentric recentering RA in degrees (used in linkTracklets)")
+    parser.add_arugment("-y", "--sky_center_Dec", default=default.skyCenterDec,
+        help="Topocentric recentering Dec in degrees (used in linkTracklets)")
+    parser.add_arugment("-z", "--observatory_lat", default=default.obsLat,
+        help="Observatory latitude in degrees (used in linkTracklets)")
+    parser.add_arugment("-w", "--observatory_lon", default=default.obsLon,
+        help="Observatory East longitude in degrees (used in linkTracklets)")
 
     # removeSubsets (tracks)
     parser.add_argument("-St","--remove_subset_tracks", default=default.rmSubsetTracks,
@@ -644,8 +683,8 @@ def runMops(parameters, tracker,
     ----------------------
     parameter: (dtype) [default (if optional)], information
 
-    parameters: (MopsParameters object), user or default defined MOPS parameter object
-    tracker: (MopsTracker object), object keeps track of output files and directories
+    parameters: (Parameters object), user or default defined MOPS parameter object
+    tracker: (Tracker object), object keeps track of output files and directories
     findTracklets: (boolean) [True], run findTracklets?
     collapse: (boolean) [True], run collapseTracklets?
     purify: (boolean) [True], run purifyTracklets?
@@ -669,7 +708,7 @@ def runMops(parameters, tracker,
     if overwrite:
         print "Overwrite triggered: clearing tracker..."
         print ""
-        tracker = MopsTracker(runDir, verbose=False)
+        tracker = Tracker(runDir)
         tracker.getDetections(diasourcesDir)
 
     # Build directory structure
@@ -734,7 +773,7 @@ def runMops(parameters, tracker,
                                     vTol=parameters.vTol,
                                     method=parameters.method,
                                     useRMSfilt=parameters.useRMSfilt,
-                                    rmsMax=parameters.rmsMax,
+                                    trackletRMSmax=parameters.trackletRMSmax,
                                     verbose=verbose)
             collapsedTrackletsById = runIndicesToIds(
                                         collapsedTracklets, diasources,
@@ -760,7 +799,7 @@ def runMops(parameters, tracker,
             purifiedTracklets = runPurifyTracklets(
                                     collapsedTracklets, diasources,
                                     dirs["purifiedDir"],
-                                    rmsMax=parameters.rmsMax,
+                                    trackletRMSmax=parameters.trackletRMSmax,
                                     verbose=verbose)
             purifiedTrackletsById = runIndicesToIds(
                                         purifiedTracklets, diasources,
@@ -849,6 +888,14 @@ def runMops(parameters, tracker,
                         latestFirstEnd=parameters.latestFirstEnd,
                         earliestLastEnd=parameters.earliestLastEnd,
                         leafNodeSizeMax=parameters.leafNodeSizeMax,
+                        trackRMSmax=parameters.trackRMSmax, 
+                        trackAdditionThresh=parameters.trackAdditionThresh,
+                        defaultAstromErr=parameters.defaultAstromErr,
+                        trackChiSqMin=parameters.trackChiSqMin,
+                        skyCenterRA=parameters.skyCenterRA,
+                        skyCenterDec=parameters.skyCenterDec,
+                        obsLat=parameters.obsLat,
+                        obsLon=parameters.obsLon,
                         verbose=verbose)
             tracker.ranLinkTracklets = True
             tracker.tracks = tracks
@@ -878,7 +925,7 @@ def runMops(parameters, tracker,
         print ""
 
     # Print status and save tracker
-    tracker.info()
+    print(tracker)
     tracker.toYaml(outDir=runDir)
 
     return parameters, tracker
@@ -936,9 +983,9 @@ if __name__ == "__main__":
     runDir = os.path.join(os.path.abspath(args.outputDir), "")
     diasourcesDir = os.path.join(os.path.abspath(args.diasourcesDir), "")
 
-    # Initialize MopsParameters and MopsTracker
+    # Initialize Parameters and Tracker
     if args.config_file == None:
-        parameters = MopsParameters(
+        parameters = Parameters(
                         velocity_max=args.velocity_max,
                         velocity_min=args.velocity_min,
                         ra_tolerance=args.ra_tolerance,
@@ -960,19 +1007,30 @@ if __name__ == "__main__":
                         detections_min=args.detections_min,
                         output_buffer_size=args.output_buffer_size,
                         leaf_node_size_max=args.leaf_node_size_max,
+                        track_rms_max=args.track_RMS_max,
+                        track_addition_threshold=args.track_addition_threshold,
+                        default_astrometric_error=args.default_astrometric_error,
+                        track_chi_square_minimum=args.track_chi_square_minimum,
+                        sky_center_ra=args.sky_center_ra,
+                        sky_center_dec=args.sky_center_dec,
+                        observatory_lat=args.observatory_lat,
+                        observatory_lon=args.observatory_lon,
                         remove_subset_tracks=args.remove_subset_tracks,
-                        keep_only_longest_tracks=args.keep_only_longest_tracks,
-                        verbose=verbose)
+                        keep_only_longest_tracks=args.keep_only_longest_tracks)
     else:
         if verbose:
             print "Config file given. Reading parameters from file..."
             print ""
         cfg = yaml.load(file(args.config_file, "r"))
-        parameters = MopsParameters(**cfg)
+        parameters = Parameters(**cfg)
 
     # Initialize tracker
-    tracker = MopsTracker(runDir, verbose=verbose)
+    tracker = Tracker(runDir)
     tracker.getDetections(diasourcesDir)
+
+    if verbose is True:
+        print(parameters)
+        print(tracker)
 
     # Run MOPs
     parameters, tracker = runMops(parameters, tracker, verbose=verbose)
