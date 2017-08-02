@@ -94,8 +94,8 @@ def directoryBuilder(runDir,
         if overwrite:
             shutil.rmtree(runDir)
             os.mkdir(runDir)
-            print "Overwrite triggered: deleting existing directory..."
-            print ""
+            print("Overwrite triggered: deleting existing directory...")
+            print("")
         else:
             raise NameError("Run directory exists! Cannot continue!")
     else:
@@ -126,7 +126,7 @@ def directoryBuilder(runDir,
         newDir = os.path.join(runDir, dirsOut[d])
 
         if os.path.exists(newDir):
-            print "%s already exists."
+            print("%s already exists.")
         else:
             os.mkdir(newDir)
 
@@ -366,8 +366,8 @@ def runIndicesToIds(finalTracklets, diasources, outDir, suffix,
     function = "indicesToIds.py"
     byId = []
 
-    outfile = file(outDir + "/indicesToIds.out", "w")
-    errfile = file(outDir + "/indicesToIds.err", "w")
+    outfile = open(outDir + "/indicesToIds.out", "w")
+    errfile = open(outDir + "/indicesToIds.err", "w")
 
     if verbose:
         _status(function, True)
@@ -474,8 +474,8 @@ def runLinkTracklets(dets, ids, outDir,
         _status(function, True)
 
     if enableMultiprocessing:
-        print "Multiprocessing Enabled!"
-        print "Using %s CPUs in parallel." % (processes)
+        print("Multiprocessing Enabled!")
+        print("Using %s CPUs in parallel." % (processes))
 
         calls = []
 
@@ -519,8 +519,8 @@ def runLinkTracklets(dets, ids, outDir,
 
         for detIn, idIn in zip(dets, ids):
             trackOut = _out(outDir, detIn, TRACK_SUFFIX)
-            outfile = file(trackOut + ".out", "w")
-            errfile = file(trackOut + ".err", "w")
+            outfile = open(trackOut + ".out", "w")
+            errfile = open(trackOut + ".err", "w")
 
             call = ["linkTracklets",
                     "-e", str(detErrThresh),
@@ -696,9 +696,9 @@ def runMops(parameters, tracker,
     ----------------------
     """
     if verbose:
-        print "------- Run MOPS -------"
-        print "Running LSST's Moving Object Pipeline"
-        print ""
+        print("------- Run MOPS -------")
+        print("Running LSST's Moving Object Pipeline")
+        print("")
 
     runDir = tracker.runDir
     diasources = tracker.diasources
@@ -706,8 +706,8 @@ def runMops(parameters, tracker,
 
     # If overwrite, delete progress stored in tracker.
     if overwrite:
-        print "Overwrite triggered: clearing tracker..."
-        print ""
+        print("Overwrite triggered: clearing tracker...")
+        print("")
         tracker = Tracker(runDir)
         tracker.getDetections(diasourcesDir)
 
@@ -726,7 +726,7 @@ def runMops(parameters, tracker,
 
     # Save parameters
     parameters.toYaml(outDir=runDir)
-    print ""
+    print("")
 
     # Run findTracklets
     if findTracklets:
@@ -743,9 +743,9 @@ def runMops(parameters, tracker,
             inputTrackletSuffix = TRACKLET_SUFFIX
             tracker.toYaml(outDir=runDir)
         else:
-            print "findTracklets has already completed, moving on..."
+            print("findTracklets has already completed, moving on...")
 
-        print ""
+        print("")
 
     if collapseTracklets:
         if tracker.ranIdsToIndices is False:
@@ -758,9 +758,9 @@ def runMops(parameters, tracker,
             tracker.trackletsByIndexDir = dirs["trackletsDir"]
             tracker.toYaml(outDir=runDir)
         else:
-            print "idsToIndices has already completed, moving on..."
+            print("idsToIndices has already completed, moving on...")
 
-        print ""
+        print("")
 
         # Run collapseTracklets
         if tracker.ranCollapseTracklets is False:
@@ -789,9 +789,9 @@ def runMops(parameters, tracker,
             inputTrackletSuffix = COLLAPSED_TRACKLET_SUFFIX + TRACKLET_BY_ID_SUFFIX
             tracker.toYaml(outDir=runDir)
         else:
-            print "collapseTracklets has already completed, moving on..."
+            print("collapseTracklets has already completed, moving on...")
 
-        print ""
+        print("")
 
     if purifyTracklets:
         # Run purifyTracklets
@@ -814,9 +814,9 @@ def runMops(parameters, tracker,
             inputTrackletsDir = dirs["purifiedDir"]
             tracker.toYaml(outDir=runDir)
         else:
-            print "purifyTracklets has already completed, moving on..."
+            print("purifyTracklets has already completed, moving on...")
 
-        print ""
+        print("")
 
     if removeSubsetTracklets:
         # Run removeSubsets
@@ -832,9 +832,9 @@ def runMops(parameters, tracker,
             tracker.finalTrackletsDir = dirs["finalTrackletsDir"]
             tracker.toYaml(outDir=runDir)
         else:
-            print "removeSubsets (tracklets) has already completed, moving on..."
+            print("removeSubsets (tracklets) has already completed, moving on...")
 
-        print ""
+        print("")
 
         # Run indicesToIds
         if tracker.ranIndicesToIds is False:
@@ -850,9 +850,9 @@ def runMops(parameters, tracker,
             inputTrackletSuffix = FINAL_TRACKLET_SUFFIX + TRACKLET_BY_ID_SUFFIX
             tracker.toYaml(outDir=runDir)
         else:
-            print "indicesToIds has already completed, moving on..."
+            print("indicesToIds has already completed, moving on...")
         
-        print ""
+        print("")
 
     if linkTracklets:
         # Run makeLinkTrackletsInputByNight
@@ -869,9 +869,9 @@ def runMops(parameters, tracker,
             tracker.trackletsByNightDir = dirs["trackletsByNightDir"]
             tracker.toYaml(outDir=runDir)
         else:
-            print "makeLinkTrackletsInput_byNight has already completed, moving on..."
+            print("makeLinkTrackletsInput_byNight has already completed, moving on...")
 
-        print ""
+        print("")
 
         # Run linkTracklets
         if tracker.ranLinkTracklets is False:
@@ -902,9 +902,9 @@ def runMops(parameters, tracker,
             tracker.tracksDir = dirs["tracksDir"]
             tracker.toYaml(outDir=runDir)
         else:
-            print "linkTracklets has already completed, moving on..."
+            print("linkTracklets has already completed, moving on...")
 
-        print ""
+        print("")
 
     if removeSubsetTracks:
         # Run removeSubsets (tracks)
@@ -920,9 +920,9 @@ def runMops(parameters, tracker,
             tracker.finalTracksDir = dirs["finalTracksDir"]
             tracker.toYaml(outDir=runDir)
         else:
-            print "removeSubsets (tracks) has already completed, moving on..."
+            print("removeSubsets (tracks) has already completed, moving on...")
 
-        print ""
+        print("")
 
     # Print status and save tracker
     print(tracker)
@@ -934,11 +934,11 @@ def runMops(parameters, tracker,
 def _status(function, current):
 
     if current:
-        print "------- Run MOPS -------"
-        print "Running %s..." % (function)
+        print("------- Run MOPS -------")
+        print("Running %s..." % (function))
     else:
-        print "Completed running %s." % (function)
-        print ""
+        print("Completed running %s." % (function))
+        print("")
     return
 
 
@@ -947,8 +947,8 @@ def _log(function, outDir):
     function = os.path.splitext(function)[0]
 
     # Create outfile and errfile streams
-    outfile = file(os.path.join(outDir, function + ".out"), "w")
-    errfile = file(os.path.join(outDir, function + ".err"), "w")
+    outfile = open(os.path.join(outDir, function + ".out"), "w")
+    errfile = open(os.path.join(outDir, function + ".err"), "w")
 
     return outfile, errfile
 
@@ -968,8 +968,8 @@ def _runWindow(call):
     # so we have to extract the trackOut name from the function call.
     # When python 3.3 is accepted as standard, pool.starmap() will be used instead.
     trackOut = call[18]
-    outfile = file(trackOut + ".out", "w")
-    errfile = file(trackOut + ".err", "w")
+    outfile = open(trackOut + ".out", "w")
+    errfile = open(trackOut + ".err", "w")
     subprocess.call(call, stdout=outfile, stderr=errfile)
     return
 
@@ -1019,9 +1019,9 @@ if __name__ == "__main__":
                         keep_only_longest_tracks=args.keep_only_longest_tracks)
     else:
         if verbose:
-            print "Config file given. Reading parameters from file..."
-            print ""
-        cfg = yaml.load(file(args.config_file, "r"))
+            print("Config file given. Reading parameters from file...")
+            print("")
+        cfg = yaml.load(open(args.config_file, "r"))
         parameters = Parameters(**cfg)
 
     # Initialize tracker
