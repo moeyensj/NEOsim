@@ -1,0 +1,8 @@
+numpy
+matplotlib
+sqlite3
+pandas
+pyyaml
+pytest
+pytest-cov
+coveralls
