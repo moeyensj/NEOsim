@@ -3,10 +3,20 @@ import numpy as np
 import pandas as pd
 import sqlite3
 
+
+DETECTION_COLUMNS = {"diaId": "det_id", 
+                     "visitId": "field_id", 
+                     "objectId": "object_name", 
+                     "ra": "ra_deg", 
+                     "dec": "dec_deg", 
+                     "mjd": "epoch_mjd", 
+                     "mag": "mag", 
+                     "snr": "mag_sigma"}
+
 __all__ = ["readTracklet", "readTrack", "readIds",
            "readDetectionsIntoDataframe", "readDetectionsIntoDatabase",
-           "readNight", "readWindow", "buildTrackletDatabase",
-           "buildTrackDatabase", "attachDatabases"]
+           "readNight", "readWindow", "convertDetections",
+           "buildTrackletDatabase", "buildTrackDatabase", "attachDatabases"]
 
 def readTracklet(tracklet):
     return np.fromstring(tracklet, sep=" ", dtype=int) 
@@ -31,6 +41,29 @@ def readNight(detFile):
 def readWindow(trackFile):
     window = os.path.basename(trackFile).split(".")[0].split("_")
     return int(window[1]), int(window[3])
+
+def convertDetections(inFile, outFile, mappingFile, columnDict=DETECTION_COLUMNS, convertObjectIds=True, chunksize=10000):
+    
+    object_ids = {"NS": -1, "FD": -2}
+    object_num = 0
+    
+    for chunk in pd.read_csv(inFile, sep=" ", chunksize=chunksize):
+        chunk = chunk[[columnDict["diaId"], columnDict["visitId"], columnDict["objectId"], 
+                       columnDict["ra"], columnDict["dec"], columnDict["mjd"], 
+                       columnDict["mag"], columnDict["snr"]]]
+        
+        if convertObjectIds:
+            for object_id in chunk[columnDict["objectId"]].values:
+                if object_id not in object_ids.keys():
+                    object_num += 1
+                    object_ids[object_id] = object_num
+            chunk[columnDict["objectId"]].replace(to_replace=object_ids, inplace=True)
+        
+        chunk.to_csv(outFile, sep=" ", mode="append", header=False, index=False)
+    
+    mapping = pd.DataFrame.from_dict(data=object_ids, orient='index')
+    mapping.to_csv(mappingFile, sep=" ", header=False)
+    return
 
 def buildTrackletDatabase(database, outDir):
 
