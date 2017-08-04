@@ -15,6 +15,7 @@ DETECTION_COLUMNS = {"diaId": "det_id",
 
 __all__ = ["readTracklet", "readTrack", "readIds",
            "readDetectionsIntoDataframe", "readDetectionsIntoDatabase",
+           "readTrackletsIntoDatabase", "readTracksIntoDatabase",
            "readNight", "readWindow", "convertDetections",
            "buildTrackletDatabase", "buildTrackDatabase", "attachDatabases"]
 
@@ -34,6 +35,46 @@ def readDetectionsIntoDatabase(detsFile, cursor, table="DiaSources", header=None
     dets_df = readDetectionsIntoDataframe(detsFile, header=header)
     dets_df.to_sql(table, cursor, if_exists="append")
     return 
+
+def readTrackletsIntoDatabase(trackletFile, con, trackIdOffset=0, chunksize=100000):
+    
+    for i, chunk in enumerate(pd.read_csv(trackFile, header=None, names=["diaId"], chunksize=chunksize)):        
+        # Create an array of integer trackletIds
+        trackIds = np.arange(trackIdOffset + (chunksize * i) + 1, len(chunk) + trackIdOffset + (chunksize * i) + 1, dtype=int)
+        # Read in the trackletFile where every row is a string of diaIds delimited by whitespace
+        # Split the string of diaIds into separate columns and then stack the columns so that every tracklet has 
+        # a row for every diaId
+        chunk_df = pd.DataFrame(pd.DataFrame(chunk["diaId"].str.split(" ").tolist(), index=trackIds).stack(), columns=["diaId"])
+        chunk_df.reset_index(1, drop=True, inplace=True)
+        chunk_df["trackletId"] = chunk_df.index
+        chunk_df = chunk_df[["trackletId", "diaId"]]
+        # Not all tracks have the same number of detections, empty detections needs to be dropped
+        chunk_df["diaId"].replace("", np.nan, inplace=True)
+        chunk_df.dropna(inplace=True)
+        
+        # Save the resulting dataframe to a sql database
+        chunk_df.to_sql("TrackletMembers", con, if_exists="append", index=False)
+    return
+
+def readTracksIntoDatabase(trackFile, con, trackIdOffset=0, chunksize=100000):
+    
+    for i, chunk in enumerate(pd.read_csv(trackFile, header=None, names=["diaId"], chunksize=chunksize)):        
+        # Create an array of integer trackIds
+        trackIds = np.arange(trackIdOffset + (chunksize * i) + 1, len(chunk) + trackIdOffset + (chunksize * i) + 1, dtype=int)
+        # Read in the trackfile where every row is a string of diaIds delimited by whitespace
+        # Split the string of diaIds into separate columns and then stack the columns so that every track has 
+        # a row for every diaId
+        chunk_df = pd.DataFrame(pd.DataFrame(chunk["diaId"].str.split(" ").tolist(), index=trackIds).stack(), columns=["diaId"])
+        chunk_df.reset_index(1, drop=True, inplace=True)
+        chunk_df["trackId"] = chunk_df.index
+        chunk_df = chunk_df[["trackId", "diaId"]]
+        # Not all tracks have the same number of detections, empty detections needs to be dropped
+        chunk_df["diaId"].replace("", np.nan, inplace=True)
+        chunk_df.dropna(inplace=True)
+        
+        # Save the resulting dataframe to a sql database
+        chunk_df.to_sql("TrackMembers", con, if_exists="append", index=False)
+    return
 
 def readNight(detFile):
     return int(os.path.basename(detFile).split(".")[0])
