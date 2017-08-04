@@ -36,19 +36,19 @@ def readDetectionsIntoDatabase(detsFile, cursor, table="DiaSources", header=None
     dets_df.to_sql(table, cursor, if_exists="append")
     return 
 
-def readTrackletsIntoDatabase(trackletFile, con, trackIdOffset=0, chunksize=100000):
+def readTrackletsIntoDatabase(trackletFile, con, trackletIdOffset=0, chunksize=100000):
     
     for i, chunk in enumerate(pd.read_csv(trackFile, header=None, names=["diaId"], chunksize=chunksize)):        
         # Create an array of integer trackletIds
-        trackIds = np.arange(trackIdOffset + (chunksize * i) + 1, len(chunk) + trackIdOffset + (chunksize * i) + 1, dtype=int)
+        trackletIds = np.arange(trackletIdOffset + (chunksize * i) + 1, len(chunk) + trackletIdOffset + (chunksize * i) + 1, dtype=int)
         # Read in the trackletFile where every row is a string of diaIds delimited by whitespace
         # Split the string of diaIds into separate columns and then stack the columns so that every tracklet has 
         # a row for every diaId
-        chunk_df = pd.DataFrame(pd.DataFrame(chunk["diaId"].str.split(" ").tolist(), index=trackIds).stack(), columns=["diaId"])
+        chunk_df = pd.DataFrame(pd.DataFrame(chunk["diaId"].str.split(" ").tolist(), index=trackletIds).stack(), columns=["diaId"])
         chunk_df.reset_index(1, drop=True, inplace=True)
         chunk_df["trackletId"] = chunk_df.index
         chunk_df = chunk_df[["trackletId", "diaId"]]
-        # Not all tracks have the same number of detections, empty detections needs to be dropped
+        # Not all tracklets have the same number of detections, empty detections needs to be dropped
         chunk_df["diaId"].replace("", np.nan, inplace=True)
         chunk_df.dropna(inplace=True)
         
@@ -83,27 +83,31 @@ def readWindow(trackFile):
     window = os.path.basename(trackFile).split(".")[0].split("_")
     return int(window[1]), int(window[3])
 
-def convertDetections(inFile, outFile, mappingFile, columnDict=DETECTION_COLUMNS, convertObjectIds=True, chunksize=10000):
+def convertDetections(inFile, outFile, mappingFile=None, columnDict=DETECTION_COLUMNS, chunksize=100000):
     
-    object_ids = {"NS": -1, "FD": -2}
-    object_num = 0
-    
+    if mappingFile is not None:
+        # First pass, only read in the object name column
+        object_id_df = pd.read_csv(inFile, sep=" ", usecols=[columnDict["objectId"]])
+        object_ids_list = object_id_df[columnDict["objectId"]].unique()
+
+        object_ids = dict(zip(object_ids_list, np.arange(1, len(object_ids_list) - 2, dtype=int)))
+        object_ids["NS"] = -1
+        object_ids["FD"] = -2
+
+        mapping = pd.DataFrame.from_dict(data=object_ids, orient='index')
+        mapping.sort_values(0, inplace=True)
+        mapping.to_csv(mappingFile, sep=" ", header=False)
+
     for chunk in pd.read_csv(inFile, sep=" ", chunksize=chunksize):
         chunk = chunk[[columnDict["diaId"], columnDict["visitId"], columnDict["objectId"], 
                        columnDict["ra"], columnDict["dec"], columnDict["mjd"], 
                        columnDict["mag"], columnDict["snr"]]]
         
-        if convertObjectIds:
-            for object_id in chunk[columnDict["objectId"]].values:
-                if object_id not in object_ids.keys():
-                    object_num += 1
-                    object_ids[object_id] = object_num
+        if mappingFile is not None:
             chunk[columnDict["objectId"]].replace(to_replace=object_ids, inplace=True)
         
         chunk.to_csv(outFile, sep=" ", mode="append", header=False, index=False)
-    
-    mapping = pd.DataFrame.from_dict(data=object_ids, orient='index')
-    mapping.to_csv(mappingFile, sep=" ", header=False)
+        
     return
 
 def buildTrackletDatabase(database, outDir):
