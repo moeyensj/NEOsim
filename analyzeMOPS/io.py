@@ -83,11 +83,11 @@ def readWindow(trackFile):
     window = os.path.basename(trackFile).split(".")[0].split("_")
     return int(window[1]), int(window[3])
 
-def convertDetections(inFile, outFile, mappingFile=None, columnDict=DETECTION_COLUMNS, chunksize=100000):
+def convertDetections(inFile, outFile, inFileReadArgs={"sep": ",", "header": 0}, mappingFile=None, columnDict=DETECTION_COLUMNS, chunksize=100000):
     
     if mappingFile is not None:
         # First pass, only read in the object name column
-        object_id_df = pd.read_csv(inFile, sep=" ", usecols=[columnDict["objectId"]])
+        object_id_df = pd.read_csv(inFile, usecols=[columnDict["objectId"]], **inFileReadArgs)
         object_ids_list = object_id_df[columnDict["objectId"]].unique()
 
         object_ids = dict(zip(object_ids_list, np.arange(1, len(object_ids_list) - 2, dtype=int)))
@@ -98,7 +98,7 @@ def convertDetections(inFile, outFile, mappingFile=None, columnDict=DETECTION_CO
         mapping.sort_values(0, inplace=True)
         mapping.to_csv(mappingFile, sep=" ", header=False)
 
-    for chunk in pd.read_csv(inFile, sep=" ", chunksize=chunksize):
+    for chunk in pd.read_csv(inFile, chunksize=chunksize, **inFileReadArgs):
         chunk = chunk[[columnDict["diaId"], columnDict["visitId"], columnDict["objectId"], 
                        columnDict["ra"], columnDict["dec"], columnDict["mjd"], 
                        columnDict["mag"], columnDict["snr"]]]
