@@ -83,8 +83,8 @@ def readWindow(trackFile):
     window = os.path.basename(trackFile).split(".")[0].split("_")
     return int(window[1]), int(window[3])
 
-def convertDetections(inFile, outFile, inFileReadArgs={"sep": ",", "header": 0}, mappingFile=None, columnDict=DETECTION_COLUMNS, chunksize=100000):
-    
+def convertDetections(inFile, outFile, inFileReadArgs={"sep": ",", "header": 1}, mappingFile=None, columnDict=DETECTION_COLUMNS, chunksize=100000):
+
     if mappingFile is not None:
         # First pass, only read in the object name column
         object_id_df = pd.read_csv(inFile, usecols=[columnDict["objectId"]], **inFileReadArgs)
@@ -98,6 +98,7 @@ def convertDetections(inFile, outFile, inFileReadArgs={"sep": ",", "header": 0},
         mapping.sort_values(0, inplace=True)
         mapping.to_csv(mappingFile, sep=" ", header=False)
 
+    fout = open(outFile, "w")
     for chunk in pd.read_csv(inFile, chunksize=chunksize, **inFileReadArgs):
         chunk = chunk[[columnDict["diaId"], columnDict["visitId"], columnDict["objectId"], 
                        columnDict["ra"], columnDict["dec"], columnDict["mjd"], 
@@ -106,7 +107,7 @@ def convertDetections(inFile, outFile, inFileReadArgs={"sep": ",", "header": 0},
         if mappingFile is not None:
             chunk[columnDict["objectId"]].replace(to_replace=object_ids, inplace=True)
         
-        chunk.to_csv(outFile, sep=" ", mode="append", header=False, index=False)
+        chunk.to_csv(fout, sep=" ", mode="append", header=False, index=False)
         
     return
 
