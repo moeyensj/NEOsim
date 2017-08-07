@@ -134,6 +134,10 @@ def convertDetections(inFile, outFile, mappingFile=None, pandasReadInArgs={"sep"
         object_ids["NS"] = -1
         object_ids["FD"] = -2
 
+        new_object_ids = np.zeros(len(object_id_df), dtype=int)
+        for object_id in object_ids_list.values:
+            new_object_ids[np.where(object_id_df[columnDict["objectId"]] == object_id)[0]] = object_ids[object_id]
+        
         mapping = pd.DataFrame.from_dict(data=object_ids, orient='index')
         mapping.sort_values(0, inplace=True)
         mapping.to_csv(mappingFile, sep=" ", header=False)
@@ -147,7 +151,7 @@ def convertDetections(inFile, outFile, mappingFile=None, pandasReadInArgs={"sep"
                        columnDict["mag"], columnDict["snr"]]]
         
         if mappingFile is not None:
-            chunk[columnDict["objectId"]].replace(to_replace=object_ids, inplace=True)
+            chunk[columnDict["objectId"]] = new_object_ids[(i*chunksize):(chunksize + i*chunksize)]
         
         chunk.to_csv(fout, sep=" ", mode="append", header=False, index=False)
         
