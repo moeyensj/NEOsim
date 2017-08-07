@@ -83,12 +83,52 @@ def readWindow(trackFile):
     window = os.path.basename(trackFile).split(".")[0].split("_")
     return int(window[1]), int(window[3])
 
-def convertDetections(inFile, outFile, inFileReadArgs={"sep": ",", "header": 1}, mappingFile=None, columnDict=DETECTION_COLUMNS, chunksize=100000):
+def convertDetections(inFile, outFile, mappingFile=None, pandasReadInArgs={"sep": ",", "header": 1}, columnDict=DETECTION_COLUMNS, chunksize=10000):
+    """
+    Converts an input detection file into a MOPS ready input. 
 
+    Requires that the input detection file has a header describing the columns and that
+    the column mapping is well-defined. Nominally users should pass the following kwargs:
+    mappingFile
+    pandasReadInArgs
+    columnDict
+
+    Parameters
+    ----------
+    inFile : str
+        Path to file containing detections.
+    outFile : str
+        Path to save output file.
+    mappingFile : str, optional
+        Path to save mapping file. If not defined, objectIds will not be converted to
+        the MOPS integer format. Default = None. 
+    pandasReadInArgs : dict, optional
+        Dictionary containing Pandas DataFrame read_csv kwargs.
+    columnDict : dict, optional
+        Defines the column name mapping between the desired MOPS input and the inFile
+        detections. The should be of the form:
+            {"diaId": ..., 
+             "visitId": ..., 
+             "objectId": ..., 
+             "ra": ..., 
+             "dec": ..., 
+             "mjd": ..., 
+             "mag": ..., 
+             "snr": ...}
+    chunksize : int, optional
+        Process the file in chunks of rows. Default = 10000. 
+
+    Returns
+    -------
+    None
+    """
     if mappingFile is not None:
         # First pass, only read in the object name column
-        object_id_df = pd.read_csv(inFile, usecols=[columnDict["objectId"]], **inFileReadArgs)
+        print("Reading objectIds from {}".format(inFile))
+        object_id_df = pd.read_csv(inFile, usecols=[columnDict["objectId"]], **pandasReadInArgs)
+        print("There are a total of {} rows in {}.".format(len(object_id_df), inFile))
         object_ids_list = object_id_df[columnDict["objectId"]].unique()
+        print("Found {} unique objectIds.".format(len(object_ids_list)))
 
         object_ids = dict(zip(object_ids_list, np.arange(1, len(object_ids_list) - 2, dtype=int)))
         object_ids["NS"] = -1
@@ -97,9 +137,11 @@ def convertDetections(inFile, outFile, inFileReadArgs={"sep": ",", "header": 1},
         mapping = pd.DataFrame.from_dict(data=object_ids, orient='index')
         mapping.sort_values(0, inplace=True)
         mapping.to_csv(mappingFile, sep=" ", header=False)
+        print("Saving mapping file to {}.".format(mappingFile))
 
     fout = open(outFile, "w")
-    for chunk in pd.read_csv(inFile, chunksize=chunksize, **inFileReadArgs):
+    for i, chunk in enumerate(pd.read_csv(inFile, chunksize=chunksize, **pandasReadInArgs)):
+        print("Processing chunk {} out of {}".format(i + 1, int(np.ceil(len(object_id_df)/chunksize))))
         chunk = chunk[[columnDict["diaId"], columnDict["visitId"], columnDict["objectId"], 
                        columnDict["ra"], columnDict["dec"], columnDict["mjd"], 
                        columnDict["mag"], columnDict["snr"]]]
