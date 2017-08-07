@@ -135,9 +135,9 @@ def convertDetections(inFile, outFile, mappingFile=None, pandasReadInArgs={"sep"
         object_ids["FD"] = -2
 
         new_object_ids = np.zeros(len(object_id_df), dtype=int)
-        for object_id in object_ids_list.values:
+        for object_id in object_ids_list:
             new_object_ids[np.where(object_id_df[columnDict["objectId"]] == object_id)[0]] = object_ids[object_id]
-        
+
         mapping = pd.DataFrame.from_dict(data=object_ids, orient='index')
         mapping.sort_values(0, inplace=True)
         mapping.to_csv(mappingFile, sep=" ", header=False)
