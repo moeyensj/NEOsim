@@ -3,20 +3,12 @@ import numpy as np
 import pandas as pd
 import sqlite3
 
-
-DETECTION_COLUMNS = {"diaId": "det_id", 
-                     "visitId": "field_id", 
-                     "objectId": "object_name", 
-                     "ra": "ra_deg", 
-                     "dec": "dec_deg", 
-                     "mjd": "epoch_mjd", 
-                     "mag": "mag", 
-                     "snr": "mag_sigma"}
+from .config import Config 
 
 __all__ = ["readTracklet", "readTrack", "readIds",
            "readDetectionsIntoDataframe", "readDetectionsIntoDatabase",
            "readTrackletsIntoDatabase", "readTracksIntoDatabase",
-           "readNight", "readWindow", "convertDetections",
+           "readNight", "readWindow",
            "buildTrackletDatabase", "buildTrackDatabase", "attachDatabases"]
 
 def readTracklet(tracklet):
@@ -31,9 +23,163 @@ def readIds(ids):
 def readDetectionsIntoDataframe(detsFile, header=None):
     return pd.read_csv(detsFile, header=header, names=["diaId", "visitId", "objectId", "ra", "dec", "mjd", "mag", "snr"], index_col="diaId", delim_whitespace=True)
 
-def readDetectionsIntoDatabase(detsFile, cursor, table="DiaSources", header=None):
-    dets_df = readDetectionsIntoDataframe(detsFile, header=header)
-    dets_df.to_sql(table, cursor, if_exists="append")
+def readDetectionsIntoDatabase(detsFile, con,
+                               detectionsTable=Config.detection_table,
+                               diaSourcesTable=Config.diasources_table,
+                               mappingTable=Config.mapping_table,
+                               detsFileColumns=Config.detection_file_columns,
+                               specialIds=Config.detection_file_special_ids,
+                               readParams=Config.detection_file_read_params,
+                               chunksize=10000, 
+                               mapObjectIds=True):
+    """
+    Reads a full detection file into a database and creates a database view representative 
+    of the input detections needed for MOPS to run. 
+
+    The input detection file columns should contain the columns needed for MOPS to run. The
+    column mapping can be defined using the detsFileColumns keyword argument. The keys to this
+    dictionary are the required MOPS columns, the values to those keys should be headers in the 
+    input detections file. See `Config.detection_file_columns`. 
+
+    If the input detection file objectIds are not integer values MOPS will not be able to run. To
+    map these to MOPS-friendly integer values use the mapObjectIds keyword argument. This will create
+    a mapping table in the database. Additionally, if the input dataset has noise detections use the 
+    specialIds dictionary (keys are the objectId in the detection file, values should be the desired 
+    negative integers to map those objectIds to). 
+
+    Parameters
+    ----------
+    detsFile : str
+        Path to file containing detections. File should have header with column names.
+    con : database connection
+        Connection to sqlite3 database or equivalent.
+    detectionsTable : str
+        Detection table name. Default is `Config.detection_table`.
+    diaSourcesTable : str
+        DiaSources table name. Default is `Config.diasources_table`.
+    mappingTable : str
+        Mapping table name. If mapObjectIds is True, mapping table with objectId mapping will
+        be created. Default is `Config.mapping_table.`
+    detsFileColumns : dict
+        Dictionary containing the column mappings of the input detection file to those needed 
+        for MOPS to run. Default is `Config.detection_file_columns`. 
+    specialIds : dict
+        Dictionary containing special objectIds, such as those that designate noise. The keys of the
+        dictionary should be the objectId in the input detection file, the values should be desired negative
+        integer values. Default is `Config.detection_file_special_ids`.
+    readParams : dict
+        Dictionary of `Pandas.read_csv` keyword arguments to use when reading in the detections file.
+        Default is `Config.detection_file_read_params`. 
+    chunksize : int
+        Read input detection file into database in sets of rows of chunksize. Useful for 
+        big data sets. Default is 10000. 
+    mapObjectIds : bool
+        If input detection file objectIds are not integer values, set this to True to create 
+        an objectId mapping. Default is True.
+
+    Returns
+    -------
+    None
+
+    """
+    print("Reading {} into {} table.".format(detsFile, detectionsTable))
+    for chunk in pd.read_csv(detsFile, chunksize=chunksize, **readParams):
+        chunk.to_sql(detectionsTable, con, if_exists="append", index=False)
+    
+    if mapObjectIds is True:
+        print("Mapping {} to MOPS-friendly integer objectIds".format(detsFileColumns["objectId"]))
+        if specialIds is not None:
+            objects = pd.read_sql("""SELECT DISTINCT {} FROM {}
+                                     WHERE {} NOT IN ('{}')""".format(detsFileColumns["objectId"],
+                                                                      detectionsTable,
+                                                                      detsFileColumns["objectId"],
+                                                                      "', '".join(specialIds.keys())), con)
+            
+            print("Found {} unique objectIds".format(len(objects)))
+            print("Mapping the following specialIds to:")
+            for key in specialIds:
+                print("\t{} : {}".format(key, specialIds[key]))
+            objects["objectId"] = objects.index + 1
+            objects = objects.append(pd.DataFrame(zip(specialIds.keys(), specialIds.values()),
+                                                  columns=[objects.columns[0], objects.columns[1]]))
+        else:
+            objects = pd.read_sql("""SELECT DISTINCT {} FROM {}""".format(detsFileColumns["objectId"],
+                                                                          detectionsTable), con) 
+            
+            print("Found {} unique objectIds".format(len(objects)))                                                       
+            objects["objectId"] = objects.index + 1
+
+        print("Building {} table".format(mappingTable))
+        objects.sort_values("objectId", inplace=True)
+        objects.to_sql(mappingTable, con, index=False)
+
+        print("Creating {} view using the following columns:".format(diaSourcesTable))
+        print("\tdiaId : {}".format(detsFileColumns["diaId"]))
+        print("\tvisitId : {}".format(detsFileColumns["visitId"]))
+        print("\tobjectId : {}".format(detsFileColumns["objectId"]))
+        print("\tra : {}".format(detsFileColumns["ra"]))
+        print("\tdec : {}".format(detsFileColumns["dec"]))
+        print("\tmjd : {}".format(detsFileColumns["mjd"]))
+        print("\tmag : {}".format(detsFileColumns["mag"]))
+        print("\tsnr : {}".format(detsFileColumns["snr"]))
+
+        con.execute("""CREATE VIEW {} AS
+                            SELECT d.{} AS diaId,
+                                   d.{} AS visitId,
+                                   m.objectId AS objectId,
+                                   d.{} AS ra,
+                                   d.{} AS dec,
+                                   d.{} AS mjd,
+                                   d.{} AS mag,
+                                   d.{} AS snr
+                            FROM {} AS d
+                            JOIN {} AS m ON 
+                                d.{} = m.{}
+                            ;""".format(diaSourcesTable,
+                                        detsFileColumns["diaId"],
+                                        detsFileColumns["visitId"],
+                                        detsFileColumns["ra"],
+                                        detsFileColumns["dec"],
+                                        detsFileColumns["mjd"],
+                                        detsFileColumns["mag"],
+                                        detsFileColumns["snr"],
+                                        detectionsTable,
+                                        mappingTable,
+                                        detsFileColumns["objectId"],
+                                        detsFileColumns["objectId"]))
+    else:
+        print("Creating {} view using the following columns:".format(diaSourcesTable))
+        print("\tdiaId : {}".format(detsFileColumns["diaId"]))
+        print("\tvisitId : {}".format(detsFileColumns["visitId"]))
+        print("\tobjectId : {}".format(detsFileColumns["objectId"]))
+        print("\tra : {}".format(detsFileColumns["ra"]))
+        print("\tdec : {}".format(detsFileColumns["dec"]))
+        print("\tmjd : {}".format(detsFileColumns["mjd"]))
+        print("\tmag : {}".format(detsFileColumns["mag"]))
+        print("\tsnr : {}".format(detsFileColumns["snr"]))
+
+        con.execute("""CREATE VIEW {} AS
+                            SELECT d.{} AS diaId,
+                                   d.{} AS visitId,
+                                   d.{} AS objectId,
+                                   d.{} AS ra,
+                                   d.{} AS dec,
+                                   d.{} AS mjd,
+                                   d.{} AS mag,
+                                   d.{} AS snr
+                            FROM {} AS d
+                            ;""".format(diaSourcesTable,
+                                        detsFileColumns["diaId"],
+                                        detsFileColumns["visitId"],
+                                        detsFileColumns["objectId"],
+                                        detsFileColumns["ra"],
+                                        detsFileColumns["dec"],
+                                        detsFileColumns["mjd"],
+                                        detsFileColumns["mag"],
+                                        detsFileColumns["snr"],
+                                        detectionsTable))
+
+    print("Done.")
     return 
 
 def readTrackletsIntoDatabase(trackletFile, con, trackletIdOffset=0, chunksize=100000):
@@ -82,80 +228,6 @@ def readNight(detFile):
 def readWindow(trackFile):
     window = os.path.basename(trackFile).split(".")[0].split("_")
     return int(window[1]), int(window[3])
-
-def convertDetections(inFile, outFile, mappingFile=None, pandasReadInArgs={"sep": ",", "header": 1}, columnDict=DETECTION_COLUMNS, chunksize=10000):
-    """
-    Converts an input detection file into a MOPS ready input. 
-
-    Requires that the input detection file has a header describing the columns and that
-    the column mapping is well-defined. Nominally users should pass the following kwargs:
-    mappingFile
-    pandasReadInArgs
-    columnDict
-
-    Parameters
-    ----------
-    inFile : str
-        Path to file containing detections.
-    outFile : str
-        Path to save output file.
-    mappingFile : str, optional
-        Path to save mapping file. If not defined, objectIds will not be converted to
-        the MOPS integer format. Default = None. 
-    pandasReadInArgs : dict, optional
-        Dictionary containing Pandas DataFrame read_csv kwargs.
-    columnDict : dict, optional
-        Defines the column name mapping between the desired MOPS input and the inFile
-        detections. The should be of the form:
-            {"diaId": ..., 
-             "visitId": ..., 
-             "objectId": ..., 
-             "ra": ..., 
-             "dec": ..., 
-             "mjd": ..., 
-             "mag": ..., 
-             "snr": ...}
-    chunksize : int, optional
-        Process the file in chunks of rows. Default = 10000. 
-
-    Returns
-    -------
-    None
-    """
-    if mappingFile is not None:
-        # First pass, only read in the object name column
-        print("Reading objectIds from {}".format(inFile))
-        object_id_df = pd.read_csv(inFile, usecols=[columnDict["objectId"]], **pandasReadInArgs)
-        print("There are a total of {} rows in {}.".format(len(object_id_df), inFile))
-        object_ids_list = object_id_df[columnDict["objectId"]].unique()
-        print("Found {} unique objectIds.".format(len(object_ids_list)))
-
-        object_ids = dict(zip(object_ids_list, np.arange(1, len(object_ids_list) - 2, dtype=int)))
-        object_ids["NS"] = -1
-        object_ids["FD"] = -2
-
-        new_object_ids = np.zeros(len(object_id_df), dtype=int)
-        for object_id in object_ids_list:
-            new_object_ids[np.where(object_id_df[columnDict["objectId"]] == object_id)[0]] = object_ids[object_id]
-
-        mapping = pd.DataFrame.from_dict(data=object_ids, orient='index')
-        mapping.sort_values(0, inplace=True)
-        mapping.to_csv(mappingFile, sep=" ", header=False)
-        print("Saving mapping file to {}.".format(mappingFile))
-
-    fout = open(outFile, "w")
-    for i, chunk in enumerate(pd.read_csv(inFile, chunksize=chunksize, **pandasReadInArgs)):
-        print("Processing chunk {} out of {}".format(i + 1, int(np.ceil(len(object_id_df)/chunksize))))
-        chunk = chunk[[columnDict["diaId"], columnDict["visitId"], columnDict["objectId"], 
-                       columnDict["ra"], columnDict["dec"], columnDict["mjd"], 
-                       columnDict["mag"], columnDict["snr"]]]
-        
-        if mappingFile is not None:
-            chunk[columnDict["objectId"]] = new_object_ids[(i*chunksize):(chunksize + i*chunksize)]
-        
-        chunk.to_csv(fout, sep=" ", mode="append", header=False, index=False)
-        
-    return
 
 def buildTrackletDatabase(database, outDir):
 
