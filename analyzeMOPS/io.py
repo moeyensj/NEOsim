@@ -2,11 +2,13 @@ import os
 import numpy as np
 import pandas as pd
 import sqlite3
+import difflib
 
 from .config import Config 
 
 __all__ = ["readDetectionsIntoDatabase", "readTrackletsIntoDatabase", "readTracksIntoDatabase",
-           "buildTrackletDatabase", "buildTrackDatabase", "attachDatabases"]
+           "buildTrackletDatabase", "buildTrackDatabase", "attachDatabases",
+           "_findNewLinesAndDeletedIndices"]
 
 def readDetectionsIntoDatabase(detsFile, con,
                                detectionsTable=Config.detection_table,
@@ -390,3 +392,52 @@ def attachDatabases(con, databases):
         print "Attaching %s to con as db%s..." % (window, i)
         con.execute("""ATTACH DATABASE '%s' AS db%s;""" % (window, i))
     return attached_names
+
+def _findNewLinesAndDeletedIndices(file1, file2):
+    """
+    Find new lines and the indices of deleted lines between two files. Compares file one and 
+    two, and return the new lines in file two and the indices of lines deleted in file one. 
+
+    Parameters:
+    ----------------------
+    parameter: (dtype) [default (if optional)], information
+
+    file1: (str), path to file one
+    file2: (str), path to file two
+    ----------------------
+    """
+    file1In = open(file1, "r")
+    file2In = open(file2, "r")
+    
+    # Here we use unified_diff. Unfortunately, at this stage ndiff would be more informative with
+    #  regards to index tracking however it is dreadfully slow with big files due to a series 
+    #  of internal nested for loops. We set context lines = 1 so as to use them to rematch
+    #  the file one index relative to the delta created by unified_diff.
+    udiff = list(difflib.unified_diff(file1In.readlines(), file2In.readlines(), n=1))
+    
+    new_lines = []
+    deleted_linenums = []
+    
+    file1_index = -1
+    for i, line in enumerate(udiff[3:]):
+        if line[0] == " ":
+            # This is a context line. Scan file one for this
+            #  line and then re-establish file one index. 
+            #  This is necessary since we are not using ndiff.
+            for j, l1 in enumerate(open(file1, "r")):
+                if l1[:-2] == line[1:-2]:
+                    file1_index = j
+        else:
+            if line[0] == "+":
+                # This line only exists in file two. 
+                # Lets add this line to a list of newly 
+                #  created lines. We will build linkages later.
+                new_lines.append(line[1:-2])
+            elif line[0] == "-":
+                # This line only exists in file one.
+                # Lets append the index to our list of deleted
+                #  line numbers.
+                file1_index += 1
+                deleted_linenums.append(file1_index)
+            
+    return new_lines, deleted_linenums
