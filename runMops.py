@@ -742,6 +742,30 @@ def runMops(parameters, tracker,
                 verbose=verbose)
         tracker.ranDirectoryBuilder = True
 
+        # Populate tracker with directory information
+        if findTracklets is True:
+            tracker.trackletsDir = dirs["trackletsDir"]
+            tracker.trackletsByIndexDir = dirs["trackletsDir"]
+
+        if collapseTracklets is True:
+            tracker.collapsedTrackletsDir = dirs["collapsedDir"]
+            tracker.collapsedTrackletsByIdDir = dirs["collapsedDir"]
+
+        if purifyTracklets is True:
+            tracker.purifiedTrackletsDir = dirs["purifiedDir"]
+            tracker.purifiedTrackletsByIdDir = dirs["purifiedDir"]
+
+        if removeSubsetTracklets is True:
+            tracker.finalTrackletsDir = dirs["finalTrackletsDir"]
+            tracker.finalTrackletsByIdDir = dirs["finalTrackletsDir"]
+
+        if linkTracklets is True:
+            tracker.trackletsByNightDir = dirs["trackletsByNightDir"]
+            tracker.tracksDir = dirs["tracksDir"]
+
+        if removeSubsetTracks is True:
+            tracker.finalTracksDir = dirs["finalTracksDir"]
+
     # Save parameters
     parameters.toYaml(outDir=runDir)
     print("")
@@ -749,14 +773,12 @@ def runMops(parameters, tracker,
     # Run findTracklets
     if findTracklets:
         if tracker.ranFindTracklets is False:
-            tracklets = runFindTracklets(
-                            diasources, dirs["trackletsDir"],
-                            vmax=parameters.vMax,
-                            vmin=parameters.vMin,
-                            verbose=verbose)
+            tracker.tracklets = runFindTracklets(tracker.diasources,
+                                                 tracker.trackletsDir,
+                                                 vmax=parameters.vMax,
+                                                 vmin=parameters.vMin,
+                                                 verbose=verbose)
             tracker.ranFindTracklets = True
-            tracker.tracklets = tracklets
-            tracker.trackletsDir = dirs["trackletsDir"]
             inputTrackletsDir = dirs["trackletsDir"]
             inputTrackletSuffix = TRACKLET_SUFFIX
             tracker.toYaml(outDir=runDir)
@@ -768,12 +790,11 @@ def runMops(parameters, tracker,
     if collapseTracklets:
         if tracker.ranIdsToIndices is False:
             # Run idsToIndices
-            trackletsByIndex = runIdsToIndices(
-                                tracklets, diasources, dirs["trackletsDir"],
-                                verbose=verbose)
+            tracker.trackletsByIndex = runIdsToIndices(tracker.tracklets, 
+                                                       tracker.diasources,
+                                                       tracker.trackletsDir,
+                                                       verbose=verbose)
             tracker.ranIdsToIndices = True
-            tracker.trackletsByIndex = trackletsByIndex
-            tracker.trackletsByIndexDir = dirs["trackletsDir"]
             tracker.toYaml(outDir=runDir)
         else:
             print("idsToIndices has already completed, moving on...")
@@ -782,28 +803,24 @@ def runMops(parameters, tracker,
 
         # Run collapseTracklets
         if tracker.ranCollapseTracklets is False:
-            collapsedTracklets = runCollapseTracklets(
-                                    trackletsByIndex, diasources,
-                                    dirs["collapsedDir"],
-                                    raTol=parameters.raTol,
-                                    decTol=parameters.decTol,
-                                    angTol=parameters.angTol,
-                                    vTol=parameters.vTol,
-                                    method=parameters.method,
-                                    useRMSfilt=parameters.useRMSfilt,
-                                    trackletRMSmax=parameters.trackletRMSmax,
-                                    verbose=verbose)
-            collapsedTrackletsById = runIndicesToIds(
-                                        collapsedTracklets, diasources,
-                                        dirs["collapsedDir"],
-                                        COLLAPSED_TRACKLET_SUFFIX,
-                                        verbose=verbose)
+            tracker.collapsedTracklets = runCollapseTracklets(tracker.trackletsByIndex,
+                                                              tracker.diasources,
+                                                              tracker.collapsedTrackletsDir,
+                                                              raTol=parameters.raTol,
+                                                              decTol=parameters.decTol,
+                                                              angTol=parameters.angTol,
+                                                              vTol=parameters.vTol,
+                                                              method=parameters.method,
+                                                              useRMSfilt=parameters.useRMSfilt,
+                                                              trackletRMSmax=parameters.trackletRMSmax,
+                                                              verbose=verbose)
+            tracker.collapsedTrackletsById = runIndicesToIds(tracker.collapsedTracklets,
+                                                             tracker.diasources,
+                                                             tracker.dirs["collapsedDir"],
+                                                             COLLAPSED_TRACKLET_SUFFIX,
+                                                             verbose=verbose)
             tracker.ranCollapseTracklets = True
-            tracker.collapsedTracklets = collapsedTracklets
-            tracker.collapsedTrackletsDir = dirs["collapsedDir"]
-            tracker.collapsedTrackletsById = collapsedTrackletsById
-            tracker.collapsedTrackletsByIdDir = dirs["collapsedDir"]
-            inputTrackletsDir = dirs["collapsedDir"]
+            inputTrackletsDir = tracker.collapsedTrackletsDir
             inputTrackletSuffix = COLLAPSED_TRACKLET_SUFFIX + TRACKLET_BY_ID_SUFFIX
             tracker.toYaml(outDir=runDir)
         else:
@@ -814,22 +831,19 @@ def runMops(parameters, tracker,
     if purifyTracklets:
         # Run purifyTracklets
         if tracker.ranPurifyTracklets is False:
-            purifiedTracklets = runPurifyTracklets(
-                                    collapsedTracklets, diasources,
-                                    dirs["purifiedDir"],
-                                    trackletRMSmax=parameters.trackletRMSmax,
-                                    verbose=verbose)
-            purifiedTrackletsById = runIndicesToIds(
-                                        purifiedTracklets, diasources,
-                                        dirs["purifiedDir"],
-                                        PURIFIED_TRACKLET_SUFFIX,
-                                        verbose=verbose)
+            tracker.purifiedTracklets = runPurifyTracklets(tracker.collapsedTracklets,
+                                                           tracker.diasources,
+                                                           tracker.purifiedTrackletsDir,
+                                                           trackletRMSmax=parameters.trackletRMSmax,
+                                                           verbose=verbose)
+            tracker.purifiedTrackletsById = runIndicesToIds(tracker.purifiedTracklets,
+                                                            tracker.diasources,
+                                                            tracker.purifiedTrackletsDir,
+                                                            PURIFIED_TRACKLET_SUFFIX,
+                                                            verbose=verbose)
             tracker.ranPurifyTracklets = True
-            tracker.purifiedTracklets = purifiedTracklets
-            tracker.purifiedTrackletsDir = dirs["purifiedDir"]
-            tracker.purifiedTrackletsById = purifiedTrackletsById
-            tracker.purifiedTrackletsByIdDir = dirs["purifiedDir"]
-            inputTrackletsDir = dirs["purifiedDir"]
+            inputTrackletsDir = tracker.purifiedTrackletsDir
+            inputTrackletSuffix = PURIFIED_TRACKLET_SUFFIX + TRACKLET_BY_ID_SUFFIX
             tracker.toYaml(outDir=runDir)
         else:
             print("purifyTracklets has already completed, moving on...")
@@ -839,15 +853,13 @@ def runMops(parameters, tracker,
     if removeSubsetTracklets:
         # Run removeSubsets
         if tracker.ranRemoveSubsetTracklets is False:
-            finalTracklets = runRemoveSubsets(
-                                purifiedTracklets, diasources,
-                                dirs["finalTrackletsDir"],
-                                rmSubsets=parameters.rmSubsetTracklets,
-                                keepOnlyLongest=parameters.keepOnlyLongestTracklets,
-                                verbose=verbose)
+            tracker.finalTracklets = runRemoveSubsets(tracker.purifiedTracklets,
+                                                      tracker.diasources,
+                                                      tracker.finalTrackletsDir,
+                                                      rmSubsets=parameters.rmSubsetTracklets,
+                                                      keepOnlyLongest=parameters.keepOnlyLongestTracklets,
+                                                      verbose=verbose)
             tracker.ranRemoveSubsetTracklets = True
-            tracker.finalTracklets = finalTracklets
-            tracker.finalTrackletsDir = dirs["finalTrackletsDir"]
             tracker.toYaml(outDir=runDir)
         else:
             print("removeSubsets (tracklets) has already completed, moving on...")
@@ -856,15 +868,13 @@ def runMops(parameters, tracker,
 
         # Run indicesToIds
         if tracker.ranIndicesToIds is False:
-            finalTrackletsById = runIndicesToIds(
-                                    finalTracklets, diasources,
-                                    dirs["finalTrackletsDir"],
-                                    FINAL_TRACKLET_SUFFIX,
-                                    verbose=verbose)
+            tracker.finalTrackletsById = runIndicesToIds(tracker.finalTracklets,
+                                                         tracker.diasources,
+                                                         tracker.finalTrackletsDir,
+                                                         FINAL_TRACKLET_SUFFIX,
+                                                         verbose=verbose)
             tracker.ranIndicesToIds = True
-            tracker.finalTrackletsById = finalTrackletsById
-            tracker.finalTrackletsByIdDir = dirs["finalTrackletsDir"]
-            inputTrackletsDir = dirs["finalTrackletsDir"]
+            inputTrackletsDir = tracker.finalTrackletsDir
             inputTrackletSuffix = FINAL_TRACKLET_SUFFIX + TRACKLET_BY_ID_SUFFIX
             tracker.toYaml(outDir=runDir)
         else:
@@ -875,16 +885,13 @@ def runMops(parameters, tracker,
     if linkTracklets:
         # Run makeLinkTrackletsInputByNight
         if tracker.ranMakeLinkTrackletsInputByNight is False:
-            dets, ids = runMakeLinkTrackletsInputByNight(
-                            diasourcesDir, inputTrackletsDir,
-                            dirs["trackletsByNightDir"],
-                            trackletSuffix=inputTrackletSuffix,
-                            windowSize=parameters.windowSize,
-                            verbose=verbose)
+            tracker.dets, tracker.ids = runMakeLinkTrackletsInputByNight(tracker.diasourcesDir,
+                                                                         inputTrackletsDir,
+                                                                         tracker.trackletsByNightDir,
+                                                                         trackletSuffix=inputTrackletSuffix,
+                                                                         windowSize=parameters.windowSize,
+                                                                         verbose=verbose)
             tracker.ranMakeLinkTrackletsInputByNight = True
-            tracker.dets = dets
-            tracker.ids = ids
-            tracker.trackletsByNightDir = dirs["trackletsByNightDir"]
             tracker.toYaml(outDir=runDir)
         else:
             print("makeLinkTrackletsInput_byNight has already completed, moving on...")
@@ -893,33 +900,30 @@ def runMops(parameters, tracker,
 
         # Run linkTracklets
         if tracker.ranLinkTracklets is False:
-            tracks, outfiles, errfiles = runLinkTracklets(
-                                            dets, ids, dirs["tracksDir"],
-                                            enableMultiprocessing=enableMultiprocessing,
-                                            processes=processes,
-                                            detErrThresh=parameters.detErrThresh,
-                                            decAccelMax=parameters.decAccelMax,
-                                            raAccelMax=parameters.raAccelMax,
-                                            nightMin=parameters.nightMin,
-                                            detectMin=parameters.detectMin,
-                                            bufferSize=parameters.bufferSize,
-                                            latestFirstEnd=parameters.latestFirstEnd,
-                                            earliestLastEnd=parameters.earliestLastEnd,
-                                            leafNodeSizeMax=parameters.leafNodeSizeMax,
-                                            trackRMSmax=parameters.trackRMSmax, 
-                                            trackAdditionThresh=parameters.trackAdditionThresh,
-                                            defaultAstromErr=parameters.defaultAstromErr,
-                                            trackChiSqMin=parameters.trackChiSqMin,
-                                            skyCenterRA=parameters.skyCenterRA,
-                                            skyCenterDec=parameters.skyCenterDec,
-                                            obsLat=parameters.obsLat,
-                                            obsLon=parameters.obsLon,
-                                            verbose=verbose)
+            tracker.tracks, tracker.trackOuts, tracker.trackErrs = runLinkTracklets(tracker.dets,
+                                                                                    tracker.ids,
+                                                                                    tracker.tracksDir,
+                                                                                    enableMultiprocessing=enableMultiprocessing,
+                                                                                    processes=processes,
+                                                                                    detErrThresh=parameters.detErrThresh,
+                                                                                    decAccelMax=parameters.decAccelMax,
+                                                                                    raAccelMax=parameters.raAccelMax,
+                                                                                    nightMin=parameters.nightMin,
+                                                                                    detectMin=parameters.detectMin,
+                                                                                    bufferSize=parameters.bufferSize,
+                                                                                    latestFirstEnd=parameters.latestFirstEnd,
+                                                                                    earliestLastEnd=parameters.earliestLastEnd,
+                                                                                    leafNodeSizeMax=parameters.leafNodeSizeMax,
+                                                                                    trackRMSmax=parameters.trackRMSmax, 
+                                                                                    trackAdditionThresh=parameters.trackAdditionThresh,
+                                                                                    defaultAstromErr=parameters.defaultAstromErr,
+                                                                                    trackChiSqMin=parameters.trackChiSqMin,
+                                                                                    skyCenterRA=parameters.skyCenterRA,
+                                                                                    skyCenterDec=parameters.skyCenterDec,
+                                                                                    obsLat=parameters.obsLat,
+                                                                                    obsLon=parameters.obsLon,
+                                                                                    verbose=verbose)
             tracker.ranLinkTracklets = True
-            tracker.tracks = tracks
-            tracker.trackOuts = outfiles
-            tracker.trackErrs = errfiles
-            tracker.tracksDir = dirs["tracksDir"]
             tracker.toYaml(outDir=runDir)
         else:
             print("linkTracklets has already completed, moving on...")
@@ -929,15 +933,14 @@ def runMops(parameters, tracker,
     if removeSubsetTracks:
         # Run removeSubsets (tracks)
         if tracker.ranRemoveSubsetTracks is False:
-            finalTracks = runRemoveSubsets(
-                            tracks, diasources, dirs["finalTracksDir"],
-                            rmSubsets=parameters.rmSubsetTracks,
-                            keepOnlyLongest=parameters.keepOnlyLongestTracks,
-                            suffix=FINAL_TRACK_SUFFIX,
-                            verbose=verbose)
+            tracker.finalTracks = runRemoveSubsets(tracker.tracks,
+                                                   tracker.diasources,
+                                                   tracker.finalTracksDir,
+                                                   rmSubsets=parameters.rmSubsetTracks,
+                                                   keepOnlyLongest=parameters.keepOnlyLongestTracks,
+                                                   suffix=FINAL_TRACK_SUFFIX,
+                                                   verbose=verbose)
             tracker.ranRemoveSubsetTracks = True
-            tracker.finalTracks = finalTracks
-            tracker.finalTracksDir = dirs["finalTracksDir"]
             tracker.toYaml(outDir=runDir)
         else:
             print("removeSubsets (tracks) has already completed, moving on...")
