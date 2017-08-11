@@ -5,23 +5,8 @@ import sqlite3
 
 from .config import Config 
 
-__all__ = ["readTracklet", "readTrack", "readIds",
-           "readDetectionsIntoDataframe", "readDetectionsIntoDatabase",
-           "readTrackletsIntoDatabase", "readTracksIntoDatabase",
-           "readNight", "readWindow",
+__all__ = ["readDetectionsIntoDatabase", "readTrackletsIntoDatabase", "readTracksIntoDatabase",
            "buildTrackletDatabase", "buildTrackDatabase", "attachDatabases"]
-
-def readTracklet(tracklet):
-    return np.fromstring(tracklet, sep=" ", dtype=int) 
-
-def readTrack(track):
-    return np.fromstring(track, sep=" ", dtype=int)
-
-def readIds(ids):
-    return np.fromstring(track, sep=" ", dtype=int)
-
-def readDetectionsIntoDataframe(detsFile, header=None):
-    return pd.read_csv(detsFile, header=header, names=["diaId", "visitId", "objectId", "ra", "dec", "mjd", "mag", "snr"], index_col="diaId", delim_whitespace=True)
 
 def readDetectionsIntoDatabase(detsFile, con,
                                detectionsTable=Config.detection_table,
@@ -82,9 +67,14 @@ def readDetectionsIntoDatabase(detsFile, con,
     None
 
     """
-    print("Reading {} into {} table.".format(detsFile, detectionsTable))
+    print("Reading {} into {} table".format(detsFile, detectionsTable))
     for chunk in pd.read_csv(detsFile, chunksize=chunksize, **readParams):
-        chunk.to_sql(detectionsTable, con, if_exists="append", index=False)
+        chunk.to_sql(detectionsTable, con, if_exists="append", index=False, 
+                     schema="""CREATE TABLE {} (
+                                        """)
+
+    print("Adding {} as Primary Key to {} table".format(detsFileColumns["diaId"], detectionsTable))
+    con.execute("""ALTER TABLE {} ADD PRIMARY KEY ('{}')""".format(detectionsTable, detsFileColumns["diaId"]))
     
     if mapObjectIds is True:
         print("Mapping {} to MOPS-friendly integer objectIds".format(detsFileColumns["objectId"]))
@@ -221,13 +211,6 @@ def readTracksIntoDatabase(trackFile, con, trackIdOffset=0, chunksize=100000):
         # Save the resulting dataframe to a sql database
         chunk_df.to_sql("TrackMembers", con, if_exists="append", index=False)
     return
-
-def readNight(detFile):
-    return int(os.path.basename(detFile).split(".")[0])
-
-def readWindow(trackFile):
-    window = os.path.basename(trackFile).split(".")[0].split("_")
-    return int(window[1]), int(window[3])
 
 def buildTrackletDatabase(database, outDir):
 
