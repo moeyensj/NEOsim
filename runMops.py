@@ -720,19 +720,27 @@ def runMops(parameters, tracker,
         print("")
         tracker = Tracker(runDir)
         tracker.getDetections(diasourcesDir)
-
-    # Build directory structure
-    dirs = directoryBuilder(
-            runDir,
-            findTracklets=findTracklets,
-            collapseTracklets=collapseTracklets,
-            purifyTracklets=purifyTracklets,
-            removeSubsetTracklets=removeSubsetTracklets,
-            linkTracklets=linkTracklets,
-            removeSubsetTracks=removeSubsetTracks,
-            overwrite=overwrite,
-            verbose=verbose)
-    tracker.ranDirectoryBuilder = True
+    
+    elif tracker.ranDirectoryBuilder is True and overwrite is False:
+        dirs = {"trackletsDir": tracker.trackletsDir,
+                "collapsedDir": tracker.collapsedTrackletsDir,
+                "purifiedDir": tracker.purifiedTrackletsDir,
+                "finalTrackletsDir": tracker.finalTrackletsDir,
+                "trackletsByNightDir": tracker.trackletsByNightDir,
+                "tracksDir": tracker.tracksDir,
+                "finalTracksDir": tracker.finalTracksDir}
+    else:
+        dirs = directoryBuilder(
+                runDir,
+                findTracklets=findTracklets,
+                collapseTracklets=collapseTracklets,
+                purifyTracklets=purifyTracklets,
+                removeSubsetTracklets=removeSubsetTracklets,
+                linkTracklets=linkTracklets,
+                removeSubsetTracks=removeSubsetTracks,
+                overwrite=overwrite,
+                verbose=verbose)
+        tracker.ranDirectoryBuilder = True
 
     # Save parameters
     parameters.toYaml(outDir=runDir)
