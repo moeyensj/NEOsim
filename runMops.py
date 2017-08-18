@@ -765,6 +765,7 @@ def runMops(parameters, tracker,
 
         if removeSubsetTracks is True:
             tracker.finalTracksDir = dirs["finalTracksDir"]
+        tracker.toYaml(outDir=runDir)
 
     # Save parameters
     parameters.toYaml(outDir=runDir)
@@ -816,7 +817,7 @@ def runMops(parameters, tracker,
                                                               verbose=verbose)
             tracker.collapsedTrackletsById = runIndicesToIds(tracker.collapsedTracklets,
                                                              tracker.diasources,
-                                                             tracker.dirs["collapsedDir"],
+                                                             tracker.collapsedTrackletsDir,
                                                              COLLAPSED_TRACKLET_SUFFIX,
                                                              verbose=verbose)
             tracker.ranCollapseTracklets = True
