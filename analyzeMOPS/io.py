@@ -71,14 +71,11 @@ def readDetectionsIntoDatabase(detsFile, con,
     """
     print("Reading {} into {} table".format(detsFile, detectionsTable))
     for chunk in pd.read_csv(detsFile, chunksize=chunksize, **readParams):
-        chunk.to_sql(detectionsTable, con, if_exists="append", index=False, 
-                     schema="""CREATE TABLE {} (
-                                        """)
-
-    print("Adding {} as Primary Key to {} table".format(detsFileColumns["diaId"], detectionsTable))
-    con.execute("""ALTER TABLE {} ADD PRIMARY KEY ('{}')""".format(detectionsTable, detsFileColumns["diaId"]))
+        chunk.to_sql(detectionsTable, con, if_exists="append", index=False)
     
     if mapObjectIds is True:
+        print("Creating {} table".format(mappingTable))
+        con.execute("""CREATE TABLE Mapping (objectId INTEGER PRIMARY KEY, {} VARCHAR)""".format(detsFileColumns["objectId"]))
         print("Mapping {} to MOPS-friendly integer objectIds".format(detsFileColumns["objectId"]))
         if specialIds is not None:
             objects = pd.read_sql("""SELECT DISTINCT {} FROM {}
@@ -103,7 +100,7 @@ def readDetectionsIntoDatabase(detsFile, con,
 
         print("Building {} table".format(mappingTable))
         objects.sort_values("objectId", inplace=True)
-        objects.to_sql(mappingTable, con, index=False)
+        objects.to_sql(mappingTable, con, index=False, if_exists="append")
 
         print("Creating {} view using the following columns:".format(diaSourcesTable))
         print("\tdiaId : {}".format(detsFileColumns["diaId"]))
@@ -392,52 +389,3 @@ def attachDatabases(con, databases):
         print "Attaching %s to con as db%s..." % (window, i)
         con.execute("""ATTACH DATABASE '%s' AS db%s;""" % (window, i))
     return attached_names
-
-def _findNewLinesAndDeletedIndices(file1, file2):
-    """
-    Find new lines and the indices of deleted lines between two files. Compares file one and 
-    two, and return the new lines in file two and the indices of lines deleted in file one. 
-
-    Parameters:
-    ----------------------
-    parameter: (dtype) [default (if optional)], information
-
-    file1: (str), path to file one
-    file2: (str), path to file two
-    ----------------------
-    """
-    file1In = open(file1, "r")
-    file2In = open(file2, "r")
-    
-    # Here we use unified_diff. Unfortunately, at this stage ndiff would be more informative with
-    #  regards to index tracking however it is dreadfully slow with big files due to a series 
-    #  of internal nested for loops. We set context lines = 1 so as to use them to rematch
-    #  the file one index relative to the delta created by unified_diff.
-    udiff = list(difflib.unified_diff(file1In.readlines(), file2In.readlines(), n=1))
-    
-    new_lines = []
-    deleted_linenums = []
-    
-    file1_index = -1
-    for i, line in enumerate(udiff[3:]):
-        if line[0] == " ":
-            # This is a context line. Scan file one for this
-            #  line and then re-establish file one index. 
-            #  This is necessary since we are not using ndiff.
-            for j, l1 in enumerate(open(file1, "r")):
-                if l1[:-2] == line[1:-2]:
-                    file1_index = j
-        else:
-            if line[0] == "+":
-                # This line only exists in file two. 
-                # Lets add this line to a list of newly 
-                #  created lines. We will build linkages later.
-                new_lines.append(line[1:-2])
-            elif line[0] == "-":
-                # This line only exists in file one.
-                # Lets append the index to our list of deleted
-                #  line numbers.
-                file1_index += 1
-                deleted_linenums.append(file1_index)
-            
-    return new_lines, deleted_linenums
