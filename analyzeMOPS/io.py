@@ -8,7 +8,7 @@ from .config import Config
 
 __all__ = ["readDetectionsIntoDatabase", "readTrackletsIntoDatabase", "readTracksIntoDatabase",
            "buildTrackletDatabase", "buildTrackDatabase", "attachDatabases",
-           "_findNewLinesAndDeletedIndices"]
+           "_findNewLinesAndDeletedIndices", "_makeNewLinkageDataFrames"]
 
 def readDetectionsIntoDatabase(detsFile, con,
                                detectionsTable=Config.detection_table,
@@ -381,7 +381,7 @@ def buildTrackDatabase(database, outDir):
 
     print("")
 
-    return con, databaseßß
+    return con, database
 
 
 def attachDatabases(con, databases):
@@ -397,3 +397,110 @@ def attachDatabases(con, databases):
         print "Attaching %s to con as db%s..." % (window, i)
         con.execute("""ATTACH DATABASE '%s' AS db%s;""" % (window, i))
     return attached_names
+
+def _findNewLinesAndDeletedIndices(file1, file2):
+    """
+    Find new lines and the indices of deleted lines between two files. Compares file one and 
+    two, and return the new lines and their indices in file two and the indices of lines deleted in file one. 
+
+    Parameters
+    ----------
+    parameter: (dtype) [default (if optional)], information
+
+    file1 : str
+        Path to file one
+    file2 : str
+        Path to file two
+    
+    Returns
+    -------
+    list
+        A list of the new lines in file 2
+    Numpy Array
+        Indices (line numbers) of new lines in file 2
+    Numpy Array
+        Indices (line numbers) of lines deleted in file 1
+    """
+    file1In = open(file1, "r")
+    file2In = open(file2, "r")
+    
+    # Here we use unified_diff. Unfortunately, at this stage ndiff would be more informative with
+    #  regards to index tracking however it is dreadfully slow with big files due to a series 
+    #  of internal nested for loops. 
+    udiff = list(difflib.unified_diff(file1In.readlines(), file2In.readlines(), n=0))
+    
+    new_lines = []
+    new_line_nums = []
+    deleted_lines = []
+    deleted_line_nums = []
+
+    
+    for line in udiff[2:]:
+        line_elements = line.split()
+        if line_elements[0] == '@@':
+            file1_index = int(line_elements[1].split(",")[0][1:])
+            file2_index = int(line_elements[2].split(",")[0][1:])
+        else:
+            if line_elements[0][0] == "+":
+                # This line only exists in file two. 
+                # Lets add this line to a list of newly 
+                #  created lines. 
+                new_lines.append(line[1:-2])
+                new_line_nums.append(file2_index)
+                file2_index += 1
+            elif line_elements[0][0] == "-":
+                # This line only exists in file one.
+                # Lets append the index to our list of deleted
+                #  line numbers.
+                deleted_lines.append(line)
+                deleted_line_nums.append(file1_index)
+                file1_index += 1
+            
+    return new_lines, np.array(new_line_nums), np.array(deleted_line_nums)
+
+def _makeNewLinkageDataFrames(newLines, linkageType="trackletId", createdBy=1, idStart=1):
+    """
+    Create a linkage members dataframe from a new set of lines.
+    
+    Parameter
+    ---------
+    newLines : list 
+        List of strings with new linkages
+    linkageType : str
+        One of trackletId or trackId. Default is trackletId
+    createdBy : int
+        If linkage was created by findTracklets: 1, collapseTracklets: 2, purifyTracklets: 3,
+        removeSubsets (on Tracklets): 4, linkTracklets: 5, removeSubsets (on Tracks): 6
+    idStart : int
+        Linkage ID number from which to start assigning new linkage IDs
+        
+    Returns
+    -------
+    `pandas.DataFrame`
+        LinkageMembers DataFrame: Column of linkage IDs with one row per member detection ID
+    `pandas.DataFrame`
+        AllLinkages DataFrame: Column of linkage IDs with one row per linkage, with columns of createdBy and 
+        numMembers
+    """
+    # Assign linkage ids 
+    ids = np.arange(idStart, idStart + len(newLines), dtype=int)
+    # Create a dataframe with new linkages
+    # Read in the trackletFile where every row is a string of diaIds delimited by whitespace
+    # Split the string of diaIds into separate columns and then stack the columns so that every tracklet has 
+    # a row for every diaId
+    linkageMembers = pd.DataFrame(newLines, columns=["diaId"])
+    # Split string of diaIds and stack them 
+    linkageMembers = pd.DataFrame(pd.DataFrame(linkageMembers["diaId"].str.split(" ").tolist(), index=ids).stack(), columns=["diaId"])
+    # Reset the index to account for stacking
+    linkageMembers.reset_index(1, drop=True, inplace=True)
+    linkageMembers[linkageType] = linkageMembers.index
+    linkageMembers = linkageMembers[[linkageType, "diaId"]]
+    linkageMembers["diaId"].replace("", np.nan, inplace=True)
+    linkageMembers.dropna(inplace=True)
+    
+    allLinkages = pd.DataFrame(linkageMembers[linkageType].unique(), columns=[linkageType])
+    allLinkages["numMembers"] = linkageMembers[linkageType].value_counts().sort_index().values
+    allLinkages["createdBy"] = np.ones(len(allLinkages), dtype=int)*createdBy
+    allLinkages["deletedBy"] = np.zeros(len(allLinkages), dtype=int)
+    
+    return linkageMembers, allLinkages
