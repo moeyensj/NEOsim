@@ -312,11 +312,29 @@ def buildTrackletDatabase(database, outDir):
     return con, database
 
 def buildTrackDatabase(database, outDir):
-
+    """
+    Build track database with AllTracks and TrackMembers table,
+    and the Tracks and FinalTracklets views.  
+    
+    Parameter
+    ---------
+    database : str
+        Database name
+    outDir : str
+        Path to desired out directory for the database
+        
+        
+    Returns
+    -------
+    con : database connection
+        Connection to the database
+    databasePath : str
+        Full path to database
+    """
     database = os.path.join(os.path.abspath(outDir), "", database)
-    con = sqlite3.connect(database)
+    con = sql.connect(database)
 
-    print "Creating AllTracks table..."
+    print("Creating AllTracks table...")
     con.execute("""
         CREATE TABLE AllTracks (
             trackId INTEGER PRIMARY KEY,
@@ -329,11 +347,16 @@ def buildTrackDatabase(database, outDir):
             endTime REAL,
             subsetOf INTEGER,
             createdBy INTEGER,
-            deletedBy INTEGER
+            deletedBy INTEGER,
+            chiSqDec FLOAT,
+            chiSqRa FLOAT,
+            fitRange FLOAT,
+            _lineNum_5 INTEGER,
+            _lineNum_6 INTEGER
         );
         """)
 
-    print "Creating TrackMembers table..."
+    print("Creating TrackMembers table...")
     con.execute("""
         CREATE TABLE TrackMembers (
             trackId INTEGER,
@@ -341,14 +364,14 @@ def buildTrackDatabase(database, outDir):
         );
         """)
 
-    print "Creating Tracks view..."
+    print("Creating Tracks view...")
     con.execute("""
         CREATE VIEW Tracks AS
         SELECT * FROM AllTracks
         WHERE createdBy = 5
         """)
 
-    print "Creating FinalTracks view..."
+    print("Creating FinalTracks view...")
     con.execute("""
         CREATE VIEW FinalTracks AS
         SELECT * FROM AllTracks
@@ -356,9 +379,9 @@ def buildTrackDatabase(database, outDir):
         OR createdBy = 6
         """)
 
-    print ""
+    print("")
 
-    return con, database
+    return con, databaseßß
 
 
 def attachDatabases(con, databases):
