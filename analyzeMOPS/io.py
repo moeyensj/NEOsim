@@ -212,11 +212,30 @@ def readTracksIntoDatabase(trackFile, con, trackIdOffset=0, chunksize=100000):
     return
 
 def buildTrackletDatabase(database, outDir):
-
+    """
+    Build tracklet database with AllTracklets and TrackletMembers table,
+    and the Tracklets, CollapsedTracklets, PurifiedTracklets and 
+    FinalTracklets views. 
+    
+    Parameter
+    ---------
+    database : str
+        Database name
+    outDir : str
+        Path to desired out directory for the database
+        
+        
+    Returns
+    -------
+    con : database connection
+        Connection to the database
+    databasePath : str
+        Full path to database
+    """
     database = os.path.join(os.path.abspath(outDir), "", database)
-    con = sqlite3.connect(database)
-
-    print "Creating DiaSources table..."
+    con = sql.connect(database)
+    
+    print("Creating DiaSources table...")
     con.execute("""
         CREATE TABLE DiaSources (
             diaId INTEGER PRIMARY KEY,
@@ -230,44 +249,7 @@ def buildTrackletDatabase(database, outDir):
         );
         """)
 
-    print "Creating AllObjects table..."
-    con.execute("""
-        CREATE TABLE AllObjects (
-            objectId INTEGER PRIMARY KEY,
-            numDetections INTEGER,
-            findableAsTracklet BOOL,
-            findableAsTrack BOOL,
-            numFalseTracklets INTEGER,
-            numTrueTracklets INTEGER,
-            numFalseCollapsedTracklets INTEGER,
-            numTrueCollapsedTracklets INTEGER,
-            numFalsePurifiedTracklets INTEGER,
-            numTruePurifiedTracklets INTEGER,
-            numFalseFinalTracklets INTEGER,
-            numTrueFinalTracklets INTEGER,
-            numFalseTracks INTEGER,
-            numTrueTracks INTEGER,
-            numFalseFinalTracks INTEGER,
-            numTrueFinalTracks INTEGER
-        );
-        """)
-
-    print "Creating FoundObjects view..."
-    con.execute("""
-        CREATE VIEW FoundObjects AS
-        SELECT * FROM AllObjects
-        WHERE numTrueTracks > 0
-        """)
-
-    print "Creating MissedObjects view..."
-    con.execute("""
-        CREATE VIEW MissedObjects AS
-        SELECT * FROM AllObjects
-        WHERE numTrueTracks = 0
-        AND findableAsTrack = 1
-        """)
-
-    print "Creating AllTracklets table..."
+    print("Creating AllTracklets table...")
     con.execute("""
         CREATE TABLE AllTracklets (
             trackletId INTEGER PRIMARY KEY,
@@ -278,11 +260,15 @@ def buildTrackletDatabase(database, outDir):
             rms REAL,
             night REAL,
             createdBy INTEGER,
-            deletedBy INTEGER
+            deletedBy INTEGER,
+            _lineNum_1 INTEGER,
+            _lineNum_2 INTEGER,
+            _lineNum_3 INTEGER,
+            _lineNum_4 INTEGER
         );
         """)
 
-    print "Creating TrackletMembers table..."
+    print("Creating TrackletMembers table...")
     con.execute("""
         CREATE TABLE TrackletMembers (
             trackletId INTEGER,
@@ -290,14 +276,14 @@ def buildTrackletDatabase(database, outDir):
         );
         """)
 
-    print "Creating Tracklets view..."
+    print("Creating Tracklets view...")
     con.execute("""
         CREATE VIEW Tracklets AS
         SELECT * FROM AllTracklets
         WHERE createdBy = 1
         """)
 
-    print "Creating CollapsedTracklets view..."
+    print("Creating CollapsedTracklets view...")
     con.execute("""
         CREATE VIEW CollapsedTracklets AS
         SELECT * FROM AllTracklets
@@ -305,7 +291,7 @@ def buildTrackletDatabase(database, outDir):
         OR createdBy = 2
         """)
 
-    print "Creating PurifiedTracklets view..."
+    print("Creating PurifiedTracklets view...")
     con.execute("""
         CREATE VIEW PurifiedTracklets AS
         SELECT * FROM AllTracklets
@@ -313,7 +299,7 @@ def buildTrackletDatabase(database, outDir):
         OR createdBy = 3
         """)
 
-    print "Creating FinalTracklets view..."
+    print("Creating FinalTracklets view...")
     con.execute("""
         CREATE VIEW FinalTracklets AS
         SELECT * FROM AllTracklets
@@ -321,10 +307,9 @@ def buildTrackletDatabase(database, outDir):
         OR createdBy = 4
         """)
 
-    print ""
+    print("")
 
     return con, database
-
 
 def buildTrackDatabase(database, outDir):
 
