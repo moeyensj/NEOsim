@@ -46,6 +46,10 @@ FINAL_TRACKS_DIR = "tracksFinal/"
 
 VERBOSE = True
 
+__all__ = ["directoryBuilder", "runFindTracklets", "runIdsToIndices",
+           "runCollapseTracklets", "runPurifyTracklets", "runRemoveSubsets",
+           "runIndicesToIds", "runMakeLinkTrackletsInputByNight", "runLinkTracklets"]
+
 defaults = Parameters()
 
 def directoryBuilder(runDir,
@@ -70,25 +74,36 @@ def directoryBuilder(runDir,
         "tracksDir",
         "finalTracksDir"
 
-    Parameters:
-    ----------------------
-    parameter: (dtype) [default (if optional)], information
+    Parameters
+    ----------
+    runDir : str
+        Name of the top folder
 
-    runDir: (string), name of the top folder
-    findTracklets: (boolean) [True], build findTracklets output directory?
-    collapseTracklets: (boolean) [True], build collapseTracklets
-        output directory?
-    purifyTracklets: (boolean) [True], build purifyTracklets
-        output directory?
-    removeSubsetTracklets: (boolean) [True], build removeSubsets tracklets
-        output directory?
-    removeSubsetTracks: (boolean) [True], build removeSubsets tracks
-        ouput directory?
-    overwrite: (boolean) [True], Use carefully!. If directory structure
-        exists delete it.
-    ----------------------
+    findTracklets : bool, optional
+        Build findTracklets output directory? [Default = True]
+
+    collapseTracklets : bool, optional
+        Build collapseTracklets output directory? [Default = True]
+
+    purifyTracklets : bool, optional
+        Build purifyTracklets output directory? [Default = True]
+
+    removeSubsetTracklets : bool, optional
+        Build removeSubsets tracklets output directory? [Default = True]
+
+    removeSubsetTracks : bool, optional 
+        Build removeSubsets tracks ouput directory? [Default = True]
+
+    overwrite : bool, optional
+        Use carefully! If directory structure exists delete it. [Default = False]
+
+    Returns
+    -------
+    dict
+        Dictionary with keys like "trackletsDir", "collapsedDir", etc... with paths to 
+        the respective directories as values.
+
     """
-
     # Check if path exists, if it does only continue if overwrite is true
     if os.path.exists(runDir):
         if overwrite:
@@ -144,13 +159,29 @@ def runFindTracklets(diasources, outDir,
 
     Generates tracklets given a set of DIA sources.
 
-    Parameters:
-    ----------------------
-    parameter: (dtype) [default (if optional)], information
+    Parameters
+    ----------
+    diasources : list
+        List of paths to nightly diasource files.
 
-    diasources: (list of strings), list of nightly diasource files
-    outDir: (string), tracklet output directory
-    ----------------------
+    outDir : str
+        Tracklet output directory.
+
+    vmax : float, optional
+        Maximum velocity tracklets can have in degrees per day.
+        [Default = `analyzemops.parameters.vMax`]
+
+    vmin : float, optional
+        Minimum velocity tracklets can have in degrees per day.
+        [Default = `analyzemops.parameters.vMin`]
+
+    verbose : bool, optional
+        Print progress statements? [Default = True]
+    
+    Returns
+    -------
+    list
+        List of findTracklets output files.
     """
     function = "findTracklets"
     tracklets = []
@@ -183,14 +214,24 @@ def runIdsToIndices(tracklets, diasources, outDir,
     Rearranges tracklets by index as opposed to id. This format is required
     by collapseTracklets, purifyTracklets and removeSubsets.
 
-    Parameters:
-    ----------------------
-    parameter: (dtype) [default (if optional)], information
+    Parameters
+    ----------
+    tracklets : list
+        List of tracklet files.
 
-    tracklets: (list), list of tracklets
-    diasources: (list), list of diasources
-    outDir: (string), tracklet by index output directory
-    ----------------------
+    diasources : list
+        List of diasources.
+
+    outDir : str
+        Tracklet by index output directory.
+
+    verbose : bool, optional
+        Print progress statements? [Default = True]
+    
+    Returns
+    -------
+    list
+        Tracklets printed by index files.
     """
     function = "idsToIndices.py"
     byIndex = []
@@ -227,14 +268,61 @@ def runCollapseTracklets(trackletsByIndex, diasources, outDir,
     """
     Runs collapseTracklets.
 
-    Parameters:
-    ----------------------
-    parameter: (dtype) [default (if optional)], information
+    Parameters
+    ----------
+    trackletsByIndex : list
+        List of tracklets printed by index.
 
-    trackletsByIndex: (list), list of tracklets
-    diasources: (list), list of diasources
-    outDir: (string), collapsed tracklet output directory
-    ----------------------
+    diasources : list
+        List of nightly diasource files.
+    
+    outDir : str
+        Collapsed tracklet output directory.
+
+    raTol : float, optional
+        RA tolerance in degrees when making tracklets.
+        [Default = `analyzemops.parameters.raTol`]
+
+    decTol : float, optional
+        Dec tolerance in degrees when making tracklets.
+        [Default = `analyzemops.parameters.decTol`]
+
+    angTol : float, optional
+        Angular tolerance in degrees when making tracklets.
+        [Default = `analyzemops.parameters.angTol`]
+
+    vTol : float, optional
+        Tolerance in velocity in degrees per day when making tracklets.
+        [Default = `analyzemops.parameters.vTol`]
+
+    method : {"greedy", "minimumRMS", "bestFit"}, optional
+        If greedy, then we choose as many compatible tracklets as possible,
+        as returned by the tree search.  If minimumRMS, we take the results
+        of the tree search and repeatedly find the tracklet which would have
+        the lowest resulting RMS value if added, then add it. If bestFit, 
+        we repeatedly choose the tracklet which is closest to the current
+        approximate line first, rather than re-calculating best-fit line
+        for each possible tracklet. 
+        [Default = `analyzemops.parameters.method`]
+
+    useRMSfilt : bool, optional
+        Enforce a maximum RMS distance for any tracklet which is the
+        product of collapsing.
+        [Default = `analyzemops.parameters.useRMSfilt`]
+
+    trackletRMSmax : float, optional
+        Only used if ``useRMSfilt = True``. Describes the function for RMS filtering.
+        Tracklets will not be collapsed unless the resulting tracklet would have 
+        RMS <= maxRMSm * average magnitude + maxRMSb. Defaults are 0. and .001.
+        [Default = `analyzemops.parameters.trackletRMSmax`]
+
+    verbose : bool, optional
+        Print progress statements? [Default = True]
+    
+    Returns
+    -------
+    list
+        List of collapseTracklets output files.
     """
     function = "collapseTracklets"
     collapsedTracklets = []
@@ -268,14 +356,28 @@ def runPurifyTracklets(collapsedTracklets, diasources, outDir,
     """
     Runs purifyTracklets.
 
-    Parameters:
-    ----------------------
-    parameter: (dtype) [default (if optional)], information
+    Parameters
+    ----------
+    collapsedTrackets : list
+        List of collapsed tracklet files.
 
-    collapsedTrackets: (list), list of collapsed tracklets
-    diasources: (list), list of diasources
-    outDir: (string), purified tracklet output directory
-    ----------------------
+    diasources : list
+        List of nightly diasource files.
+
+    outDir: str
+        Purified tracklet output directory.
+
+    trackletRMSmax : float, optional
+        Maximum tracklet RMS.  
+        [Default = `analyzemops.parameters.trackletRMSmax`]
+
+    verbose : bool, optional
+        Print progress statements? [Default = True]
+
+    Returns
+    -------
+    list 
+        List of purified tracklet files.
     """
     function = "purifyTracklets"
     purifiedTracklets = []
@@ -311,15 +413,38 @@ def runRemoveSubsets(purifiedTracklets, diasources, outDir,
     """
     Runs removeSubsets.
 
-    Parameters:
-    ----------------------
-    parameter: (dtype) [default (if optional)], information
+    Parameters
+    ----------
+    purifiedTracklets : list
+        List of purified tracklet files.
 
-    purifiedTracklets: (list), list of purified tracklets
-    diasources: (list), list of diasources
-    diasourcesDir: (string), directory containing diasources
-    outDir: (string), final tracklet output directory
-    ----------------------
+    diasources : list
+        List of nightly diasource files.
+
+    outDir : str
+        Final tracklet output directory.
+
+    rmSubsets : bool, optional
+        Remove subsets? This flag gives the ability to run removeSubsets as
+        where it does nothing on the inputs.
+        [Default = `analyzemops.parameters.rmSubsetTracklets]
+
+    keepOnlyLongest : bool, optional
+        If ``rmSubsets = True``, keep only the longest tracklets and remove all 
+        subsets. 
+        [Default = `analyzemops.parameters.keepOnlyLongestTracklets]
+
+    suffix : str, optional
+        Suffix to append to input file names when saving output files. 
+        [Default = ".final"]
+
+    verbose : bool, optional
+        Print progress statements? [Default = True]
+    
+    Returns
+    -------
+    list
+        Final tracklet files.
     """
     function = "removeSubsets"
     finalTracklets = []
@@ -354,14 +479,27 @@ def runIndicesToIds(finalTracklets, diasources, outDir, suffix,
 
     Convert back to original tracklet format.
 
-    Parameters:
-    ----------------------
-    parameter: (dtype) [default (if optional)], information
+    Parameters
+    ----------
+    finalTracklets : list
+        List of final (subset removed) tracklets files.
 
-    finalTracklets: (list), list of final (subset removed) tracklets
-    diasources: (list), list of diasources
-    outDir: (string), tracklet by ID output directory
-    ----------------------
+    diasources : list
+        List of nightly diasource files.
+
+    outDir : str
+        Tracklet by ID output directory.
+
+    suffix : str
+        Suffix to append to input files names when saving outputs. 
+
+    verbose : bool, optional
+        Print progress statements? [Default = True]
+    
+    Returns
+    -------
+    list
+        Final tracklet files printed by diasource id.
     """
     function = "indicesToIds.py"
     byId = []
@@ -398,15 +536,37 @@ def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir,
 
     Reads tracklet files into dets and ids as required by linkTracklets.
 
-    Parameters:
-    ----------------------
-    parameter: (dtype) [default (if optional)], information
+    Parameters
+    ----------
+    diasourcesDir : str
+        Directory containing nightly diasource files.
+    
+    trackletsDir : str
+        Directory containing final (subset removed) tracklets.
+    
+    outDir : str
+        Dets and ids file output directory.
 
-    parameters: (Parameters object), user or default defined MOPS parameter object
-    diasourcesDir: (string), directory containing diasources
-    trackletsDir: (string), directory containing final (subset removed) tracklets
-    outDir: (string), dets and ids file output directory
-    ----------------------
+    diaSuffix : str, optional
+        Suffix to append to window diasource files. [Default = ".dets"]
+
+    trackletSuffix : str, optional
+        Suffix to append to window tracklet files. [Default = ".ids"]
+
+    windowSize : int, optional
+        Number of nights in a window in which to combine nightly diasources
+        and tracklets into. [Default = `analyzemops.parameters.windowSize`]
+
+    verbose : bool, optional
+        Print progress statements? [Default = True]
+    
+    Returns
+    -------
+    list
+        List of per window diasource files.
+
+    list
+        List of per window tracklets.
     """
     function = "makeLinkTrackletsInput_byNight.py"
 
@@ -458,14 +618,99 @@ def runLinkTracklets(dets, ids, outDir,
     """
     Runs linkTracklets.
 
-    Parameters:
-    ----------------------
-    parameter: (dtype) [default (if optional)], information
+    Parameters
+    ----------
+    dets : list,
+        List of per window diasource files.
+    
+    ids : list
+        List of per window tracklet files.
 
-    dets: (list), list of dets files
-    ids: (list), list of ids files
-    outDir: (string), tracks output directory
-    ----------------------
+    outDir : str
+        Tracks output directory.
+
+    enableMultiprocessing : bool, optional
+        Use multiple processors? [Default = True]
+
+    processes : int, optional
+        If ``enableMultiprocessing = True`` then use this many processors. 
+        [Default = 8]
+    
+    detErrThresh : float, optional
+        Maximum allowed observational error.
+        [Default = `analyzemops.parameters.detErrThresh`]
+
+    decAccelMax : float, optional
+        Maximum sky-plane acceleration of a track (declination).
+        [Default = `analyzemops.parameters.decAccelMax`]
+
+    raAccelMax : float, optional
+        Maximum sky-plane acceleration of a track (RA).
+        [Default = `analyzemops.parameters.raAccelMax`]
+
+    nightMin : int, optional
+        Require tracks contain detections from at least this many nights.
+        [Default = `analyzemops.parameters.nightMin`]
+
+    detectMin : int, optional
+        Require tracks contain at least this many detections.
+        [Default = `analyzemops.parameters.detectMin`]
+
+    bufferSize : int, optional
+        Number of tracks to buffer in memory before flushing output.
+        [Default = `analyzemops.parameters.bufferSize`]
+
+    latestFirstEnd : float, optional
+        If specified, only search for tracks with first endpoint before time specified.
+        [Default = `analyzemops.parameters.latestFirstEnd`]
+
+    earliestLastEnd : float, optional 
+        If specified, only search for tracks with last endpoint after time specified.
+        [Default = `analyzemops.parameters.earliestLastEnd`]
+
+    leafNodeSizeMax : float, optional
+        Set max leaf node size for nodes in KDTree
+        [Default = `analyzemops.parameters.leafNodeSizeMax`]
+
+    trackRMSmax : float, optional
+        Maximum RMS for adding individual track detections to a track.
+        [Default = `analyzemops.parameters.trackRMSmax`] 
+
+    trackAdditionThresh : float, optional
+        [purpose not clear]!!! in radians.
+        [Default = `analyzemops.parameters.trackAdditionThresh`]
+
+    defaultAstromErr : float, optional
+        [purpose not clear]!!! in degrees.
+        [Default = `analyzemops.parameters.defaultAstromErr`]
+
+    trackChiSqMin : float, optional
+        Minimum chi-squared fit for track to be accepted.
+        [Default = `analyzemops.parameters.trackChiSqMin`]
+
+    skyCenterRA : float, optional 
+        Topocentric recentering RA in degrees.
+        [Default = `analyzemops.parameters.skyCenterRA`]
+
+    skyCenterDec : float, optional
+        Topocentric recentering Dec in degrees.
+        [Default = `analyzemops.parameters.skyCenterDec`]
+
+    obsLat : float, optional
+        Observatory latitude in degrees.
+        [Default = `analyzemops.parameters.obsLat`]
+
+    obsLon : float, optional
+        Observatory East longitude in degrees.
+        [Default = `analyzemops.parameters.obsLon`]
+
+    verbose : bool, optional
+        Print progress statements? [Default = True]
+    
+    Returns
+    -------
+    list
+        List of track files.
     """
     function = "linkTracklets"
     tracks = []
@@ -568,113 +813,6 @@ def runLinkTracklets(dets, ids, outDir,
     return sorted(tracks), sorted(outfiles), sorted(errfiles)
 
 
-def runArgs():
-
-    default = Parameters(verbose=False)
-
-    parser = argparse.ArgumentParser(
-        prog="runMops",
-        description="Given a set of nightly or obshist DIA sources, will run LSST's Moving Object Pipeline (MOPs)",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-
-    parser.add_argument("diasourcesDir", help="Directory containing nightly diasources (.dias)")
-    parser.add_argument("outputDir", help="Output directory to be created for file output (must not exist)")
-
-    # Config file, load parameters from config file if given
-    parser.add_argument("-cfg", "--config_file", default=None,
-        help="""If given, will read parameter values from file to overwrite default values defined in Parameters. 
-        Parameter values not-defined in config file will be set to default. See default.cfg for sample config file.""")
-
-    # Verbosity 
-    parser.add_argument("-v","--verbose", action="store_false",
-        help="Enables/disables print output")
-
-    # findTracklets
-    parser.add_argument("-vM", "--velocity_max", default=default.vMax, 
-        help="Maximum velocity (used in findTracklets)")
-    parser.add_argument("-vm", "--velocity_min", default=default.vMin, 
-        help="Minimum velocity (used in findTracklets)")
-
-    # collapseTracklets, purifyTracklets
-    parser.add_argument("-rT", "--ra_tolerance", default=default.raTol, 
-        help="RA tolerance (used in collapseTracklets)")
-    parser.add_argument("-dT", "--dec_tolerance", default=default.decTol, 
-        help="Dec tolerance (used in collapseTracklets)")
-    parser.add_argument("-aT", "--angular_tolerance", default=default.angTol,
-        help="Angular tolerance (used in collapseTracklets)")
-    parser.add_argument("-vT", "--velocity_tolerance", default=default.vTol, 
-        help="Velocity tolerance (used in collapseTracklets)")
-    parser.add_argument("-m","--method", default=default.method,
-        help="""Method to collapse tracklets, can be one of: greedy | minimumRMS | bestFit.
-        If greedy, then we choose as many compatible tracklets as possible, as returned by the tree search. 
-        If minimumRMS, we take the results of the tree search and repeatedly find the tracklet which would 
-        have the lowest resulting RMS value if added, then add it. If bestFit, we repeatedly choose the tracklet 
-        which is closest to the current approximate line first, rather than re-calculating best-fit line for 
-        each possible tracklet. (used in collapseTracklets)""")
-    parser.add_argument("-rF","--use_rms_filter", default=default.useRMSfilt,
-        help="Enforce a maximum RMS distance for any tracklet which is the product of collapsing (used in collapseTracklets)")
-    parser.add_argument("-rM", "--tracklet_rms_max", default=default.trackletRMS_max,
-        help="""Only used if useRMSfilt == true. Describes the function for RMS filtering.  
-        Tracklets will not be collapsed unless the resulting tracklet would have RMS <= maxRMSm * average magnitude + maxRMSb 
-        (used in collapseTracklets and purifyTracklets""")
-
-    # removeSubsets (tracklets)
-    parser.add_argument("-S","--remove_subset_tracklets", default=default.rmSubsetTracklets,
-        help="Remove subsets (used in removeSubsets)")
-    parser.add_argument("-k","--keep_only_longest_tracklets", default=default.keepOnlyLongestTracklets,
-        help="Keep only the longest collinear tracklets in a set (used in removeSubsets)")
-
-    # makeLinkTrackletsInput_byNight
-    parser.add_argument("-w", "--window_size", default=default.windowSize,
-        help="Number of nights in sliding window (used in makeLinkTrackletsInput_byNight.py")
-
-    # linkTracklets
-    parser.add_argument("-e", "--detection_error_threshold", default=default.detErrThresh,
-        help="Maximum allowed observational error (used in linkTracklets)")
-    parser.add_argument("-D", "--dec_acceleration_max", default=default.decAccelMax,
-        help="Maximum sky-plane acceleration in Dec (used in linkTracklets)")
-    parser.add_argument("-R", "--ra_acceleration_max", default=default.raAccelMax,
-        help="Maximum sky-plane acceleration in RA (used in linkTracklets)")
-    parser.add_argument("-u", "--nights_min", default=default.nightMin,
-        help="Require tracks to contain detections from at least this many nights (used in linkTracklets)")
-    parser.add_argument("-s", "--detections_min", default=default.detectMin,
-        help="Require tracks to contain at least this many detections (used in linkTracklets)")
-    parser.add_argument("-b", "--output_buffer_size", default=default.bufferSize,
-        help="Number of tracks to buffer in memory before flushing output (used in linkTracklets)")
-    parser.add_argument("-F", "--latest_first_endpoint", default=default.latestFirstEnd,
-        help="If specified, only search for tracks with first endpoint before time specified (used in linkTracklets)")
-    parser.add_argument("-L", "--earliest_last_endpoint", default=default.earliestLastEnd,
-        help="If specified, only search for tracks with last endpoint after time specified (used in linkTracklets)")
-    parser.add_argument("-n", "--leaf_node_size_max", default=default.leafNodeSizeMax,
-        help="Set max leaf node size for nodes in KDTree (used in linkTracklets)")
-    parser.add_arugment("-r", "--track_RMS_max", default=default.trackRMSmax,
-        help="Maximum RMS for adding individual track detections to a track (used in linkTracklets)")
-    parser.add_arugment("-T", "--track_addition_threshold", default=default.trackAdditionThresh,
-        help="[purpose not clear] in radians (used in linkTracklets)")
-    parser.add_arugment("-a", "--default_astrometric_error", default=default.defaultAstromErr,
-        help="[purpose not clear] in degrees (used in linkTracklets)")
-    parser.add_arugment("-q", "--track_chi_square_minimum", default=default.trackChiSqMin,
-        help="Minimum chi-squared fit for track to be accepted (used in linkTracklets)")
-    parser.add_arugment("-x", "--sky_center_RA", default=default.skyCenterRA,
-        help="Topocentric recentering RA in degrees (used in linkTracklets)")
-    parser.add_arugment("-y", "--sky_center_Dec", default=default.skyCenterDec,
-        help="Topocentric recentering Dec in degrees (used in linkTracklets)")
-    parser.add_arugment("-z", "--observatory_lat", default=default.obsLat,
-        help="Observatory latitude in degrees (used in linkTracklets)")
-    parser.add_arugment("-w", "--observatory_lon", default=default.obsLon,
-        help="Observatory East longitude in degrees (used in linkTracklets)")
-
-    # removeSubsets (tracks)
-    parser.add_argument("-St","--remove_subset_tracks", default=default.rmSubsetTracks,
-        help="Remove subsets (used in removeSubsets)")
-    parser.add_argument("-kt","--keep_only_longest_tracks", default=default.keepOnlyLongestTracks,
-        help="Keep only the longest collinear tracks in a set (used in removeSubsets)")
-
-    args = parser.parse_args()
-
-    return args
-
-
 def runMops(parameters, tracker,
             findTracklets=True,
             collapseTracklets=True,
@@ -689,21 +827,52 @@ def runMops(parameters, tracker,
     """
     Runs Moving Object Pipeline.
 
-    Parameters:
-    ----------------------
-    parameter: (dtype) [default (if optional)], information
+    Parameters
+    ----------
+    parameters : `analyzemops.parameters`
+        User or default defined MOPS parameter object.
 
-    parameters: (Parameters object), user or default defined MOPS parameter object
-    tracker: (Tracker object), object keeps track of output files and directories
-    findTracklets: (boolean) [True], run findTracklets?
-    collapse: (boolean) [True], run collapseTracklets?
-    purify: (boolean) [True], run purifyTracklets?
-    removeSubsetTracklets: (boolean) [True], run removeSubsets on tracklets?
-    linkTracklets: (boolean) [True], run linkTracklets?
-    removeSubsetTracks: (boolean) [True], run removeSubsets on tracks?
-    enableMultiprocessing: (boolean) [True], run linkTracklets in parallel?
-    processes: (int) [8], when multiprocessing is enabled, use this many processes. 
-    ----------------------
+    tracker : `analyzemops.tracker`
+        Tracker object keeps track of output files and directories.
+
+    findTracklets : bool, optional
+        Run findTracklets? [Default = True]
+
+    collapseTracklets : bool, optional
+        Run collapseTracklets? [Default = True]
+
+    purifyTracklets: bool, optional
+        Run purifyTracklets? [Default = True]
+
+    removeSubsetTracklets : bool, optional
+        Run removeSubsets on tracklets? [Default = True]
+
+    linkTracklets : bool, optional
+        Run linkTracklets? [Default = True]
+
+    removeSubsetTracks : bool, optional
+        Run removeSubsets on tracks? [Default = True]
+
+    enableMultiprocessing : bool, optional
+        Use multiple processors? [Default = True]
+
+    processes : int, optional
+        If ``enableMultiprocessing = True`` then use this many processors. 
+        [Default = 8]
+
+    overwrite : bool, optional
+        If directory structure exists, overwrite the files? [Default = False]
+
+    verbose : bool, optional
+        Print progress statements? [Default = True]
+    
+    Returns
+    -------
+    `analzemops.parameters`
+        The original parameters object.
+
+    `analyzemops.tracker`
+        The updated tracker object.
     """
     if verbose:
         print("------- Run MOPS -------")
@@ -956,7 +1125,10 @@ def runMops(parameters, tracker,
 
 
 def _status(function, current):
+    """
+    Simple function that prints the current MOPS function running.
 
+    """
     if current:
         print("------- Run MOPS -------")
         print("Running %s..." % (function))
@@ -967,6 +1139,10 @@ def _status(function, current):
 
 
 def _log(function, outDir):
+    """
+    Creates two log files capturing MOPS output printed to stdout and stderr.
+
+    """
     # Split function name to get rid of possible .py
     function = os.path.splitext(function)[0]
 
@@ -978,6 +1154,11 @@ def _log(function, outDir):
 
 
 def _out(outDir, filename, suffix):
+    """
+    Makes an outfile based off of the name of the input files for different 
+    MOPS functions. 
+
+    """
     # Retrieve base file name
     base = os.path.basename(filename)
     # Remove all suffixes from filename and add new
@@ -988,6 +1169,11 @@ def _out(outDir, filename, suffix):
 
 
 def _runWindow(call):
+    """
+    Simple hacky function that will create the same log files as _log but for the case
+    where we are running multiprocessing on linkTracklets and are running windows.
+
+    """
     # Unfortunately pool.map() can"t map a function call of multiple arguments
     # so we have to extract the trackOut name from the function call.
     # When python 3.3 is accepted as standard, pool.starmap() will be used instead.
@@ -997,10 +1183,120 @@ def _runWindow(call):
     subprocess.call(call, stdout=outfile, stderr=errfile)
     return
 
+def _runArgs():
+    """
+    Helper function that runs commandline arguments.
+
+    """
+    default = Parameters(verbose=False)
+
+    parser = argparse.ArgumentParser(
+        prog="runMops",
+        description="Given a set of nightly or obshist DIA sources, will run LSST's Moving Object Pipeline (MOPs)",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    parser.add_argument("diasourcesDir", help="Directory containing nightly diasources (.dias)")
+    parser.add_argument("outputDir", help="Output directory to be created for file output (must not exist)")
+
+    # Config file, load parameters from config file if given
+    parser.add_argument("-cfg", "--config_file", default=None,
+        help="""If given, will read parameter values from file to overwrite default values defined in Parameters. 
+        Parameter values not-defined in config file will be set to default. See default.cfg for sample config file.""")
+
+    # Verbosity 
+    parser.add_argument("-v","--verbose", action="store_false",
+        help="Enables/disables print output")
+
+    # findTracklets
+    parser.add_argument("-vM", "--velocity_max", default=default.vMax, 
+        help="Maximum velocity (used in findTracklets)")
+    parser.add_argument("-vm", "--velocity_min", default=default.vMin, 
+        help="Minimum velocity (used in findTracklets)")
+
+    # collapseTracklets, purifyTracklets
+    parser.add_argument("-rT", "--ra_tolerance", default=default.raTol, 
+        help="RA tolerance (used in collapseTracklets)")
+    parser.add_argument("-dT", "--dec_tolerance", default=default.decTol, 
+        help="Dec tolerance (used in collapseTracklets)")
+    parser.add_argument("-aT", "--angular_tolerance", default=default.angTol,
+        help="Angular tolerance (used in collapseTracklets)")
+    parser.add_argument("-vT", "--velocity_tolerance", default=default.vTol, 
+        help="Velocity tolerance (used in collapseTracklets)")
+    parser.add_argument("-m","--method", default=default.method,
+        help="""Method to collapse tracklets, can be one of: greedy | minimumRMS | bestFit.
+        If greedy, then we choose as many compatible tracklets as possible, as returned by the tree search. 
+        If minimumRMS, we take the results of the tree search and repeatedly find the tracklet which would 
+        have the lowest resulting RMS value if added, then add it. If bestFit, we repeatedly choose the tracklet 
+        which is closest to the current approximate line first, rather than re-calculating best-fit line for 
+        each possible tracklet. (used in collapseTracklets)""")
+    parser.add_argument("-rF","--use_rms_filter", default=default.useRMSfilt,
+        help="Enforce a maximum RMS distance for any tracklet which is the product of collapsing (used in collapseTracklets)")
+    parser.add_argument("-rM", "--tracklet_rms_max", default=default.trackletRMS_max,
+        help="""Only used if useRMSfilt == true. Describes the function for RMS filtering.  
+        Tracklets will not be collapsed unless the resulting tracklet would have RMS <= maxRMSm * average magnitude + maxRMSb 
+        (used in collapseTracklets and purifyTracklets""")
+
+    # removeSubsets (tracklets)
+    parser.add_argument("-S","--remove_subset_tracklets", default=default.rmSubsetTracklets,
+        help="Remove subsets (used in removeSubsets)")
+    parser.add_argument("-k","--keep_only_longest_tracklets", default=default.keepOnlyLongestTracklets,
+        help="Keep only the longest collinear tracklets in a set (used in removeSubsets)")
+
+    # makeLinkTrackletsInput_byNight
+    parser.add_argument("-w", "--window_size", default=default.windowSize,
+        help="Number of nights in sliding window (used in makeLinkTrackletsInput_byNight.py")
+
+    # linkTracklets
+    parser.add_argument("-e", "--detection_error_threshold", default=default.detErrThresh,
+        help="Maximum allowed observational error (used in linkTracklets)")
+    parser.add_argument("-D", "--dec_acceleration_max", default=default.decAccelMax,
+        help="Maximum sky-plane acceleration in Dec (used in linkTracklets)")
+    parser.add_argument("-R", "--ra_acceleration_max", default=default.raAccelMax,
+        help="Maximum sky-plane acceleration in RA (used in linkTracklets)")
+    parser.add_argument("-u", "--nights_min", default=default.nightMin,
+        help="Require tracks to contain detections from at least this many nights (used in linkTracklets)")
+    parser.add_argument("-s", "--detections_min", default=default.detectMin,
+        help="Require tracks to contain at least this many detections (used in linkTracklets)")
+    parser.add_argument("-b", "--output_buffer_size", default=default.bufferSize,
+        help="Number of tracks to buffer in memory before flushing output (used in linkTracklets)")
+    parser.add_argument("-F", "--latest_first_endpoint", default=default.latestFirstEnd,
+        help="If specified, only search for tracks with first endpoint before time specified (used in linkTracklets)")
+    parser.add_argument("-L", "--earliest_last_endpoint", default=default.earliestLastEnd,
+        help="If specified, only search for tracks with last endpoint after time specified (used in linkTracklets)")
+    parser.add_argument("-n", "--leaf_node_size_max", default=default.leafNodeSizeMax,
+        help="Set max leaf node size for nodes in KDTree (used in linkTracklets)")
+    parser.add_arugment("-r", "--track_RMS_max", default=default.trackRMSmax,
+        help="Maximum RMS for adding individual track detections to a track (used in linkTracklets)")
+    parser.add_arugment("-T", "--track_addition_threshold", default=default.trackAdditionThresh,
+        help="[purpose not clear] in radians (used in linkTracklets)")
+    parser.add_arugment("-a", "--default_astrometric_error", default=default.defaultAstromErr,
+        help="[purpose not clear] in degrees (used in linkTracklets)")
+    parser.add_arugment("-q", "--track_chi_square_minimum", default=default.trackChiSqMin,
+        help="Minimum chi-squared fit for track to be accepted (used in linkTracklets)")
+    parser.add_arugment("-x", "--sky_center_RA", default=default.skyCenterRA,
+        help="Topocentric recentering RA in degrees (used in linkTracklets)")
+    parser.add_arugment("-y", "--sky_center_Dec", default=default.skyCenterDec,
+        help="Topocentric recentering Dec in degrees (used in linkTracklets)")
+    parser.add_arugment("-z", "--observatory_lat", default=default.obsLat,
+        help="Observatory latitude in degrees (used in linkTracklets)")
+    parser.add_arugment("-w", "--observatory_lon", default=default.obsLon,
+        help="Observatory East longitude in degrees (used in linkTracklets)")
+
+    # removeSubsets (tracks)
+    parser.add_argument("-St","--remove_subset_tracks", default=default.rmSubsetTracks,
+        help="Remove subsets (used in removeSubsets)")
+    parser.add_argument("-kt","--keep_only_longest_tracks", default=default.keepOnlyLongestTracks,
+        help="Keep only the longest collinear tracks in a set (used in removeSubsets)")
+
+    args = parser.parse_args()
+
+    return args
+
+
 if __name__ == "__main__":
 
     # Run command line arg parser and retrieve args
-    args = runArgs()
+    args = _runArgs()
     verbose = args.verbose
 
     # Retrieve output directory and nightly DIA Sources directory
