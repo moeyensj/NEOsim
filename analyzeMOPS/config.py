@@ -23,3 +23,4 @@ class Config(object):
     tracklet_members_table = "TrackletMembers"
     track_table = "AllTracks"
     track_members_table = "TrackMembers"
+    verbose = True
