@@ -22,8 +22,8 @@ import yaml
 import shutil
 import multiprocessing
 
-from analyzeMOPS.parameters import Parameters
-from analyzeMOPS.tracker import Tracker
+from analyzemops.parameters import Parameters
+from analyzemops.tracker import Tracker
 
 # File suffixes
 DIASOURCE_SUFFIX = ".dias"
