@@ -1,5 +1,0 @@
-!!python/object:MopsParameters.MopsParameters {_angTol: 5, _bufferSize: 1000, _decAccelMax: 5.0,
-  _decTol: 0.002, _detErrThresh: 0.0034, _detectMin: 6, _earliestLastEnd: null, _keepOnlyLongestTracklets: false,
-  _keepOnlyLongestTracks: true, _latestFirstEnd: null, _leafNodeSizeMax: null, _method: greedy,
-  _nightMin: 3, _raAccelMax: 5.0, _raTol: 0.002, _rmSubsetTracklets: false, _rmSubsetTracks: true,
-  _rmsMax: 0.05, _useRMSfilt: true, _vMax: 10.0, _vMin: 0.0, _vTol: 0.05, _windowSize: 15}
