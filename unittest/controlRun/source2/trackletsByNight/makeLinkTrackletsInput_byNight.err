@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "/Users/joachim/repos/forked/mops_slalib/mops_daymops/bin/makeLinkTrackletsInput_byNight.py", line 132, in <module>
-    writeDetsAndIds(outDets, outIds, compatibleNights, diasDir=args.diasDir, trackletDir=args.trackletDir, diasSuffix=args.diasSuffix, trackletSuffix=args.trackletSuffix)
-  File "/Users/joachim/repos/forked/mops_slalib/mops_daymops/bin/makeLinkTrackletsInput_byNight.py", line 58, in writeDetsAndIds
-    outDets.write(det)
-ValueError: I/O operation on closed file
