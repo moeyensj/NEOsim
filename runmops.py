@@ -938,7 +938,6 @@ def runMops(parameters, tracker,
 
     # Save parameters
     parameters.toYaml(outDir=runDir)
-    print("")
 
     # Run findTracklets
     if findTracklets:
@@ -984,6 +983,8 @@ def runMops(parameters, tracker,
                                                               useRMSfilt=parameters.useRMSfilt,
                                                               trackletRMSmax=parameters.trackletRMSmax,
                                                               verbose=verbose)
+            tracker.toYaml(outDir=runDir)
+
             tracker.collapsedTrackletsById = runIndicesToIds(tracker.collapsedTracklets,
                                                              tracker.diasources,
                                                              tracker.collapsedTrackletsDir,
@@ -1006,6 +1007,7 @@ def runMops(parameters, tracker,
                                                            tracker.purifiedTrackletsDir,
                                                            trackletRMSmax=parameters.trackletRMSmax,
                                                            verbose=verbose)
+            tracker.toYaml(outDir=runDir)
             tracker.purifiedTrackletsById = runIndicesToIds(tracker.purifiedTracklets,
                                                             tracker.diasources,
                                                             tracker.purifiedTrackletsDir,
