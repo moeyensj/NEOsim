@@ -540,6 +540,7 @@ class Parameters(object):
             outname = os.path.join(outDir, "parameters.yaml")
 
         print "Saving parameters to %s" % (outname)
+        print ""
 
         stream = file(outname, "w")
         yaml.dump(self, stream)
@@ -550,7 +551,8 @@ class Parameters(object):
     @classmethod
     def fromYaml(cls, yamlFile):
         print "Loading parameters from %s" % (yamlFile)
-
+        print ""
+        
         cls = yaml.load(file(yamlFile, "r"))
 
         return cls
