@@ -77,25 +77,21 @@ def directoryBuilder(runDir,
     Parameters
     ----------
     runDir : str
-        Name of the top folder
-
+        Name of the top folder.
     findTracklets : bool, optional
         Build findTracklets output directory? [Default = True]
-
     collapseTracklets : bool, optional
         Build collapseTracklets output directory? [Default = True]
-
     purifyTracklets : bool, optional
         Build purifyTracklets output directory? [Default = True]
-
     removeSubsetTracklets : bool, optional
         Build removeSubsets tracklets output directory? [Default = True]
-
     removeSubsetTracks : bool, optional 
         Build removeSubsets tracks ouput directory? [Default = True]
-
     overwrite : bool, optional
         Use carefully! If directory structure exists delete it. [Default = False]
+    verbose : bool, optional
+        Print progress statements. [Default = `VERBOSE`]
 
     Returns
     -------
@@ -163,20 +159,16 @@ def runFindTracklets(diasources, outDir,
     ----------
     diasources : list
         List of paths to nightly diasource files.
-
     outDir : str
         Tracklet output directory.
-
     vmax : float, optional
         Maximum velocity tracklets can have in degrees per day.
-        [Default = `analyzemops.parameters.vMax`]
-
+        [Default = `~analyzemops.Parameters.vMax`]
     vmin : float, optional
         Minimum velocity tracklets can have in degrees per day.
-        [Default = `analyzemops.parameters.vMin`]
-
+        [Default = `~analyzemops.Parameters.vMin`]
     verbose : bool, optional
-        Print progress statements? [Default = True]
+        Print progress statements. [Default = `VERBOSE`]
     
     Returns
     -------
@@ -218,15 +210,12 @@ def runIdsToIndices(tracklets, diasources, outDir,
     ----------
     tracklets : list
         List of tracklet files.
-
     diasources : list
         List of diasources.
-
     outDir : str
         Tracklet by index output directory.
-
     verbose : bool, optional
-        Print progress statements? [Default = True]
+        Print progress statements. [Default = `VERBOSE`]
     
     Returns
     -------
@@ -272,29 +261,22 @@ def runCollapseTracklets(trackletsByIndex, diasources, outDir,
     ----------
     trackletsByIndex : list
         List of tracklets printed by index.
-
     diasources : list
         List of nightly diasource files.
-    
     outDir : str
-        Collapsed tracklet output directory.
-
+        Collapsed tracklet output directory,
     raTol : float, optional
         RA tolerance in degrees when making tracklets.
-        [Default = `analyzemops.parameters.raTol`]
-
+        [Default = `~analyzemops.Parameters.raTol`]
     decTol : float, optional
         Dec tolerance in degrees when making tracklets.
-        [Default = `analyzemops.parameters.decTol`]
-
+        [Default = `~analyzemops.Parameters.decTol`]
     angTol : float, optional
         Angular tolerance in degrees when making tracklets.
-        [Default = `analyzemops.parameters.angTol`]
-
+        [Default = `~analyzemops.Parameters.angTol`]
     vTol : float, optional
         Tolerance in velocity in degrees per day when making tracklets.
-        [Default = `analyzemops.parameters.vTol`]
-
+        [Default = `~analyzemops.Parameters.vTol`]
     method : {"greedy", "minimumRMS", "bestFit"}, optional
         If greedy, then we choose as many compatible tracklets as possible,
         as returned by the tree search.  If minimumRMS, we take the results
@@ -303,21 +285,18 @@ def runCollapseTracklets(trackletsByIndex, diasources, outDir,
         we repeatedly choose the tracklet which is closest to the current
         approximate line first, rather than re-calculating best-fit line
         for each possible tracklet. 
-        [Default = `analyzemops.parameters.method`]
-
+        [Default = `~analyzemops.Parameters.method`]
     useRMSfilt : bool, optional
         Enforce a maximum RMS distance for any tracklet which is the
         product of collapsing.
-        [Default = `analyzemops.parameters.useRMSfilt`]
-
+        [Default = `~analyzemops.Parameters.useRMSfilt`]
     trackletRMSmax : float, optional
         Only used if ``useRMSfilt = True``. Describes the function for RMS filtering.
         Tracklets will not be collapsed unless the resulting tracklet would have 
         RMS <= maxRMSm * average magnitude + maxRMSb. Defaults are 0. and .001.
-        [Default = `analyzemops.parameters.trackletRMSmax`]
-
+        [Default = `~analyzemops.Parameters.trackletRMSmax`]
     verbose : bool, optional
-        Print progress statements? [Default = True]
+        Print progress statements. [Default = `VERBOSE`]
     
     Returns
     -------
@@ -360,17 +339,13 @@ def runPurifyTracklets(collapsedTracklets, diasources, outDir,
     ----------
     collapsedTrackets : list
         List of collapsed tracklet files.
-
     diasources : list
         List of nightly diasource files.
-
     outDir: str
         Purified tracklet output directory.
-
     trackletRMSmax : float, optional
         Maximum tracklet RMS.  
-        [Default = `analyzemops.parameters.trackletRMSmax`]
-
+        [Default = `~analyzemops.Parameters.trackletRMSmax`]
     verbose : bool, optional
         Print progress statements? [Default = True]
 
@@ -417,29 +392,23 @@ def runRemoveSubsets(purifiedTracklets, diasources, outDir,
     ----------
     purifiedTracklets : list
         List of purified tracklet files.
-
     diasources : list
         List of nightly diasource files.
-
     outDir : str
         Final tracklet output directory.
-
     rmSubsets : bool, optional
         Remove subsets? This flag gives the ability to run removeSubsets as
         where it does nothing on the inputs.
-        [Default = `analyzemops.parameters.rmSubsetTracklets]
-
+        [Default = `~analyzemops.Parameters.rmSubsetTracklets]
     keepOnlyLongest : bool, optional
         If ``rmSubsets = True``, keep only the longest tracklets and remove all 
         subsets. 
-        [Default = `analyzemops.parameters.keepOnlyLongestTracklets]
-
+        [Default = `~analyzemops.Parameters.keepOnlyLongestTracklets]
     suffix : str, optional
         Suffix to append to input file names when saving output files. 
         [Default = ".final"]
-
     verbose : bool, optional
-        Print progress statements? [Default = True]
+        Print progress statements. [Default = `VERBOSE`]
     
     Returns
     -------
@@ -483,18 +452,14 @@ def runIndicesToIds(finalTracklets, diasources, outDir, suffix,
     ----------
     finalTracklets : list
         List of final (subset removed) tracklets files.
-
     diasources : list
         List of nightly diasource files.
-
     outDir : str
         Tracklet by ID output directory.
-
     suffix : str
         Suffix to append to input files names when saving outputs. 
-
     verbose : bool, optional
-        Print progress statements? [Default = True]
+        Print progress statements. [Default = `VERBOSE`]
     
     Returns
     -------
@@ -540,31 +505,24 @@ def runMakeLinkTrackletsInputByNight(diasourcesDir, trackletsDir, outDir,
     ----------
     diasourcesDir : str
         Directory containing nightly diasource files.
-    
     trackletsDir : str
         Directory containing final (subset removed) tracklets.
-    
     outDir : str
         Dets and ids file output directory.
-
     diaSuffix : str, optional
         Suffix to append to window diasource files. [Default = ".dets"]
-
     trackletSuffix : str, optional
         Suffix to append to window tracklet files. [Default = ".ids"]
-
     windowSize : int, optional
         Number of nights in a window in which to combine nightly diasources
-        and tracklets into. [Default = `analyzemops.parameters.windowSize`]
-
+        and tracklets into. [Default = `~analyzemops.Parameters.windowSize`]
     verbose : bool, optional
-        Print progress statements? [Default = True]
+        Print progress statements. [Default = `VERBOSE`]
     
     Returns
     -------
     list
         List of per window diasource files.
-
     list
         List of per window tracklets.
     """
@@ -620,92 +578,70 @@ def runLinkTracklets(dets, ids, outDir,
 
     Parameters
     ----------
-    dets : list,
+    dets : lists
         List of per window diasource files.
-    
     ids : list
         List of per window tracklet files.
-
     outDir : str
         Tracks output directory.
-
     enableMultiprocessing : bool, optional
         Use multiple processors? [Default = True]
-
     processes : int, optional
         If ``enableMultiprocessing = True`` then use this many processors. 
         [Default = 8]
-    
     detErrThresh : float, optional
         Maximum allowed observational error.
-        [Default = `analyzemops.parameters.detErrThresh`]
-
+        [Default = `~analyzemops.Parameters.detErrThresh`]
     decAccelMax : float, optional
         Maximum sky-plane acceleration of a track (declination).
-        [Default = `analyzemops.parameters.decAccelMax`]
-
+        [Default = `~analyzemops.Parameters.decAccelMax`]
     raAccelMax : float, optional
         Maximum sky-plane acceleration of a track (RA).
-        [Default = `analyzemops.parameters.raAccelMax`]
-
+        [Default = `~analyzemops.Parameters.raAccelMax`]
     nightMin : int, optional
         Require tracks contain detections from at least this many nights.
-        [Default = `analyzemops.parameters.nightMin`]
-
+        [Default = `~analyzemops.Parameters.nightMin`]
     detectMin : int, optional
         Require tracks contain at least this many detections.
-        [Default = `analyzemops.parameters.detectMin`]
-
+        [Default = `~analyzemops.Parameters.detectMin`]
     bufferSize : int, optional
         Number of tracks to buffer in memory before flushing output.
-        [Default = `analyzemops.parameters.bufferSize`]
-
+        [Default = `~analyzemops.Parameters.bufferSize`]
     latestFirstEnd : float, optional
         If specified, only search for tracks with first endpoint before time specified.
-        [Default = `analyzemops.parameters.latestFirstEnd`]
-
+        [Default = `~analyzemops.Parameters.latestFirstEnd`]
     earliestLastEnd : float, optional 
         If specified, only search for tracks with last endpoint after time specified.
-        [Default = `analyzemops.parameters.earliestLastEnd`]
-
+        [Default = `~analyzemops.Parameters.earliestLastEnd`]
     leafNodeSizeMax : float, optional
         Set max leaf node size for nodes in KDTree
-        [Default = `analyzemops.parameters.leafNodeSizeMax`]
-
+        [Default = `~analyzemops.Parameters.leafNodeSizeMax`]
     trackRMSmax : float, optional
         Maximum RMS for adding individual track detections to a track.
-        [Default = `analyzemops.parameters.trackRMSmax`] 
-
+        [Default = `~analyzemops.Parameters.trackRMSmax`] 
     trackAdditionThresh : float, optional
         [purpose not clear]!!! in radians.
-        [Default = `analyzemops.parameters.trackAdditionThresh`]
-
+        [Default = `~analyzemops.Parameters.trackAdditionThresh`]
     defaultAstromErr : float, optional
         [purpose not clear]!!! in degrees.
-        [Default = `analyzemops.parameters.defaultAstromErr`]
-
+        [Default = `~analyzemops.Parameters.defaultAstromErr`]
     trackChiSqMin : float, optional
         Minimum chi-squared fit for track to be accepted.
-        [Default = `analyzemops.parameters.trackChiSqMin`]
-
+        [Default = `~analyzemops.Parameters.trackChiSqMin`]
     skyCenterRA : float, optional 
         Topocentric recentering RA in degrees.
-        [Default = `analyzemops.parameters.skyCenterRA`]
-
+        [Default = `~analyzemops.Parameters.skyCenterRA`]
     skyCenterDec : float, optional
         Topocentric recentering Dec in degrees.
-        [Default = `analyzemops.parameters.skyCenterDec`]
-
+        [Default = `~analyzemops.Parameters.skyCenterDec`]
     obsLat : float, optional
         Observatory latitude in degrees.
-        [Default = `analyzemops.parameters.obsLat`]
-
+        [Default = `~analyzemops.Parameters.obsLat`]
     obsLon : float, optional
         Observatory East longitude in degrees.
-        [Default = `analyzemops.parameters.obsLon`]
-
+        [Default = `~analyzemops.Parameters.obsLon`]
     verbose : bool, optional
-        Print progress statements? [Default = True]
+        Print progress statements. [Default = `VERBOSE`]
     
     Returns
     -------
@@ -829,49 +765,37 @@ def runMops(parameters, tracker,
 
     Parameters
     ----------
-    parameters : `analyzemops.parameters`
+    parameters : `~analyzemops.Parameters`
         User or default defined MOPS parameter object.
-
-    tracker : `analyzemops.tracker`
+    tracker : `~analyzemops.Pracker`
         Tracker object keeps track of output files and directories.
-
     findTracklets : bool, optional
         Run findTracklets? [Default = True]
-
     collapseTracklets : bool, optional
         Run collapseTracklets? [Default = True]
-
     purifyTracklets: bool, optional
         Run purifyTracklets? [Default = True]
-
     removeSubsetTracklets : bool, optional
         Run removeSubsets on tracklets? [Default = True]
-
     linkTracklets : bool, optional
         Run linkTracklets? [Default = True]
-
     removeSubsetTracks : bool, optional
         Run removeSubsets on tracks? [Default = True]
-
     enableMultiprocessing : bool, optional
         Use multiple processors? [Default = True]
-
     processes : int, optional
         If ``enableMultiprocessing = True`` then use this many processors. 
         [Default = 8]
-
     overwrite : bool, optional
         If directory structure exists, overwrite the files? [Default = False]
-
     verbose : bool, optional
-        Print progress statements? [Default = True]
+        Print progress statements. [Default = `VERBOSE`]
     
     Returns
     -------
-    `analzemops.parameters`
+    `~analyzemops.Parameters`
         The original parameters object.
-
-    `analyzemops.tracker`
+    `~analyzemops.Tracker`
         The updated tracker object.
     """
     if verbose:
