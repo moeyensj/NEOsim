@@ -51,15 +51,12 @@ class Tracker(object):
         self._ranRemoveSubsetTracks = False
 
         self._analysisStarted = False
-        self._mainDatabase = None
-        self._windowDatabases = None
-        self._objectsFile = None
+        self._diasourcesDatabase = None
+        self._trackletDatabase = None
+        self._trackDatabases = None
+        self._summaryDatabase = None
         self._analyzedTracklets = None
         self._analyzedTracks = None
-        self._trackletId = 1
-        self._trackId = 1
-        self._trackletResults = None
-        self._trackResults = None
         self._analysisFinished = False
 
     def __repr__(self):
@@ -414,28 +411,36 @@ class Tracker(object):
         self._analysisStarted = value   
 
     @property
-    def mainDatabase(self):
-        return self._mainDatabase
+    def diasourcesDatabase(self):
+        return self._diasourcesDatabase
 
-    @mainDatabase.setter
-    def mainDatabase(self, value):
-        self._mainDatabase = value
-
-    @property
-    def windowDatabases(self):
-        return self._windowDatabases
-
-    @windowDatabases.setter
-    def windowDatabases(self, value):
-        self._windowDatabases = value
+    @diasourcesDatabase.setter
+    def diasourcesDatabase(self, value):
+        self._diasourcesDatabase = value
 
     @property
-    def objectsFile(self):
-        return self._objectsFile
+    def trackletDatabases(self):
+        return self._trackletDatabases
 
-    @objectsFile.setter
-    def objectsFile(self, value):
-        self._objectsFile = value
+    @trackletDatabases.setter
+    def trackletDatabases(self, value):
+        self._trackletDatabases = value
+
+    @property
+    def trackDatabases(self):
+        return self._trackDatabases
+
+    @trackDatabases.setter
+    def trackDatabases(self, value):
+        self._trackDatabases = value
+
+    @property
+    def summaryDatabase(self):
+        return self._summaryDatabase
+
+    @summaryDatabase.setter
+    def summaryDatabase(self, value):
+        self._summaryDatabase = value
 
     @property
     def analyzedTracklets(self):
@@ -452,38 +457,6 @@ class Tracker(object):
     @analyzedTracks.setter
     def analyzedTracks(self, value):
         self._analyzedTracks = value
-
-    @property
-    def trackletId(self):
-        return self._trackletId
-
-    @trackletId.setter
-    def trackletId(self, value):
-        self._trackletId = value
-
-    @property
-    def trackId(self):
-        return self._trackId
-
-    @trackId.setter
-    def trackId(self, value):
-        self._trackId = value
-
-    @property
-    def trackletResults(self):
-        return self._trackletResults
-
-    @trackletResults.setter
-    def trackletResults(self, value):
-        self._trackletResults = value
-
-    @property
-    def trackResults(self):
-        return self._trackResults
-
-    @trackResults.setter
-    def trackResults(self, value):
-        self._trackResults = value
 
     @property
     def analysisFinished(self):
@@ -513,6 +486,7 @@ class Tracker(object):
             outname = os.path.join(outDir, "tracker.yaml")
 
         print "Saving tracker to %s" % (outname)
+        print ""
 
         stream = file(outname, "w")
         yaml.dump(self, stream)
@@ -523,6 +497,7 @@ class Tracker(object):
     @classmethod
     def fromYaml(cls, yamlFile):
         print "Loading tracker from %s" % (yamlFile)
+        print ""
 
         cls = yaml.load(file(yamlFile, "r"))
 
