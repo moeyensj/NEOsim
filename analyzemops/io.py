@@ -6,8 +6,8 @@ import difflib
 
 from .config import Config 
 
-__all__ = [ "buildTrackletDatabase", "buildTrackDatabase", "buildSummaryDatabase", 
-            "readDetectionsIntoDatabase", "readTrackletsIntoDatabase", "readTracksIntoDatabase",
+__all__ = ["buildTrackletDatabase", "buildTrackDatabase", "buildSummaryDatabase", 
+           "readDetectionsIntoDatabase", "readTrackletsIntoDatabase", "readTracksIntoDatabase",
            "_findNewLinesAndDeletedIndices", "_makeNewLinkageDataFrames"]
 
 def buildTrackletDatabase(database, outDir,
@@ -215,6 +215,8 @@ def buildSummaryDatabase(database, outDir,
             objectId INTEGER PRIMARY KEY,
             findableAsTracklet BOOLEAN,
             findableAsTrack BOOLEAN,
+            foundAsTracklet BOOLEAN,
+            foundAsTrack BOOLEAN,
             numTrueTracklets INTEGER,
             numFalseTracklets INTEGER,
             numTrueCollapsedTracklets INTEGER,
