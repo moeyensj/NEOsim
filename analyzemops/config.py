@@ -2,6 +2,7 @@ __all__ = ["Config"]
 
 class Config(object):
     
+    site_midnight = 0.166
     detection_file_columns = {"diaId": "det_id", 
                               "visitId": "field_id", 
                               "objectId": "object_name", 
