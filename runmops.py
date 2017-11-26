@@ -767,7 +767,7 @@ def runMops(parameters, tracker,
     ----------
     parameters : `~analyzemops.Parameters`
         User or default defined MOPS parameter object.
-    tracker : `~analyzemops.Pracker`
+    tracker : `~analyzemops.Tracker`
         Tracker object keeps track of output files and directories.
     findTracklets : bool, optional
         Run findTracklets? [Default = True]
