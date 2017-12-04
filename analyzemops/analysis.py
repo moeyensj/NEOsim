@@ -148,7 +148,9 @@ def calcFindableObjects(diasourcesDb, summaryDb,
 
 def analyzeTracklets(trackletDb, diasourcesDb, 
                      detectionsTable=Config.detection_table,
-                     detsFileColumns=Config.detection_file_columns):
+                     detsFileColumns=Config.detection_file_columns,
+                     chunksize=100000,
+                     verbose=Config.verbose):
     """
     Populate the AllTracklets table in trackletDb with information on the 
     truth or falseness of tracklets, the number of linked objects in each tracklet,
@@ -167,7 +169,12 @@ def analyzeTracklets(trackletDb, diasourcesDb,
     detsFileColumns : dict, optional
         Dictionary of column mapping in detections table. 
         [Default = `~analyzemops.Config.detection_file_columns`]
-    
+    chunksize : int, optional
+        Analyze tracklets in batches of this number.
+        [Default = 100000]
+    verbose : bool, optional
+        Print progress statements? [Default = `~analyzemops.Config.verbose`]
+
     Returns
     -------
     None
@@ -175,48 +182,110 @@ def analyzeTracklets(trackletDb, diasourcesDb,
     # Connect to tracklets database and attach the detections database
     con = sql.connect(trackletDb)
     con.execute("""ATTACH DATABASE '{}' AS diasources;""".format(diasourcesDb))
-    
-    detections = pd.read_sql("""SELECT trackletMembers.trackletId, Mapping.objectId, allTracklets.numMembers FROM diasources.{0}
-                                JOIN trackletMembers ON
-                                    trackletMembers.diaId = {0}.{1}
-                                JOIN allTracklets ON
-                                    allTracklets.trackletId = trackletMembers.trackletId
-                                JOIN mapping ON
-                                    diasources.mapping.{2} = diasources.{0}.{2}""".format(detectionsTable,
-                                                                                          detsFileColumns["diaId"],
-                                                                                          detsFileColumns["objectId"]), con)
-    # Drop duplicate rows, true tracklets will now only be present once with false tracklets 
-    # occurent multiple times
-    detections.drop_duplicates(inplace=True)
-    unique_ids_per_tracklet = detections["trackletId"].value_counts()
-    num_linked_objects = unique_ids_per_tracklet.sort_index().values
-    true_tracklets = unique_ids_per_tracklet[unique_ids_per_tracklet == 1].index.values
-    true_tracklets.sort()
-    linked_objects = detections[detections["trackletId"].isin(true_tracklets)]["objectId"].values
-    false_tracklets =  unique_ids_per_tracklet[unique_ids_per_tracklet > 1].index.values
-    false_tracklets.sort()
 
-    # Read the night of observation
-    nights = pd.read_sql("""SELECT trackletMembers.trackletId, diasources.{0}.{2} FROM TrackletMembers
-                            JOIN diasources.{0} ON
-                                diasources.{0}.{1} = trackletMembers.diaId""".format(detectionsTable,
-                                                                                     detsFileColumns["diaId"],
-                                                                                     detsFileColumns["mjd"]), con)
-    nights["night"] = calcNight(nights[detsFileColumns["mjd"]])
-    nights.drop("epoch_mjd", axis=1, inplace=True)
-    nights.drop_duplicates(inplace=True)
+    # Tracklets we are going to analyze: minimum ID <= tracketIds < maximum ID + 1
+    trackletId_range = pd.read_sql("""SELECT MIN(trackletId) AS min, MAX(trackletId) AS max FROM AllTracklets""", con).values[0]
+    # If there are no tracklets in this database then return
+    if trackletId_range[0] is None:
+        if verbose is True:
+            print("There are no tracklets in this database.")
+            print("")
+            return
+    # Add one to maximum tracklet ID to adjust boundary 
+    trackletId_range[1] += 1
 
-    # Create the AllTracklets table
-    allTracklets = pd.read_sql("""SELECT * FROM allTracklets""", con)
-    allTracklets.loc[allTracklets["trackletId"].isin(true_tracklets),"linkedObjectId"] = linked_objects
-    allTracklets["numLinkedObjects"] = num_linked_objects
-    allTracklets["night"] = nights["night"].values
-    allTracklets.to_sql("AllTracklets", con, index=False, if_exists="replace")
+    trackletId_chunks = np.append(np.arange(trackletId_range[0], trackletId_range[1], chunksize), trackletId_range[1])
+    if verbose:
+        print("Starting analysis for {} tracklets in {} batches of {}.".format(trackletId_range[1] - trackletId_range[0],
+                                                                               len(trackletId_chunks) - 1,
+                                                                               chunksize))
+        print("")
+
+
+    for trackletId_start, trackletId_end in zip(trackletId_chunks[:-1], trackletId_chunks[1:]):
+        if verbose is True:
+            print("Analyzing tracklets {} through {}...".format(trackletId_start, trackletId_end - 1))
+        detections = pd.read_sql("""SELECT TrackletMembers.trackletId, Mapping.objectId, AllTracklets.numMembers FROM diasources.{0}
+                                    JOIN TrackletMembers ON
+                                        TrackletMembers.diaId = {0}.{1}
+                                    JOIN AllTracklets ON
+                                        AllTracklets.trackletId = TrackletMembers.trackletId
+                                    JOIN mapping ON
+                                        diasources.mapping.{2} = diasources.{0}.{2}
+                                    WHERE (TrackletMembers.trackletId >= {3}
+                                           AND TrackletMembers.trackletId < {4})""".format(detectionsTable,
+                                                                                           detsFileColumns["diaId"],
+                                                                                           detsFileColumns["objectId"],
+                                                                                           trackletId_start,
+                                                                                           trackletId_end), con) 
+        # Drop duplicate rows, true tracklets will now only be present once with false tracklets 
+        # occurent multiple times
+        if verbose is True:
+            print("Counting numbers of linked objects in each tracklet...")
+            print("Checking if tracklets are true or false...")
+        detections.drop_duplicates(inplace=True)
+        unique_ids_per_tracklet = detections["trackletId"].value_counts()       
+        num_linked_objects = unique_ids_per_tracklet.sort_index().values
+        true_tracklets = unique_ids_per_tracklet[unique_ids_per_tracklet == 1].index.values
+        true_tracklets.sort()
+        linked_objects = detections[detections["trackletId"].isin(true_tracklets)]["objectId"].values
+        false_tracklets =  unique_ids_per_tracklet[unique_ids_per_tracklet > 1].index.values
+        false_tracklets.sort()
+        if verbose is True:
+            print("Found {} true tracklets...".format(len(true_tracklets)))
+            print("Found {} false tracklets...".format(len(false_tracklets)))
+
+        # Read the night of observation
+        nights = pd.read_sql("""SELECT TrackletMembers.trackletId, diasources.{0}.{2} FROM TrackletMembers
+                                JOIN diasources.{0} ON
+                                    diasources.{0}.{1} = TrackletMembers.diaId
+                                WHERE (TrackletMembers.trackletId >= {3} 
+                                       AND TrackletMembers.trackletId < {4})""".format(detectionsTable,
+                                                                                       detsFileColumns["diaId"],
+                                                                                       detsFileColumns["mjd"],
+                                                                                       trackletId_start,
+                                                                                       trackletId_end), con)
+        nights["night"] = calcNight(nights[detsFileColumns["mjd"]])
+        nights.drop(detsFileColumns["mjd"], axis=1, inplace=True)
+        nights.drop_duplicates(inplace=True)
+
+        # Read and update the AllTracklets table
+        if verbose is True:
+            print("Updating AllTracklets table...")
+        allTracklets = pd.read_sql("""SELECT * FROM AllTracklets
+                                      WHERE trackletId >= {} AND trackletId < {}""".format(trackletId_start,
+                                                                                           trackletId_end), con)
+        
+        allTracklets.loc[allTracklets["trackletId"].isin(true_tracklets),"linkedObjectId"] = linked_objects
+        allTracklets["numLinkedObjects"] = num_linked_objects
+        allTracklets["night"] = nights["night"].values
+        
+        # Save analyzed tracklets to a temporary table
+        allTracklets.to_sql("AllTracklets_temp", con, index=False, if_exists="append")
+        
+        # Delete rows for analyzed tracklets from existing table
+        con.execute("""DELETE FROM AllTracklets
+                       WHERE trackletId >= {} AND trackletId < {}""".format(trackletId_start,
+                                                                            trackletId_end))
+        con.commit()
+        
+        # Save analyzed tracklets to existing table
+        allTracklets.to_sql("AllTracklets", con, index=False, if_exists="append")
+        
+        # Delete redundant table 
+        con.execute("""DROP TABLE AllTracklets_temp""")
+        con.commit()
+        if verbose is True:
+            print("Done with tracklets {} through {}.".format(trackletId_start, trackletId_end - 1))
+            print("")
+
     return 
 
 def analyzeTracks(trackDb, diasourcesDb, 
                   detectionsTable=Config.detection_table,
-                  detsFileColumns=Config.detection_file_columns):
+                  detsFileColumns=Config.detection_file_columns,
+                  chunksize=100000,
+                  verbose=Config.verbose):
     """
     Populate the AllTracks table in trackDb with information on the 
     truth or falseness of tracks, the number of linked objects in each track,
@@ -235,55 +304,117 @@ def analyzeTracks(trackDb, diasourcesDb,
     detsFileColumns : dict, optional
         Dictionary of column mapping in detections table.
         [Default = `~analyzemops.Config.detection_file_columns`]
-    
+    chunksize : int, optional
+        Analyze tracks in batches of this number.
+        [Default = 100000]
+    verbose : bool, optional
+        Print progress statements? [Default = `~analyzemops.Config.verbose`]
+
     Returns
     -------
     None
     """
     con = sql.connect(trackDb)
     con.execute("""ATTACH DATABASE '{}' AS diasources;""".format(diasourcesDb))
-    
-    detections = pd.read_sql("""SELECT trackMembers.trackId, Mapping.objectId, allTracks.numMembers FROM diasources.{0}
-                                JOIN trackMembers ON
-                                    trackMembers.diaId = {0}.{1}
-                                JOIN allTracks ON
-                                    allTracks.trackId = trackMembers.trackId
-                                JOIN mapping ON
-                                    diasources.mapping.{2} = diasources.{0}.{2}""".format(detectionsTable,
-                                                                                          detsFileColumns["diaId"],
-                                                                                          detsFileColumns["objectId"]), con)
-    
-    # Drop duplicate rows, true tracks will now only be present once with false tracks 
-    # occurent multiple times
-    detections.drop_duplicates(inplace=True)
-    unique_ids_per_track = detections["trackId"].value_counts()
-    num_linked_objects = unique_ids_per_track.sort_index().values
-    true_tracks = unique_ids_per_track[unique_ids_per_track == 1].index.values
-    true_tracks.sort()
-    linked_objects = detections[detections["trackId"].isin(true_tracks)]["objectId"].values
-    false_tracks = unique_ids_per_track[unique_ids_per_track > 1].index.values
-    false_tracks.sort()
-    
-    # Read the night of observation
-    nights = pd.read_sql("""SELECT trackMembers.trackId, diasources.{0}.{2} FROM TrackMembers
-                            JOIN diasources.{0} ON
-                                diasources.{0}.{1} = trackMembers.diaId""".format(detectionsTable,
-                                                                                  detsFileColumns["diaId"],
-                                                                                  detsFileColumns["mjd"]), con)
-    nights["night"] = calcNight(nights[detsFileColumns["mjd"]])
-    windowStartAndNight = nights.drop_duplicates(keep="first", subset=["trackId"])
-    windowStartTime = windowStartAndNight[detsFileColumns["mjd"]].values
-    windowNight = windowStartAndNight["night"].values
-    windowEndTime = nights.drop_duplicates(keep="last", subset=["trackId"])[detsFileColumns["mjd"]].values
 
-    allTracks = pd.read_sql("""SELECT * FROM AllTracks""", con)
-    allTracks.loc[allTracks["trackId"].isin(true_tracks), "linkedObjectId"] = linked_objects
-    allTracks["numLinkedObjects"] = num_linked_objects
-    allTracks["windowStart"] = windowNight
-    allTracks["startTime"] = windowStartTime
-    allTracks["endTime"] = windowEndTime
-    allTracks.to_sql("AllTracks", con, index=False, if_exists="replace")
-    return 
+    # Tracks we are going to analyze: minimum ID <= trackIds < maximum ID + 1
+    trackId_range = pd.read_sql("""SELECT MIN(trackId) AS min, MAX(trackId) AS max FROM AllTracks""", con).values[0]
+    # If there are no tracks in this database then return
+    if trackId_range[0] is None:
+        if verbose is True:
+            print("There are no tracks in this window.")
+            print("")
+            return
+    trackId_range[1] += 1
+
+    trackId_chunks = np.append(np.arange(trackId_range[0], trackId_range[1], chunksize), trackId_range[1])
+    if verbose:
+        print("Starting analysis for {} tracks in {} batches of {}.".format(trackId_range[1] - trackId_range[0],
+                                                                            len(trackId_chunks) - 1,
+                                                                            chunksize))
+        print("")
+
+    for trackId_start, trackId_end in zip(trackId_chunks[:-1], trackId_chunks[1:]):
+        if verbose is True:
+            print("Analyzing tracks {} through {}...".format(trackId_start, trackId_end - 1))
+        detections = pd.read_sql("""SELECT TrackMembers.trackId, Mapping.objectId, AllTracks.numMembers FROM diasources.{0}
+                                    JOIN TrackMembers ON
+                                        TrackMembers.diaId = {0}.{1}
+                                    JOIN AllTracks ON
+                                        AllTracks.trackId = TrackMembers.trackId
+                                    JOIN mapping ON
+                                        diasources.mapping.{2} = diasources.{0}.{2}
+                                    WHERE (TrackMembers.trackId >= {3} 
+                                           AND TrackMembers.trackId < {4})""".format(detectionsTable,
+                                                                               detsFileColumns["diaId"],
+                                                                               detsFileColumns["objectId"],
+                                                                               trackId_start,
+                                                                               trackId_end), con)
+        
+        # Drop duplicate rows, true tracks will now only be present once with false tracks 
+        # occurent multiple times
+        if verbose is True:
+            print("Counting numbers of linked objects in each track...")
+            print("Checking if tracks are true or false...")
+        detections.drop_duplicates(inplace=True)
+        unique_ids_per_track = detections["trackId"].value_counts()
+        num_linked_objects = unique_ids_per_track.sort_index().values
+        true_tracks = unique_ids_per_track[unique_ids_per_track == 1].index.values
+        true_tracks.sort()
+        linked_objects = detections[detections["trackId"].isin(true_tracks)]["objectId"].values
+        false_tracks = unique_ids_per_track[unique_ids_per_track > 1].index.values
+        false_tracks.sort()
+        if verbose is True:
+            print("Found {} true tracks...".format(len(true_tracks)))
+            print("Found {} false tracks...".format(len(false_tracks)))
+        
+        # Read the night of observation
+        nights = pd.read_sql("""SELECT TrackMembers.trackId, diasources.{0}.{2} FROM TrackMembers
+                                JOIN diasources.{0} ON
+                                    diasources.{0}.{1} = TrackMembers.diaId
+                                WHERE (TrackMembers.trackId >= {3} 
+                                       AND TrackMembers.trackId < {4})""".format(detectionsTable,
+                                                                                 detsFileColumns["diaId"],
+                                                                                 detsFileColumns["mjd"],
+                                                                                 trackId_start,
+                                                                                 trackId_end), con)
+        nights["night"] = calcNight(nights[detsFileColumns["mjd"]])
+        windowStartAndNight = nights.drop_duplicates(keep="first", subset=["trackId"])
+        windowStartTime = windowStartAndNight[detsFileColumns["mjd"]].values
+        windowNight = windowStartAndNight["night"].values
+        windowEndTime = nights.drop_duplicates(keep="last", subset=["trackId"])[detsFileColumns["mjd"]].values
+
+        if verbose is True:
+            print("Updating AllTracks table...")
+        allTracks = pd.read_sql("""SELECT * FROM AllTracks
+                                   WHERE (trackId >= {} AND trackId < {})""".format(trackId_start,
+                                                                                    trackId_end), con)
+        allTracks.loc[allTracks["trackId"].isin(true_tracks), "linkedObjectId"] = linked_objects
+        allTracks["numLinkedObjects"] = num_linked_objects
+        allTracks["windowStart"] = windowNight
+        allTracks["startTime"] = windowStartTime
+        allTracks["endTime"] = windowEndTime
+
+        # Save analyzed tracks to a temporary table
+        allTracks.to_sql("AllTracks_temp", con, index=False, if_exists="replace")
+        
+        # Delete rows for analyzed tracks from existing table
+        con.execute("""DELETE FROM AllTracks
+                        WHERE trackId >= {} AND trackId < {}""".format(trackId_start,
+                                                                       trackId_end))
+        con.commit()
+        
+        # Save analyzed tracklets to existing table
+        allTracks.to_sql("AllTracks", con, index=False, if_exists="append")
+        
+        # Delete redundant table 
+        con.execute("""DROP TABLE AllTracks_temp""")
+        con.commit()
+        if verbose is True:
+            print("Done with tracks {} through {}.".format(trackId_start, trackId_end - 1))
+            print("")
+
+        return 
 
 def createTrackletSummary(trackletDb, diasourcesDb, summaryDb,
                           tracklets=True,
@@ -318,7 +449,7 @@ def createTrackletSummary(trackletDb, diasourcesDb, summaryDb,
     """
     con = sql.connect(summaryDb)
     con.execute("""ATTACH DATABASE '{}' AS diasources;""".format(diasourcesDb))
-    con.execute("""ATTACH DATABASE '{}' AS tracklets""".format(trackletDb))
+    con.execute("""ATTACH DATABASE '{}' AS tracklets;""".format(trackletDb))
 
     allObjects = pd.read_sql("""SELECT * FROM AllObjects""", con)
     if len(allObjects) is 0:
@@ -459,7 +590,7 @@ def createTrackSummary(trackDb, diasourcesDb, summaryDb,
 
     con = sql.connect(summaryDb)
     con.execute("""ATTACH DATABASE '{}' AS diasources;""".format(diasourcesDb))
-    con.execute("""ATTACH DATABASE '{}' AS tracks""".format(trackDb))
+    con.execute("""ATTACH DATABASE '{}' AS tracks;""".format(trackDb))
 
     allObjects = pd.read_sql("""SELECT * FROM AllObjects""", con)
     if len(allObjects) is 0:
@@ -590,7 +721,7 @@ def finalizeSummary(summaryDb, diasourcesDb, trackletDb, trackDbs,
             tracks = False
             finalTracks = False
         
-        con.execute("ATTACH DATABASE '{}' AS tracks".format(trackDb))
+        con.execute("""ATTACH DATABASE '{}' AS tracks;""".format(trackDb))
         windowMembers = pd.read_sql("""SELECT * FROM WindowMembers
                                        WHERE windowId = {}""".format(window), con)
 
@@ -793,7 +924,7 @@ def finalizeSummary(summaryDb, diasourcesDb, trackletDb, trackDbs,
             allWindows.loc[allWindows["windowId"] == window, "contaminationTracks"] = false_tracks / (true_tracks + false_tracks)
         except:
             allWindows.loc[allWindows["windowId"] == window, "contaminationTracks"] = 0
-        con.execute("DETACH DATABASE 'tracks'".format(trackDb))
+        con.execute("""DETACH DATABASE 'tracks'""".format(trackDb))
         
         found_as_track = windowMembers["foundAsTrack"].sum()
         allWindows.loc[allWindows["windowId"] == window, "numObjectsFoundAsTrack"] = found_as_track
@@ -929,15 +1060,15 @@ def findObjectLinkages(objectId, diasourcesDb, trackletDb, trackDbs,
     con.execute("""ATTACH DATABASE '{}' AS tracklets;""".format(trackletDb))
     
     # Find 
-    diasources = pd.read_sql("""SELECT DISTINCT trackletMembers.diaId, {0}.{4} AS objectId, {0}.{1} AS ra, {0}.{2} AS dec FROM trackletMembers
+    diasources = pd.read_sql("""SELECT DISTINCT TrackletMembers.diaId, {0}.{4} AS objectId, {0}.{1} AS ra, {0}.{2} AS dec FROM TrackletMembers
                                    JOIN allTracklets ON
-                                       allTracklets.trackletId = trackletMembers.trackletId
+                                       allTracklets.trackletId = TrackletMembers.trackletId
                                    JOIN {0} ON
-                                       {0}.{3} = trackletMembers.diaId
-                                   WHERE trackletMembers.trackletId IN (
-                                       SELECT DISTINCT trackletId FROM trackletMembers
+                                       {0}.{3} = TrackletMembers.diaId
+                                   WHERE TrackletMembers.trackletId IN (
+                                       SELECT DISTINCT trackletId FROM TrackletMembers
                                            JOIN {0} ON
-                                               {0}.{3} = trackletMembers.diaId
+                                               {0}.{3} = TrackletMembers.diaId
                                            WHERE {0}.{4} = '{5}')""".format(detectionsTable,
                                                                          detsFileColumns["ra"],
                                                                          detsFileColumns["dec"],
@@ -946,15 +1077,15 @@ def findObjectLinkages(objectId, diasourcesDb, trackletDb, trackDbs,
                                                                          objectId), con)
     
     
-    tracklets = pd.read_sql("""SELECT trackletMembers.trackletId, {0}.{4} AS objectId, {0}.{1} AS ra, {0}.{2} AS dec FROM trackletMembers
+    tracklets = pd.read_sql("""SELECT TrackletMembers.trackletId, {0}.{4} AS objectId, {0}.{1} AS ra, {0}.{2} AS dec FROM TrackletMembers
                                    JOIN allTracklets ON
-                                       allTracklets.trackletId = trackletMembers.trackletId
+                                       allTracklets.trackletId = TrackletMembers.trackletId
                                    JOIN {0} ON
-                                       {0}.{3} = trackletMembers.diaId
-                                   WHERE trackletMembers.trackletId IN (
-                                       SELECT DISTINCT trackletId FROM trackletMembers
+                                       {0}.{3} = TrackletMembers.diaId
+                                   WHERE TrackletMembers.trackletId IN (
+                                       SELECT DISTINCT trackletId FROM TrackletMembers
                                            JOIN {0} ON
-                                               {0}.{3} = trackletMembers.diaId
+                                               {0}.{3} = TrackletMembers.diaId
                                            WHERE {0}.{4} = '{5}')""".format(detectionsTable,
                                                                          detsFileColumns["ra"],
                                                                          detsFileColumns["dec"],
@@ -964,15 +1095,15 @@ def findObjectLinkages(objectId, diasourcesDb, trackletDb, trackDbs,
     tracks = []
     for trackDb in trackDbs:
         con.execute("""ATTACH DATABASE '{}' AS tracks""".format(trackDb))
-        tracks.append(pd.read_sql("""SELECT trackMembers.trackId, {0}.{4} AS objectId, {0}.{1} AS ra, {0}.{2} AS dec FROM trackMembers
+        tracks.append(pd.read_sql("""SELECT TrackMembers.trackId, {0}.{4} AS objectId, {0}.{1} AS ra, {0}.{2} AS dec FROM TrackMembers
                                     JOIN allTracks ON
-                                       allTracks.trackId = trackMembers.trackId
+                                       allTracks.trackId = TrackMembers.trackId
                                     JOIN {0} ON
-                                       {0}.{3} = trackMembers.diaId
-                                    WHERE trackMembers.trackId IN (
-                                       SELECT DISTINCT trackId FROM trackMembers
+                                       {0}.{3} = TrackMembers.diaId
+                                    WHERE TrackMembers.trackId IN (
+                                       SELECT DISTINCT trackId FROM TrackMembers
                                            JOIN {0} ON
-                                               {0}.{3} = trackMembers.diaId
+                                               {0}.{3} = TrackMembers.diaId
                                            WHERE {0}.{4} = '{5}')""".format(detectionsTable,
                                                                             detsFileColumns["ra"],
                                                                             detsFileColumns["dec"],
