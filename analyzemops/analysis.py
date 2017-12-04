@@ -414,7 +414,7 @@ def analyzeTracks(trackDb, diasourcesDb,
             print("Done with tracks {} through {}.".format(trackId_start, trackId_end - 1))
             print("")
 
-        return 
+    return 
 
 def createTrackletSummary(trackletDb, diasourcesDb, summaryDb,
                           tracklets=True,
